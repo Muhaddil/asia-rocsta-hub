@@ -5,9 +5,33 @@ import tailwindcss from "@tailwindcss/vite";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import path from "node:path";
 
+const isGitHubPages = process.env.GITHUB_PAGES === "true";
+const basePath = isGitHubPages ? "/asia-rocsta-hub" : "";
+const basePathWithSlash = isGitHubPages ? "/asia-rocsta-hub/" : "/";
+
 export default defineConfig({
+  base: basePathWithSlash,
   plugins: [
-    tanstackStart(),
+    tanstackStart({
+      spa: {
+        enabled: true,
+        prerender: {
+          enabled: true,
+        },
+      },
+      prerender: {
+        enabled: true,
+        crawlLinks: true,
+        failOnError: false,
+        autoSubfolderIndex: true,
+      },
+      router: {
+        basepath: basePath,
+      },
+      client: {
+        base: basePathWithSlash,
+      },
+    }),
     react(),
     tailwindcss(),
   ],

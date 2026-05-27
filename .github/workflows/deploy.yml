@@ -41,16 +41,10 @@ jobs:
         run: |
           echo "VITE_API_URL=${{ secrets.VITE_API_URL }}" > .env
           pnpm build
-
-      # - name: Minify Code
-      #   uses: Muhaddil/minify-js@main
-      #   with:
-      #     directory: dist
-      #     overwrite: true
-      #   env:
-      #     DRY_RUN: "false"
+        env:
+          GITHUB_PAGES: "true"
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: dist
+          folder: dist/client
