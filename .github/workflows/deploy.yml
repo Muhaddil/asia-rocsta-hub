@@ -1,0 +1,56 @@
+name: Build
+
+run-name: Build Code
+
+on:
+  push:
+    branches: ["main"]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: "build-deploy"
+  cancel-in-progress: true
+
+jobs:
+  build-main:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: latest
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: "pnpm"
+
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build App
+        run: |
+          echo "VITE_API_URL=${{ secrets.VITE_API_URL }}" > .env
+          pnpm build
+
+      # - name: Minify Code
+      #   uses: Muhaddil/minify-js@main
+      #   with:
+      #     directory: dist
+      #     overwrite: true
+      #   env:
+      #     DRY_RUN: "false"
+
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: dist
