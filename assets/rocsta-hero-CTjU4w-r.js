@@ -1,0 +1,1 @@
+var e=`/asia-rocsta-hub/assets/rocsta-hero-DsCGbnwt.jpg`;export{e as t};

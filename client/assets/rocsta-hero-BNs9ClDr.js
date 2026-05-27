@@ -1,1 +1,0 @@
-var e=`/assets/rocsta-hero-DsCGbnwt.jpg`;export{e as t};
