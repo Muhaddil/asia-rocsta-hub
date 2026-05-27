@@ -1,0 +1,265 @@
+import { createFileRoute, lazyRouteComponent } from "@tanstack/react-router";
+import { z } from "zod";
+//#endregion
+//#region src/data/compatibility.ts
+var compatibilities = [
+	{
+		"id": "c-001",
+		"rocstaPart": {
+			"es": "Bomba inyectora diésel",
+			"en": "Diesel injection pump"
+		},
+		"donorVehicle": {
+			"es": "Mazda B2200 Diesel / E2200 / Bongo",
+			"en": "Mazda B2200 Diesel / E2200 / Bongo"
+		},
+		"donorRef": "R2Y1-13-800 / Zexel 104641-7520",
+		"type": "directo",
+		"difficulty": "Media",
+		"motor": "R2",
+		"verified": true,
+		"confirmations": 0,
+		"category": "engine",
+		"notes": {
+			"es": "Instalación directa de la bomba rotativa Zexel del motor Mazda R2. Requiere calado a 1.05mm con reloj comparador en la culata de la bomba.",
+			"en": "Direct installation of the Zexel rotary pump from the Mazda R2 engine. Requires timing to 1.05mm with a dial gauge on the pump head."
+		}
+	},
+	{
+		"id": "c-002",
+		"rocstaPart": {
+			"es": "Junta de culata",
+			"en": "Cylinder head gasket"
+		},
+		"donorVehicle": {
+			"es": "Mazda 626 GD / B1800 / Ford Courier 1.8",
+			"en": "Mazda 626 GD / B1800 / Ford Courier 1.8"
+		},
+		"donorRef": "F801-10-271 / Elring 917.889",
+		"type": "directo",
+		"difficulty": "Alta",
+		"motor": "F8",
+		"verified": true,
+		"confirmations": 0,
+		"category": "engine",
+		"notes": {
+			"es": "Compatible al 100% con motores Mazda F8 SOHC de 8 válvulas y 12 válvulas. Respetar el par de apriete en espiral y el ángulo final indicados en el manual Mazda.",
+			"en": "100% compatible with Mazda F8 SOHC 8-valve and 12-valve engines. Follow the spiral tightening torque and final angle specified in the Mazda manual."
+		}
+	},
+	{
+		"id": "c-003",
+		"rocstaPart": {
+			"es": "Radiador de aluminio",
+			"en": "Aluminum radiator"
+		},
+		"donorVehicle": {
+			"es": "Mazda B2200 4WD",
+			"en": "Mazda B2200 4WD"
+		},
+		"donorRef": "R201-15-200A",
+		"type": "adaptación",
+		"difficulty": "Media",
+		"motor": "ambos",
+		"verified": true,
+		"confirmations": 0,
+		"category": "engine",
+		"notes": {
+			"es": "Las dimensiones del panal son casi idénticas, pero los tetones de soporte inferior están desalineados unos 25 mm. Requiere fabricar dos pletinas de extensión en U en el travesaño del chasis.",
+			"en": "The core dimensions are nearly identical, but the lower support tabs are misaligned by about 25 mm. Requires fabricating two U-shaped extension brackets on the chassis crossmember."
+		}
+	},
+	{
+		"id": "c-004",
+		"rocstaPart": {
+			"es": "Manguetas de bloqueo manual (free-wheel hubs)",
+			"en": "Manual locking hubs (free-wheel hubs)"
+		},
+		"donorVehicle": {
+			"es": "Mazda B2200 4WD / Ford Ranger (antiguo)",
+			"en": "Mazda B2200 4WD / Ford Ranger (old)"
+		},
+		"donorRef": "AVM 443 / Warn 9790",
+		"type": "directo",
+		"difficulty": "Fácil",
+		"motor": "ambos",
+		"verified": true,
+		"confirmations": 0,
+		"category": "transmission",
+		"notes": {
+			"es": "Estriado de 26 dientes y PCD de 6 tornillos idénticos al del buje Mazda. Reemplazo directo excelente para eliminar los cubos automáticos de vacío problemáticos o de acople manual desgastados.",
+			"en": "26-spline count and 6-bolt PCD identical to the Mazda hub. Excellent direct replacement to eliminate problematic vacuum automatic hubs or worn manual locking hubs."
+		}
+	},
+	{
+		"id": "c-005",
+		"rocstaPart": {
+			"es": "Kit de embrague (Maza y Disco)",
+			"en": "Clutch kit (Hub and Disc)"
+		},
+		"donorVehicle": {
+			"es": "Mazda B2200 2WD/4WD",
+			"en": "Mazda B2200 2WD/4WD"
+		},
+		"donorRef": "Sachs 3000 240 002 / Valeo 826211",
+		"type": "adaptación",
+		"difficulty": "Media",
+		"motor": "ambos",
+		"verified": true,
+		"confirmations": 0,
+		"category": "transmission",
+		"notes": {
+			"es": "El disco de 225 mm y 21 estrías encaja perfecto en el primario. En algunas mazas del B2200, el cojinete de empuje original del Rocsta roza en las patillas del diafragma; se recomienda montar el cojinete de empuje suministrado en el kit de Mazda.",
+			"en": "The 225 mm 21-spline disc fits perfectly on the input shaft. On some B2200 hubs, the original Rocsta release bearing rubs against the diaphragm spring fingers; it is recommended to install the release bearing supplied in the Mazda kit."
+		}
+	},
+	{
+		"id": "c-006",
+		"rocstaPart": {
+			"es": "Pastillas de freno delanteras",
+			"en": "Front brake pads"
+		},
+		"donorVehicle": {
+			"es": "Kia Sportage I (1993-2004) / Mazda B2200",
+			"en": "Kia Sportage I (1993-2004) / Mazda B2200"
+		},
+		"donorRef": "Brembo P 30 009 / GDB 1187",
+		"type": "directo",
+		"difficulty": "Fácil",
+		"motor": "ambos",
+		"verified": true,
+		"confirmations": 0,
+		"category": "brakes",
+		"notes": {
+			"es": "Montaje directo de las pastillas del Sportage de primera generación. Ofrecen un compuesto de fricción moderno con menor fatiga térmica que el original.",
+			"en": "Direct fit of first-generation Sportage pads. They offer a modern friction compound with less thermal fatigue than the original."
+		}
+	},
+	{
+		"id": "c-007",
+		"rocstaPart": {
+			"es": "Discos de freno delanteros",
+			"en": "Front brake discs"
+		},
+		"donorVehicle": {
+			"es": "Kia Sportage I / Mazda B2200 4WD",
+			"en": "Kia Sportage I / Mazda B2200 4WD"
+		},
+		"donorRef": "DF4078 / Brembo 09.5568.10",
+		"type": "directo",
+		"difficulty": "Media",
+		"motor": "ambos",
+		"verified": true,
+		"confirmations": 0,
+		"category": "brakes",
+		"notes": {
+			"es": "Discos ventilados de 256 mm de diámetro con patrón 6x139.7. Coinciden al 100%. Requiere desmontar el buje delantero para atornillar el disco por detrás de la brida del buje.",
+			"en": "Vented discs of 256 mm diameter with 6x139.7 bolt pattern. 100% match. Requires removing the front hub to bolt the disc behind the hub flange."
+		}
+	},
+	{
+		"id": "c-008",
+		"rocstaPart": {
+			"es": "Amortiguadores traseros",
+			"en": "Rear shock absorbers"
+		},
+		"donorVehicle": {
+			"es": "Kia Sportage I / Toyota Hilux (trasero)",
+			"en": "Kia Sportage I / Toyota Hilux (rear)"
+		},
+		"donorRef": "Monroe 37069",
+		"type": "adaptación",
+		"difficulty": "Fácil",
+		"motor": "ambos",
+		"verified": true,
+		"confirmations": 0,
+		"category": "suspension",
+		"notes": {
+			"es": "Los traseros del Sportage I coinciden en longitud y anclaje de ojo inferior, pero el ojo superior requiere rebajar el casquillo de metal interior con lima unos 2 mm para que entre en el pasador del chasis del Rocsta.",
+			"en": "The rear Sportage I shocks match in length and lower eye mounting, but the upper eye requires filing down the inner metal bushing about 2 mm to fit the Rocsta chassis pin."
+		}
+	},
+	{
+		"id": "c-009",
+		"rocstaPart": {
+			"es": "Amortiguadores delanteros",
+			"en": "Front shock absorbers"
+		},
+		"donorVehicle": {
+			"es": "Mitsubishi Montero V20 / Pajero II (delanteros)",
+			"en": "Mitsubishi Montero V20 / Pajero II (front)"
+		},
+		"donorRef": "KYB 344223",
+		"type": "adaptación",
+		"difficulty": "Media",
+		"motor": "ambos",
+		"verified": false,
+		"confirmations": 0,
+		"category": "suspension",
+		"notes": {
+			"es": "Tienen un tarado de gas más firme que mejora la estabilidad. Requiere ensanchar el soporte del chasis inferior unos 3 mm usando una arandela espaciadora debido a diferencias de ancho del ojo del amortiguador.",
+			"en": "They have a firmer gas charge that improves stability. Requires widening the lower chassis mount by about 3 mm using a spacer washer due to differences in the shock eye width."
+		}
+	},
+	{
+		"id": "c-010",
+		"rocstaPart": {
+			"es": "Llantas de acero/aluminio",
+			"en": "Steel/alloy wheels"
+		},
+		"donorVehicle": {
+			"es": "Toyota Land Cruiser (J70/J90) / Mitsubishi L200 / Nissan Patrol",
+			"en": "Toyota Land Cruiser (J70/J90) / Mitsubishi L200 / Nissan Patrol"
+		},
+		"donorRef": "Medida común 6x139.7 ET+10 a ET+30",
+		"type": "directo",
+		"difficulty": "Fácil",
+		"motor": "ambos",
+		"verified": true,
+		"confirmations": 0,
+		"category": "tires",
+		"notes": {
+			"es": "El patrón de pernos 6x139.7 (6 espárragos) es universal. Asegurar que el buje central (center bore) sea de al menos 67.1 mm. Llantas de Patrol o Land Cruiser antiguo encajan de inmediato y desplazan ligeramente el ancho de vía hacia afuera (ET más bajo), lo cual da más estabilidad.",
+			"en": "The 6x139.7 bolt pattern (6 studs) is universal. Ensure the center bore is at least 67.1 mm. Wheels from Patrol or older Land Cruiser fit immediately and slightly widen the track (lower ET), providing more stability."
+		}
+	}
+];
+//#endregion
+//#region src/routes/compatibility.tsx
+var $$splitComponentImporter = () => import("./compatibility-D6Npmunk.js");
+var compatibilitySearchSchema = z.object({
+	search: z.string().optional(),
+	type: z.enum(["directo", "adaptación"]).optional(),
+	difficulty: z.enum([
+		"Fácil",
+		"Media",
+		"Alta"
+	]).optional()
+});
+var Route = createFileRoute("/compatibility")({
+	validateSearch: (search) => compatibilitySearchSchema.parse(search),
+	head: () => ({
+		meta: [
+			{ title: "Compatibilidad entre Marcas y Equivalencias — Asia Rocsta Archive" },
+			{
+				name: "description",
+				content: "Descubre qué piezas de otros todoterrenos y turismos (Mazda B2200, Kia Sportage, Toyota Land Cruiser) sirven para reparar o modificar el Asia Rocsta."
+			},
+			{
+				property: "og:title",
+				content: "Compatibilidades — Asia Rocsta Archive"
+			},
+			{
+				property: "og:url",
+				content: "/compatibility"
+			}
+		],
+		links: [{
+			rel: "canonical",
+			href: "/compatibility"
+		}]
+	}),
+	component: lazyRouteComponent($$splitComponentImporter, "component")
+});
+//#endregion
+export { compatibilities as n, Route as t };
