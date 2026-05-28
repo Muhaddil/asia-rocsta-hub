@@ -2,6 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState, useMemo, useEffect } from "react";
 import { z } from "zod";
 import { useLanguage, type Language } from "@/components/language-provider";
+import { useDebounce } from "@/lib/utils";
 import { PageShell, Crumbs } from "@/components/page-shell";
 import { guides as staticGuides } from "@/data/guides";
 import { api } from "@/lib/api";
@@ -18,6 +19,7 @@ import {
   Info,
   Calendar,
   Layers,
+  Loader2,
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -83,13 +85,20 @@ function GuidesPage() {
 
   const [selectedGuide, setSelectedGuide] = useState<Guide | null>(null);
   const [guides, setGuides] = useState<Guide[]>(staticGuides);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    api.getGuides().then((data) => {
-      setGuides(data as Guide[]);
-    }).catch(() => {
-      // Malo
-    });
+    const fetchData = () => {
+      setLoading(true);
+      api.getGuides().then((data) => {
+        setGuides(data as Guide[]);
+      }).catch(() => {
+        setGuides(staticGuides);
+      }).finally(() => setLoading(false));
+    };
+    fetchData();
+    const interval = setInterval(fetchData, 30000);
+    return () => clearInterval(interval);
   }, []);
 
   const updateSearch = (newParams: Partial<GuidesSearch>) => {
@@ -110,6 +119,15 @@ function GuidesPage() {
   const currentSearch = searchParams.search || "";
   const currentMotor = searchParams.motor;
   const currentLevel = searchParams.level;
+
+  const [searchInput, setSearchInput] = useState(currentSearch);
+  const debouncedSearch = useDebounce(searchInput, 300);
+  useEffect(() => {
+    updateSearch({ search: debouncedSearch || undefined });
+  }, [debouncedSearch]);
+  useEffect(() => {
+    setSearchInput(currentSearch);
+  }, [searchParams.search]);
 
   const hasActiveFilters = Boolean(currentSearch || currentMotor || currentLevel);
 
@@ -166,7 +184,7 @@ function GuidesPage() {
 
       return true;
     });
-  }, [currentSearch, currentMotor, currentLevel, language]);
+  }, [currentSearch, currentMotor, currentLevel, language, guides]);
 
   return (
     <PageShell>
@@ -187,8 +205,8 @@ function GuidesPage() {
               <Input
                 type="text"
                 placeholder={t("guides.searchGuidesPlaceholder")}
-                value={currentSearch}
-                onChange={(e) => updateSearch({ search: e.target.value })}
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
                 className="pl-9 bg-muted/40 focus-visible:ring-rocsta-green"
               />
             </div>
@@ -261,7 +279,8 @@ function GuidesPage() {
           )}
         </div>
 
-        <div className="text-xs text-muted-foreground">
+        <div className="text-xs text-muted-foreground flex items-center gap-2">
+          {loading ? <Loader2 className="size-4 animate-spin" /> : null}
           {t("guides.resultsFound", { count: filteredList.length })}
         </div>
 

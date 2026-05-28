@@ -346,6 +346,7 @@ const UI_TRANSLATIONS: Record<string, Record<Language, string>> = {
   "comm.form.name": { es: "Tu Nombre / Alias", en: "Your Name / Handle" },
   "comm.form.namePlaceholder": { es: "Ej. Rocstero_4x4", en: "e.g. Rocstero_4x4" },
   "comm.form.email": { es: "Email de contacto", en: "Contact Email" },
+  "comm.form.error": { es: "Error al enviar la propuesta", en: "Error submitting proposal" },
 
   // -- comp (OEM Crossover) fields --
   "comm.form.comp.title": { es: "Componente Rocsta", en: "Rocsta Component" },
@@ -630,7 +631,7 @@ const UI_TRANSLATIONS: Record<string, Record<Language, string>> = {
     es: "Pasos detallados del procedimiento",
     en: "Detailed Procedure Steps",
   },
-  "guides.dialog.time": { es: "Tiempo:", en: "Time:" },
+  "guides.dialog.time": { es: "Tiempo", en: "Time" },
   "guides.dialog.difficultyLabel": { es: "Dificultad:", en: "Difficulty:" },
   "guides.safetyTip": { es: "Consejo de seguridad", en: "Safety Tip" },
   "guides.safetyDesc": {

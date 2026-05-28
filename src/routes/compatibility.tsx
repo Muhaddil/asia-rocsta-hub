@@ -6,7 +6,8 @@ import { compatibilities as staticCompatibilities } from "@/data/compatibility";
 import type { Compatibility, Difficulty } from "@/data/types";
 import { localize } from "@/data/types";
 import { useLanguage, type Language } from "@/components/language-provider";
-import { api, type ApiCompatibility } from "@/lib/api";
+import { api, ApiError, type ApiCompatibility } from "@/lib/api";
+import { useDebounce } from "@/lib/utils";
 
 const DIFFICULTY_KEYS: Record<Difficulty, string> = {
   "Fácil": "comp.diff.easy",
@@ -161,6 +162,15 @@ function CompatibilityPage() {
   const currentType = searchParams.type;
   const currentDifficulty = searchParams.difficulty;
 
+  const [searchInput, setSearchInput] = useState(currentSearch);
+  const debouncedSearch = useDebounce(searchInput, 300);
+  useEffect(() => {
+    updateSearch({ search: debouncedSearch || undefined });
+  }, [debouncedSearch]);
+  useEffect(() => {
+    setSearchInput(currentSearch);
+  }, [searchParams.search]);
+
   const hasActiveFilters = Boolean(currentSearch || currentType || currentDifficulty);
 
   const clearFilters = () => {
@@ -224,9 +234,7 @@ function CompatibilityPage() {
       );
       markConfirmed(id);
     } catch (err: unknown) {
-      // 409 means already confirmed from the server's perspective — just mark it silently.
-      const message = err instanceof Error ? err.message : "";
-      if (message.includes("Ya has confirmado")) {
+      if (err instanceof ApiError && err.status === 409) {
         markConfirmed(id);
         try {
           const status = await api.getConfirmationStatus(id);
@@ -266,8 +274,8 @@ function CompatibilityPage() {
               <Input
                 type="text"
                 placeholder={t("comp.searchCompatPlaceholder")}
-                value={currentSearch}
-                onChange={(e) => updateSearch({ search: e.target.value })}
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
                 className="pl-9 bg-muted/40 focus-visible:ring-rocsta-green"
               />
             </div>

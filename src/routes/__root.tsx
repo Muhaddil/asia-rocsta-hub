@@ -222,17 +222,22 @@ function RootShell({ children }: { children: React.ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const [ready, setReady] = useState(false);
-
+  
   const TRANSITION_DELAY = 1000;
-
+  const MIN_EXTRA_DELAY = 1000;
+  const FONTS_TIMEOUT = 3000;
+  
   useEffect(() => {
+    let cancelled = false;
     const start = performance.now();
-
-    const MIN_EXTRA_DELAY = 1000;
-
+    
     const finishLoading = async () => {
-      await document.fonts.ready;
-
+      const fontTimeout = new Promise<void>((resolve) => 
+        setTimeout(resolve, FONTS_TIMEOUT)
+      );
+      await Promise.race([document.fonts.ready, fontTimeout]);
+      if (cancelled) return;
+      
       await new Promise<void>((resolve) => {
         if ("requestIdleCallback" in window) {
           requestIdleCallback(() => resolve());
@@ -240,33 +245,28 @@ function RootComponent() {
           setTimeout(resolve, 0);
         }
       });
-
+      if (cancelled) return;
+      
       const elapsed = performance.now() - start;
-
-      // Extra delay
       const remaining = Math.max(MIN_EXTRA_DELAY - elapsed, 0);
-
+      
       setTimeout(() => {
         const el = document.getElementById("loading-overlay");
-
         if (el) {
           el.style.opacity = "0";
           el.style.pointerEvents = "none";
-
           setReady(true);
-
-          setTimeout(() => {
-            el.remove();
-          }, TRANSITION_DELAY);
+          setTimeout(() => el.remove(), TRANSITION_DELAY);
         } else {
           setReady(true);
         }
       }, remaining);
     };
-
+    
     finishLoading();
+    return () => { cancelled = true; };
   }, []);
-
+  
   return (
     <div style={{ opacity: ready ? 1 : 0, transition: `opacity ${TRANSITION_DELAY}ms ease-in-out` }}>
       <QueryClientProvider client={queryClient}>
@@ -283,3 +283,4 @@ function RootComponent() {
     </div>
   );
 }
+

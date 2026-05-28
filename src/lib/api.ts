@@ -95,6 +95,14 @@ export interface ApiSubmission {
   data?: Record<string, string>;
 }
 
+export class ApiError extends Error {
+  status: number;
+  constructor(message: string, status: number) {
+    super(message);
+    this.status = status;
+  }
+}
+
 async function request<T>(path: string, options?: RequestInit): Promise<T> {
   const res = await fetch(`${API_BASE}${path}`, {
     ...options,
@@ -106,8 +114,8 @@ async function request<T>(path: string, options?: RequestInit): Promise<T> {
   });
 
   if (!res.ok) {
-    const body = await res.json().catch((err) => console.error("API error:", err));
-    throw new Error(body.error || `Error ${res.status}`);
+    const body = await res.json().catch(() => ({}));
+    throw new ApiError(body.error || `Error ${res.status}`, res.status);
   }
 
   return res.json();

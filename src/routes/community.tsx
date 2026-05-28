@@ -178,6 +178,7 @@ function CommunityPage() {
 
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
 
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -206,6 +207,7 @@ function CommunityPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitting(true);
+    setSubmitError("");
     try {
       if (formType === "photo") {
         const fd = new FormData();
@@ -228,8 +230,8 @@ function CommunityPage() {
       setSubmitted(true);
       resetForm();
       setTimeout(() => setSubmitted(false), 4500);
-    } catch {
-      alert("Error al enviar la propuesta. ¿El servidor está corriendo?");
+    } catch (err) {
+      setSubmitError(err instanceof Error ? err.message : t("comm.form.error"));
     } finally {
       setSubmitting(false);
     }
@@ -417,10 +419,10 @@ function CommunityPage() {
         </Field>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <Field label={t("comm.form.photo.motor")}>
-            {renderSelect("photo_motor", extra.photo_motor || "ambos", [
+            {renderSelect("photo_motor", extra.photo_motor || "R2", [
               { value: "F8", label: "F8" },
               { value: "R2", label: "R2" },
-              { value: "ambos", label: "F8 / R2" },
+              // { value: "ambos", label: "F8 / R2" },
             ], handleExtraValue)}
           </Field>
           <Field label={t("comm.form.photo.country")}>
@@ -552,6 +554,11 @@ function CommunityPage() {
                 <form onSubmit={handleSubmit} className="space-y-4">
                   {renderCommonFields()}
                   {renderFormFields()}
+                  {submitError && (
+                    <div className="rounded-lg border border-red-500/20 bg-red-500/5 p-3 text-xs text-red-600 dark:text-red-400">
+                      {submitError}
+                    </div>
+                  )}
                   <button
                     type="submit"
                     disabled={submitting}
