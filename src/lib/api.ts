@@ -45,7 +45,7 @@ export interface ApiPart {
   name: { es: string; en: string };
   category: string;
   description: { es: string; en: string };
-  oem: string;
+  oem: string | { es: string; en: string };
   equiv: string[];
   status: "verified" | "mod" | "unverified";
   motor: string;

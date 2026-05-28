@@ -46,7 +46,7 @@ export interface Part {
   name: LocalizedString;
   category: PartCategory;
   description: LocalizedString;
-  oem: string;
+  oem: string | LocalizedString;
   equiv: string[];
   status: VerificationStatus;
   motor: Motor;

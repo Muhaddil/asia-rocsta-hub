@@ -251,7 +251,7 @@ function Index() {
                           <div className="text-xs text-muted-foreground mt-0.5">{desc}</div>
                         </td>
                         <td className="px-6 py-4 font-mono text-xs font-semibold text-foreground">
-                          {p.oem}
+                          {localize(p.oem, language)}
                         </td>
                         <td className="px-6 py-4 text-xs text-muted-foreground font-medium">
                           {equiv}

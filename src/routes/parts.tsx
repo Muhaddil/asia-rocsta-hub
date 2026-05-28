@@ -169,7 +169,7 @@ function PartsPage() {
           .toLowerCase()
           .normalize("NFD")
           .replace(/[\u0300-\u036f]/g, "");
-        const oem = part.oem.toLowerCase();
+        const oem = localize(part.oem, language).toLowerCase();
         const desc = localize(part.description, language)
           .toLowerCase()
           .normalize("NFD")
@@ -354,7 +354,7 @@ function PartsPage() {
                       </TableCell>
                       <TableCell className="px-4 py-4">
                         <span className="font-mono text-xs px-2 py-1 bg-muted rounded border border-border/40 text-foreground font-semibold">
-                          {part.oem}
+                          {localize(part.oem, language)}
                         </span>
                       </TableCell>
                       <TableCell className="px-4 py-4 text-xs text-muted-foreground font-medium max-w-xs truncate">
@@ -436,7 +436,7 @@ function PartsPage() {
                     {t("parts.dialog.oem")}
                   </h4>
                   <div className="font-mono text-xs font-bold text-foreground">
-                    {selectedPart.oem}
+                    {localize(selectedPart.oem, language)}
                   </div>
                 </div>
                 <div>

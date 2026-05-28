@@ -246,7 +246,7 @@
       "es": "Turbo original para motor R2 turbodiésel (versiones con turbo). Turbina tipo VJ11.",
       "en": "Original turbo for R2 turbodiesel engine (turbo versions). VJ11 type turbine."
     },
-    "oem": "No especificado en catálogo",
+    "oem": { "es": "No especificado en catálogo", "en": "Not specified in catalog" },
     "equiv": [
       "IHI VJ11 (Mazda B2200 Turbodiesel)",
       "Garrett T25 (requiere adaptador)"
@@ -429,7 +429,7 @@
       "es": "Cubos de bloqueo manual delantero para acoplar/desacoplar tracción 4x4. Sistema mecánico sin vacío.",
       "en": "Front manual locking hubs to engage/disengage 4x4 drive. Mechanical system, no vacuum."
     },
-    "oem": "No especificado en catálogo",
+    "oem": { "es": "No especificado en catálogo", "en": "Not specified in catalog" },
     "equiv": [
       "Warn #9790",
       "AVM 443 (tipo Mazda B2200 4WD)",
@@ -791,7 +791,7 @@
       "es": "Interruptor mecánico en el pedal de freno. 2 terminales, rosca M12x1.0.",
       "en": "Mechanical switch on brake pedal. 2 terminals, thread M12x1.0."
     },
-    "oem": "No especificado en catálogo",
+    "oem": { "es": "No especificado en catálogo", "en": "Not specified in catalog" },
     "equiv": [
       "Mazda B2200",
       "Mazda 626",
@@ -953,7 +953,7 @@
       "es": "Par de latiguillos flexibles para pinza delantera. Rosca M10x1.0 ambos extremos.",
       "en": "Pair of flexible hoses for front caliper. Thread M10x1.0 both ends."
     },
-    "oem": "No especificado en catálogo",
+    "oem": { "es": "No especificado en catálogo", "en": "Not specified in catalog" },
     "equiv": [
       "Mazda B2200 4WD",
       "Kia Sportage I",
@@ -981,7 +981,7 @@
       "es": "Servofreno de vacío para asistencia de frenada. Diámetro 8\" aprox.",
       "en": "Vacuum brake booster for braking assistance. Diameter 8\" approx."
     },
-    "oem": "No especificado en catálogo",
+    "oem": { "es": "No especificado en catálogo", "en": "Not specified in catalog" },
     "equiv": [
       "Kia Sportage I",
       "Mazda B2200 4WD (requiere adaptador)"
@@ -1004,7 +1004,7 @@
       "es": "Medida original de fábrica: 205/80 R16. Equivalente métrico: 31x8.1 R16. Patrón mixto carretera/campo.",
       "en": "Original factory size: 205/80 R16. Metric equivalent: 31x8.1 R16. Highway/all-terrain pattern."
     },
-    "oem": "No especificado",
+    "oem": { "es": "No especificado", "en": "Not specified" },
     "equiv": [],
     "status": "verified",
     "motor": "ambos",
@@ -1358,7 +1358,7 @@
       "es": "Gato de botella y juego de herramientas para cambio de rueda. Alojados tras los asientos delanteros.",
       "en": "Bottle jack and tool set for wheel change. Stored behind front seats."
     },
-    "oem": "No especificado en catálogo",
+    "oem": { "es": "No especificado en catálogo", "en": "Not specified in catalog" },
     "equiv": [],
     "status": "unverified",
     "motor": "ambos",
