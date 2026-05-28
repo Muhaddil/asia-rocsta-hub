@@ -98,12 +98,18 @@ export interface ApiSubmission {
 async function request<T>(path: string, options?: RequestInit): Promise<T> {
   const res = await fetch(`${API_BASE}${path}`, {
     ...options,
-    headers: { "Content-Type": "application/json", ...options?.headers },
+    headers: {
+      "Content-Type": "application/json",
+      "bypass-tunnel-reminder": "true",
+      ...options?.headers,
+    },
   });
+
   if (!res.ok) {
     const body = await res.json().catch((err) => console.error("API error:", err));
     throw new Error(body.error || `Error ${res.status}`);
   }
+
   return res.json();
 }
 
