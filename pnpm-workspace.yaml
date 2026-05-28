@@ -3,3 +3,8 @@ allowBuilds:
   esbuild: true
   sharp: true
   workerd: true
+minimumReleaseAgeExclude:
+  - '@pkgr/core@0.3.6'
+  - eslint-plugin-prettier@5.5.6
+  - lucide-react@1.17.0
+  - synckit@0.11.13
