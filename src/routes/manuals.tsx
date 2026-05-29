@@ -2,6 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState, useMemo } from "react";
 import { z } from "zod";
 import { useLanguage, type Language } from "@/components/language-provider";
+import { useDebounce, normalizeString } from "@/lib/utils";
 import { PageShell, Crumbs } from "@/components/page-shell";
 import { manuals } from "@/data/manuals";
 import type { Manual, ManualType, ManualLanguage, Motor } from "@/data/types";
@@ -112,25 +113,16 @@ function ManualsPage() {
         if (currentMotor === "R2" && manual.motor === "F8") return false;
       }
 
-      // 4. Text Search
-      if (currentSearch) {
-        const query = currentSearch
-          .toLowerCase()
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "");
-        const title = localize(manual.title, language)
-          .toLowerCase()
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "");
-        const desc = localize(manual.description, language)
-          .toLowerCase()
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "");
+       // 4. Text Search
+       if (currentSearch) {
+         const query = normalizeString(currentSearch);
+         const title = normalizeString(localize(manual.title, language));
+         const desc = normalizeString(localize(manual.description, language));
 
-        if (!title.includes(query) && !desc.includes(query)) {
-          return false;
-        }
-      }
+         if (!title.includes(query) && !desc.includes(query)) {
+           return false;
+         }
+       }
 
       return true;
     });

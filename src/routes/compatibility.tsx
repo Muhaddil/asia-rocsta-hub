@@ -7,7 +7,7 @@ import type { Compatibility, Difficulty } from "@/data/types";
 import { localize } from "@/data/types";
 import { useLanguage, type Language } from "@/components/language-provider";
 import { api, ApiError, type ApiCompatibility } from "@/lib/api";
-import { useDebounce } from "@/lib/utils";
+import { useDebounce, normalizeString } from "@/lib/utils";
 
 const DIFFICULTY_KEYS: Record<Difficulty, string> = {
   "Fácil": "comp.diff.easy",
@@ -135,11 +135,40 @@ function CompatibilityPage() {
       .finally(() => setLoading(false));
   };
 
-  useEffect(() => {
-    fetchData();
-    const interval = setInterval(fetchData, 30000);
-    return () => clearInterval(interval);
-  }, []);
+   useEffect(() => {
+     let interval: NodeJS.Timeout;
+
+     const startPolling = () => {
+       fetchData();
+       interval = setInterval(fetchData, 30000);
+     };
+
+     const stopPolling = () => {
+       if (interval) {
+         clearInterval(interval);
+       }
+     };
+
+     // Start polling when component mounts
+     startPolling();
+
+     // Pause polling when tab is hidden, resume when visible
+     const handleVisibilityChange = () => {
+       if (document.hidden) {
+         stopPolling();
+       } else {
+         startPolling();
+       }
+     };
+
+     document.addEventListener("visibilitychange", handleVisibilityChange);
+
+     // Cleanup
+     return () => {
+       stopPolling();
+       document.removeEventListener("visibilitychange", handleVisibilityChange);
+     };
+   }, []);
 
   const [selectedComp, setSelectedComp] = useState<Compatibility | null>(null);
 
@@ -184,34 +213,22 @@ function CompatibilityPage() {
       if (currentType && item.type !== currentType) return false;
       if (currentDifficulty && item.difficulty !== currentDifficulty) return false;
 
-      if (currentSearch) {
-        const query = currentSearch
-          .toLowerCase()
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "");
-        const rocstaPart = localize(item.rocstaPart, language)
-          .toLowerCase()
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "");
-        const donorVehicle = localize(item.donorVehicle, language)
-          .toLowerCase()
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "");
-        const donorRef = item.donorRef.toLowerCase();
-        const notes = localize(item.notes || "", language)
-          .toLowerCase()
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "");
+       if (currentSearch) {
+         const query = normalizeString(currentSearch);
+         const rocstaPart = normalizeString(localize(item.rocstaPart, language));
+         const donorVehicle = normalizeString(localize(item.donorVehicle, language));
+         const donorRef = normalizeString(item.donorRef);
+         const notes = normalizeString(localize(item.notes || "", language));
 
-        if (
-          !rocstaPart.includes(query) &&
-          !donorVehicle.includes(query) &&
-          !donorRef.includes(query) &&
-          !notes.includes(query)
-        ) {
-          return false;
-        }
-      }
+         if (
+           !rocstaPart.includes(query) &&
+           !donorVehicle.includes(query) &&
+           !donorRef.includes(query) &&
+           !notes.includes(query)
+         ) {
+           return false;
+         }
+       }
 
       return true;
     });

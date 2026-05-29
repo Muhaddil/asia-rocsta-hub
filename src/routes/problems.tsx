@@ -3,6 +3,7 @@ import { useState, useMemo } from "react";
 import { z } from "zod";
 import { PageShell, Crumbs } from "@/components/page-shell";
 import { useLanguage, type Language } from "@/components/language-provider";
+import { useDebounce, normalizeString } from "@/lib/utils";
 import { problems } from "@/data/problems";
 import type { Problem, Motor, Severity, Difficulty } from "@/data/types";
 import { localize } from "@/data/types";
@@ -120,37 +121,22 @@ function ProblemsPage() {
       }
 
       // 3. Text Search
-      if (currentSearch) {
-        const query = currentSearch
-          .toLowerCase()
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "");
-        const title = localize(prob.title, language)
-          .toLowerCase()
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "");
-        const symptom = localize(prob.symptom, language)
-          .toLowerCase()
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "");
-        const cause = localize(prob.cause, language)
-          .toLowerCase()
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "");
-        const solution = localize(prob.solution, language)
-          .toLowerCase()
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "");
+       if (currentSearch) {
+         const query = normalizeString(currentSearch);
+         const title = normalizeString(localize(prob.title, language));
+         const symptom = normalizeString(localize(prob.symptom, language));
+         const cause = normalizeString(localize(prob.cause, language));
+         const solution = normalizeString(localize(prob.solution, language));
 
-        if (
-          !title.includes(query) &&
-          !symptom.includes(query) &&
-          !cause.includes(query) &&
-          !solution.includes(query)
-        ) {
-          return false;
-        }
-      }
+         if (
+           !title.includes(query) &&
+           !symptom.includes(query) &&
+           !cause.includes(query) &&
+           !solution.includes(query)
+         ) {
+           return false;
+         }
+       }
 
       return true;
     });

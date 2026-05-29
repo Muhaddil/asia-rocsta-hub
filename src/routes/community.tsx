@@ -162,19 +162,49 @@ function CommunityPage() {
   const [members, setMembers] = useState<ApiMember[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchData = () =>
-      Promise.all([api.getStats(), api.getMembers()])
-        .then(([s, m]) => {
-          setStats(s);
-          setMembers(m);
-        })
-        .catch((err) => console.error("API error:", err))
-        .finally(() => setLoading(false));
-    fetchData();
-    const interval = setInterval(fetchData, 30000);
-    return () => clearInterval(interval);
-  }, []);
+   useEffect(() => {
+     const fetchData = () =>
+       Promise.all([api.getStats(), api.getMembers()])
+         .then(([s, m]) => {
+           setStats(s);
+           setMembers(m);
+         })
+         .catch((err) => console.error("API error:", err))
+         .finally(() => setLoading(false));
+
+     let interval: NodeJS.Timeout;
+
+     const startPolling = () => {
+       fetchData();
+       interval = setInterval(fetchData, 30000);
+     };
+
+     const stopPolling = () => {
+       if (interval) {
+         clearInterval(interval);
+       }
+     };
+
+     // Start polling when component mounts
+     startPolling();
+
+     // Pause polling when tab is hidden, resume when visible
+     const handleVisibilityChange = () => {
+       if (document.hidden) {
+         stopPolling();
+       } else {
+         startPolling();
+       }
+     };
+
+     document.addEventListener("visibilitychange", handleVisibilityChange);
+
+     // Cleanup
+     return () => {
+       stopPolling();
+       document.removeEventListener("visibilitychange", handleVisibilityChange);
+     };
+   }, []);
 
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -583,9 +613,9 @@ function CommunityPage() {
               <div className="space-y-3.5">
                 {loading ? (
                   <div className="flex justify-center py-6"><Loader2 className="size-5 animate-spin text-muted-foreground" /></div>
-                ) : members.length === 0 ? (
-                  <p className="text-xs text-muted-foreground text-center py-6">Sin miembros todavía</p>
-                ) : (
+     ) : members.length === 0 ? (
+       <p className="text-xs text-muted-foreground text-center py-6">{t("comm.noMembers")}</p>
+     ) : (
                   members.map((member) => (
                     <div key={member.id} className="flex items-center justify-between gap-3 text-xs">
                       <div className="flex items-center gap-2">

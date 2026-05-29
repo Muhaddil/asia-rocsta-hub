@@ -2,7 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState, useMemo, useEffect } from "react";
 import { z } from "zod";
 import { useLanguage, type Language } from "@/components/language-provider";
-import { useDebounce } from "@/lib/utils";
+import { useDebounce, normalizeString } from "@/lib/utils";
 import { PageShell, Crumbs } from "@/components/page-shell";
 import { guides as staticGuides } from "@/data/guides";
 import { api } from "@/lib/api";
@@ -87,19 +87,49 @@ function GuidesPage() {
   const [guides, setGuides] = useState<Guide[]>(staticGuides);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchData = () => {
-      setLoading(true);
-      api.getGuides().then((data) => {
-        setGuides(data as Guide[]);
-      }).catch(() => {
-        setGuides(staticGuides);
-      }).finally(() => setLoading(false));
-    };
-    fetchData();
-    const interval = setInterval(fetchData, 30000);
-    return () => clearInterval(interval);
-  }, []);
+   useEffect(() => {
+     const fetchData = () => {
+       setLoading(true);
+       api.getGuides().then((data) => {
+         setGuides(data as Guide[]);
+       }).catch(() => {
+         setGuides(staticGuides);
+       }).finally(() => setLoading(false));
+     };
+
+     let interval: NodeJS.Timeout;
+
+     const startPolling = () => {
+       fetchData();
+       interval = setInterval(fetchData, 30000);
+     };
+
+     const stopPolling = () => {
+       if (interval) {
+         clearInterval(interval);
+       }
+     };
+
+     // Start polling when component mounts
+     startPolling();
+
+     // Pause polling when tab is hidden, resume when visible
+     const handleVisibilityChange = () => {
+       if (document.hidden) {
+         stopPolling();
+       } else {
+         startPolling();
+       }
+     };
+
+     document.addEventListener("visibilitychange", handleVisibilityChange);
+
+     // Cleanup
+     return () => {
+       stopPolling();
+       document.removeEventListener("visibilitychange", handleVisibilityChange);
+     };
+   }, []);
 
   const updateSearch = (newParams: Partial<GuidesSearch>) => {
     navigate({
@@ -146,41 +176,26 @@ function GuidesPage() {
 
       if (currentLevel && guide.level !== currentLevel) return false;
 
-      if (currentSearch) {
-        const query = currentSearch
-          .toLowerCase()
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "");
-        const title = localize(guide.title, language)
-          .toLowerCase()
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "");
-        const desc = localize(guide.description, language)
-          .toLowerCase()
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "");
-        const tools = guide.tools.map((t) =>
-          localize(t, language)
-            .toLowerCase()
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, ""),
-        );
-        const tags = guide.tags.map((t) =>
-          t
-            .toLowerCase()
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, ""),
-        );
+       if (currentSearch) {
+         const query = normalizeString(currentSearch);
+         const title = normalizeString(localize(guide.title, language));
+         const desc = normalizeString(localize(guide.description, language));
+         const tools = guide.tools.map((t) =>
+           normalizeString(localize(t, language)),
+         );
+         const tags = guide.tags.map((t) =>
+           normalizeString(t),
+         );
 
-        if (
-          !title.includes(query) &&
-          !desc.includes(query) &&
-          !tools.some((t) => t.includes(query)) &&
-          !tags.some((t) => t.includes(query))
-        ) {
-          return false;
-        }
-      }
+         if (
+           !title.includes(query) &&
+           !desc.includes(query) &&
+           !tools.some((t) => t.includes(query)) &&
+           !tags.some((t) => t.includes(query))
+         ) {
+           return false;
+         }
+       }
 
       return true;
     });

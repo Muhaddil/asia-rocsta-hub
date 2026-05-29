@@ -3,7 +3,7 @@ import { useState, useMemo, useEffect } from "react";
 import { z } from "zod";
 import { PageShell, Crumbs } from "@/components/page-shell";
 import { useLanguage, type Language } from "@/components/language-provider";
-import { useDebounce } from "@/lib/utils";
+import { useDebounce, normalizeString } from "@/lib/utils";
 import { parts as staticParts } from "@/data/parts";
 import { api, type ApiPart } from "@/lib/api";
 import type { Part, PartCategory, Motor, VerificationStatus } from "@/data/types";
@@ -85,35 +85,65 @@ function PartsPage() {
   const [parts, setParts] = useState<Part[]>(staticParts);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    const loadParts = async () => {
-      setLoading(true);
-      try {
-        const apiParts = await api.getParts();
-        const convertedParts: Part[] = apiParts.map((ap) => ({
-          id: ap.id,
-          name: ap.name,
-          category: ap.category as PartCategory,
-          description: ap.description,
-          oem: ap.oem,
-          equiv: ap.equiv,
-          status: ap.status as VerificationStatus,
-          motor: ap.motor as Motor,
-          notes: ap.notes,
-          refs: ap.refs || [],
-        }));
-        setParts(convertedParts);
-      } catch (err) {
-        console.warn("Failed to load parts from API, using static data:", err);
-        setParts(staticParts);
-      } finally {
-        setLoading(false);
-      }
-    };
-    loadParts();
-    const interval = setInterval(loadParts, 30000);
-    return () => clearInterval(interval);
-  }, []);
+   useEffect(() => {
+     const loadParts = async () => {
+       setLoading(true);
+       try {
+         const apiParts = await api.getParts();
+         const convertedParts: Part[] = apiParts.map((ap) => ({
+           id: ap.id,
+           name: ap.name,
+           category: ap.category as PartCategory,
+           description: ap.description,
+           oem: ap.oem,
+           equiv: ap.equiv,
+           status: ap.status as VerificationStatus,
+           motor: ap.motor as Motor,
+           notes: ap.notes,
+           refs: ap.refs || [],
+         }));
+         setParts(convertedParts);
+       } catch (err) {
+         console.warn("Failed to load parts from API, using static data:", err);
+         setParts(staticParts);
+       } finally {
+         setLoading(false);
+       }
+     };
+
+     let interval: NodeJS.Timeout;
+
+     const startPolling = () => {
+       loadParts();
+       interval = setInterval(loadParts, 30000);
+     };
+
+     const stopPolling = () => {
+       if (interval) {
+         clearInterval(interval);
+       }
+     };
+
+     // Start polling when component mounts
+     startPolling();
+
+     // Pause polling when tab is hidden, resume when visible
+     const handleVisibilityChange = () => {
+       if (document.hidden) {
+         stopPolling();
+       } else {
+         startPolling();
+       }
+     };
+
+     document.addEventListener("visibilitychange", handleVisibilityChange);
+
+     // Cleanup
+     return () => {
+       stopPolling();
+       document.removeEventListener("visibilitychange", handleVisibilityChange);
+     };
+   }, []);
 
   const [selectedPart, setSelectedPart] = useState<Part | null>(null);
 
@@ -170,39 +200,27 @@ function PartsPage() {
       // 3. Status Filter
       if (currentStatus && part.status !== currentStatus) return false;
 
-      // 4. Text Search Filter (name, oem, description, equivalents, refs)
-      if (currentSearch) {
-        const query = currentSearch
-          .toLowerCase()
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "");
-        const name = localize(part.name, language)
-          .toLowerCase()
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "");
-        const oem = localize(part.oem, language).toLowerCase();
-        const desc = localize(part.description, language)
-          .toLowerCase()
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "");
-        const equivs = part.equiv.map((e) =>
-          e
-            .toLowerCase()
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, ""),
-        );
-        const refs = (part.refs || []).map((r) => r.toLowerCase());
+       // 4. Text Search Filter (name, oem, description, equivalents, refs)
+       if (currentSearch) {
+         const query = normalizeString(currentSearch);
+         const name = normalizeString(localize(part.name, language));
+         const oem = normalizeString(localize(part.oem, language));
+         const desc = normalizeString(localize(part.description, language));
+         const equivs = part.equiv.map((e) =>
+           normalizeString(e),
+         );
+         const refs = (part.refs || []).map((r) => normalizeString(r));
 
-        const matchesName = name.includes(query);
-        const matchesOem = oem.includes(query);
-        const matchesDesc = desc.includes(query);
-        const matchesEquiv = equivs.some((e) => e.includes(query));
-        const matchesRefs = refs.some((r) => r.includes(query));
+         const matchesName = name.includes(query);
+         const matchesOem = oem.includes(query);
+         const matchesDesc = desc.includes(query);
+         const matchesEquiv = equivs.some((e) => e.includes(query));
+         const matchesRefs = refs.some((r) => r.includes(query));
 
-        if (!matchesName && !matchesOem && !matchesDesc && !matchesEquiv && !matchesRefs) {
-          return false;
-        }
-      }
+         if (!matchesName && !matchesOem && !matchesDesc && !matchesEquiv && !matchesRefs) {
+           return false;
+         }
+       }
 
       return true;
     });
