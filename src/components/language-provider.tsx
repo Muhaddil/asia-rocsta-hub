@@ -779,7 +779,7 @@ const UI_TRANSLATIONS: Record<string, Record<Language, string>> = {
   "manuals.year": { es: "Año", en: "Year" },
   "manuals.engineLabel": { es: "Motor", en: "Engine" },
   "manuals.bothEngines": { es: "Ambos", en: "Both" },
-  "manuals.idLabel": { es: "ID:", en: "ID:" },
+  "manuals.idLabel": { es: "ID", en: "ID" },
 
   // Community - additional labels
   "comm.statsItems": { es: "items", en: "items" },
