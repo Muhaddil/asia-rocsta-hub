@@ -776,8 +776,8 @@ const UI_TRANSLATIONS: Record<string, Record<Language, string>> = {
     en: "Library: {count} documents available.",
   },
   "manuals.pages": { es: "págs.", en: "pages" },
-  "manuals.year": { es: "Año:", en: "Year:" },
-  "manuals.engineLabel": { es: "Motor:", en: "Engine:" },
+  "manuals.year": { es: "Año", en: "Year" },
+  "manuals.engineLabel": { es: "Motor", en: "Engine" },
   "manuals.bothEngines": { es: "Ambos", en: "Both" },
   "manuals.idLabel": { es: "ID:", en: "ID:" },
 
