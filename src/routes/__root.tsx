@@ -28,24 +28,39 @@ function LangSync() {
 function NotFoundComponent() {
   const { t } = useLanguage();
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
-      <div className="max-w-md text-center">
-        <p className="font-mono text-xs uppercase tracking-widest text-rocsta-accent mb-3">
-          Error 404
-        </p>
-        <h1 className="text-4xl font-extrabold text-foreground tracking-tight">
-          {t("notFound.title")}
-        </h1>
-        <p className="mt-3 text-sm text-muted-foreground">{t("notFound.desc")}</p>
-        <div className="mt-6">
-          <Link
-            to="/"
-            className="inline-flex items-center justify-center rounded-md bg-rocsta-green px-4 py-2 text-sm font-bold text-primary-foreground hover:opacity-90"
-          >
-            {t("notFound.back")}
-          </Link>
+    <div className="mx-auto max-w-[1800px] flex gap-8 px-6 py-10">
+      <main id="main-content" className="min-w-0 flex-1 overflow-x-hidden">
+        <div className="mb-4 flex flex-wrap items-center gap-2 text-xs font-medium text-muted-foreground">
+          <span>{t("ui.archive")}</span>
+          <span>/</span>
+          <span className="text-rocsta-green font-semibold">404</span>
         </div>
-      </div>
+        <div className="flex flex-col items-center justify-center min-h-[60vh] text-center">
+          <div className="rounded-2xl bg-rocsta-dark p-6 mb-6">
+            <span className="font-mono text-5xl font-extrabold text-white">404</span>
+          </div>
+          <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">
+            {t("notFound.title")}
+          </h1>
+          <p className="mt-3 text-base text-muted-foreground max-w-md">
+            {t("notFound.desc")}
+          </p>
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <Link
+              to="/"
+              className="inline-flex items-center justify-center rounded-xl bg-rocsta-green px-6 py-3 text-sm font-bold text-primary-foreground hover:opacity-90 transition-all shadow-sm"
+            >
+              {t("notFound.back")}
+            </Link>
+            <Link
+              to="/parts"
+              className="inline-flex items-center justify-center rounded-xl border border-border bg-card px-6 py-3 text-sm font-bold text-foreground hover:bg-muted transition-all"
+            >
+              {t("home.quick.parts")}
+            </Link>
+          </div>
+        </div>
+      </main>
     </div>
   );
 }
