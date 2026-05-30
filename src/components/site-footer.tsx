@@ -1,5 +1,6 @@
 import { useLanguage } from "@/components/language-provider";
 import { useEffect, useState } from "react";
+import { Link } from "@tanstack/react-router";
 
 export function SiteFooter() {
   const { t } = useLanguage();
@@ -15,30 +16,18 @@ export function SiteFooter() {
           © {mounted ? new Date().getFullYear() : 2026} Asia Rocsta Archive · {t("footer.tagline")}
         </div>
         <div className="flex items-center gap-6">
-          <a
-            href="/about"
-            className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors"
-          >
+          <Link to="/about" className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors">
             {t("nav.about")}
-          </a>
-          <a
-            href="/coming-soon"
-            className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors"
-          >
+          </Link>
+          <Link to="/coming-soon" className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors">
             {t("footer.docs")}
-          </a>
-          <a
-            href="/coming-soon"
-            className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors"
-          >
+          </Link>
+          <Link to="/coming-soon" className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors">
             {t("footer.api")}
-          </a>
-          <a
-            href="/community"
-            className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors"
-          >
+          </Link>
+          <Link to="/community" className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors">
             {t("footer.contribute")}
-          </a>
+          </Link>
         </div>
       </div>
     </footer>
