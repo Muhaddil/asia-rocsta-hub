@@ -256,7 +256,7 @@
   "comm.leaders.title": "Top Tech Contributors",
   "comm.leaders.desc": "Members who have logged the most crossover refs and guides.",
   "comm.pr.title": "Want to contribute to the project?",
-  "comm.pr.desc": "This project combines a SQLite database with JSON seed data. You can improve the dataset by fixing errors, adding new compatibilities or parts. Open a Pull Request in the repository and your changes will be reviewed and merged into the database.",
+  "comm.pr.desc": "This project combines a SQLite database with JSON seed data. You can improve the dataset by fixing errors, adding new compatibilities or parts. Complete the form and your changes will be reviewed and applied.",
   "error.404": "Error 404",
   "notFound.title": "Page Not Found",
   "notFound.desc": "The path you are looking for does not exist in the Asia Rocsta archive.",

@@ -256,7 +256,7 @@
   "comm.leaders.title": "Top Colaboradores",
   "comm.leaders.desc": "Usuarios que han compartido más referencias o guías técnicas del coche.",
   "comm.pr.title": "¿Quieres contribuir al proyecto?",
-  "comm.pr.desc": "Este proyecto combina una base de datos SQLite con datos semilla en JSON. Puedes mejorar la información corrigiendo errores, añadiendo compatibilidades o piezas nuevas. Abre un Pull Request en el repositorio y tus cambios serán revisados e integrados en la base de datos.",
+  "comm.pr.desc": "Este proyecto combina una base de datos SQLite con datos semilla en JSON. Puedes mejorar la información corrigiendo errores, añadiendo compatibilidades o piezas nuevas. Rellena el formulario y tus cambios serán revisados e integrados.",
   "error.404": "Error 404",
   "notFound.title": "Página no encontrada",
   "notFound.desc": "La ruta que buscas no existe en el archivo del Asia Rocsta.",
