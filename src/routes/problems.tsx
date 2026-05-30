@@ -1,12 +1,13 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { z } from "zod";
 import { PageShell, Crumbs } from "@/components/page-shell";
 import { useLanguage, type Language } from "@/components/language-provider";
 import { useDebounce, normalizeString } from "@/lib/utils";
-import { problems } from "@/data/problems";
+import { problems as staticProblems } from "@/data/problems";
 import type { Problem, Motor, Severity, Difficulty } from "@/data/types";
 import { localize } from "@/data/types";
+import { api, ApiError, type ApiProblem } from "@/lib/api";
 
 const DIFFICULTY_KEYS: Record<Difficulty, string> = {
   "Fácil": "comp.diff.easy",
@@ -26,6 +27,8 @@ import {
   Compass,
   FileText,
   Activity,
+  ThumbsUp,
+  Loader2,
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -37,7 +40,6 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 
-// Define search parameters for this route
 const problemsSearchSchema = z.object({
   search: z.string().optional(),
   severity: z.enum(["critical", "warn", "info"]).optional(),
@@ -64,6 +66,23 @@ export const Route = createFileRoute("/problems")({
   component: ProblemsPage,
 });
 
+function toProblem(item: ApiProblem): Problem {
+  return {
+    id: item.id,
+    title: item.title,
+    severity: item.severity as Severity,
+    motor: item.motor as Motor,
+    km: item.km,
+    symptom: item.symptom,
+    cause: item.cause,
+    solution: item.solution,
+    cost: item.cost,
+    difficulty: item.difficulty as Difficulty,
+    category: item.category as Problem["category"],
+    reports: item.reports,
+  };
+}
+
 function ProblemsPage() {
   const { t, language } = useLanguage();
   const searchParams = Route.useSearch();
@@ -79,7 +98,71 @@ function ProblemsPage() {
     body: t("cat.body"),
   };
 
+  const [problems, setProblems] = useState<Problem[]>([]);
+  const [confirmed, setConfirmed] = useState<Set<string>>(() => {
+    try {
+      const stored = localStorage.getItem("rocsta_problems_confirmed");
+      return stored ? new Set<string>(JSON.parse(stored)) : new Set<string>();
+    } catch {
+      return new Set<string>();
+    }
+  });
+  const [loading, setLoading] = useState(true);
+  const [pendingConfirmId, setPendingConfirmId] = useState<string | null>(null);
+  const [confirming, setConfirming] = useState(false);
   const [selectedProblem, setSelectedProblem] = useState<Problem | null>(null);
+
+  const markConfirmed = (id: string) => {
+    setConfirmed((prev) => {
+      const next = new Set(prev);
+      next.add(id);
+      try {
+        localStorage.setItem("rocsta_problems_confirmed", JSON.stringify([...next]));
+      } catch { }
+      return next;
+    });
+  };
+
+  const fetchData = () => {
+    setLoading(true);
+    api
+      .getProblems()
+      .then((list) => setProblems(list.map(toProblem)))
+      .catch(() => setProblems(staticProblems))
+      .finally(() => setLoading(false));
+  };
+
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+
+    const startPolling = () => {
+      fetchData();
+      interval = setInterval(fetchData, 30000);
+    };
+
+    const stopPolling = () => {
+      if (interval) {
+        clearInterval(interval);
+      }
+    };
+
+    startPolling();
+
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        stopPolling();
+      } else {
+        startPolling();
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      stopPolling();
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, []);
 
   const updateSearch = (newParams: Partial<ProblemsSearch>) => {
     navigate({
@@ -108,19 +191,15 @@ function ProblemsPage() {
     });
   };
 
-  // Filtered List
   const filteredList = useMemo(() => {
     return problems.filter((prob) => {
-      // 1. Severity Filter
       if (currentSeverity && prob.severity !== currentSeverity) return false;
 
-      // 2. Motor Filter
       if (currentMotor) {
         if (currentMotor === "F8" && prob.motor === "R2") return false;
         if (currentMotor === "R2" && prob.motor === "F8") return false;
       }
 
-      // 3. Text Search
        if (currentSearch) {
          const query = normalizeString(currentSearch);
          const title = normalizeString(localize(prob.title, language));
@@ -140,7 +219,43 @@ function ProblemsPage() {
 
       return true;
     });
-  }, [currentSearch, currentSeverity, currentMotor, language]);
+  }, [currentSearch, currentSeverity, currentMotor, language, problems]);
+
+  const requestConfirm = (id: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (confirmed.has(id)) return;
+    setPendingConfirmId(id);
+  };
+
+  const handleConfirm = async () => {
+    const id = pendingConfirmId;
+    if (!id) return;
+    setConfirming(true);
+    try {
+      const result = await api.confirmProblem(id);
+      setProblems((prev) =>
+        prev.map((p) => (p.id === id ? { ...p, reports: result.reports } : p)),
+      );
+      markConfirmed(id);
+    } catch (err: unknown) {
+      if (err instanceof ApiError && err.status === 409) {
+        markConfirmed(id);
+        try {
+          const status = await api.getProblemConfirmationStatus(id);
+          setProblems((prev) =>
+            prev.map((p) => (p.id === id ? { ...p, reports: status.reports } : p)),
+          );
+        } catch {
+          // If fallback fails, do not crash.
+        }
+      } else {
+        console.error("Confirm error:", err);
+      }
+    } finally {
+      setConfirming(false);
+      setPendingConfirmId(null);
+    }
+  };
 
   return (
     <PageShell>
@@ -239,7 +354,7 @@ function ProblemsPage() {
         </div>
 
         <div className="text-xs text-muted-foreground">
-          {t("problems.resultsFound", { count: filteredList.length })}
+          {loading ? <Loader2 className="size-4 animate-spin inline" /> : t("problems.resultsFound", { count: filteredList.length })}
         </div>
 
         {filteredList.length > 0 ? (
@@ -295,6 +410,19 @@ function ProblemsPage() {
                   <span className="inline-flex items-center gap-1 text-[10px] font-bold text-muted-foreground uppercase">
                     <Users className="size-3" /> {prob.reports} {t("problems.reportsCount")}
                   </span>
+                  <button
+                    onClick={(e) => requestConfirm(prob.id, e)}
+                    disabled={confirmed.has(prob.id)}
+                    className={[
+                      "inline-flex items-center gap-1 rounded-md px-2 py-1 text-[10px] font-bold transition-all",
+                      confirmed.has(prob.id)
+                        ? "bg-green-500/10 text-green-600 cursor-default"
+                        : "bg-muted hover:bg-rocsta-green/10 hover:text-rocsta-green text-muted-foreground",
+                    ].join(" ")}
+                  >
+                    <ThumbsUp className="size-3" />
+                    {confirmed.has(prob.id) ? t("problems.confirmed") : t("problems.confirm")}
+                  </button>
                 </div>
               </div>
             ))}
@@ -394,6 +522,24 @@ function ProblemsPage() {
                 </div>
               </div>
 
+              <div className="flex justify-center">
+                <button
+                  onClick={(e) => requestConfirm(selectedProblem.id, e)}
+                  disabled={confirmed.has(selectedProblem.id)}
+                  className={[
+                    "inline-flex items-center gap-2 rounded-lg px-5 py-2.5 text-sm font-bold transition-all",
+                    confirmed.has(selectedProblem.id)
+                      ? "bg-green-500/10 text-green-600 cursor-default border border-green-500/20"
+                      : "bg-rocsta-green text-primary-foreground hover:opacity-90 shadow-sm",
+                  ].join(" ")}
+                >
+                  <ThumbsUp className="size-4" />
+                  {confirmed.has(selectedProblem.id)
+                    ? `✓ ${t("problems.confirmed")}`
+                    : `${t("problems.confirm")} (${selectedProblem.reports})`}
+                </button>
+              </div>
+
               <div className="space-y-1.5">
                 <h4 className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider flex items-center gap-1">
                   <Activity className="size-3 text-rocsta-accent" />{" "}
@@ -439,6 +585,37 @@ function ProblemsPage() {
             </div>
           </DialogContent>
         )}
+      </Dialog>
+
+      <Dialog open={pendingConfirmId !== null} onOpenChange={(open) => !open && setPendingConfirmId(null)}>
+        <DialogContent className="max-w-md sm:rounded-2xl border-border bg-card">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-extrabold tracking-tight text-foreground flex items-center gap-2">
+              <AlertOctagon className="size-5 text-red-500" />
+              {t("problems.confirmDialog.title")}
+            </DialogTitle>
+            <DialogDescription className="text-sm text-muted-foreground mt-2">
+              {t("problems.confirmDialog.desc")}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex items-center justify-end gap-3 pt-4 border-t border-border mt-4">
+            <button
+              onClick={() => setPendingConfirmId(null)}
+              disabled={confirming}
+              className="inline-flex h-9 items-center justify-center rounded-md border border-input bg-background px-4 text-sm font-bold text-foreground hover:bg-muted hover:text-muted-foreground transition-colors disabled:opacity-50"
+            >
+              {t("problems.confirmDialog.no")}
+            </button>
+            <button
+              onClick={handleConfirm}
+              disabled={confirming}
+              className="inline-flex h-9 items-center justify-center rounded-md bg-rocsta-green px-4 text-sm font-bold text-primary-foreground hover:opacity-90 transition-all shadow-sm disabled:opacity-50"
+            >
+              {confirming && <Loader2 className="size-4 animate-spin mr-2" />}
+              {t("problems.confirmDialog.yes")}
+            </button>
+          </div>
+        </DialogContent>
       </Dialog>
     </PageShell>
   );

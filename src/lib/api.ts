@@ -68,6 +68,21 @@ export interface ApiGalleryEntry {
   verified: boolean;
 }
 
+export interface ApiProblem {
+  id: string;
+  title: { es: string; en: string };
+  severity: "critical" | "warn" | "info";
+  motor: string;
+  km: string;
+  symptom: { es: string; en: string };
+  cause: { es: string; en: string };
+  solution: { es: string; en: string };
+  cost: string;
+  difficulty: string;
+  category: string;
+  reports: number;
+}
+
 export interface ApiGuide {
   id: string;
   slug: string;
@@ -158,6 +173,20 @@ export const api = {
 
   getGallery(): Promise<ApiGalleryEntry[]> {
     return request("/api/gallery");
+  },
+
+  getProblems(params?: { category?: string; motor?: string; severity?: string }): Promise<ApiProblem[]> {
+    const queryString = new URLSearchParams(params as Record<string, string>).toString();
+    const path = queryString ? `/api/problems?${queryString}` : "/api/problems";
+    return request(path);
+  },
+
+  confirmProblem(id: string): Promise<{ id: string; reports: number; message: string }> {
+    return request(`/api/problems/${id}/confirm`, { method: "POST" });
+  },
+
+  getProblemConfirmationStatus(id: string): Promise<{ id: string; reports: number; userConfirmed: boolean }> {
+    return request(`/api/problems/${id}/confirmations/count`);
   },
 
   submitGalleryPhoto(formData: FormData): Promise<{ id: string; image: string; message: string }> {

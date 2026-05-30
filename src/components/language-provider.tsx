@@ -347,6 +347,7 @@ const UI_TRANSLATIONS: Record<string, Record<Language, string>> = {
   "comm.form.namePlaceholder": { es: "Ej. Rocstero_4x4", en: "e.g. Rocstero_4x4" },
   "comm.form.email": { es: "Email de contacto", en: "Contact Email" },
   "comm.form.error": { es: "Error al enviar la propuesta", en: "Error submitting proposal" },
+  "comm.noMembers": { es: "No hay miembros", en: "No members" },
 
   // -- comp (OEM Crossover) fields --
   "comm.form.comp.title": { es: "Componente Rocsta", en: "Rocsta Component" },
@@ -722,6 +723,32 @@ const UI_TRANSLATIONS: Record<string, Record<Language, string>> = {
   "problems.dialog.desc": {
     es: "Ficha técnica de diagnóstico de averías para Asia Rocsta.",
     en: "Fault diagnosis technical sheet for Asia Rocsta.",
+  },
+
+  // Problems confirmations
+  "problems.confirm": {
+    es: "Reportar caso",
+    en: "Report case",
+  },
+  "problems.confirmed": {
+    es: "Reportado",
+    en: "Reported",
+  },
+  "problems.confirmDialog.title": {
+    es: "¿Reportar este fallo?",
+    en: "Report this issue?",
+  },
+  "problems.confirmDialog.desc": {
+    es: "¿Has experimentado este problema en tu Asia Rocsta? Al confirmar, ayudas a la comunidad a conocer qué averías son más frecuentes y a priorizar soluciones.",
+    en: "Have you experienced this issue on your Asia Rocsta? By confirming, you help the community understand which faults are most common and prioritize solutions.",
+  },
+  "problems.confirmDialog.yes": {
+    es: "Sí, reportar caso",
+    en: "Yes, report case",
+  },
+  "problems.confirmDialog.no": {
+    es: "Cancelar",
+    en: "Cancel",
   },
 
   // About page
