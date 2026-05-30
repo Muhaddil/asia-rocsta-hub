@@ -15,7 +15,6 @@ import { LanguageProvider, useLanguage } from "../components/language-provider";
 import { SiteHeader } from "../components/site-header";
 import { SiteFooter } from "../components/site-footer";
 import ogImage from "../assets/rocsta-hero.jpg";
-
 const BASE = (import.meta as { env: Record<string, string> }).env?.BASE_URL || "/";
 
 function LangSync() {

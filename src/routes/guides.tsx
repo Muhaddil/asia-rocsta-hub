@@ -6,8 +6,8 @@ import { useLanguage } from "@/components/language-provider";
 import { useDebounce, normalizeString } from "@/lib/utils";
 import { PageShell, Crumbs } from "@/components/page-shell";
 import { guides as staticGuides } from "@/data/guides";
-import { api } from "@/lib/api";
-import type { Guide, Motor, GuideLevel } from "@/data/types";
+import { api, type ApiGuide } from "@/lib/api";
+import type { Guide, Motor, GuideLevel, PartCategory } from "@/data/types";
 import { localize } from "@/data/types";
 import ogImage from "@/assets/rocsta-hero.jpg";
 import {
@@ -99,6 +99,24 @@ const LEVEL_KEYS = {
   Avanzado: "guides.level.advanced",
 } as const;
 
+function toGuide(ag: ApiGuide): Guide {
+  return {
+    id: ag.id,
+    slug: ag.slug,
+    title: ag.title,
+    description: ag.description,
+    level: ag.level as GuideLevel,
+    time: ag.time,
+    image: ag.image,
+    motor: ag.motor as Motor,
+    tools: ag.tools,
+    steps: ag.steps,
+    tags: ag.tags,
+    contributions: ag.contributions,
+    category: ag.category as PartCategory,
+  };
+}
+
 function GuidesPage() {
   const { t, language } = useLanguage();
   const CATEGORY_LABELS: Record<string, string> = {
@@ -117,7 +135,10 @@ function GuidesPage() {
 
   const { data: guides = staticGuides, isLoading: loading } = useQuery({
     queryKey: ["guides"],
-    queryFn: () => api.getGuides().catch(() => staticGuides) as Promise<Guide[]>,
+    queryFn: async () => {
+      const list = await api.getGuides();
+      return list.map(toGuide);
+    },
     initialData: staticGuides,
     refetchInterval: 30000,
     refetchIntervalInBackground: false,

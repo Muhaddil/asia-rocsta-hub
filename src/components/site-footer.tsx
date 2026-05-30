@@ -22,19 +22,19 @@ export function SiteFooter() {
             {t("nav.about")}
           </a>
           <a
-            href="#"
+            href="/coming-soon"
             className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors"
           >
             {t("footer.docs")}
           </a>
           <a
-            href="#"
+            href="/coming-soon"
             className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors"
           >
             {t("footer.api")}
           </a>
           <a
-            href="#"
+            href="/community"
             className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors"
           >
             {t("footer.contribute")}

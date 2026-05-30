@@ -947,6 +947,19 @@ const UI_TRANSLATIONS: Record<string, Record<Language, string>> = {
 
   // Header — about link
   "header.mobileAbout": { es: "Acerca de", en: "About" },
+
+  // Coming Soon
+  "comingSoon.crumb": { es: "Próximamente", en: "Coming Soon" },
+  "comingSoon.title": { es: "Sección en desarrollo", en: "Section Under Development" },
+  "comingSoon.desc": {
+    es: "Estamos trabajando para traerte más contenido del Asia Rocsta.",
+    en: "We are working on bringing you more Asia Rocsta content.",
+  },
+  "comingSoon.heading": { es: "Sección en construcción", en: "Coming Soon" },
+  "comingSoon.body": {
+    es: "Esta sección está en construcción, por favor vuelve más tarde.",
+    en: "This section is currently being made, please check back later.",
+  },
 };
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {

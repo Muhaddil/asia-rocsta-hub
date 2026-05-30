@@ -16,6 +16,7 @@ import { Route as ManualsRouteImport } from './routes/manuals'
 import { Route as GuidesRouteImport } from './routes/guides'
 import { Route as CompatibilityRouteImport } from './routes/compatibility'
 import { Route as CommunityRouteImport } from './routes/community'
+import { Route as ComingSoonRouteImport } from './routes/coming-soon'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 
@@ -54,6 +55,11 @@ const CommunityRoute = CommunityRouteImport.update({
   path: '/community',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ComingSoonRoute = ComingSoonRouteImport.update({
+  id: '/coming-soon',
+  path: '/coming-soon',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
@@ -68,6 +74,7 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/coming-soon': typeof ComingSoonRoute
   '/community': typeof CommunityRoute
   '/compatibility': typeof CompatibilityRoute
   '/guides': typeof GuidesRoute
@@ -79,6 +86,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/coming-soon': typeof ComingSoonRoute
   '/community': typeof CommunityRoute
   '/compatibility': typeof CompatibilityRoute
   '/guides': typeof GuidesRoute
@@ -91,6 +99,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/coming-soon': typeof ComingSoonRoute
   '/community': typeof CommunityRoute
   '/compatibility': typeof CompatibilityRoute
   '/guides': typeof GuidesRoute
@@ -104,6 +113,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
+    | '/coming-soon'
     | '/community'
     | '/compatibility'
     | '/guides'
@@ -115,6 +125,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
+    | '/coming-soon'
     | '/community'
     | '/compatibility'
     | '/guides'
@@ -126,6 +137,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/about'
+    | '/coming-soon'
     | '/community'
     | '/compatibility'
     | '/guides'
@@ -138,6 +150,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  ComingSoonRoute: typeof ComingSoonRoute
   CommunityRoute: typeof CommunityRoute
   CompatibilityRoute: typeof CompatibilityRoute
   GuidesRoute: typeof GuidesRoute
@@ -198,6 +211,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CommunityRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/coming-soon': {
+      id: '/coming-soon'
+      path: '/coming-soon'
+      fullPath: '/coming-soon'
+      preLoaderRoute: typeof ComingSoonRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/about': {
       id: '/about'
       path: '/about'
@@ -218,6 +238,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  ComingSoonRoute: ComingSoonRoute,
   CommunityRoute: CommunityRoute,
   CompatibilityRoute: CompatibilityRoute,
   GuidesRoute: GuidesRoute,

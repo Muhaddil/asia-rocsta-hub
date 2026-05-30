@@ -51,16 +51,20 @@ export default defineConfig({
   //   strictPort: true,
   //   port: 3000,
   //   allowedHosts: true,
-  //   // proxy: {
-  //   //   "/api": {
-  //   //     target: "http://localhost:3001",
-  //   //     changeOrigin: true,
-  //   //   },
-  //   //   "/uploads": {
-  //   //     target: "http://localhost:3001",
-  //   //     changeOrigin: true,
-  //   //   },
-  //   // },
+  //   proxy: {
+  //     "/api": {
+  //       target: "http://localhost:3001",
+  //       changeOrigin: true,
+  //     },
+  //     "/assets": {
+  //       target: "http://localhost:3001",
+  //       changeOrigin: true,
+  //     },
+  //     "/uploads": {
+  //       target: "http://localhost:3001",
+  //       changeOrigin: true,
+  //     },
+  //   },
   // },
 
   preview: {
