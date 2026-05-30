@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
-import type { } from "@tanstack/react-start";
+import type {} from "@tanstack/react-start";
 
-const BASE_URL = "";
+const BASE_URL = "https://muhaddil.github.io/asia-rocsta-hub";
 
 interface SitemapEntry {
   path: string;

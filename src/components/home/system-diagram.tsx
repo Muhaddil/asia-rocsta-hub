@@ -16,9 +16,30 @@ type Hotspot = {
 
 const HOTSPOTS: Hotspot[] = [
   { id: "engine", labelKey: "cat.engine", category: "engine", x: 168, y: 158, icon: Cog },
-  { id: "electrical", labelKey: "cat.electrical", category: "electrical", x: 80, y: 202, icon: Zap },
-  { id: "transmission", labelKey: "cat.transmission", category: "transmission", x: 302, y: 248, icon: GitBranch },
-  { id: "suspension", labelKey: "cat.suspension", category: "suspension", x: 190, y: 208, icon: CircleDot },
+  {
+    id: "electrical",
+    labelKey: "cat.electrical",
+    category: "electrical",
+    x: 80,
+    y: 202,
+    icon: Zap,
+  },
+  {
+    id: "transmission",
+    labelKey: "cat.transmission",
+    category: "transmission",
+    x: 302,
+    y: 248,
+    icon: GitBranch,
+  },
+  {
+    id: "suspension",
+    labelKey: "cat.suspension",
+    category: "suspension",
+    x: 190,
+    y: 208,
+    icon: CircleDot,
+  },
   { id: "brakes", labelKey: "cat.brakes", category: "brakes", x: 532, y: 271, icon: Disc },
   { id: "body", labelKey: "cat.body", category: "body", x: 410, y: 92, icon: Box },
 ];
@@ -28,8 +49,7 @@ export function SystemDiagram() {
   const { t } = useLanguage();
   const [hovered, setHovered] = useState<string | null>(null);
 
-  const go = (category: PartCategory) =>
-    navigate({ to: "/parts", search: { category } });
+  const go = (category: PartCategory) => navigate({ to: "/parts", search: { category } });
 
   return (
     <section className="mb-12">
@@ -66,7 +86,13 @@ export function SystemDiagram() {
                   onMouseEnter={() => setHovered(h.id)}
                   onMouseLeave={() => setHovered(null)}
                   onClick={() => go(h.category)}
-                  className="cursor-pointer"
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") go(h.category);
+                  }}
+                  role="link"
+                  tabIndex={0}
+                  aria-label={t(h.labelKey)}
+                  className="cursor-pointer focus:outline-none focus:ring-2 focus:ring-rocsta-green focus:ring-offset-2 rounded-lg"
                 >
                   <circle
                     cx={h.x}

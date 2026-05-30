@@ -1,23 +1,21 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useState, useMemo } from "react";
+import { useMemo } from "react";
 import { z } from "zod";
-import { useLanguage, type Language } from "@/components/language-provider";
-import { useDebounce, normalizeString } from "@/lib/utils";
+import { useLanguage } from "@/components/language-provider";
+import { normalizeString } from "@/lib/utils";
 import { PageShell, Crumbs } from "@/components/page-shell";
 import { manuals } from "@/data/manuals";
-import type { Manual, ManualType, ManualLanguage, Motor } from "@/data/types";
+import type { ManualType, ManualLanguage } from "@/data/types";
 import { localize } from "@/data/types";
+import ogImage from "@/assets/rocsta-hero.jpg";
 import {
   Search,
   FilterX,
   FileText,
   FileDown,
   BookOpen,
-  FileSpreadsheet,
-  Zap,
   Globe,
   Calendar,
-  Sparkles,
   ExternalLink,
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -43,9 +41,39 @@ export const Route = createFileRoute("/manuals")({
           "Descarga manuales de servicio oficiales del chasis, motores diésel Mazda R2 y gasolina F8, esquemas de cables eléctricos y fichas técnicas reducidas.",
       },
       { property: "og:title", content: "Manuales Técnicos — Asia Rocsta Archive" },
+      {
+        property: "og:description",
+        content:
+          "Descarga manuales de servicio, esquemas eléctricos y fichas técnicas del Asia Rocsta y motores Mazda R2 y F8.",
+      },
       { property: "og:url", content: "/manuals" },
+      { property: "og:image", content: ogImage },
+      { name: "twitter:image", content: ogImage },
     ],
     links: [{ rel: "canonical", href: "/manuals" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            {
+              "@type": "ListItem",
+              position: 1,
+              name: "Inicio",
+              item: "https://muhaddil.github.io/asia-rocsta-hub/",
+            },
+            {
+              "@type": "ListItem",
+              position: 2,
+              name: "Manuales Técnicos",
+              item: "https://muhaddil.github.io/asia-rocsta-hub/manuals",
+            },
+          ],
+        }),
+      },
+    ],
   }),
   component: ManualsPage,
 });
@@ -113,16 +141,16 @@ function ManualsPage() {
         if (currentMotor === "R2" && manual.motor === "F8") return false;
       }
 
-       // 4. Text Search
-       if (currentSearch) {
-         const query = normalizeString(currentSearch);
-         const title = normalizeString(localize(manual.title, language));
-         const desc = normalizeString(localize(manual.description, language));
+      // 4. Text Search
+      if (currentSearch) {
+        const query = normalizeString(currentSearch);
+        const title = normalizeString(localize(manual.title, language));
+        const desc = normalizeString(localize(manual.description, language));
 
-         if (!title.includes(query) && !desc.includes(query)) {
-           return false;
-         }
-       }
+        if (!title.includes(query) && !desc.includes(query)) {
+          return false;
+        }
+      }
 
       return true;
     });
@@ -245,13 +273,13 @@ function ManualsPage() {
                         className={[
                           "text-[9px] font-bold uppercase py-0.5 px-2",
                           man.type === "workshop" &&
-                          "bg-blue-500/10 text-blue-700 dark:text-blue-400 border border-blue-500/10",
+                            "bg-blue-500/10 text-blue-700 dark:text-blue-400 border border-blue-500/10",
                           man.type === "electrical" &&
-                          "bg-yellow-500/10 text-yellow-700 dark:text-yellow-400 border border-yellow-500/10",
+                            "bg-yellow-500/10 text-yellow-700 dark:text-yellow-400 border border-yellow-500/10",
                           man.type === "catalog" &&
-                          "bg-purple-500/10 text-purple-700 dark:text-purple-400 border border-purple-500/10",
+                            "bg-purple-500/10 text-purple-700 dark:text-purple-400 border border-purple-500/10",
                           man.type === "datasheet" &&
-                          "bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/10",
+                            "bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/10",
                         ]
                           .filter(Boolean)
                           .join(" ")}

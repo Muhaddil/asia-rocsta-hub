@@ -17,7 +17,7 @@ const ROWS: Row[] = [
   { itemKey: "maint.airFilter", interval: "20.000 km", motors: ["F8", "R2"] },
   { itemKey: "maint.fuelFilter", interval: "20.000 km", motors: ["R2"] },
   { itemKey: "maint.timingBelt", interval: "80.000 km", motors: ["R2"], critical: true },
-  { itemKey: "maint.coolant", interval: "40.000 km / 2 " , motors: ["F8", "R2"] },
+  { itemKey: "maint.coolant", interval: "40.000 km / 2 ", motors: ["F8", "R2"] },
   { itemKey: "maint.gearbox", interval: "40.000 km", motors: ["F8", "R2"] },
   { itemKey: "maint.diff", interval: "40.000 km", motors: ["F8", "R2"] },
   { itemKey: "maint.grease", interval: "10.000 km", motors: ["F8", "R2"] },

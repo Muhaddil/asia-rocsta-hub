@@ -14,6 +14,9 @@ import { ThemeProvider } from "../components/theme-provider";
 import { LanguageProvider, useLanguage } from "../components/language-provider";
 import { SiteHeader } from "../components/site-header";
 import { SiteFooter } from "../components/site-footer";
+import ogImage from "../assets/rocsta-hero.jpg";
+
+const BASE = (import.meta as { env: Record<string, string> }).env?.BASE_URL || "/";
 
 function LangSync() {
   const { language } = useLanguage();
@@ -98,7 +101,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "Wiki técnica + foro + base de datos mecánica dedicada exclusivamente al Asia Rocsta.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:image", content: ogImage },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: ogImage },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
@@ -108,6 +113,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap",
       },
+      { rel: "manifest", href: `${BASE}manifest.json` },
+      { rel: "icon", type: "image/svg+xml", href: `${BASE}favicon.svg` },
+      { rel: "apple-touch-icon", href: `${BASE}favicon.svg` },
     ],
   }),
   shellComponent: RootShell,
@@ -115,6 +123,19 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   notFoundComponent: NotFoundComponent,
   errorComponent: ErrorComponent,
 });
+
+function SkipToContent() {
+  const { t } = useLanguage();
+
+  return (
+    <a
+      href="#main-content"
+      className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100000] focus:px-4 focus:py-2 focus:bg-rocsta-green focus:text-white focus:rounded-md focus:text-sm focus:font-bold focus:outline-none"
+    >
+      {t("home.content.main.jump")}
+    </a>
+  );
+}
 
 function RootShell({ children }: { children: React.ReactNode }) {
   return (
@@ -205,14 +226,30 @@ function RootShell({ children }: { children: React.ReactNode }) {
       </head>
       <body>
         <div id="loading-overlay">
-          <div className="logo-box"><span>AR</span></div>
+          <div className="logo-box">
+            <span>AR</span>
+          </div>
           <div className="spinner" />
           {/* <div className="loading-text">Cargando...</div> */}
         </div>
         <LanguageProvider>
           <LangSync />
+
+          <SkipToContent />
+
           {children}
         </LanguageProvider>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              if ("serviceWorker" in navigator) {
+                window.addEventListener("load", () => {
+                  navigator.serviceWorker.register("${BASE}sw.js").catch(() => {});
+                });
+              }
+            `,
+          }}
+        />
         <Scripts />
       </body>
     </html>
@@ -222,22 +259,20 @@ function RootShell({ children }: { children: React.ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const [ready, setReady] = useState(false);
-  
+
   const TRANSITION_DELAY = 1000;
   const MIN_EXTRA_DELAY = 1000;
   const FONTS_TIMEOUT = 3000;
-  
+
   useEffect(() => {
     let cancelled = false;
     const start = performance.now();
-    
+
     const finishLoading = async () => {
-      const fontTimeout = new Promise<void>((resolve) => 
-        setTimeout(resolve, FONTS_TIMEOUT)
-      );
+      const fontTimeout = new Promise<void>((resolve) => setTimeout(resolve, FONTS_TIMEOUT));
       await Promise.race([document.fonts.ready, fontTimeout]);
       if (cancelled) return;
-      
+
       await new Promise<void>((resolve) => {
         if ("requestIdleCallback" in window) {
           requestIdleCallback(() => resolve());
@@ -246,10 +281,10 @@ function RootComponent() {
         }
       });
       if (cancelled) return;
-      
+
       const elapsed = performance.now() - start;
       const remaining = Math.max(MIN_EXTRA_DELAY - elapsed, 0);
-      
+
       setTimeout(() => {
         const el = document.getElementById("loading-overlay");
         if (el) {
@@ -262,13 +297,17 @@ function RootComponent() {
         }
       }, remaining);
     };
-    
+
     finishLoading();
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+    };
   }, []);
-  
+
   return (
-    <div style={{ opacity: ready ? 1 : 0, transition: `opacity ${TRANSITION_DELAY}ms ease-in-out` }}>
+    <div
+      style={{ opacity: ready ? 1 : 0, transition: `opacity ${TRANSITION_DELAY}ms ease-in-out` }}
+    >
       <QueryClientProvider client={queryClient}>
         <ThemeProvider>
           <div className="min-h-screen flex flex-col bg-background text-foreground">
@@ -283,4 +322,3 @@ function RootComponent() {
     </div>
   );
 }
-

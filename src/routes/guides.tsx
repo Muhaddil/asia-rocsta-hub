@@ -1,23 +1,23 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState, useMemo, useEffect } from "react";
 import { z } from "zod";
-import { useLanguage, type Language } from "@/components/language-provider";
+import { useQuery } from "@tanstack/react-query";
+import { useLanguage } from "@/components/language-provider";
 import { useDebounce, normalizeString } from "@/lib/utils";
 import { PageShell, Crumbs } from "@/components/page-shell";
 import { guides as staticGuides } from "@/data/guides";
 import { api } from "@/lib/api";
 import type { Guide, Motor, GuideLevel } from "@/data/types";
 import { localize } from "@/data/types";
+import ogImage from "@/assets/rocsta-hero.jpg";
 import {
   Search,
   FilterX,
   Clock,
-  Gauge,
   BookOpen,
   Wrench,
   Sparkles,
   Info,
-  Calendar,
   Layers,
   Loader2,
 } from "lucide-react";
@@ -56,9 +56,39 @@ export const Route = createFileRoute("/guides")({
           "Manuales paso a paso con imágenes y herramientas necesarias para realizar el mantenimiento y reparar averías de tu Asia Rocsta.",
       },
       { property: "og:title", content: "Guías Técnicas — Asia Rocsta Archive" },
+      {
+        property: "og:description",
+        content:
+          "Manuales paso a paso con imágenes y herramientas necesarias para mantener y reparar tu Asia Rocsta.",
+      },
       { property: "og:url", content: "/guides" },
+      { property: "og:image", content: ogImage },
+      { name: "twitter:image", content: ogImage },
     ],
     links: [{ rel: "canonical", href: "/guides" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            {
+              "@type": "ListItem",
+              position: 1,
+              name: "Inicio",
+              item: "https://muhaddil.github.io/asia-rocsta-hub/",
+            },
+            {
+              "@type": "ListItem",
+              position: 2,
+              name: "Guías Técnicas",
+              item: "https://muhaddil.github.io/asia-rocsta-hub/guides",
+            },
+          ],
+        }),
+      },
+    ],
   }),
   component: GuidesPage,
 });
@@ -84,52 +114,14 @@ function GuidesPage() {
   const navigate = useNavigate({ from: Route.fullPath });
 
   const [selectedGuide, setSelectedGuide] = useState<Guide | null>(null);
-  const [guides, setGuides] = useState<Guide[]>(staticGuides);
-  const [loading, setLoading] = useState(true);
 
-   useEffect(() => {
-     const fetchData = () => {
-       setLoading(true);
-       api.getGuides().then((data) => {
-         setGuides(data as Guide[]);
-       }).catch(() => {
-         setGuides(staticGuides);
-       }).finally(() => setLoading(false));
-     };
-
-     let interval: NodeJS.Timeout;
-
-     const startPolling = () => {
-       fetchData();
-       interval = setInterval(fetchData, 30000);
-     };
-
-     const stopPolling = () => {
-       if (interval) {
-         clearInterval(interval);
-       }
-     };
-
-     // Start polling when component mounts
-     startPolling();
-
-     // Pause polling when tab is hidden, resume when visible
-     const handleVisibilityChange = () => {
-       if (document.hidden) {
-         stopPolling();
-       } else {
-         startPolling();
-       }
-     };
-
-     document.addEventListener("visibilitychange", handleVisibilityChange);
-
-     // Cleanup
-     return () => {
-       stopPolling();
-       document.removeEventListener("visibilitychange", handleVisibilityChange);
-     };
-   }, []);
+  const { data: guides = staticGuides, isLoading: loading } = useQuery({
+    queryKey: ["guides"],
+    queryFn: () => api.getGuides().catch(() => staticGuides) as Promise<Guide[]>,
+    initialData: staticGuides,
+    refetchInterval: 30000,
+    refetchIntervalInBackground: false,
+  });
 
   const updateSearch = (newParams: Partial<GuidesSearch>) => {
     navigate({
@@ -176,26 +168,22 @@ function GuidesPage() {
 
       if (currentLevel && guide.level !== currentLevel) return false;
 
-       if (currentSearch) {
-         const query = normalizeString(currentSearch);
-         const title = normalizeString(localize(guide.title, language));
-         const desc = normalizeString(localize(guide.description, language));
-         const tools = guide.tools.map((t) =>
-           normalizeString(localize(t, language)),
-         );
-         const tags = guide.tags.map((t) =>
-           normalizeString(t),
-         );
+      if (currentSearch) {
+        const query = normalizeString(currentSearch);
+        const title = normalizeString(localize(guide.title, language));
+        const desc = normalizeString(localize(guide.description, language));
+        const tools = guide.tools.map((t) => normalizeString(localize(t, language)));
+        const tags = guide.tags.map((t) => normalizeString(t));
 
-         if (
-           !title.includes(query) &&
-           !desc.includes(query) &&
-           !tools.some((t) => t.includes(query)) &&
-           !tags.some((t) => t.includes(query))
-         ) {
-           return false;
-         }
-       }
+        if (
+          !title.includes(query) &&
+          !desc.includes(query) &&
+          !tools.some((t) => t.includes(query)) &&
+          !tags.some((t) => t.includes(query))
+        ) {
+          return false;
+        }
+      }
 
       return true;
     });
@@ -305,7 +293,15 @@ function GuidesPage() {
               <article
                 key={guide.id}
                 onClick={() => setSelectedGuide(guide)}
-                className="group cursor-pointer overflow-hidden rounded-xl border border-border bg-card shadow-sm transition-all hover:border-rocsta-green/40 hover:shadow-md flex flex-col justify-between"
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    setSelectedGuide(guide);
+                  }
+                }}
+                tabIndex={0}
+                role="button"
+                className="group cursor-pointer overflow-hidden rounded-xl border border-border bg-card shadow-sm transition-all hover:border-rocsta-green/40 hover:shadow-md flex flex-col justify-between focus:outline-none focus:ring-2 focus:ring-inset focus:ring-rocsta-green/30"
               >
                 <div>
                   {guide.image ? (
@@ -329,11 +325,11 @@ function GuidesPage() {
                         className={[
                           "text-[9px] font-bold uppercase px-2 py-0.5",
                           guide.level === "Principiante" &&
-                          "bg-green-500/10 text-green-700 dark:text-green-400",
+                            "bg-green-500/10 text-green-700 dark:text-green-400",
                           guide.level === "Intermedio" &&
-                          "bg-amber-500/10 text-amber-700 dark:text-amber-400",
+                            "bg-amber-500/10 text-amber-700 dark:text-amber-400",
                           guide.level === "Avanzado" &&
-                          "bg-red-500/10 text-red-700 dark:text-red-400",
+                            "bg-red-500/10 text-red-700 dark:text-red-400",
                         ].join(" ")}
                       >
                         {t(LEVEL_KEYS[guide.level])}
@@ -399,11 +395,11 @@ function GuidesPage() {
                   className={[
                     "text-[10px] font-bold uppercase py-0.5",
                     selectedGuide.level === "Principiante" &&
-                    "border-green-500/20 bg-green-500/5 text-green-600 dark:text-green-400",
+                      "border-green-500/20 bg-green-500/5 text-green-600 dark:text-green-400",
                     selectedGuide.level === "Intermedio" &&
-                    "border-amber-500/20 bg-amber-500/5 text-amber-600 dark:text-amber-400",
+                      "border-amber-500/20 bg-amber-500/5 text-amber-600 dark:text-amber-400",
                     selectedGuide.level === "Avanzado" &&
-                    "border-red-500/20 bg-red-500/5 text-red-600 dark:text-red-400",
+                      "border-red-500/20 bg-red-500/5 text-red-600 dark:text-red-400",
                   ].join(" ")}
                 >
                   {t(LEVEL_KEYS[selectedGuide.level])}

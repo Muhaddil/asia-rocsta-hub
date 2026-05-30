@@ -1,18 +1,20 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { z } from "zod";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { PageShell, Crumbs } from "@/components/page-shell";
-import { useLanguage, type Language } from "@/components/language-provider";
-import { useDebounce, normalizeString } from "@/lib/utils";
+import { useLanguage } from "@/components/language-provider";
+import { normalizeString } from "@/lib/utils";
 import { problems as staticProblems } from "@/data/problems";
 import type { Problem, Motor, Severity, Difficulty } from "@/data/types";
 import { localize } from "@/data/types";
 import { api, ApiError, type ApiProblem } from "@/lib/api";
+import ogImage from "@/assets/rocsta-hero.jpg";
 
 const DIFFICULTY_KEYS: Record<Difficulty, string> = {
-  "Fácil": "comp.diff.easy",
-  "Media": "comp.diff.medium",
-  "Alta": "comp.diff.hard",
+  Fácil: "comp.diff.easy",
+  Media: "comp.diff.medium",
+  Alta: "comp.diff.hard",
 };
 import {
   Search,
@@ -59,9 +61,39 @@ export const Route = createFileRoute("/problems")({
           "Registro e historial de fallos mecánicos típicos del Asia Rocsta. Diagnóstico de averías, síntomas, causas, soluciones y costes estimados.",
       },
       { property: "og:title", content: "Problemas Comunes — Asia Rocsta Archive" },
+      {
+        property: "og:description",
+        content:
+          "Registro de fallos mecánicos típicos del Asia Rocsta: diagnóstico, síntomas, causas, soluciones y costes.",
+      },
       { property: "og:url", content: "/problems" },
+      { property: "og:image", content: ogImage },
+      { name: "twitter:image", content: ogImage },
     ],
     links: [{ rel: "canonical", href: "/problems" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            {
+              "@type": "ListItem",
+              position: 1,
+              name: "Inicio",
+              item: "https://muhaddil.github.io/asia-rocsta-hub/",
+            },
+            {
+              "@type": "ListItem",
+              position: 2,
+              name: "Problemas Comunes",
+              item: "https://muhaddil.github.io/asia-rocsta-hub/problems",
+            },
+          ],
+        }),
+      },
+    ],
   }),
   component: ProblemsPage,
 });
@@ -84,6 +116,7 @@ function toProblem(item: ApiProblem): Problem {
 }
 
 function ProblemsPage() {
+  const queryClient = useQueryClient();
   const { t, language } = useLanguage();
   const searchParams = Route.useSearch();
   const navigate = useNavigate({ from: Route.fullPath });
@@ -98,7 +131,17 @@ function ProblemsPage() {
     body: t("cat.body"),
   };
 
-  const [problems, setProblems] = useState<Problem[]>([]);
+  const { data: problems = [], isLoading: loading } = useQuery({
+    queryKey: ["problems"],
+    queryFn: async () => {
+      const list = await api.getProblems();
+      return list.map(toProblem);
+    },
+    initialData: staticProblems,
+    refetchInterval: 30000,
+    refetchIntervalInBackground: false,
+  });
+
   const [confirmed, setConfirmed] = useState<Set<string>>(() => {
     try {
       const stored = localStorage.getItem("rocsta_problems_confirmed");
@@ -107,7 +150,6 @@ function ProblemsPage() {
       return new Set<string>();
     }
   });
-  const [loading, setLoading] = useState(true);
   const [pendingConfirmId, setPendingConfirmId] = useState<string | null>(null);
   const [confirming, setConfirming] = useState(false);
   const [selectedProblem, setSelectedProblem] = useState<Problem | null>(null);
@@ -118,51 +160,10 @@ function ProblemsPage() {
       next.add(id);
       try {
         localStorage.setItem("rocsta_problems_confirmed", JSON.stringify([...next]));
-      } catch { }
+      } catch {}
       return next;
     });
   };
-
-  const fetchData = () => {
-    setLoading(true);
-    api
-      .getProblems()
-      .then((list) => setProblems(list.map(toProblem)))
-      .catch(() => setProblems(staticProblems))
-      .finally(() => setLoading(false));
-  };
-
-  useEffect(() => {
-    let interval: NodeJS.Timeout;
-
-    const startPolling = () => {
-      fetchData();
-      interval = setInterval(fetchData, 30000);
-    };
-
-    const stopPolling = () => {
-      if (interval) {
-        clearInterval(interval);
-      }
-    };
-
-    startPolling();
-
-    const handleVisibilityChange = () => {
-      if (document.hidden) {
-        stopPolling();
-      } else {
-        startPolling();
-      }
-    };
-
-    document.addEventListener("visibilitychange", handleVisibilityChange);
-
-    return () => {
-      stopPolling();
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
-    };
-  }, []);
 
   const updateSearch = (newParams: Partial<ProblemsSearch>) => {
     navigate({
@@ -200,22 +201,22 @@ function ProblemsPage() {
         if (currentMotor === "R2" && prob.motor === "F8") return false;
       }
 
-       if (currentSearch) {
-         const query = normalizeString(currentSearch);
-         const title = normalizeString(localize(prob.title, language));
-         const symptom = normalizeString(localize(prob.symptom, language));
-         const cause = normalizeString(localize(prob.cause, language));
-         const solution = normalizeString(localize(prob.solution, language));
+      if (currentSearch) {
+        const query = normalizeString(currentSearch);
+        const title = normalizeString(localize(prob.title, language));
+        const symptom = normalizeString(localize(prob.symptom, language));
+        const cause = normalizeString(localize(prob.cause, language));
+        const solution = normalizeString(localize(prob.solution, language));
 
-         if (
-           !title.includes(query) &&
-           !symptom.includes(query) &&
-           !cause.includes(query) &&
-           !solution.includes(query)
-         ) {
-           return false;
-         }
-       }
+        if (
+          !title.includes(query) &&
+          !symptom.includes(query) &&
+          !cause.includes(query) &&
+          !solution.includes(query)
+        ) {
+          return false;
+        }
+      }
 
       return true;
     });
@@ -233,8 +234,8 @@ function ProblemsPage() {
     setConfirming(true);
     try {
       const result = await api.confirmProblem(id);
-      setProblems((prev) =>
-        prev.map((p) => (p.id === id ? { ...p, reports: result.reports } : p)),
+      queryClient.setQueryData<Problem[]>(["problems"], (prev) =>
+        prev?.map((p) => (p.id === id ? { ...p, reports: result.reports } : p)),
       );
       markConfirmed(id);
     } catch (err: unknown) {
@@ -242,8 +243,8 @@ function ProblemsPage() {
         markConfirmed(id);
         try {
           const status = await api.getProblemConfirmationStatus(id);
-          setProblems((prev) =>
-            prev.map((p) => (p.id === id ? { ...p, reports: status.reports } : p)),
+          queryClient.setQueryData<Problem[]>(["problems"], (prev) =>
+            prev?.map((p) => (p.id === id ? { ...p, reports: status.reports } : p)),
           );
         } catch {
           // If fallback fails, do not crash.
@@ -354,7 +355,11 @@ function ProblemsPage() {
         </div>
 
         <div className="text-xs text-muted-foreground">
-          {loading ? <Loader2 className="size-4 animate-spin inline" /> : t("problems.resultsFound", { count: filteredList.length })}
+          {loading ? (
+            <Loader2 className="size-4 animate-spin inline" />
+          ) : (
+            t("problems.resultsFound", { count: filteredList.length })
+          )}
         </div>
 
         {filteredList.length > 0 ? (
@@ -363,14 +368,22 @@ function ProblemsPage() {
               <div
                 key={prob.id}
                 onClick={() => setSelectedProblem(prob)}
-                className="group cursor-pointer rounded-xl border border-border bg-card p-5 transition-all hover:border-rocsta-green/30 hover:shadow-sm flex flex-col md:flex-row items-start gap-4"
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    setSelectedProblem(prob);
+                  }
+                }}
+                tabIndex={0}
+                role="button"
+                className="group cursor-pointer rounded-xl border border-border bg-card p-5 transition-all hover:border-rocsta-green/30 hover:shadow-sm flex flex-col md:flex-row items-start gap-4 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-rocsta-green/30"
               >
                 <div
                   className={[
                     "h-10 w-10 shrink-0 rounded-lg flex items-center justify-center font-bold",
                     prob.severity === "critical" && "bg-red-500/10 text-red-600 dark:text-red-400",
                     prob.severity === "warn" &&
-                    "bg-amber-500/10 text-amber-600 dark:text-amber-400",
+                      "bg-amber-500/10 text-amber-600 dark:text-amber-400",
                     prob.severity === "info" && "bg-sky-500/10 text-sky-600 dark:text-sky-400",
                   ]
                     .filter(Boolean)
@@ -459,11 +472,11 @@ function ProblemsPage() {
                   className={[
                     "text-[10px] font-bold uppercase py-0.5",
                     selectedProblem.severity === "critical" &&
-                    "border-red-500/20 bg-red-500/5 text-red-600 dark:text-red-400",
+                      "border-red-500/20 bg-red-500/5 text-red-600 dark:text-red-400",
                     selectedProblem.severity === "warn" &&
-                    "border-amber-500/20 bg-amber-500/5 text-amber-600 dark:text-amber-400",
+                      "border-amber-500/20 bg-amber-500/5 text-amber-600 dark:text-amber-400",
                     selectedProblem.severity === "info" &&
-                    "border-sky-500/20 bg-sky-500/5 text-sky-600 dark:text-sky-400",
+                      "border-sky-500/20 bg-sky-500/5 text-sky-600 dark:text-sky-400",
                   ].join(" ")}
                 >
                   {t("ui.severity")}:{" "}
@@ -509,7 +522,8 @@ function ProblemsPage() {
                     {t("problems.dialog.difficulty")}
                   </h4>
                   <div className="flex items-center gap-1 text-xs text-muted-foreground font-semibold mt-1">
-                    <Gauge className="size-3 text-rocsta-accent" /> {t(DIFFICULTY_KEYS[selectedProblem.difficulty])}
+                    <Gauge className="size-3 text-rocsta-accent" />{" "}
+                    {t(DIFFICULTY_KEYS[selectedProblem.difficulty])}
                   </div>
                 </div>
                 <div className="col-span-2 border-t border-border/40 pt-2">
@@ -587,7 +601,10 @@ function ProblemsPage() {
         )}
       </Dialog>
 
-      <Dialog open={pendingConfirmId !== null} onOpenChange={(open) => !open && setPendingConfirmId(null)}>
+      <Dialog
+        open={pendingConfirmId !== null}
+        onOpenChange={(open) => !open && setPendingConfirmId(null)}
+      >
         <DialogContent className="max-w-md sm:rounded-2xl border-border bg-card">
           <DialogHeader>
             <DialogTitle className="text-xl font-extrabold tracking-tight text-foreground flex items-center gap-2">

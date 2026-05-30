@@ -19,9 +19,7 @@ import { parts } from "@/data/parts";
 import { problems } from "@/data/problems";
 import { guides } from "@/data/guides";
 import { localize, type GuideLevel } from "@/data/types";
-import heroImg from "@/assets/rocsta-hero.jpg";
-import timingImg from "@/assets/guide-timing-belt.jpg";
-import hubsImg from "@/assets/guide-4wd-hubs.jpg";
+import ogImage from "@/assets/rocsta-hero.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -33,16 +31,19 @@ export const Route = createFileRoute("/")({
           "Todo sobre el Asia Rocsta: piezas, equivalencias OEM, guías de reparación, problemas comunes y comunidad de restauradores.",
       },
       { property: "og:title", content: "Asia Rocsta Archive" },
+      {
+        property: "og:description",
+        content:
+          "Todo sobre el Asia Rocsta: piezas, equivalencias OEM, guías de reparación, problemas comunes y comunidad de restauradores.",
+      },
       { property: "og:url", content: "/" },
+      { property: "og:image", content: ogImage },
+      { name: "twitter:image", content: ogImage },
     ],
     links: [{ rel: "canonical", href: "/" }],
   }),
   component: Index,
 });
-
-
-
-
 
 function Index() {
   const navigate = useNavigate();
@@ -161,7 +162,6 @@ function Index() {
 
       <SystemDiagram />
 
-
       <div className="mb-12 grid grid-cols-2 lg:grid-cols-4 gap-px bg-border rounded-xl overflow-hidden border border-border">
         {STATS.map((s) => (
           <div key={s.label} className="bg-card p-6">
@@ -242,9 +242,15 @@ function Index() {
                       <tr
                         key={p.id}
                         className="hover:bg-muted/40 transition-colors cursor-pointer"
-                        onClick={() =>
-                          navigate({ to: "/parts", search: { search: name } })
-                        }
+                        onClick={() => navigate({ to: "/parts", search: { search: name } })}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter" || e.key === " ") {
+                            e.preventDefault();
+                            navigate({ to: "/parts", search: { search: name } });
+                          }
+                        }}
+                        tabIndex={0}
+                        role="button"
                       >
                         <td className="px-6 py-4">
                           <div className="font-extrabold text-sm text-foreground">{name}</div>
@@ -329,7 +335,15 @@ function Index() {
                 onClick={() =>
                   navigate({ to: "/problems", search: { search: title.substring(0, 15) } })
                 }
-                className="flex items-start gap-4 border-b border-white/10 py-4 last:border-0 cursor-pointer hover:bg-white/[0.03] px-2 rounded-lg transition-colors"
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    navigate({ to: "/problems", search: { search: title.substring(0, 15) } });
+                  }
+                }}
+                tabIndex={0}
+                role="button"
+                className="flex items-start gap-4 border-b border-white/10 py-4 last:border-0 cursor-pointer hover:bg-white/[0.03] px-2 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-inset focus:ring-rocsta-green/40"
               >
                 <div
                   className={[

@@ -27,45 +27,45 @@ export type AboutDimensionSet = {
 
 export type AboutSection =
   | {
-    kind: "prose";
-    id: string;
-    title: Localized;
-    paragraphs: Localized[];
-  }
+      kind: "prose";
+      id: string;
+      title: Localized;
+      paragraphs: Localized[];
+    }
   | {
-    kind: "facts";
-    id: string;
-    title: Localized;
-    intro?: Localized;
-    facts: AboutFact[];
-  }
+      kind: "facts";
+      id: string;
+      title: Localized;
+      intro?: Localized;
+      facts: AboutFact[];
+    }
   | {
-    kind: "engines";
-    id: string;
-    title: Localized;
-    intro?: Localized;
-    engines: AboutEngine[];
-  }
+      kind: "engines";
+      id: string;
+      title: Localized;
+      intro?: Localized;
+      engines: AboutEngine[];
+    }
   | {
-    kind: "dimensions";
-    id: string;
-    title: Localized;
-    intro?: Localized;
-    sets: AboutDimensionSet[];
-  }
+      kind: "dimensions";
+      id: string;
+      title: Localized;
+      intro?: Localized;
+      sets: AboutDimensionSet[];
+    }
   | {
-    kind: "list";
-    id: string;
-    title: Localized;
-    intro?: Localized;
-    items: { title: Localized; description: Localized }[];
-  }
+      kind: "list";
+      id: string;
+      title: Localized;
+      intro?: Localized;
+      items: { title: Localized; description: Localized }[];
+    }
   | {
-    kind: "timeline";
-    id: string;
-    title: Localized;
-    entries: { year: string; text: Localized }[];
-  };
+      kind: "timeline";
+      id: string;
+      title: Localized;
+      entries: { year: string; text: Localized }[];
+    };
 
 export const aboutHero = {
   crumb: { es: "Acerca de", en: "About" } satisfies Localized,
@@ -169,30 +169,75 @@ export const aboutSections: AboutSection[] = [
     sets: [
       {
         id: "lwb",
-        name: { es: "Batalla larga · Country / Country Classic", en: "Long wheelbase · Country / Country Classic" },
+        name: {
+          es: "Batalla larga · Country / Country Classic",
+          en: "Long wheelbase · Country / Country Classic",
+        },
         tagline: { es: "Más estable, más carga.", en: "More stable, more payload." },
         rows: [
-          { label: { es: "Longitud total", en: "Overall length" }, value: { es: "3.835 mm", en: "3,835 mm" } },
-          { label: { es: "Anchura total", en: "Overall width" }, value: { es: "1.688 mm", en: "1,688 mm" } },
-          { label: { es: "Altura total", en: "Overall height" }, value: { es: "1.960 mm (1.900 mm en algunas variantes)", en: "1,960 mm (1,900 mm on some variants)" } },
+          {
+            label: { es: "Longitud total", en: "Overall length" },
+            value: { es: "3.835 mm", en: "3,835 mm" },
+          },
+          {
+            label: { es: "Anchura total", en: "Overall width" },
+            value: { es: "1.688 mm", en: "1,688 mm" },
+          },
+          {
+            label: { es: "Altura total", en: "Overall height" },
+            value: {
+              es: "1.960 mm (1.900 mm en algunas variantes)",
+              en: "1,960 mm (1,900 mm on some variants)",
+            },
+          },
           { label: { es: "Batalla", en: "Wheelbase" }, value: { es: "2.632 mm", en: "2,632 mm" } },
-          { label: { es: "Vía del./tras.", en: "Front/rear track" }, value: { es: "1.310 mm", en: "1,310 mm" } },
-          { label: { es: "Peso en orden de marcha", en: "Kerb weight" }, value: { es: "≈ 1.200 – 1.250 kg", en: "≈ 1,200 – 1,250 kg" } },
-          { label: { es: "Carga útil (pick-up)", en: "Payload (pick-up)" }, value: { es: "Hasta 1.000 kg", en: "Up to 1,000 kg" } },
-          { label: { es: "Círculo de giro", en: "Turning circle" }, value: { es: "13,40 m", en: "13.40 m" } },
+          {
+            label: { es: "Vía del./tras.", en: "Front/rear track" },
+            value: { es: "1.310 mm", en: "1,310 mm" },
+          },
+          {
+            label: { es: "Peso en orden de marcha", en: "Kerb weight" },
+            value: { es: "≈ 1.200 – 1.250 kg", en: "≈ 1,200 – 1,250 kg" },
+          },
+          {
+            label: { es: "Carga útil (pick-up)", en: "Payload (pick-up)" },
+            value: { es: "Hasta 1.000 kg", en: "Up to 1,000 kg" },
+          },
+          {
+            label: { es: "Círculo de giro", en: "Turning circle" },
+            value: { es: "13,40 m", en: "13.40 m" },
+          },
         ],
       },
       {
         id: "swb",
-        name: { es: "Batalla corta · Deluxe / Softtop / “Stubby”", en: "Short wheelbase · Deluxe / Softtop / “Stubby”" },
+        name: {
+          es: "Batalla corta · Deluxe / Softtop / “Stubby”",
+          en: "Short wheelbase · Deluxe / Softtop / “Stubby”",
+        },
         tagline: { es: "Maniobrable en terreno cerrado.", en: "Nimble in tight terrain." },
         rows: [
-          { label: { es: "Longitud total", en: "Overall length" }, value: { es: "3.460 mm", en: "3,460 mm" } },
-          { label: { es: "Anchura total", en: "Overall width" }, value: { es: "1.680 mm", en: "1,680 mm" } },
-          { label: { es: "Altura total", en: "Overall height" }, value: { es: "1.855 mm", en: "1,855 mm" } },
+          {
+            label: { es: "Longitud total", en: "Overall length" },
+            value: { es: "3.460 mm", en: "3,460 mm" },
+          },
+          {
+            label: { es: "Anchura total", en: "Overall width" },
+            value: { es: "1.680 mm", en: "1,680 mm" },
+          },
+          {
+            label: { es: "Altura total", en: "Overall height" },
+            value: { es: "1.855 mm", en: "1,855 mm" },
+          },
           { label: { es: "Batalla", en: "Wheelbase" }, value: { es: "2.132 mm", en: "2,132 mm" } },
-          { label: { es: "Peso en orden de marcha", en: "Kerb weight" }, value: { es: "≈ 1.220 – 1.270 kg", en: "≈ 1,220 – 1,270 kg" } },
-          { label: { es: "Círculo de giro", en: "Turning circle" }, value: { es: "9,60 m", en: "9.60 m" } },
+          {
+            label: { es: "Peso en orden de marcha", en: "Kerb weight" },
+            value: { es: "≈ 1.220 – 1.270 kg", en: "≈ 1,220 – 1,270 kg" },
+          },
+          {
+            label: { es: "Círculo de giro", en: "Turning circle" },
+            value: { es: "9,60 m", en: "9.60 m" },
+          },
         ],
       },
     ],
@@ -218,11 +263,26 @@ export const aboutSections: AboutSection[] = [
         code: "Mazda F8 — 1.8 Gasolina",
         fuel: { es: "Gasolina", en: "Petrol" },
         specs: [
-          { label: { es: "Cilindrada", en: "Displacement" }, value: { es: "1.789 cc · 4 cil. en línea", en: "1,789 cc · 4-cyl inline" } },
-          { label: { es: "Distribución", en: "Valvetrain" }, value: { es: "SOHC 8v", en: "SOHC 8v" } },
-          { label: { es: "Alimentación", en: "Fueling" }, value: { es: "Carburador / inyección posterior", en: "Carburetor / later EFI" } },
-          { label: { es: "Potencia", en: "Power" }, value: { es: "≈ 70 kW (95 CV) a 5.000 rpm", en: "≈ 70 kW (95 hp) @ 5,000 rpm" } },
-          { label: { es: "Par", en: "Torque" }, value: { es: "159 Nm a 2.500 rpm", en: "159 Nm @ 2,500 rpm" } },
+          {
+            label: { es: "Cilindrada", en: "Displacement" },
+            value: { es: "1.789 cc · 4 cil. en línea", en: "1,789 cc · 4-cyl inline" },
+          },
+          {
+            label: { es: "Distribución", en: "Valvetrain" },
+            value: { es: "SOHC 8v", en: "SOHC 8v" },
+          },
+          {
+            label: { es: "Alimentación", en: "Fueling" },
+            value: { es: "Carburador / inyección posterior", en: "Carburetor / later EFI" },
+          },
+          {
+            label: { es: "Potencia", en: "Power" },
+            value: { es: "≈ 70 kW (95 CV) a 5.000 rpm", en: "≈ 70 kW (95 hp) @ 5,000 rpm" },
+          },
+          {
+            label: { es: "Par", en: "Torque" },
+            value: { es: "159 Nm a 2.500 rpm", en: "159 Nm @ 2,500 rpm" },
+          },
           { label: { es: "Depósito", en: "Fuel tank" }, value: { es: "62 L", en: "62 L" } },
         ],
         notes: {
@@ -238,13 +298,34 @@ export const aboutSections: AboutSection[] = [
         code: "Mazda R2 / RF — 2.2 Diésel",
         fuel: { es: "Diésel", en: "Diesel" },
         specs: [
-          { label: { es: "Cilindrada", en: "Displacement" }, value: { es: "2.184 cc · 4 cil. en línea", en: "2,184 cc · 4-cyl inline" } },
-          { label: { es: "Distribución", en: "Valvetrain" }, value: { es: "OHV / SOHC 8v", en: "OHV / SOHC 8v" } },
-          { label: { es: "Alimentación", en: "Fueling" }, value: { es: "Inyección indirecta mecánica", en: "Mechanical indirect injection" } },
-          { label: { es: "Compresión", en: "Compression ratio" }, value: { es: "22,9 : 1", en: "22.9 : 1" } },
-          { label: { es: "Potencia", en: "Power" }, value: { es: "≈ 53 kW (72 CV) a 4.050 rpm", en: "≈ 53 kW (72 hp) @ 4,050 rpm" } },
-          { label: { es: "Par", en: "Torque" }, value: { es: "142 Nm a 2.500 rpm", en: "142 Nm @ 2,500 rpm" } },
-          { label: { es: "Relación pot./peso", en: "Power/weight" }, value: { es: "≈ 42,4 kW/t", en: "≈ 42.4 kW/t" } },
+          {
+            label: { es: "Cilindrada", en: "Displacement" },
+            value: { es: "2.184 cc · 4 cil. en línea", en: "2,184 cc · 4-cyl inline" },
+          },
+          {
+            label: { es: "Distribución", en: "Valvetrain" },
+            value: { es: "OHV / SOHC 8v", en: "OHV / SOHC 8v" },
+          },
+          {
+            label: { es: "Alimentación", en: "Fueling" },
+            value: { es: "Inyección indirecta mecánica", en: "Mechanical indirect injection" },
+          },
+          {
+            label: { es: "Compresión", en: "Compression ratio" },
+            value: { es: "22,9 : 1", en: "22.9 : 1" },
+          },
+          {
+            label: { es: "Potencia", en: "Power" },
+            value: { es: "≈ 53 kW (72 CV) a 4.050 rpm", en: "≈ 53 kW (72 hp) @ 4,050 rpm" },
+          },
+          {
+            label: { es: "Par", en: "Torque" },
+            value: { es: "142 Nm a 2.500 rpm", en: "142 Nm @ 2,500 rpm" },
+          },
+          {
+            label: { es: "Relación pot./peso", en: "Power/weight" },
+            value: { es: "≈ 42,4 kW/t", en: "≈ 42.4 kW/t" },
+          },
         ],
         notes: {
           es:
@@ -382,8 +463,7 @@ export const aboutSections: AboutSection[] = [
           es:
             "Versión con caja de carga abierta, popular en entornos agrícolas y de construcción. " +
             "Carga útil sustancialmente mayor.",
-          en:
-            "Open-bed version, popular in agriculture and construction. Substantially higher payload.",
+          en: "Open-bed version, popular in agriculture and construction. Substantially higher payload.",
         },
       },
     ],
@@ -405,10 +485,8 @@ export const aboutSections: AboutSection[] = [
       {
         year: "1993",
         text: {
-          es:
-            "Llegada a España importado por Aresa Motor; alternativa accesible al Suzuki Samurai.",
-          en:
-            "Arrives in Spain imported by Aresa Motor; an accessible alternative to the Suzuki Samurai.",
+          es: "Llegada a España importado por Aresa Motor; alternativa accesible al Suzuki Samurai.",
+          en: "Arrives in Spain imported by Aresa Motor; an accessible alternative to the Suzuki Samurai.",
         },
       },
       {

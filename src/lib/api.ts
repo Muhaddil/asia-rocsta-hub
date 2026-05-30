@@ -1,7 +1,7 @@
 let API_BASE = "";
 try {
   API_BASE = import.meta.env.VITE_API_URL || "http://localhost:3001";
-} catch { } /* import.meta.env only available in Vite */
+} catch {} /* import.meta.env only available in Vite */
 
 export function getApiBase() {
   return API_BASE;
@@ -159,11 +159,15 @@ export const api = {
     return request(path);
   },
 
-  confirmCompatibility(id: string): Promise<{ id: string; confirmations: number; message: string }> {
+  confirmCompatibility(
+    id: string,
+  ): Promise<{ id: string; confirmations: number; message: string }> {
     return request(`/api/compatibilities/${id}/confirm`, { method: "POST" });
   },
 
-  getConfirmationStatus(id: string): Promise<{ id: string; confirmations: number; userConfirmed: boolean }> {
+  getConfirmationStatus(
+    id: string,
+  ): Promise<{ id: string; confirmations: number; userConfirmed: boolean }> {
     return request(`/api/compatibilities/${id}/confirmations/count`);
   },
 
@@ -175,7 +179,11 @@ export const api = {
     return request("/api/gallery");
   },
 
-  getProblems(params?: { category?: string; motor?: string; severity?: string }): Promise<ApiProblem[]> {
+  getProblems(params?: {
+    category?: string;
+    motor?: string;
+    severity?: string;
+  }): Promise<ApiProblem[]> {
     const queryString = new URLSearchParams(params as Record<string, string>).toString();
     const path = queryString ? `/api/problems?${queryString}` : "/api/problems";
     return request(path);
@@ -185,7 +193,9 @@ export const api = {
     return request(`/api/problems/${id}/confirm`, { method: "POST" });
   },
 
-  getProblemConfirmationStatus(id: string): Promise<{ id: string; reports: number; userConfirmed: boolean }> {
+  getProblemConfirmationStatus(
+    id: string,
+  ): Promise<{ id: string; reports: number; userConfirmed: boolean }> {
     return request(`/api/problems/${id}/confirmations/count`);
   },
 

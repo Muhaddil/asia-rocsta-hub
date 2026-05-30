@@ -64,7 +64,10 @@ const UI_TRANSLATIONS: Record<string, Record<Language, string>> = {
 
   // Homepage
   "home.title": { es: "La referencia técnica del", en: "The Technical Hub for the" },
-  "home.noPopularParts": { es: "No hay piezas populares disponibles en este momento", en: "No popular parts" },
+  "home.noPopularParts": {
+    es: "No hay piezas populares disponibles en este momento",
+    en: "No popular parts",
+  },
   "home.desc": {
     es: "Piezas, equivalencias con la gama Mazda (motores F8 y R2), manuales y problemas comunes — todo centrado en el 4x4 coreano de Asia Motors (KIA), derivado del vehículo militar KIA KM410.",
     en: "Parts, crossover compatibility with Mazda (F8 and R2 engines), workshop manuals, and typical issues — all centered on the iconic classic 4x4 from Asia Motors (KIA), derived from the military KIA KM410.",
@@ -122,6 +125,7 @@ const UI_TRANSLATIONS: Record<string, Record<Language, string>> = {
     en: "Frequented alert symptoms reported by Rocsta owners.",
   },
   "home.issues.viewAll": { es: "Ver base de problemas →", en: "View issues database →" },
+  "home.content.main.jump": { es: "Saltar al contenido principal", en: "Jump to main content" },
 
   // Parts Catalog Route
   "parts.title": { es: "Catálogo de piezas y repuestos", en: "Component & Spare Parts Catalog" },
@@ -351,67 +355,130 @@ const UI_TRANSLATIONS: Record<string, Record<Language, string>> = {
 
   // -- comp (OEM Crossover) fields --
   "comm.form.comp.title": { es: "Componente Rocsta", en: "Rocsta Component" },
-  "comm.form.comp.titlePlaceholder": { es: "Ej. Filtro de combustible diésel", en: "e.g. Diesel fuel filter" },
+  "comm.form.comp.titlePlaceholder": {
+    es: "Ej. Filtro de combustible diésel",
+    en: "e.g. Diesel fuel filter",
+  },
   "comm.form.comp.donorVehicle": { es: "Vehículo donante", en: "Donor Vehicle" },
-  "comm.form.comp.donorVehiclePlaceholder": { es: "Ej. Mazda 323 1.7D 1990", en: "e.g. Mazda 323 1.7D 1990" },
+  "comm.form.comp.donorVehiclePlaceholder": {
+    es: "Ej. Mazda 323 1.7D 1990",
+    en: "e.g. Mazda 323 1.7D 1990",
+  },
   "comm.form.comp.donorRef": { es: "Referencia OEM donante", en: "Donor OEM Ref" },
   "comm.form.comp.donorRefPlaceholder": { es: "Ej. B6S7-13-Z40", en: "e.g. B6S7-13-Z40" },
   "comm.form.comp.swapType": { es: "Tipo de montaje", en: "Swap Type" },
   "comm.form.comp.swapType.directo": { es: "Directo (plug & play)", en: "Direct (plug & play)" },
-  "comm.form.comp.swapType.adaptacion": { es: "Adaptación (requiere mods)", en: "Adaptation (needs mods)" },
+  "comm.form.comp.swapType.adaptacion": {
+    es: "Adaptación (requiere mods)",
+    en: "Adaptation (needs mods)",
+  },
   "comm.form.comp.motor": { es: "Motor compatible", en: "Compatible Engine" },
   "comm.form.comp.notes": { es: "Notas de montaje", en: "Fitting Notes" },
-  "comm.form.comp.notesPlaceholder": { es: "Indica adaptaciones, medidas, marcas aftermarket...", en: "State adapters, dimensions, aftermarket brands..." },
+  "comm.form.comp.notesPlaceholder": {
+    es: "Indica adaptaciones, medidas, marcas aftermarket...",
+    en: "State adapters, dimensions, aftermarket brands...",
+  },
 
   // -- part (New Part) fields --
   "comm.form.part.title": { es: "Nombre de la pieza", en: "Part Name" },
-  "comm.form.part.titlePlaceholder": { es: "Ej. Bomba inyectora diésel", en: "e.g. Diesel injection pump" },
+  "comm.form.part.titlePlaceholder": {
+    es: "Ej. Bomba inyectora diésel",
+    en: "e.g. Diesel injection pump",
+  },
   "comm.form.part.oem": { es: "Referencia OEM", en: "OEM Reference" },
   "comm.form.part.oemPlaceholder": { es: "Ej. 0 445 110 217", en: "e.g. 0 445 110 217" },
   "comm.form.part.category": { es: "Categoría", en: "Category" },
   "comm.form.part.motor": { es: "Motor", en: "Engine" },
   "comm.form.part.description": { es: "Descripción", en: "Description" },
-  "comm.form.part.descriptionPlaceholder": { es: "Describe la pieza, sistema al que pertenece y notas relevantes...", en: "Describe the part, system it belongs to, and relevant notes..." },
+  "comm.form.part.descriptionPlaceholder": {
+    es: "Describe la pieza, sistema al que pertenece y notas relevantes...",
+    en: "Describe the part, system it belongs to, and relevant notes...",
+  },
 
   // -- guide (New Guide) fields --
   "comm.form.guide.title": { es: "Título del brico / manual", en: "Repair / Manual Title" },
-  "comm.form.guide.titlePlaceholder": { es: "Ej. Tensado del cable de freno de mano", en: "e.g. Handbrake cable tightening" },
+  "comm.form.guide.titlePlaceholder": {
+    es: "Ej. Tensado del cable de freno de mano",
+    en: "e.g. Handbrake cable tightening",
+  },
   "comm.form.guide.category": { es: "Tipo de guía", en: "Guide Type" },
   "comm.form.guide.tools": { es: "Herramientas necesarias", en: "Required Tools" },
-  "comm.form.guide.toolsPlaceholder": { es: "Ej. Llave de 10mm, destornillador plano...", en: "e.g. 10mm wrench, flat screwdriver..." },
+  "comm.form.guide.toolsPlaceholder": {
+    es: "Ej. Llave de 10mm, destornillador plano...",
+    en: "e.g. 10mm wrench, flat screwdriver...",
+  },
   "comm.form.guide.content": { es: "Contenido paso a paso", en: "Step-by-Step Content" },
-  "comm.form.guide.contentPlaceholder": { es: "Describe el proceso paso a paso con detalles y consejos...", en: "Describe the process step by step with details and tips..." },
+  "comm.form.guide.contentPlaceholder": {
+    es: "Describe el proceso paso a paso con detalles y consejos...",
+    en: "Describe the process step by step with details and tips...",
+  },
 
   // -- problem (Report Issue) fields --
   "comm.form.problem.title": { es: "Descripción corta del fallo", en: "Short Issue Description" },
-  "comm.form.problem.titlePlaceholder": { es: "Ej. Rotura del cable de embrague", en: "e.g. Snapped clutch cable" },
+  "comm.form.problem.titlePlaceholder": {
+    es: "Ej. Rotura del cable de embrague",
+    en: "e.g. Snapped clutch cable",
+  },
   "comm.form.problem.motor": { es: "Motor afectado", en: "Affected Engine" },
-  "comm.form.problem.mileage": { es: "Kilometraje aproximado (km)", en: "Approximate Mileage (km)" },
+  "comm.form.problem.mileage": {
+    es: "Kilometraje aproximado (km)",
+    en: "Approximate Mileage (km)",
+  },
   "comm.form.problem.mileagePlaceholder": { es: "Ej. 120000", en: "e.g. 120000" },
   "comm.form.problem.symptoms": { es: "Síntomas", en: "Symptoms" },
-  "comm.form.problem.symptomsPlaceholder": { es: "Describe los síntomas y cómo se manifiestan...", en: "Describe the symptoms and how they manifest..." },
+  "comm.form.problem.symptomsPlaceholder": {
+    es: "Describe los síntomas y cómo se manifiestan...",
+    en: "Describe the symptoms and how they manifest...",
+  },
   "comm.form.problem.solution": { es: "Solución aplicada", en: "Applied Solution" },
-  "comm.form.problem.solutionPlaceholder": { es: "Explica cómo se solucionó y las piezas necesarias...", en: "Explain how it was fixed and the parts needed..." },
+  "comm.form.problem.solutionPlaceholder": {
+    es: "Explica cómo se solucionó y las piezas necesarias...",
+    en: "Explain how it was fixed and the parts needed...",
+  },
 
   // -- bug (Website Bug) fields --
   "comm.form.bug.title": { es: "Título del error", en: "Bug Title" },
-  "comm.form.bug.titlePlaceholder": { es: "Ej. Enlace roto en página de piezas", en: "e.g. Broken link on parts page" },
+  "comm.form.bug.titlePlaceholder": {
+    es: "Ej. Enlace roto en página de piezas",
+    en: "e.g. Broken link on parts page",
+  },
   "comm.form.bug.url": { es: "URL de la página", en: "Page URL" },
   "comm.form.bug.urlPlaceholder": { es: "Ej. /parts/p-001", en: "e.g. /parts/p-001" },
   "comm.form.bug.browser": { es: "Navegador / SO", en: "Browser / OS" },
-  "comm.form.bug.browserPlaceholder": { es: "Ej. Chrome 120 / Windows 11", en: "e.g. Chrome 120 / Windows 11" },
+  "comm.form.bug.browserPlaceholder": {
+    es: "Ej. Chrome 120 / Windows 11",
+    en: "e.g. Chrome 120 / Windows 11",
+  },
   "comm.form.bug.description": { es: "¿Qué ocurre?", en: "What happens?" },
-  "comm.form.bug.descriptionPlaceholder": { es: "Describe el error, qué esperabas ver y qué viste realmente...", en: "Describe the bug, what you expected and what actually happened..." },
+  "comm.form.bug.descriptionPlaceholder": {
+    es: "Describe el error, qué esperabas ver y qué viste realmente...",
+    en: "Describe the bug, what you expected and what actually happened...",
+  },
 
   // -- partwrong (Wrong Part Data) fields --
   "comm.form.partwrong.title": { es: "Pieza con datos incorrectos", en: "Part with Wrong Data" },
-  "comm.form.partwrong.titlePlaceholder": { es: "Ej. Filtro de aceite (OEM: B6S7-14-302)", en: "e.g. Oil filter (OEM: B6S7-14-302)" },
-  "comm.form.partwrong.currentInfo": { es: "Información actual incorrecta", en: "Current Wrong Info" },
-  "comm.form.partwrong.currentInfoPlaceholder": { es: "Indica qué dato está mal actualmente...", en: "State what info is currently wrong..." },
+  "comm.form.partwrong.titlePlaceholder": {
+    es: "Ej. Filtro de aceite (OEM: B6S7-14-302)",
+    en: "e.g. Oil filter (OEM: B6S7-14-302)",
+  },
+  "comm.form.partwrong.currentInfo": {
+    es: "Información actual incorrecta",
+    en: "Current Wrong Info",
+  },
+  "comm.form.partwrong.currentInfoPlaceholder": {
+    es: "Indica qué dato está mal actualmente...",
+    en: "State what info is currently wrong...",
+  },
   "comm.form.partwrong.correction": { es: "Corrección propuesta", en: "Proposed Correction" },
-  "comm.form.partwrong.correctionPlaceholder": { es: "Indica cuál debería ser el valor correcto...", en: "State what the correct value should be..." },
+  "comm.form.partwrong.correctionPlaceholder": {
+    es: "Indica cuál debería ser el valor correcto...",
+    en: "State what the correct value should be...",
+  },
   "comm.form.partwrong.source": { es: "Fuente de verificación", en: "Verification Source" },
-  "comm.form.partwrong.sourcePlaceholder": { es: "Ej. Catálogo Mazda 1992, manual original...", en: "e.g. Mazda 1992 catalog, original manual..." },
+  "comm.form.partwrong.sourcePlaceholder": {
+    es: "Ej. Catálogo Mazda 1992, manual original...",
+    en: "e.g. Mazda 1992 catalog, original manual...",
+  },
 
   "comm.form.submit": { es: "Enviar propuesta", en: "Submit Proposal" },
   "comm.leaders.title": { es: "Top Colaboradores", en: "Top Tech Contributors" },
@@ -421,11 +488,11 @@ const UI_TRANSLATIONS: Record<string, Record<Language, string>> = {
   },
   "comm.pr.title": {
     es: "¿Quieres contribuir al proyecto?",
-    en: "Want to contribute to the project?"
+    en: "Want to contribute to the project?",
   },
   "comm.pr.desc": {
     es: "Este proyecto combina una base de datos SQLite con datos semilla en JSON. Puedes mejorar la información corrigiendo errores, añadiendo compatibilidades o piezas nuevas. Abre un Pull Request en el repositorio y tus cambios serán revisados e integrados en la base de datos.",
-    en: "This project combines a SQLite database with JSON seed data. You can improve the dataset by fixing errors, adding new compatibilities or parts. Open a Pull Request in the repository and your changes will be reviewed and merged into the database."
+    en: "This project combines a SQLite database with JSON seed data. You can improve the dataset by fixing errors, adding new compatibilities or parts. Open a Pull Request in the repository and your changes will be reviewed and merged into the database.",
   },
   // Error / Not Found Pages
   "error.404": { es: "Error 404", en: "Error 404" },
@@ -602,7 +669,10 @@ const UI_TRANSLATIONS: Record<string, Record<Language, string>> = {
   "comp.confirm": { es: "Confirmar", en: "Confirm" },
   "comp.confirmed": { es: "Confirmado", en: "Confirmed" },
   "comp.confirmDialog.title": { es: "¿Confirmar equivalencia?", en: "Confirm crossover?" },
-  "comp.confirmDialog.desc": { es: "¿Estás seguro de que esta equivalencia funciona en tu Rocsta? Esto incrementará las confirmaciones públicas.", en: "Are you sure this crossover works on your Rocsta? This will increase public confirmations." },
+  "comp.confirmDialog.desc": {
+    es: "¿Estás seguro de que esta equivalencia funciona en tu Rocsta? Esto incrementará las confirmaciones públicas.",
+    en: "Are you sure this crossover works on your Rocsta? This will increase public confirmations.",
+  },
   "comp.confirmDialog.yes": { es: "Sí, confirmar", en: "Yes, confirm" },
   "comp.confirmDialog.no": { es: "Cancelar", en: "Cancel" },
 
@@ -855,7 +925,10 @@ const UI_TRANSLATIONS: Record<string, Record<Language, string>> = {
   "maint.coolant": { es: "Líquido refrigerante", en: "Coolant" },
   "maint.gearbox": { es: "Aceite caja de cambios y transfer", en: "Gearbox & transfer oil" },
   "maint.diff": { es: "Aceite diferenciales delantero y trasero", en: "Front & rear diff oil" },
-  "maint.grease": { es: "Engrase de crucetas y cubos manuales", en: "Greasing U-joints & manual hubs" },
+  "maint.grease": {
+    es: "Engrase de crucetas y cubos manuales",
+    en: "Greasing U-joints & manual hubs",
+  },
   "maint.brakeFluid": { es: "Líquido de frenos", en: "Brake fluid" },
   "maint.spark": { es: "Bujías (F8)", en: "Spark plugs (F8)" },
 
@@ -867,7 +940,10 @@ const UI_TRANSLATIONS: Record<string, Record<Language, string>> = {
   },
   "home.gallery.cta": { es: "Envía tu Rocsta →", en: "Submit your Rocsta →" },
   "home.gallery.placeholder": { es: "Demo", en: "Demo" },
-  "home.gallery.empty": { es: "Aún no hay fotos. ¡Sé el primero en enviar la tuya!", en: "No photos yet. Be the first to submit yours!" },
+  "home.gallery.empty": {
+    es: "Aún no hay fotos. ¡Sé el primero en enviar la tuya!",
+    en: "No photos yet. Be the first to submit yours!",
+  },
 
   // Header — about link
   "header.mobileAbout": { es: "Acerca de", en: "About" },

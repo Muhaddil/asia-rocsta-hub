@@ -11,11 +11,7 @@
       "en": "VE-type rotary injection pump for Mazda R2 diesel engine. Mechanical flow and advance control."
     },
     "oem": "K886-13-800C",
-    "equiv": [
-      "Mazda B2200 Diesel",
-      "Mazda E2200",
-      "Kia Sportage I (diesel)"
-    ],
+    "equiv": ["Mazda B2200 Diesel", "Mazda E2200", "Kia Sportage I (diesel)"],
     "status": "verified",
     "motor": "R2",
     "notes": {
@@ -35,10 +31,7 @@
       "en": "Multi-layer steel cylinder head gasket for Mazda R2 diesel engine."
     },
     "oem": "K770-10-271",
-    "equiv": [
-      "Mazda B2200 Diesel",
-      "Kia Sportage I (diesel)"
-    ],
+    "equiv": ["Mazda B2200 Diesel", "Kia Sportage I (diesel)"],
     "status": "verified",
     "motor": "R2",
     "notes": {
@@ -58,19 +51,10 @@
       "en": "Spin-on oil filter for diesel and gasoline engines. Thread M20x1.5."
     },
     "oem": "K710-23-820",
-    "equiv": [
-      "Mazda B2200",
-      "Mazda 626",
-      "Ford Courier",
-      "Kia Sportage I"
-    ],
+    "equiv": ["Mazda B2200", "Mazda 626", "Ford Courier", "Kia Sportage I"],
     "status": "verified",
     "motor": "ambos",
-    "refs": [
-      "Mann W 68/3",
-      "Mahle OC 248",
-      "Bosch 0 451 103 150"
-    ],
+    "refs": ["Mann W 68/3", "Mahle OC 248", "Bosch 0 451 103 150"],
     "notes": {
       "es": "Mismo filtro para todas las versiones del Rocsta. Cambiar cada 5.000-7.000 km.",
       "en": "Same filter for all Rocsta versions. Replace every 5,000-7,000 km."
@@ -88,17 +72,10 @@
       "en": "Water pump with gasket included for R2 diesel engine. Includes 6-blade impeller."
     },
     "oem": "K710-15-010",
-    "equiv": [
-      "Mazda B2200 Diesel",
-      "Mazda E2200",
-      "Ford Courier 2.2D"
-    ],
+    "equiv": ["Mazda B2200 Diesel", "Mazda E2200", "Ford Courier 2.2D"],
     "status": "verified",
     "motor": "R2",
-    "refs": [
-      "GMB GWM-47A",
-      "Aisin WPZ-023"
-    ],
+    "refs": ["GMB GWM-47A", "Aisin WPZ-023"],
     "notes": {
       "es": "Recomendable cambiar junto con la correa de distribución si tiene más de 120.000 km.",
       "en": "Recommend replacing together with timing belt if it has over 120,000 km."
@@ -116,17 +93,10 @@
       "en": "Water pump for F8 gasoline engine. Includes O-ring gasket."
     },
     "oem": "F801-15-010",
-    "equiv": [
-      "Mazda 626 1.8",
-      "Mazda B1800",
-      "Ford Courier 1.8"
-    ],
+    "equiv": ["Mazda 626 1.8", "Mazda B1800", "Ford Courier 1.8"],
     "status": "verified",
     "motor": "F8",
-    "refs": [
-      "GMB GWM-39A",
-      "Aisin WPZ-018"
-    ]
+    "refs": ["GMB GWM-39A", "Aisin WPZ-018"]
   },
   {
     "id": "p-006",
@@ -140,17 +110,10 @@
       "en": "Wax thermostat. Opens at 82°C. Diameter 54 mm."
     },
     "oem": "K710-15-171",
-    "equiv": [
-      "Mazda B2200",
-      "Mazda 626",
-      "Ford Courier"
-    ],
+    "equiv": ["Mazda B2200", "Mazda 626", "Ford Courier"],
     "status": "verified",
     "motor": "ambos",
-    "refs": [
-      "Mahle TX 17 82D",
-      "Vernet 3047.82"
-    ],
+    "refs": ["Mahle TX 17 82D", "Vernet 3047.82"],
     "notes": {
       "es": "Mismo termostato para motores F8 y R2. Verificar que la junta tórica venga incluida.",
       "en": "Same thermostat for F8 and R2 engines. Verify O-ring gasket is included."
@@ -168,10 +131,7 @@
       "en": "Main cooling radiator. Aluminum with plastic tanks. 2 rows of tubes."
     },
     "oem": "AA30A-15-200",
-    "equiv": [
-      "Mazda B2200 (con adaptación del soporte inferior)",
-      "Kia Sportage I"
-    ],
+    "equiv": ["Mazda B2200 (con adaptación del soporte inferior)", "Kia Sportage I"],
     "status": "mod",
     "motor": "ambos",
     "notes": {
@@ -191,17 +151,10 @@
       "en": "Complete kit: timing belt and tensioner for R2 diesel engine."
     },
     "oem": "R201-12-205 (correa) / R201-12-700A (tensor)",
-    "equiv": [
-      "Mazda B2200 Diesel",
-      "Mazda E2200",
-      "Ford Courier 2.2D"
-    ],
+    "equiv": ["Mazda B2200 Diesel", "Mazda E2200", "Ford Courier 2.2D"],
     "status": "verified",
     "motor": "R2",
-    "refs": [
-      "Gates K015284XS",
-      "Dayco KTBWP2960"
-    ],
+    "refs": ["Gates K015284XS", "Dayco KTBWP2960"],
     "notes": {
       "es": "Intervalo de cambio recomendado: 80.000 km o 5 años. Incluir bomba de agua si tiene más de 120.000 km.",
       "en": "Recommended replacement interval: 80,000 km or 5 years. Include water pump if it has over 120,000 km."
@@ -219,17 +172,10 @@
       "en": "Timing belt kit for F8 gasoline engine."
     },
     "oem": "K906-12-205 (correa) / K900-12-700 (tensor)",
-    "equiv": [
-      "Mazda 626 1.8 GD",
-      "Mazda B1800"
-    ],
+    "equiv": ["Mazda 626 1.8 GD", "Mazda B1800"],
     "status": "verified",
     "motor": "F8",
-    "refs": [
-      "Gates 5184XS",
-      "Continental CT714",
-      "Dayco 94104"
-    ],
+    "refs": ["Gates 5184XS", "Continental CT714", "Dayco 94104"],
     "notes": {
       "es": "Verificar estado de los rodillos guía. Cambiar cada 80.000 km o 5 años.",
       "en": "Check condition of guide rollers. Replace every 80,000 km or 5 years."
@@ -247,17 +193,10 @@
       "en": "Original turbo for R2 turbodiesel engine (turbo versions). VJ11 type turbine."
     },
     "oem": { "es": "No especificado en catálogo", "en": "Not specified in catalog" },
-    "equiv": [
-      "IHI VJ11 (Mazda B2200 Turbodiesel)",
-      "Garrett T25 (requiere adaptador)"
-    ],
+    "equiv": ["IHI VJ11 (Mazda B2200 Turbodiesel)", "Garrett T25 (requiere adaptador)"],
     "status": "mod",
     "motor": "R2",
-    "refs": [
-      "IHI VJ11",
-      "Garrett T25",
-      "Turbo rebuild kit: 461060-0012"
-    ],
+    "refs": ["IHI VJ11", "Garrett T25", "Turbo rebuild kit: 461060-0012"],
     "notes": {
       "es": "No todas las unidades Rocsta llevan turbo. Las versiones atmosféricas usan motor R2 NA. El turbo IHI VJ11 es intercambiable, el Garrett T25 requiere adaptador de colector.",
       "en": "Not all Rocsta units have a turbo. Atmospheric versions use the R2 NA engine. The IHI VJ11 turbo is interchangeable, the Garrett T25 requires a manifold adapter."
@@ -275,9 +214,7 @@
       "en": "Distributor head of the injection pump, houses the delivery valves and distribution mechanism."
     },
     "oem": "K770-24-100",
-    "equiv": [
-      "Zexel 104641-4420"
-    ],
+    "equiv": ["Zexel 104641-4420"],
     "status": "verified",
     "motor": "R2",
     "notes": {
@@ -297,10 +234,7 @@
       "en": "Check valve at injection pump outlet. Maintains residual pressure in lines."
     },
     "oem": "K638-24-140",
-    "equiv": [
-      "Bosch 1 434 020 007",
-      "Zexel 146550-0720"
-    ],
+    "equiv": ["Bosch 1 434 020 007", "Zexel 146550-0720"],
     "status": "verified",
     "motor": "R2",
     "notes": {
@@ -320,18 +254,10 @@
       "en": "Complete kit: disc, pressure plate and release bearing. Disc diameter 225 mm, 21 splines."
     },
     "oem": "K016-16-460B (disco) / K016-16-410 (plato) / 0H606-16-510A (rodamiento)",
-    "equiv": [
-      "Mazda B2200 4WD",
-      "Mazda B-Series",
-      "Ford Courier 4x4"
-    ],
+    "equiv": ["Mazda B2200 4WD", "Mazda B-Series", "Ford Courier 4x4"],
     "status": "mod",
     "motor": "ambos",
-    "refs": [
-      "Valeo 826211",
-      "Sachs 3000 240 002",
-      "Luk 07-066"
-    ],
+    "refs": ["Valeo 826211", "Sachs 3000 240 002", "Luk 07-066"],
     "notes": {
       "es": "El disco del B2200 tiene las mismas estrías y diámetro. El plato de presión puede requerir verificar la altura de los muelles de diafragma.",
       "en": "The B2200 disc has the same splines and diameter. The pressure plate may require checking the diaphragm spring height."
@@ -349,19 +275,10 @@
       "en": "Clutch release bearing. Self-centering type with metal guide."
     },
     "oem": "0H606-16-510A",
-    "equiv": [
-      "Mazda B2200",
-      "Mazda 626",
-      "Ford Courier",
-      "Kia Sportage I"
-    ],
+    "equiv": ["Mazda B2200", "Mazda 626", "Ford Courier", "Kia Sportage I"],
     "status": "verified",
     "motor": "ambos",
-    "refs": [
-      "NSK 55TKZ3501",
-      "NTN 55TKA3501",
-      "SKF VKCX-2075"
-    ],
+    "refs": ["NSK 55TKZ3501", "NTN 55TKA3501", "SKF VKCX-2075"],
     "notes": {
       "es": "Cambiar siempre al instalar un kit de embrague nuevo. Engrasar ligeramente la guía antes de montar.",
       "en": "Always replace when installing a new clutch kit. Lightly grease the guide before installing."
@@ -379,9 +296,7 @@
       "en": "Transfer case for 4x4 drive. Modes 2H/4H/4L. Mechanical rod system."
     },
     "oem": "AA301-19-100",
-    "equiv": [
-      "Mazda B2600 4WD (requiere verificar relación)"
-    ],
+    "equiv": ["Mazda B2600 4WD (requiere verificar relación)"],
     "status": "unverified",
     "motor": "ambos",
     "notes": {
@@ -401,18 +316,10 @@
       "en": "Universal joint for rear driveshaft. Cup diameter 27 mm."
     },
     "oem": "1757-25-060",
-    "equiv": [
-      "Mazda B2200 4WD",
-      "Kia Sportage I",
-      "Ford Courier 4x4"
-    ],
+    "equiv": ["Mazda B2200 4WD", "Kia Sportage I", "Ford Courier 4x4"],
     "status": "verified",
     "motor": "ambos",
-    "refs": [
-      "GMB GU-1200",
-      "Spicer 5-153X",
-      "SKF UJ-322"
-    ],
+    "refs": ["GMB GU-1200", "Spicer 5-153X", "SKF UJ-322"],
     "notes": {
       "es": "Existen dos tamaños diferentes según el año. Medir el diámetro de la cazoleta (27 mm) y la distancia entre retenes (81.8 mm) antes de comprar.",
       "en": "Two different sizes exist depending on year. Measure cup diameter (27 mm) and snap ring gap (81.8 mm) before purchasing."
@@ -430,18 +337,10 @@
       "en": "Front manual locking hubs to engage/disengage 4x4 drive. Mechanical system, no vacuum."
     },
     "oem": { "es": "No especificado en catálogo", "en": "Not specified in catalog" },
-    "equiv": [
-      "Warn #9790",
-      "AVM 443 (tipo Mazda B2200 4WD)",
-      "Mile Marker 104-433"
-    ],
+    "equiv": ["Warn #9790", "AVM 443 (tipo Mazda B2200 4WD)", "Mile Marker 104-433"],
     "status": "verified",
     "motor": "ambos",
-    "refs": [
-      "Warn 9790",
-      "AVM 443",
-      "Mile Marker MM-104"
-    ],
+    "refs": ["Warn 9790", "AVM 443", "Mile Marker MM-104"],
     "notes": {
       "es": "Los hubs aftermarket Warn/AVM tipo Mazda B2200 4WD encajan directamente. Engrase con grasa EP2 cada 20.000 km. Verificar que las juntas tóricas estén en buen estado.",
       "en": "Warn/AVM aftermarket hubs for Mazda B2200 4WD fit directly. Grease with EP2 every 20,000 km. Check that O-rings are in good condition."
@@ -459,10 +358,7 @@
       "en": "Synchronizer assembly with brass rings for 5-speed manual transmission."
     },
     "oem": "AA301-17-243 (key) / 0W501-17-725 (ring)",
-    "equiv": [
-      "Mazda B2200 (caja M5OD-R1)",
-      "Ford Courier (caja M5OD)"
-    ],
+    "equiv": ["Mazda B2200 (caja M5OD-R1)", "Ford Courier (caja M5OD)"],
     "status": "mod",
     "motor": "ambos",
     "notes": {
@@ -482,17 +378,10 @@
       "en": "Pair of front hydraulic twin-tube shock absorbers. Extended length 470 mm, compressed 300 mm."
     },
     "oem": "AA30A-28-700",
-    "equiv": [
-      "Kia Sportage I (1993-2004)",
-      "Mazda B2200 4WD"
-    ],
+    "equiv": ["Kia Sportage I (1993-2004)", "Mazda B2200 4WD"],
     "status": "mod",
     "motor": "ambos",
-    "refs": [
-      "Monroe 32244",
-      "KYB 344289",
-      "Bilstein 24-018727"
-    ],
+    "refs": ["Monroe 32244", "KYB 344289", "Bilstein 24-018727"],
     "notes": {
       "es": "Los del Kia Sportage I tienen la misma longitud pero distinto anclaje superior. Requiere casquillo adaptador de 12mm a 14mm. Se pueden reutilizar los soportes originales del Rocsta.",
       "en": "Kia Sportage I units have the same length but different top mount. Requires 12mm to 14mm adapter bushing. Original Rocsta mounts can be reused."
@@ -510,18 +399,10 @@
       "en": "Pair of rear gas shock absorbers. Eye-eye mounting. Extended length 520 mm."
     },
     "oem": "AA30A-28-700",
-    "equiv": [
-      "Kia Sportage I",
-      "Mazda B2200 4WD",
-      "Toyota Hilux LN106 (requiere adaptador)"
-    ],
+    "equiv": ["Kia Sportage I", "Mazda B2200 4WD", "Toyota Hilux LN106 (requiere adaptador)"],
     "status": "mod",
     "motor": "ambos",
-    "refs": [
-      "Monroe 37069",
-      "KYB 343076",
-      "Bilstein 24-014503"
-    ],
+    "refs": ["Monroe 37069", "KYB 343076", "Bilstein 24-014503"],
     "notes": {
       "es": "Los amortiguadores del Kia Sportage I encajan perfectamente sin modificaciones. Verificar que incluyan los silentblocks.",
       "en": "Kia Sportage I shocks fit perfectly without modifications. Verify they include bushings."
@@ -539,18 +420,10 @@
       "en": "Outer tie rod end. Thread M14x1.5, taper 14.7 mm."
     },
     "oem": "AA30A-32-970",
-    "equiv": [
-      "Mazda B2200 4WD",
-      "Ford Courier 4WD",
-      "Kia Sportage I"
-    ],
+    "equiv": ["Mazda B2200 4WD", "Ford Courier 4WD", "Kia Sportage I"],
     "status": "verified",
     "motor": "ambos",
-    "refs": [
-      "555 SE-7521",
-      "Moog ES3461",
-      "Delphi TA1957"
-    ],
+    "refs": ["555 SE-7521", "Moog ES3461", "Delphi TA1957"],
     "notes": {
       "es": "Verificar el sentido de la rosca (izquierda/derecha) antes de comprar. Algunas versiones tienen rosca izquierda en un lado.",
       "en": "Check thread direction (left/right) before purchasing. Some versions have left-hand thread on one side."
@@ -568,10 +441,7 @@
       "en": "Recirculating ball steering gear box. Ratio 20:1 approx."
     },
     "oem": "AA351-32-920",
-    "equiv": [
-      "Mazda B2200 4WD (diferente relación)",
-      "Kia Sportage I (diferente montaje)"
-    ],
+    "equiv": ["Mazda B2200 4WD (diferente relación)", "Kia Sportage I (diferente montaje)"],
     "status": "unverified",
     "motor": "ambos",
     "notes": {
@@ -611,10 +481,7 @@
       "en": "Rear leaf spring pack with 5 leaves, including auxiliary leaves and bushings. Length 1200 mm, width 60 mm."
     },
     "oem": "AA30A-28-010",
-    "equiv": [
-      "Mazda B2200",
-      "Kia Sportage I"
-    ],
+    "equiv": ["Mazda B2200", "Kia Sportage I"],
     "status": "mod",
     "motor": "ambos",
     "notes": {
@@ -654,18 +521,10 @@
       "en": "12V 2.0 kW starter motor with integrated solenoid for R2 diesel engine."
     },
     "oem": "R201-18-400B",
-    "equiv": [
-      "Mazda B2200 Diesel",
-      "Mazda E2200",
-      "Ford Courier 2.2D"
-    ],
+    "equiv": ["Mazda B2200 Diesel", "Mazda E2200", "Ford Courier 2.2D"],
     "status": "verified",
     "motor": "R2",
-    "refs": [
-      "Hitachi S114-267A",
-      "Denso 228000-4830",
-      "Bosch 0 986 016 030"
-    ],
+    "refs": ["Hitachi S114-267A", "Denso 228000-4830", "Bosch 0 986 016 030"],
     "notes": {
       "es": "Verificar el número de dientes del piñón (9 dientes normalmente). El solenoide es intercambiable con el del Mazda 626 diésel.",
       "en": "Check pinion tooth count (9 teeth normally). The solenoid is interchangeable with the Mazda 626 diesel."
@@ -683,19 +542,10 @@
       "en": "12V 1.4 kW starter motor for F8 gasoline engine."
     },
     "oem": "AA30G-18-400",
-    "equiv": [
-      "Mazda 626 1.8",
-      "Mazda B1800",
-      "Ford Courier 1.8",
-      "Kia Capital 1.8"
-    ],
+    "equiv": ["Mazda 626 1.8", "Mazda B1800", "Ford Courier 1.8", "Kia Capital 1.8"],
     "status": "verified",
     "motor": "F8",
-    "refs": [
-      "Hitachi S114-231",
-      "Denso 228000-4620",
-      "Bosch 0 986 016 028"
-    ]
+    "refs": ["Hitachi S114-231", "Denso 228000-4620", "Bosch 0 986 016 028"]
   },
   {
     "id": "p-026",
@@ -709,19 +559,10 @@
       "en": "12V 70A alternator with integrated regulator and single-groove pulley."
     },
     "oem": "OK740-18-300F (diésel) / K737-18-300 (gasolina)",
-    "equiv": [
-      "Mazda B2200",
-      "Mazda 626",
-      "Kia Sportage I",
-      "Ford Courier"
-    ],
+    "equiv": ["Mazda B2200", "Mazda 626", "Kia Sportage I", "Ford Courier"],
     "status": "verified",
     "motor": "ambos",
-    "refs": [
-      "Hitachi LR170-427",
-      "Bosch 0 986 041 280",
-      "Denso 101211-1970"
-    ],
+    "refs": ["Hitachi LR170-427", "Bosch 0 986 041 280", "Denso 101211-1970"],
     "notes": {
       "es": "El alternador es similar para F8 y R2, pero verificar número de gargantas de la polea (una o dos) según la versión.",
       "en": "The alternator is similar for F8 and R2, but verify pulley groove count (one or two) according to version."
@@ -739,18 +580,10 @@
       "en": "Set of 4 glow plugs for R2 diesel engine. Thread M10x1.0, voltage 11V."
     },
     "oem": "S501-18-140A",
-    "equiv": [
-      "Mazda B2200 Diesel",
-      "Ford Courier 2.2D",
-      "Mazda E2200"
-    ],
+    "equiv": ["Mazda B2200 Diesel", "Ford Courier 2.2D", "Mazda E2200"],
     "status": "verified",
     "motor": "R2",
-    "refs": [
-      "NGK Y-107V",
-      "Denso DG-142",
-      "Bosch 0 250 202 047"
-    ],
+    "refs": ["NGK Y-107V", "Denso DG-142", "Bosch 0 250 202 047"],
     "notes": {
       "es": "Las bujías originales son de 11V. No usar calentadores de 12V de otros modelos, se quemarán prematuramente.",
       "en": "Original glow plugs are 11V. Do not use 12V glow plugs from other models, they will burn out prematurely."
@@ -768,11 +601,7 @@
       "en": "12V battery for all versions. Recommended capacity 60-70 Ah."
     },
     "oem": "AA301-18-520 (Global & Yuasa)",
-    "equiv": [
-      "Bosch S4 065",
-      "Varta Blue Dynamic 565",
-      "Exide EB620"
-    ],
+    "equiv": ["Bosch S4 065", "Varta Blue Dynamic 565", "Exide EB620"],
     "status": "verified",
     "motor": "ambos",
     "notes": {
@@ -792,18 +621,10 @@
       "en": "Mechanical switch on brake pedal. 2 terminals, thread M12x1.0."
     },
     "oem": { "es": "No especificado en catálogo", "en": "Not specified in catalog" },
-    "equiv": [
-      "Mazda B2200",
-      "Mazda 626",
-      "Mazda 323",
-      "Ford Courier"
-    ],
+    "equiv": ["Mazda B2200", "Mazda 626", "Mazda 323", "Ford Courier"],
     "status": "verified",
     "motor": "ambos",
-    "refs": [
-      "Standard Motor Products SLS-129",
-      "Interruptor universal de rosca M12"
-    ],
+    "refs": ["Standard Motor Products SLS-129", "Interruptor universal de rosca M12"],
     "notes": {
       "es": "Interruptor universal de rosca M12x1.0. Verificar ajuste de la varilla del pedal después de instalar.",
       "en": "Universal M12x1.0 thread switch. Check pedal rod adjustment after installing."
@@ -841,17 +662,10 @@
       "en": "Set of pads for front ventilated disc. Width 119 mm, height 47 mm, thickness 15 mm."
     },
     "oem": "AA301-33-231",
-    "equiv": [
-      "Kia Sportage I (1993-2004)",
-      "Mazda B2200 4WD (requiere lijado borde)"
-    ],
+    "equiv": ["Kia Sportage I (1993-2004)", "Mazda B2200 4WD (requiere lijado borde)"],
     "status": "verified",
     "motor": "ambos",
-    "refs": [
-      "Brembo P 30 009",
-      "TRW GDB 1187",
-      "Bosch 0 986 494 023"
-    ],
+    "refs": ["Brembo P 30 009", "TRW GDB 1187", "Bosch 0 986 494 023"],
     "notes": {
       "es": "Las del Kia Sportage I encajan directamente. Las del Mazda B2200 pueden requerir lijar ligeramente un borde del respaldo de acero.",
       "en": "Kia Sportage I pads fit directly. Mazda B2200 pads may require lightly sanding one edge of the steel backing plate."
@@ -869,18 +683,10 @@
       "en": "Pair of front ventilated discs. Diameter 256 mm, thickness 24 mm, 5 bolts."
     },
     "oem": "AA301-26-251",
-    "equiv": [
-      "Kia Sportage I",
-      "Mazda B2200 4WD (256 mm)",
-      "Ford Courier 4x4"
-    ],
+    "equiv": ["Kia Sportage I", "Mazda B2200 4WD (256 mm)", "Ford Courier 4x4"],
     "status": "verified",
     "motor": "ambos",
-    "refs": [
-      "Brembo 09.5568.10",
-      "TRW DF4078",
-      "Bosch 0 986 479 021"
-    ],
+    "refs": ["Brembo 09.5568.10", "TRW DF4078", "Bosch 0 986 479 021"],
     "notes": {
       "es": "Espesor mínimo de seguridad: 22 mm. Cambiar siempre con pastillas nuevas.",
       "en": "Minimum safety thickness: 22 mm. Always replace with new pads."
@@ -898,18 +704,10 @@
       "en": "Set of shoes for rear drum. Drum diameter 254 mm, width 50 mm."
     },
     "oem": "1823-26-310B",
-    "equiv": [
-      "Mazda B2200",
-      "Ford Courier",
-      "Kia Sportage I"
-    ],
+    "equiv": ["Mazda B2200", "Ford Courier", "Kia Sportage I"],
     "status": "verified",
     "motor": "ambos",
-    "refs": [
-      "TRW GS8447",
-      "Brembo T 23 017",
-      "Bosch 0 986 483 003"
-    ],
+    "refs": ["TRW GS8447", "Brembo T 23 017", "Bosch 0 986 483 003"],
     "notes": {
       "es": "Verificar el diámetro interior del tambor antes de comprar. Existe versión de 250 mm para algunos años.",
       "en": "Check drum inner diameter before purchasing. 250 mm version exists for some years."
@@ -927,16 +725,10 @@
       "en": "Dual circuit brake master cylinder. Piston diameter 22.22 mm (7/8).With separate reservoir."
     },
     "oem": "OK72A-43-400",
-    "equiv": [
-      "Mazda B2200 4WD",
-      "Kia Sportage I (requiere verificar conexiones)"
-    ],
+    "equiv": ["Mazda B2200 4WD", "Kia Sportage I (requiere verificar conexiones)"],
     "status": "mod",
     "motor": "ambos",
-    "refs": [
-      "Centric 130.46010",
-      "Beck/Arnley 072-1932"
-    ],
+    "refs": ["Centric 130.46010", "Beck/Arnley 072-1932"],
     "notes": {
       "es": "El del B2200 4WD funciona pero las conexiones de tubería pueden diferir en ángulo. Verificar el recorrido del pedal antes de montar.",
       "en": "The B2200 4WD unit works but pipe connections may differ in angle. Verify pedal travel before installing."
@@ -954,17 +746,10 @@
       "en": "Pair of flexible hoses for front caliper. Thread M10x1.0 both ends."
     },
     "oem": { "es": "No especificado en catálogo", "en": "Not specified in catalog" },
-    "equiv": [
-      "Mazda B2200 4WD",
-      "Kia Sportage I",
-      "Goodridge KIA003-4C"
-    ],
+    "equiv": ["Mazda B2200 4WD", "Kia Sportage I", "Goodridge KIA003-4C"],
     "status": "verified",
     "motor": "ambos",
-    "refs": [
-      "Goodridge 20942",
-      "HEL Performance KIA002"
-    ],
+    "refs": ["Goodridge 20942", "HEL Performance KIA002"],
     "notes": {
       "es": "Longitud aproximada 350 mm. Se recomienda latiguillos trenzados acero para mejor respuesta del pedal.",
       "en": "Approximate length 350 mm. Steel braided hoses recommended for better pedal feel."
@@ -982,10 +767,7 @@
       "en": "Vacuum brake booster for braking assistance. Diameter 8\" approx."
     },
     "oem": { "es": "No especificado en catálogo", "en": "Not specified in catalog" },
-    "equiv": [
-      "Kia Sportage I",
-      "Mazda B2200 4WD (requiere adaptador)"
-    ],
+    "equiv": ["Kia Sportage I", "Mazda B2200 4WD (requiere adaptador)"],
     "status": "mod",
     "motor": "ambos",
     "notes": {
@@ -1008,11 +790,7 @@
     "equiv": [],
     "status": "verified",
     "motor": "ambos",
-    "refs": [
-      "Yokohama Geolandar G015",
-      "BFGoodrich All-Terrain T/A KO2",
-      "General Grabber AT3"
-    ],
+    "refs": ["Yokohama Geolandar G015", "BFGoodrich All-Terrain T/A KO2", "General Grabber AT3"],
     "notes": {
       "es": "Alternativas comunes: 215/75 R16 (diámetro similar, +5 mm ancho), 235/70 R16 (más ancho, puede rozar en giro completo), 31x10.5 R15 (requiere llantas de 15\", más altura).",
       "en": "Common alternatives: 215/75 R16 (similar diameter, +5 mm width), 235/70 R16 (wider, may rub at full turn), 31x10.5 R15 (requires 15\" wheels, more height)."
@@ -1055,12 +833,7 @@
       "en": "Set of 24 conical nuts (6 per wheel). Thread M12x1.5, wrench 21 mm."
     },
     "oem": "B092-37-160",
-    "equiv": [
-      "Mazda B2200",
-      "Kia Sportage I",
-      "Ford Courier",
-      "Toyota Hilux (misma rosca)"
-    ],
+    "equiv": ["Mazda B2200", "Kia Sportage I", "Ford Courier", "Toyota Hilux (misma rosca)"],
     "status": "verified",
     "motor": "ambos",
     "notes": {
@@ -1160,11 +933,7 @@
       "en": "Lambda sensor for gasoline engine. Installed in exhaust manifold. 4 wires."
     },
     "oem": "AA30G-18-861",
-    "equiv": [
-      "Bosch 0 258 003 689",
-      "NTK OZA451-E26",
-      "Kia Sportage I"
-    ],
+    "equiv": ["Bosch 0 258 003 689", "NTK OZA451-E26", "Kia Sportage I"],
     "status": "verified",
     "motor": "F8",
     "notes": {
@@ -1184,10 +953,7 @@
       "en": "Exhaust manifold for diesel engine. Cast iron."
     },
     "oem": "K710-13-461",
-    "equiv": [
-      "Mazda B2200 Diesel",
-      "Mazda E2200"
-    ],
+    "equiv": ["Mazda B2200 Diesel", "Mazda E2200"],
     "status": "verified",
     "motor": "R2",
     "notes": {
@@ -1207,11 +973,7 @@
       "en": "Hydraulic damper that reduces vibrations in the steering system. For off-road use."
     },
     "oem": "AA301-32-700",
-    "equiv": [
-      "Pro Comp 12100",
-      "Old Man Emu OMESD20",
-      "Kia Sportage I"
-    ],
+    "equiv": ["Pro Comp 12100", "Old Man Emu OMESD20", "Kia Sportage I"],
     "status": "verified",
     "motor": "ambos",
     "notes": {
@@ -1251,10 +1013,7 @@
       "en": "Front brake caliper right side. Single piston floating type."
     },
     "oem": "AA30A-33-980",
-    "equiv": [
-      "Kia Sportage I",
-      "Mazda B2200 (requiere modificación de la manguera)"
-    ],
+    "equiv": ["Kia Sportage I", "Mazda B2200 (requiere modificación de la manguera)"],
     "status": "verified",
     "motor": "ambos",
     "notes": {
@@ -1274,10 +1033,7 @@
       "en": "Front brake caliper left side. Single piston floating type."
     },
     "oem": "AA30A-33-990",
-    "equiv": [
-      "Kia Sportage I",
-      "Mazda B2200"
-    ],
+    "equiv": ["Kia Sportage I", "Mazda B2200"],
     "status": "verified",
     "motor": "ambos"
   },
@@ -1293,11 +1049,7 @@
       "en": "Radiator cap with pressure valve. Opening pressure 0.9 bar (13 psi)."
     },
     "oem": "AA301-15-205",
-    "equiv": [
-      "Stant 10229",
-      "Gates 31343",
-      "Mazda B2200 (misma presión)"
-    ],
+    "equiv": ["Stant 10229", "Gates 31343", "Mazda B2200 (misma presión)"],
     "status": "verified",
     "motor": "ambos",
     "notes": {
@@ -1317,9 +1069,7 @@
       "en": "Cooling fan blade assembly. 6 plastic blades."
     },
     "oem": "K770-15-140B",
-    "equiv": [
-      "Mazda B2200 Diesel"
-    ],
+    "equiv": ["Mazda B2200 Diesel"],
     "status": "verified",
     "motor": "R2",
     "notes": {
@@ -1379,9 +1129,7 @@
       "en": "Intake valve for R2 diesel engine. Head diameter 34 mm."
     },
     "oem": "K710-12-1114",
-    "equiv": [
-      "Mazda B2200 Diesel"
-    ],
+    "equiv": ["Mazda B2200 Diesel"],
     "status": "verified",
     "motor": "R2",
     "notes": {
@@ -1401,9 +1149,7 @@
       "en": "Exhaust valve for R2 diesel engine. Head diameter 30 mm."
     },
     "oem": "K710-12-1214",
-    "equiv": [
-      "Mazda B2200 Diesel"
-    ],
+    "equiv": ["Mazda B2200 Diesel"],
     "status": "verified",
     "motor": "R2"
   },
@@ -1419,9 +1165,7 @@
       "en": "Outer valve spring for diesel engine."
     },
     "oem": "RF01-12-1148",
-    "equiv": [
-      "Mazda B2200 Diesel"
-    ],
+    "equiv": ["Mazda B2200 Diesel"],
     "status": "verified",
     "motor": "R2"
   },
@@ -1437,9 +1181,7 @@
       "en": "Upper valve spring seat."
     },
     "oem": "RF01-12-1128",
-    "equiv": [
-      "Mazda B2200 Diesel"
-    ],
+    "equiv": ["Mazda B2200 Diesel"],
     "status": "verified",
     "motor": "R2"
   },
@@ -1455,9 +1197,7 @@
       "en": "Conical keepers for valve assembly."
     },
     "oem": "K900-12-11316",
-    "equiv": [
-      "Mazda B2200 Diesel"
-    ],
+    "equiv": ["Mazda B2200 Diesel"],
     "status": "verified",
     "motor": "R2"
   },
@@ -1473,9 +1213,7 @@
       "en": "Intake valve guide for diesel engine."
     },
     "oem": "K770-10-280",
-    "equiv": [
-      "Mazda B2200 Diesel"
-    ],
+    "equiv": ["Mazda B2200 Diesel"],
     "status": "verified",
     "motor": "R2"
   },
@@ -1491,9 +1229,7 @@
       "en": "Exhaust valve guide for diesel engine."
     },
     "oem": "K770-10-290",
-    "equiv": [
-      "Mazda B2200 Diesel"
-    ],
+    "equiv": ["Mazda B2200 Diesel"],
     "status": "verified",
     "motor": "R2"
   },
@@ -1509,9 +1245,7 @@
       "en": "Valve lifter for diesel engine. Diameter 32 mm."
     },
     "oem": "K770-12-431",
-    "equiv": [
-      "Mazda B2200 Diesel"
-    ],
+    "equiv": ["Mazda B2200 Diesel"],
     "status": "verified",
     "motor": "R2",
     "notes": {
@@ -1531,9 +1265,7 @@
       "en": "Gear-type oil pump for R2 diesel engine."
     },
     "oem": "RFB3-14-100B",
-    "equiv": [
-      "Mazda B2200 Diesel"
-    ],
+    "equiv": ["Mazda B2200 Diesel"],
     "status": "verified",
     "motor": "R2"
   },
@@ -1549,10 +1281,7 @@
       "en": "Oil pan for F8 gasoline engine."
     },
     "oem": "K885-10-4001",
-    "equiv": [
-      "Mazda 626 1.8",
-      "Mazda B1800"
-    ],
+    "equiv": ["Mazda 626 1.8", "Mazda B1800"],
     "status": "verified",
     "motor": "F8"
   },
@@ -1568,9 +1297,7 @@
       "en": "Oil pan sealing gasket."
     },
     "oem": "F801-14-248",
-    "equiv": [
-      "Mazda 626 1.8"
-    ],
+    "equiv": ["Mazda 626 1.8"],
     "status": "verified",
     "motor": "F8"
   },
@@ -1586,9 +1313,7 @@
       "en": "Oil level dipstick."
     },
     "oem": "K710-10-480B",
-    "equiv": [
-      "Mazda B2200 Diesel"
-    ],
+    "equiv": ["Mazda B2200 Diesel"],
     "status": "verified",
     "motor": "R2"
   },
@@ -1604,10 +1329,7 @@
       "en": "Oil pressure relief valve."
     },
     "oem": "MJF01-14-115",
-    "equiv": [
-      "Mazda B2200",
-      "Mazda 626"
-    ],
+    "equiv": ["Mazda B2200", "Mazda 626"],
     "status": "verified",
     "motor": "ambos"
   },
@@ -1623,9 +1345,7 @@
       "en": "Distributor head of injection pump."
     },
     "oem": "K770-24-100",
-    "equiv": [
-      "Zexel 104641-4420"
-    ],
+    "equiv": ["Zexel 104641-4420"],
     "status": "verified",
     "motor": "R2"
   },
@@ -1641,9 +1361,7 @@
       "en": "Check valve of injection pump."
     },
     "oem": "K638-24-140",
-    "equiv": [
-      "Bosch 1 434 020 007"
-    ],
+    "equiv": ["Bosch 1 434 020 007"],
     "status": "verified",
     "motor": "R2"
   },
@@ -1691,9 +1409,7 @@
       "en": "Stop solenoid for diesel engine."
     },
     "oem": "K638-24-300",
-    "equiv": [
-      "Bosch 1 457 434 009"
-    ],
+    "equiv": ["Bosch 1 457 434 009"],
     "status": "verified",
     "motor": "R2"
   },
@@ -1757,9 +1473,7 @@
       "en": "Cooling fan blades. 6 blades."
     },
     "oem": "K770-15-140B",
-    "equiv": [
-      "Mazda B2200 Diesel"
-    ],
+    "equiv": ["Mazda B2200 Diesel"],
     "status": "verified",
     "motor": "R2"
   },
@@ -1775,9 +1489,7 @@
       "en": "Radiator cap with pressure valve."
     },
     "oem": "AA301-15-205",
-    "equiv": [
-      "Stant 10229"
-    ],
+    "equiv": ["Stant 10229"],
     "status": "verified",
     "motor": "ambos"
   },
@@ -1793,9 +1505,7 @@
       "en": "Short bypass hose."
     },
     "oem": "K882-15-281A",
-    "equiv": [
-      "Mazda 626 1.8"
-    ],
+    "equiv": ["Mazda 626 1.8"],
     "status": "verified",
     "motor": "F8"
   },
@@ -1811,9 +1521,7 @@
       "en": "Cooling fan bracket."
     },
     "oem": "R265-15-340A",
-    "equiv": [
-      "Mazda B2200 Diesel"
-    ],
+    "equiv": ["Mazda B2200 Diesel"],
     "status": "verified",
     "motor": "R2"
   },
@@ -1829,9 +1537,7 @@
       "en": "Cooling fan pulley."
     },
     "oem": "K016-15-344",
-    "equiv": [
-      "Mazda B2200 Diesel"
-    ],
+    "equiv": ["Mazda B2200 Diesel"],
     "status": "verified",
     "motor": "R2"
   },
@@ -1847,9 +1553,7 @@
       "en": "Temperature sensor for gauge."
     },
     "oem": "KY01-18-510",
-    "equiv": [
-      "Mazda B2200"
-    ],
+    "equiv": ["Mazda B2200"],
     "status": "verified",
     "motor": "ambos"
   },
@@ -1865,10 +1569,7 @@
       "en": "Oil pressure switch."
     },
     "oem": "K150-18-501D",
-    "equiv": [
-      "Mazda B2200",
-      "Mazda 626"
-    ],
+    "equiv": ["Mazda B2200", "Mazda 626"],
     "status": "verified",
     "motor": "ambos"
   },
@@ -1884,9 +1585,7 @@
       "en": "Set of 4 high tension wires."
     },
     "oem": "F854-18-140C",
-    "equiv": [
-      "Mazda 626 1.8"
-    ],
+    "equiv": ["Mazda 626 1.8"],
     "status": "verified",
     "motor": "F8"
   },
@@ -1902,9 +1601,7 @@
       "en": "Ignition distributor for F8 engine."
     },
     "oem": "F8TR-18-2001",
-    "equiv": [
-      "Mazda 626 1.8"
-    ],
+    "equiv": ["Mazda 626 1.8"],
     "status": "verified",
     "motor": "F8"
   },
@@ -1920,9 +1617,7 @@
       "en": "Ignition coil for gasoline engine."
     },
     "oem": "AA30G-18-100",
-    "equiv": [
-      "Mazda 626 1.8"
-    ],
+    "equiv": ["Mazda 626 1.8"],
     "status": "verified",
     "motor": "F8"
   },
@@ -1970,9 +1665,7 @@
       "en": "Glow plug for diesel engine. 11V."
     },
     "oem": "S501-18-140A",
-    "equiv": [
-      "NGK Y-107V"
-    ],
+    "equiv": ["NGK Y-107V"],
     "status": "verified",
     "motor": "R2"
   },
@@ -1988,10 +1681,7 @@
       "en": "Switch on brake pedal."
     },
     "oem": "B092-66-490",
-    "equiv": [
-      "Mazda B2200",
-      "Mazda 626"
-    ],
+    "equiv": ["Mazda B2200", "Mazda 626"],
     "status": "verified",
     "motor": "ambos"
   },
@@ -2007,9 +1697,7 @@
       "en": "Rear brake wheel cylinder right side."
     },
     "oem": "AA301-26-710",
-    "equiv": [
-      "Mazda B2200"
-    ],
+    "equiv": ["Mazda B2200"],
     "status": "verified",
     "motor": "ambos"
   },
@@ -2025,9 +1713,7 @@
       "en": "Rear brake wheel cylinder left side."
     },
     "oem": "OKB01-26-621A",
-    "equiv": [
-      "Mazda B2200"
-    ],
+    "equiv": ["Mazda B2200"],
     "status": "verified",
     "motor": "ambos"
   },
@@ -2059,9 +1745,7 @@
       "en": "Rear brake drum. Diameter 254 mm."
     },
     "oem": "AA301-26-251",
-    "equiv": [
-      "Mazda B2200"
-    ],
+    "equiv": ["Mazda B2200"],
     "status": "verified",
     "motor": "ambos"
   },
@@ -2093,9 +1777,7 @@
       "en": "Power steering pump."
     },
     "oem": "AA301-32-600A",
-    "equiv": [
-      "Kia Sportage I"
-    ],
+    "equiv": ["Kia Sportage I"],
     "status": "mod",
     "motor": "ambos"
   },
@@ -2239,9 +1921,7 @@
       "en": "Rubber wiper blade. Size 18 inches."
     },
     "oem": "OK72A-67-330",
-    "equiv": [
-      "Bosch 3397018436"
-    ],
+    "equiv": ["Bosch 3397018436"],
     "status": "verified",
     "motor": "ambos"
   },
@@ -2257,9 +1937,7 @@
       "en": "R2 diesel engine block. Cast iron."
     },
     "oem": "R241-10-300E",
-    "equiv": [
-      "Mazda B2200 Diesel"
-    ],
+    "equiv": ["Mazda B2200 Diesel"],
     "status": "verified",
     "motor": "R2"
   },
@@ -2275,10 +1953,7 @@
       "en": "F8 gasoline engine block. Cast iron."
     },
     "oem": "K951-10-300",
-    "equiv": [
-      "Mazda 626 1.8",
-      "Mazda B1800"
-    ],
+    "equiv": ["Mazda 626 1.8", "Mazda B1800"],
     "status": "verified",
     "motor": "F8"
   },
@@ -2294,10 +1969,7 @@
       "en": "Pin connecting piston to connecting rod. Floating type."
     },
     "oem": "K701-11-1024",
-    "equiv": [
-      "Mazda B2200 Diesel",
-      "Mazda 626 1.8"
-    ],
+    "equiv": ["Mazda B2200 Diesel", "Mazda 626 1.8"],
     "status": "verified",
     "motor": "ambos"
   },
@@ -2313,9 +1985,7 @@
       "en": "Top compression piston ring."
     },
     "oem": "K900-11-1224",
-    "equiv": [
-      "Mazda B2200 Diesel"
-    ],
+    "equiv": ["Mazda B2200 Diesel"],
     "status": "verified",
     "motor": "R2"
   },
@@ -2331,9 +2001,7 @@
       "en": "Second compression piston ring."
     },
     "oem": "K915-11-1224",
-    "equiv": [
-      "Mazda B2200 Diesel"
-    ],
+    "equiv": ["Mazda B2200 Diesel"],
     "status": "verified",
     "motor": "R2"
   },
@@ -2349,9 +2017,7 @@
       "en": "Piston oil ring set."
     },
     "oem": "K900-11-1404",
-    "equiv": [
-      "Mazda B2200 Diesel"
-    ],
+    "equiv": ["Mazda B2200 Diesel"],
     "status": "verified",
     "motor": "R2"
   },
@@ -2367,9 +2033,7 @@
       "en": "Piston for R2 diesel engine. Includes pin."
     },
     "oem": "K915-11-1404",
-    "equiv": [
-      "Mazda B2200 Diesel"
-    ],
+    "equiv": ["Mazda B2200 Diesel"],
     "status": "verified",
     "motor": "R2"
   },
@@ -2385,9 +2049,7 @@
       "en": "Crankshaft main bearings. Complete set."
     },
     "oem": "K905-11-3524",
-    "equiv": [
-      "Mazda B2200 Diesel"
-    ],
+    "equiv": ["Mazda B2200 Diesel"],
     "status": "verified",
     "motor": "R2"
   },
@@ -2403,9 +2065,7 @@
       "en": "Crankshaft thrust washer. Controls axial play."
     },
     "oem": "K710-11-3832 (superior) / K710-11-3842 (inferior)",
-    "equiv": [
-      "Mazda B2200 Diesel"
-    ],
+    "equiv": ["Mazda B2200 Diesel"],
     "status": "verified",
     "motor": "R2"
   },
@@ -2421,9 +2081,7 @@
       "en": "Complete gasket set for diesel engine."
     },
     "oem": "AA301-02-000",
-    "equiv": [
-      "Mazda B2200 Diesel"
-    ],
+    "equiv": ["Mazda B2200 Diesel"],
     "status": "verified",
     "motor": "R2",
     "notes": {
@@ -2443,9 +2101,7 @@
       "en": "Paper filter element for air cleaner."
     },
     "oem": "OK790-23-603B",
-    "equiv": [
-      "Mazda B2200 Diesel"
-    ],
+    "equiv": ["Mazda B2200 Diesel"],
     "status": "verified",
     "motor": "R2"
   },
@@ -2461,9 +2117,7 @@
       "en": "Upper air cleaner cover."
     },
     "oem": "OK790-23-606B",
-    "equiv": [
-      "Mazda B2200 Diesel"
-    ],
+    "equiv": ["Mazda B2200 Diesel"],
     "status": "verified",
     "motor": "R2"
   },
@@ -2479,9 +2133,7 @@
       "en": "Lower air cleaner case."
     },
     "oem": "AA30A-23-601",
-    "equiv": [
-      "Mazda B2200 Diesel"
-    ],
+    "equiv": ["Mazda B2200 Diesel"],
     "status": "verified",
     "motor": "R2"
   },
@@ -2497,9 +2149,7 @@
       "en": "Hose carrying hot air from exhaust manifold to air cleaner."
     },
     "oem": "AA30G-13-740",
-    "equiv": [
-      "Mazda 626 1.8"
-    ],
+    "equiv": ["Mazda 626 1.8"],
     "status": "verified",
     "motor": "F8"
   },
@@ -2547,9 +2197,7 @@
       "en": "Gasket between exhaust manifold and cylinder head."
     },
     "oem": "K710-13-462",
-    "equiv": [
-      "Mazda B2200 Diesel"
-    ],
+    "equiv": ["Mazda B2200 Diesel"],
     "status": "verified",
     "motor": "R2"
   },
@@ -2565,9 +2213,7 @@
       "en": "Gasket between exhaust manifold and cylinder head."
     },
     "oem": "F801-13-460A",
-    "equiv": [
-      "Mazda 626 1.8"
-    ],
+    "equiv": ["Mazda 626 1.8"],
     "status": "verified",
     "motor": "F8"
   },
@@ -2583,9 +2229,7 @@
       "en": "Gasket between intake manifold and cylinder head."
     },
     "oem": "K710-13-111",
-    "equiv": [
-      "Mazda B2200 Diesel"
-    ],
+    "equiv": ["Mazda B2200 Diesel"],
     "status": "verified",
     "motor": "R2"
   },
@@ -2601,9 +2245,7 @@
       "en": "Exhaust gas recirculation valve."
     },
     "oem": "AA30G-13-741",
-    "equiv": [
-      "Mazda 626 1.8"
-    ],
+    "equiv": ["Mazda 626 1.8"],
     "status": "verified",
     "motor": "F8"
   },
@@ -2619,9 +2261,7 @@
       "en": "EGR valve gasket."
     },
     "oem": "F807-20-300",
-    "equiv": [
-      "Mazda 626 1.8"
-    ],
+    "equiv": ["Mazda 626 1.8"],
     "status": "verified",
     "motor": "F8"
   },
@@ -2637,9 +2277,7 @@
       "en": "Heat shield for exhaust manifold."
     },
     "oem": "RF01-13-450E",
-    "equiv": [
-      "Mazda B2200 Diesel"
-    ],
+    "equiv": ["Mazda B2200 Diesel"],
     "status": "verified",
     "motor": "R2"
   },
@@ -2655,10 +2293,7 @@
       "en": "Fuel injector for diesel engine."
     },
     "oem": "R201-13-640A",
-    "equiv": [
-      "Mazda B2200 Diesel",
-      "Bosch 0 434 250 036"
-    ],
+    "equiv": ["Mazda B2200 Diesel", "Bosch 0 434 250 036"],
     "status": "verified",
     "motor": "R2"
   },
@@ -2674,9 +2309,7 @@
       "en": "High pressure pipe from pump to injector #1."
     },
     "oem": "RF01-13-6751",
-    "equiv": [
-      "Mazda B2200 Diesel"
-    ],
+    "equiv": ["Mazda B2200 Diesel"],
     "status": "verified",
     "motor": "R2"
   },
@@ -2692,9 +2325,7 @@
       "en": "High pressure pipe from pump to injector #2."
     },
     "oem": "R201-13-710A",
-    "equiv": [
-      "Mazda B2200 Diesel"
-    ],
+    "equiv": ["Mazda B2200 Diesel"],
     "status": "verified",
     "motor": "R2"
   },
@@ -2710,9 +2341,7 @@
       "en": "High pressure pipe from pump to injector #3."
     },
     "oem": "R201-13-720A",
-    "equiv": [
-      "Mazda B2200 Diesel"
-    ],
+    "equiv": ["Mazda B2200 Diesel"],
     "status": "verified",
     "motor": "R2"
   },
@@ -2728,9 +2357,7 @@
       "en": "High pressure pipe from pump to injector #4."
     },
     "oem": "R201-13-730",
-    "equiv": [
-      "Mazda B2200 Diesel"
-    ],
+    "equiv": ["Mazda B2200 Diesel"],
     "status": "verified",
     "motor": "R2"
   },
@@ -2746,9 +2373,7 @@
       "en": "Fuel return pipe from injectors to pump."
     },
     "oem": "RF01-13-680B",
-    "equiv": [
-      "Mazda B2200 Diesel"
-    ],
+    "equiv": ["Mazda B2200 Diesel"],
     "status": "verified",
     "motor": "R2"
   },
@@ -2988,9 +2613,7 @@
       "en": "Right rear axle shaft."
     },
     "oem": "AA30A-26-111",
-    "equiv": [
-      "Mazda B2200 4WD"
-    ],
+    "equiv": ["Mazda B2200 4WD"],
     "status": "verified",
     "motor": "ambos"
   },
@@ -3006,9 +2629,7 @@
       "en": "Left rear axle shaft."
     },
     "oem": "AA30A-26-115",
-    "equiv": [
-      "Mazda B2200 4WD"
-    ],
+    "equiv": ["Mazda B2200 4WD"],
     "status": "verified",
     "motor": "ambos"
   },
@@ -3024,9 +2645,7 @@
       "en": "Rear axle shaft bearing."
     },
     "oem": "K670-26-151",
-    "equiv": [
-      "Mazda B2200 4WD"
-    ],
+    "equiv": ["Mazda B2200 4WD"],
     "status": "verified",
     "motor": "ambos"
   },
@@ -3042,9 +2661,7 @@
       "en": "Rear axle shaft oil seal."
     },
     "oem": "00603-26-154",
-    "equiv": [
-      "Mazda B2200 4WD"
-    ],
+    "equiv": ["Mazda B2200 4WD"],
     "status": "verified",
     "motor": "ambos"
   },
@@ -3188,10 +2805,7 @@
       "en": "Camshaft for F8 gasoline engine."
     },
     "oem": "F850-12-420B",
-    "equiv": [
-      "Mazda 626 1.8",
-      "Mazda B1800"
-    ],
+    "equiv": ["Mazda 626 1.8", "Mazda B1800"],
     "status": "verified",
     "motor": "F8"
   },
@@ -3207,9 +2821,7 @@
       "en": "Timing belt pulley for camshaft."
     },
     "oem": "R201-12-425B",
-    "equiv": [
-      "Mazda B2200 Diesel"
-    ],
+    "equiv": ["Mazda B2200 Diesel"],
     "status": "verified",
     "motor": "R2"
   },
@@ -3225,9 +2837,7 @@
       "en": "Timing belt pulley for camshaft."
     },
     "oem": "K900-12-425",
-    "equiv": [
-      "Mazda 626 1.8"
-    ],
+    "equiv": ["Mazda 626 1.8"],
     "status": "verified",
     "motor": "F8"
   },
@@ -3243,9 +2853,7 @@
       "en": "Automatic timing belt tensioner."
     },
     "oem": "K900-12-700",
-    "equiv": [
-      "Mazda 626 1.8"
-    ],
+    "equiv": ["Mazda 626 1.8"],
     "status": "verified",
     "motor": "F8"
   },
@@ -3261,9 +2869,7 @@
       "en": "Timing belt tensioner spring."
     },
     "oem": "RF02-12-711A",
-    "equiv": [
-      "Mazda B2200 Diesel"
-    ],
+    "equiv": ["Mazda B2200 Diesel"],
     "status": "verified",
     "motor": "R2"
   },
@@ -3279,9 +2885,7 @@
       "en": "Metal guide preventing belt from jumping off."
     },
     "oem": "F801-11-404",
-    "equiv": [
-      "Mazda B2200 Diesel"
-    ],
+    "equiv": ["Mazda B2200 Diesel"],
     "status": "verified",
     "motor": "R2"
   },
@@ -3297,9 +2901,7 @@
       "en": "Rocker arm for F8 gasoline engine."
     },
     "oem": "K900-12-1304",
-    "equiv": [
-      "Mazda 626 1.8"
-    ],
+    "equiv": ["Mazda 626 1.8"],
     "status": "verified",
     "motor": "F8"
   },
@@ -3315,9 +2917,7 @@
       "en": "Intake side rocker shaft."
     },
     "oem": "F801-12-161B",
-    "equiv": [
-      "Mazda 626 1.8"
-    ],
+    "equiv": ["Mazda 626 1.8"],
     "status": "verified",
     "motor": "F8"
   },
@@ -3333,9 +2933,7 @@
       "en": "Exhaust side rocker shaft."
     },
     "oem": "F801-12-171B",
-    "equiv": [
-      "Mazda 626 1.8"
-    ],
+    "equiv": ["Mazda 626 1.8"],
     "status": "verified",
     "motor": "F8"
   },
@@ -3351,9 +2949,7 @@
       "en": "Screw for valve clearance adjustment."
     },
     "oem": "KKY01-12-141A",
-    "equiv": [
-      "Mazda 626 1.8"
-    ],
+    "equiv": ["Mazda 626 1.8"],
     "status": "verified",
     "motor": "F8"
   },
@@ -3369,9 +2965,7 @@
       "en": "Complete cylinder head for F8 gasoline engine."
     },
     "oem": "F801-10-100B",
-    "equiv": [
-      "Mazda 626 1.8"
-    ],
+    "equiv": ["Mazda 626 1.8"],
     "status": "verified",
     "motor": "F8"
   },
@@ -3387,9 +2981,7 @@
       "en": "Rocker cover for diesel engine."
     },
     "oem": "K770-10-220B",
-    "equiv": [
-      "Mazda B2200 Diesel"
-    ],
+    "equiv": ["Mazda B2200 Diesel"],
     "status": "verified",
     "motor": "R2"
   },
@@ -3405,9 +2997,7 @@
       "en": "Rocker cover for gasoline engine."
     },
     "oem": "F801-10-220B",
-    "equiv": [
-      "Mazda 626 1.8"
-    ],
+    "equiv": ["Mazda 626 1.8"],
     "status": "verified",
     "motor": "F8"
   },
@@ -3423,9 +3013,7 @@
       "en": "Rocker cover gasket."
     },
     "oem": "K770-10-235B",
-    "equiv": [
-      "Mazda B2200 Diesel"
-    ],
+    "equiv": ["Mazda B2200 Diesel"],
     "status": "verified",
     "motor": "R2"
   },
@@ -3441,9 +3029,7 @@
       "en": "Rocker cover gasket."
     },
     "oem": "F801-10-235B",
-    "equiv": [
-      "Mazda 626 1.8"
-    ],
+    "equiv": ["Mazda 626 1.8"],
     "status": "verified",
     "motor": "F8"
   },
@@ -3459,9 +3045,7 @@
       "en": "Oil filler cap on valve cover."
     },
     "oem": "K710-10-250A",
-    "equiv": [
-      "Mazda B2200 Diesel"
-    ],
+    "equiv": ["Mazda B2200 Diesel"],
     "status": "verified",
     "motor": "R2"
   },
@@ -3477,9 +3061,7 @@
       "en": "O-ring for oil filler cap."
     },
     "oem": "KKY01-10-252",
-    "equiv": [
-      "Mazda B2200 Diesel"
-    ],
+    "equiv": ["Mazda B2200 Diesel"],
     "status": "verified",
     "motor": "R2"
   },
@@ -3495,9 +3077,7 @@
       "en": "Cylinder head bolt for diesel engine. Single use."
     },
     "oem": "K710-10-135",
-    "equiv": [
-      "Mazda B2200 Diesel"
-    ],
+    "equiv": ["Mazda B2200 Diesel"],
     "status": "verified",
     "motor": "R2",
     "notes": {
@@ -3517,9 +3097,7 @@
       "en": "Cylinder head bolt for gasoline engine."
     },
     "oem": "F801-10-135",
-    "equiv": [
-      "Mazda 626 1.8"
-    ],
+    "equiv": ["Mazda 626 1.8"],
     "status": "verified",
     "motor": "F8"
   },
@@ -3535,9 +3113,7 @@
       "en": "Oil baffle plate inside oil pan."
     },
     "oem": "K710-10-2111",
-    "equiv": [
-      "Mazda B2200 Diesel"
-    ],
+    "equiv": ["Mazda B2200 Diesel"],
     "status": "verified",
     "motor": "R2"
   },
@@ -3553,9 +3129,7 @@
       "en": "Exhaust manifold with turbocharger mounting."
     },
     "oem": "R201-13-450E",
-    "equiv": [
-      "Mazda B2200 Turbo"
-    ],
+    "equiv": ["Mazda B2200 Turbo"],
     "status": "verified",
     "motor": "R2"
   },
@@ -3571,9 +3145,7 @@
       "en": "Oil return pipe from turbo to oil pan."
     },
     "oem": "R201-13-654",
-    "equiv": [
-      "Mazda B2200 Turbo"
-    ],
+    "equiv": ["Mazda B2200 Turbo"],
     "status": "verified",
     "motor": "R2"
   },
@@ -3589,9 +3161,7 @@
       "en": "Gasket between turbo and exhaust manifold."
     },
     "oem": "R201-13-670",
-    "equiv": [
-      "Mazda B2200 Turbo"
-    ],
+    "equiv": ["Mazda B2200 Turbo"],
     "status": "verified",
     "motor": "R2"
   },
@@ -3607,9 +3177,7 @@
       "en": "Gasket between turbo and exhaust pipe."
     },
     "oem": "R201-13-671",
-    "equiv": [
-      "Mazda B2200 Turbo"
-    ],
+    "equiv": ["Mazda B2200 Turbo"],
     "status": "verified",
     "motor": "R2"
   },
@@ -3625,9 +3193,7 @@
       "en": "Aluminum housing for thermostat."
     },
     "oem": "K710-15-1501",
-    "equiv": [
-      "Mazda B2200 Diesel"
-    ],
+    "equiv": ["Mazda B2200 Diesel"],
     "status": "verified",
     "motor": "R2"
   },
@@ -3643,9 +3209,7 @@
       "en": "Aluminum housing for thermostat."
     },
     "oem": "K887-15-172",
-    "equiv": [
-      "Mazda 626 1.8"
-    ],
+    "equiv": ["Mazda 626 1.8"],
     "status": "verified",
     "motor": "F8"
   },
@@ -3661,9 +3225,7 @@
       "en": "Gasket between thermostat housing and cylinder head."
     },
     "oem": "KKY01-15-173",
-    "equiv": [
-      "Mazda 626 1.8"
-    ],
+    "equiv": ["Mazda 626 1.8"],
     "status": "verified",
     "motor": "F8"
   },
@@ -3759,9 +3321,7 @@
       "en": "Electric high pressure fuel pump."
     },
     "oem": "MFE01-13-350A",
-    "equiv": [
-      "Mazda 626 1.8"
-    ],
+    "equiv": ["Mazda 626 1.8"],
     "status": "verified",
     "motor": "F8"
   },
@@ -3777,9 +3337,7 @@
       "en": "Fuel filter with water separator."
     },
     "oem": "R252-14-300E",
-    "equiv": [
-      "Mazda B2200 Diesel"
-    ],
+    "equiv": ["Mazda B2200 Diesel"],
     "status": "verified",
     "motor": "R2"
   },
@@ -3795,9 +3353,7 @@
       "en": "In-line fuel filter."
     },
     "oem": "F801-14-300E",
-    "equiv": [
-      "Mazda 626 1.8"
-    ],
+    "equiv": ["Mazda 626 1.8"],
     "status": "verified",
     "motor": "F8"
   },
@@ -3893,9 +3449,7 @@
       "en": "Oil cooler heat exchanger type."
     },
     "oem": "K743-15-52XA",
-    "equiv": [
-      "Mazda B2200 Diesel"
-    ],
+    "equiv": ["Mazda B2200 Diesel"],
     "status": "verified",
     "motor": "R2"
   },
@@ -3911,9 +3465,7 @@
       "en": "Pipe connecting oil cooler."
     },
     "oem": "K743-15-52XA",
-    "equiv": [
-      "Mazda B2200 Diesel"
-    ],
+    "equiv": ["Mazda B2200 Diesel"],
     "status": "verified",
     "motor": "R2"
   },
@@ -3929,9 +3481,7 @@
       "en": "Oil jet cooling piston underside."
     },
     "oem": "K016-10-580",
-    "equiv": [
-      "Mazda B2200 Diesel"
-    ],
+    "equiv": ["Mazda B2200 Diesel"],
     "status": "verified",
     "motor": "R2"
   },
@@ -3947,9 +3497,7 @@
       "en": "Valve regulating oil jet flow."
     },
     "oem": "K770-10-590",
-    "equiv": [
-      "Mazda B2200 Diesel"
-    ],
+    "equiv": ["Mazda B2200 Diesel"],
     "status": "verified",
     "motor": "R2"
   },
@@ -3965,9 +3513,7 @@
       "en": "Gasket between oil pump and block."
     },
     "oem": "F801-14-248",
-    "equiv": [
-      "Mazda 626 1.8"
-    ],
+    "equiv": ["Mazda 626 1.8"],
     "status": "verified",
     "motor": "F8"
   },
@@ -3983,10 +3529,7 @@
       "en": "Front crankshaft oil seal."
     },
     "oem": "FE01-10-602",
-    "equiv": [
-      "Mazda B2200",
-      "Mazda 626"
-    ],
+    "equiv": ["Mazda B2200", "Mazda 626"],
     "status": "verified",
     "motor": "ambos"
   },
@@ -4162,9 +3705,7 @@
       "en": "Right rear brake backing plate."
     },
     "oem": "AA301-26-280",
-    "equiv": [
-      "Mazda B2200"
-    ],
+    "equiv": ["Mazda B2200"],
     "status": "verified",
     "motor": "ambos"
   },
@@ -4180,9 +3721,7 @@
       "en": "Left rear brake backing plate."
     },
     "oem": "AA301-26-290",
-    "equiv": [
-      "Mazda B2200"
-    ],
+    "equiv": ["Mazda B2200"],
     "status": "verified",
     "motor": "ambos"
   },
@@ -4198,9 +3737,7 @@
       "en": "Upper return spring for rear brake shoes."
     },
     "oem": "AA301-26-341",
-    "equiv": [
-      "Mazda B2200"
-    ],
+    "equiv": ["Mazda B2200"],
     "status": "verified",
     "motor": "ambos"
   },
@@ -4216,9 +3753,7 @@
       "en": "Lower return spring for rear brake shoes."
     },
     "oem": "AA301-26-342",
-    "equiv": [
-      "Mazda B2200"
-    ],
+    "equiv": ["Mazda B2200"],
     "status": "verified",
     "motor": "ambos"
   },
@@ -4234,9 +3769,7 @@
       "en": "Spring holding shoes against backing plate."
     },
     "oem": "AA301-26-365",
-    "equiv": [
-      "Mazda B2200"
-    ],
+    "equiv": ["Mazda B2200"],
     "status": "verified",
     "motor": "ambos"
   },
@@ -4252,9 +3785,7 @@
       "en": "Pin for shoe hold-down spring."
     },
     "oem": "AA301-26-364",
-    "equiv": [
-      "Mazda B2200"
-    ],
+    "equiv": ["Mazda B2200"],
     "status": "verified",
     "motor": "ambos"
   },
@@ -4270,9 +3801,7 @@
       "en": "Right rear brake automatic adjuster."
     },
     "oem": "AA301-26-350",
-    "equiv": [
-      "Mazda B2200"
-    ],
+    "equiv": ["Mazda B2200"],
     "status": "verified",
     "motor": "ambos"
   },
@@ -4288,9 +3817,7 @@
       "en": "Left rear brake automatic adjuster."
     },
     "oem": "AA301-26-450",
-    "equiv": [
-      "Mazda B2200"
-    ],
+    "equiv": ["Mazda B2200"],
     "status": "verified",
     "motor": "ambos"
   },
@@ -4658,9 +4185,7 @@
       "en": "Clutch bell housing connecting engine and transmission."
     },
     "oem": "AA301-16-211",
-    "equiv": [
-      "Mazda B2200"
-    ],
+    "equiv": ["Mazda B2200"],
     "status": "verified",
     "motor": "ambos"
   },
@@ -4676,9 +4201,7 @@
       "en": "Fork that actuates the release bearing."
     },
     "oem": "0FE57-16-520A",
-    "equiv": [
-      "Mazda B2200"
-    ],
+    "equiv": ["Mazda B2200"],
     "status": "verified",
     "motor": "ambos"
   },
@@ -4694,10 +4217,7 @@
       "en": "Pilot bearing in center of flywheel."
     },
     "oem": "KKY01-11-303",
-    "equiv": [
-      "Mazda B2200",
-      "Mazda 626"
-    ],
+    "equiv": ["Mazda B2200", "Mazda 626"],
     "status": "verified",
     "motor": "ambos"
   },
@@ -4713,9 +4233,7 @@
       "en": "Flywheel ring gear."
     },
     "oem": "K710-11-502",
-    "equiv": [
-      "Mazda B2200 Diesel"
-    ],
+    "equiv": ["Mazda B2200 Diesel"],
     "status": "verified",
     "motor": "R2"
   },
@@ -4763,9 +4281,7 @@
       "en": "Relay controlling glow plug timing."
     },
     "oem": "S501-18-140A",
-    "equiv": [
-      "Mazda B2200 Diesel"
-    ],
+    "equiv": ["Mazda B2200 Diesel"],
     "status": "verified",
     "motor": "R2"
   },
@@ -4781,9 +4297,7 @@
       "en": "Resistor reducing voltage after glow cycle."
     },
     "oem": "RF11-18-154A",
-    "equiv": [
-      "Mazda B2200 Diesel"
-    ],
+    "equiv": ["Mazda B2200 Diesel"],
     "status": "verified",
     "motor": "R2"
   },

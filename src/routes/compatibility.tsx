@@ -1,18 +1,20 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState, useMemo, useEffect } from "react";
 import { z } from "zod";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { PageShell, Crumbs } from "@/components/page-shell";
 import { compatibilities as staticCompatibilities } from "@/data/compatibility";
 import type { Compatibility, Difficulty } from "@/data/types";
 import { localize } from "@/data/types";
-import { useLanguage, type Language } from "@/components/language-provider";
+import { useLanguage } from "@/components/language-provider";
 import { api, ApiError, type ApiCompatibility } from "@/lib/api";
 import { useDebounce, normalizeString } from "@/lib/utils";
+import ogImage from "@/assets/rocsta-hero.jpg";
 
 const DIFFICULTY_KEYS: Record<Difficulty, string> = {
-  "Fácil": "comp.diff.easy",
-  "Media": "comp.diff.medium",
-  "Alta": "comp.diff.hard",
+  Fácil: "comp.diff.easy",
+  Media: "comp.diff.medium",
+  Alta: "comp.diff.hard",
 };
 import {
   Search,
@@ -81,14 +83,45 @@ export const Route = createFileRoute("/compatibility")({
           "Descubre qué piezas de otros todoterrenos y turismos (Mazda B2200, Kia Sportage, Toyota Land Cruiser) sirven para reparar o modificar el Asia Rocsta.",
       },
       { property: "og:title", content: "Compatibilidades — Asia Rocsta Archive" },
+      {
+        property: "og:description",
+        content:
+          "Descubre qué piezas de otros todoterrenos (Mazda B2200, Kia Sportage, Toyota Land Cruiser) sirven para tu Asia Rocsta.",
+      },
       { property: "og:url", content: "/compatibility" },
+      { property: "og:image", content: ogImage },
+      { name: "twitter:image", content: ogImage },
     ],
     links: [{ rel: "canonical", href: "/compatibility" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            {
+              "@type": "ListItem",
+              position: 1,
+              name: "Inicio",
+              item: "https://muhaddil.github.io/asia-rocsta-hub/",
+            },
+            {
+              "@type": "ListItem",
+              position: 2,
+              name: "Compatibilidades",
+              item: "https://muhaddil.github.io/asia-rocsta-hub/compatibility",
+            },
+          ],
+        }),
+      },
+    ],
   }),
   component: CompatibilityPage,
 });
 
 function CompatibilityPage() {
+  const queryClient = useQueryClient();
   const { t, language } = useLanguage();
   const CATEGORY_LABELS = {
     engine: t("cat.engine"),
@@ -102,7 +135,17 @@ function CompatibilityPage() {
   const searchParams = Route.useSearch();
   const navigate = useNavigate({ from: Route.fullPath });
 
-  const [compatibilities, setCompatibilities] = useState<Compatibility[]>([]);
+  const { data: compatibilities = [], isLoading: loading } = useQuery({
+    queryKey: ["compatibilities"],
+    queryFn: async () => {
+      const list = await api.getCompatibilities();
+      return list.map(toCompat);
+    },
+    initialData: staticCompatibilities,
+    refetchInterval: 30000,
+    refetchIntervalInBackground: false,
+  });
+
   const [confirmed, setConfirmed] = useState<Set<string>>(() => {
     try {
       const stored = localStorage.getItem("rocsta_confirmed");
@@ -111,7 +154,6 @@ function CompatibilityPage() {
       return new Set<string>();
     }
   });
-  const [loading, setLoading] = useState(true);
   const [pendingConfirmId, setPendingConfirmId] = useState<string | null>(null);
   const [confirming, setConfirming] = useState(false);
 
@@ -121,54 +163,10 @@ function CompatibilityPage() {
       next.add(id);
       try {
         localStorage.setItem("rocsta_confirmed", JSON.stringify([...next]));
-      } catch { }
+      } catch {}
       return next;
     });
   };
-
-  const fetchData = () => {
-    setLoading(true);
-    api
-      .getCompatibilities()
-      .then((list) => setCompatibilities(list.map(toCompat)))
-      .catch(() => setCompatibilities(staticCompatibilities))
-      .finally(() => setLoading(false));
-  };
-
-   useEffect(() => {
-     let interval: NodeJS.Timeout;
-
-     const startPolling = () => {
-       fetchData();
-       interval = setInterval(fetchData, 30000);
-     };
-
-     const stopPolling = () => {
-       if (interval) {
-         clearInterval(interval);
-       }
-     };
-
-     // Start polling when component mounts
-     startPolling();
-
-     // Pause polling when tab is hidden, resume when visible
-     const handleVisibilityChange = () => {
-       if (document.hidden) {
-         stopPolling();
-       } else {
-         startPolling();
-       }
-     };
-
-     document.addEventListener("visibilitychange", handleVisibilityChange);
-
-     // Cleanup
-     return () => {
-       stopPolling();
-       document.removeEventListener("visibilitychange", handleVisibilityChange);
-     };
-   }, []);
 
   const [selectedComp, setSelectedComp] = useState<Compatibility | null>(null);
 
@@ -213,22 +211,22 @@ function CompatibilityPage() {
       if (currentType && item.type !== currentType) return false;
       if (currentDifficulty && item.difficulty !== currentDifficulty) return false;
 
-       if (currentSearch) {
-         const query = normalizeString(currentSearch);
-         const rocstaPart = normalizeString(localize(item.rocstaPart, language));
-         const donorVehicle = normalizeString(localize(item.donorVehicle, language));
-         const donorRef = normalizeString(item.donorRef);
-         const notes = normalizeString(localize(item.notes || "", language));
+      if (currentSearch) {
+        const query = normalizeString(currentSearch);
+        const rocstaPart = normalizeString(localize(item.rocstaPart, language));
+        const donorVehicle = normalizeString(localize(item.donorVehicle, language));
+        const donorRef = normalizeString(item.donorRef);
+        const notes = normalizeString(localize(item.notes || "", language));
 
-         if (
-           !rocstaPart.includes(query) &&
-           !donorVehicle.includes(query) &&
-           !donorRef.includes(query) &&
-           !notes.includes(query)
-         ) {
-           return false;
-         }
-       }
+        if (
+          !rocstaPart.includes(query) &&
+          !donorVehicle.includes(query) &&
+          !donorRef.includes(query) &&
+          !notes.includes(query)
+        ) {
+          return false;
+        }
+      }
 
       return true;
     });
@@ -246,8 +244,8 @@ function CompatibilityPage() {
     setConfirming(true);
     try {
       const result = await api.confirmCompatibility(id);
-      setCompatibilities((prev) =>
-        prev.map((c) => (c.id === id ? { ...c, confirmations: result.confirmations } : c)),
+      queryClient.setQueryData<Compatibility[]>(["compatibilities"], (prev) =>
+        prev?.map((c) => (c.id === id ? { ...c, confirmations: result.confirmations } : c)),
       );
       markConfirmed(id);
     } catch (err: unknown) {
@@ -255,8 +253,8 @@ function CompatibilityPage() {
         markConfirmed(id);
         try {
           const status = await api.getConfirmationStatus(id);
-          setCompatibilities((prev) =>
-            prev.map((c) => (c.id === id ? { ...c, confirmations: status.confirmations } : c)),
+          queryClient.setQueryData<Compatibility[]>(["compatibilities"], (prev) =>
+            prev?.map((c) => (c.id === id ? { ...c, confirmations: status.confirmations } : c)),
           );
         } catch {
           // If fallback fails, do not crash.
@@ -363,7 +361,11 @@ function CompatibilityPage() {
         </div>
 
         <div className="text-xs text-muted-foreground">
-          {loading ? <Loader2 className="size-4 animate-spin inline" /> : t("comp.resultsFound", { count: filteredList.length })}
+          {loading ? (
+            <Loader2 className="size-4 animate-spin inline" />
+          ) : (
+            t("comp.resultsFound", { count: filteredList.length })
+          )}
         </div>
 
         <div className="rounded-xl border border-border bg-card shadow-sm overflow-hidden">
@@ -403,10 +405,20 @@ function CompatibilityPage() {
                     <TableRow
                       key={item.id}
                       onClick={() => setSelectedComp(item)}
-                      className="cursor-pointer hover:bg-muted/30 transition-colors"
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                          e.preventDefault();
+                          setSelectedComp(item);
+                        }
+                      }}
+                      tabIndex={0}
+                      role="button"
+                      className="cursor-pointer hover:bg-muted/30 transition-colors focus:outline-none focus:ring-2 focus:ring-inset focus:ring-rocsta-green/30"
                     >
                       <TableCell className="px-6 py-4">
-                        <div className="font-bold text-sm text-foreground">{localize(item.rocstaPart, language)}</div>
+                        <div className="font-bold text-sm text-foreground">
+                          {localize(item.rocstaPart, language)}
+                        </div>
                         <div className="text-[10px] text-muted-foreground font-mono mt-0.5 uppercase">
                           {CATEGORY_LABELS[item.category]}
                         </div>
@@ -435,7 +447,8 @@ function CompatibilityPage() {
                       </TableCell>
                       <TableCell className="px-4 py-4">
                         <div className="flex items-center gap-1 text-xs text-muted-foreground font-semibold">
-                          <Gauge className="size-3 text-rocsta-accent" /> {t(DIFFICULTY_KEYS[item.difficulty])}
+                          <Gauge className="size-3 text-rocsta-accent" />{" "}
+                          {t(DIFFICULTY_KEYS[item.difficulty])}
                         </div>
                       </TableCell>
                       <TableCell className="px-6 py-4 text-right">
@@ -508,7 +521,8 @@ function CompatibilityPage() {
                     {t("comp.dialog.donorVehicle")}
                   </h4>
                   <div className="font-semibold text-foreground flex items-center gap-1.5">
-                    <Car className="size-3 text-rocsta-accent" /> {localize(selectedComp.donorVehicle, language)}
+                    <Car className="size-3 text-rocsta-accent" />{" "}
+                    {localize(selectedComp.donorVehicle, language)}
                   </div>
                 </div>
                 <div>
@@ -612,7 +626,10 @@ function CompatibilityPage() {
         )}
       </Dialog>
 
-      <Dialog open={pendingConfirmId !== null} onOpenChange={(open) => !open && setPendingConfirmId(null)}>
+      <Dialog
+        open={pendingConfirmId !== null}
+        onOpenChange={(open) => !open && setPendingConfirmId(null)}
+      >
         <DialogContent className="max-w-md sm:rounded-2xl border-border bg-card">
           <DialogHeader>
             <DialogTitle className="text-xl font-extrabold tracking-tight text-foreground flex items-center gap-2">

@@ -4,7 +4,9 @@ export function PageShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="mx-auto max-w-[1800px] flex gap-8 px-6 py-10">
       <SiteSidebar />
-      <main className="min-w-0 flex-1 overflow-x-hidden">{children}</main>
+      <main id="main-content" className="min-w-0 flex-1 overflow-x-hidden">
+        {children}
+      </main>
     </div>
   );
 }

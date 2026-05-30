@@ -17,7 +17,8 @@ export function CommunityGallery() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    api.getGallery()
+    api
+      .getGallery()
       .then(setEntries)
       .catch(() => setEntries([]))
       .finally(() => setLoading(false));
@@ -49,34 +50,37 @@ export function CommunityGallery() {
             {t("home.gallery.empty")}
           </p>
         ) : (
-          entries.filter(e => e.verified).map((e) => (
-            <article
-              key={e.id}
-              className="group overflow-hidden rounded-xl border border-border bg-card shadow-sm hover:shadow-md transition-all"
-            >
-              <div className="aspect-[4/3] overflow-hidden bg-muted">
-                <img
-                  src={imageUrl(e.image)}
-                  alt={`Asia Rocsta ${e.year}`}
-                  loading="lazy"
-                  className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
-                />
-              </div>
-              <div className="p-4 flex items-center justify-between">
-                <div>
-                  <div className="text-sm font-extrabold text-foreground">
-                    Rocsta {e.year} · {e.motor}
-                  </div>
-                  <div className="text-xs text-muted-foreground mt-0.5">
-                    {e.country && `${e.country} — `}{e.owner}
-                  </div>
+          entries
+            .filter((e) => e.verified)
+            .map((e) => (
+              <article
+                key={e.id}
+                className="group overflow-hidden rounded-xl border border-border bg-card shadow-sm hover:shadow-md transition-all"
+              >
+                <div className="aspect-[4/3] overflow-hidden bg-muted">
+                  <img
+                    src={imageUrl(e.image)}
+                    alt={`Asia Rocsta ${e.year}`}
+                    loading="lazy"
+                    className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
+                  />
                 </div>
-                {/* <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+                <div className="p-4 flex items-center justify-between">
+                  <div>
+                    <div className="text-sm font-extrabold text-foreground">
+                      Rocsta {e.year} · {e.motor}
+                    </div>
+                    <div className="text-xs text-muted-foreground mt-0.5">
+                      {e.country && `${e.country} — `}
+                      {e.owner}
+                    </div>
+                  </div>
+                  {/* <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
                   {t("home.gallery.placeholder")}
                 </span> */}
-              </div>
-            </article>
-          ))
+                </div>
+              </article>
+            ))
         )}
       </div>
     </section>

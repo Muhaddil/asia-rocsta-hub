@@ -1,7 +1,6 @@
 import { useLanguage } from "@/components/language-provider";
 import { useEffect, useState } from "react";
 
-
 export function SiteFooter() {
   const { t } = useLanguage();
   const [mounted, setMounted] = useState(false);

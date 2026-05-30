@@ -43,11 +43,7 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
 
-    dedupe: [
-      "react",
-      "react-dom",
-      "@tanstack/react-router",
-    ],
+    dedupe: ["react", "react-dom", "@tanstack/react-router"],
   },
 
   // server: {

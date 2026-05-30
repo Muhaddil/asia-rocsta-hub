@@ -3,6 +3,7 @@ import { PageShell } from "@/components/page-shell";
 import { useLanguage } from "@/components/language-provider";
 import { aboutHero, aboutSections, aboutMission, type Localized } from "@/data/about";
 import heroImg from "@/assets/rocsta-hero.jpg";
+import ogImage from "@/assets/rocsta-hero.jpg";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -21,6 +22,8 @@ export const Route = createFileRoute("/about")({
       },
       { property: "og:url", content: "/about" },
       { property: "og:type", content: "article" },
+      { property: "og:image", content: ogImage },
+      { name: "twitter:image", content: ogImage },
     ],
     links: [{ rel: "canonical", href: "/about" }],
     scripts: [
@@ -67,6 +70,7 @@ function AboutPage() {
           alt="Asia Rocsta"
           width={1600}
           height={900}
+          loading="lazy"
           className="w-full aspect-[16/8] object-cover"
         />
       </div>
@@ -119,9 +123,7 @@ function AboutPage() {
                     <dt className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
                       {L(f.label)}
                     </dt>
-                    <dd className="mt-1 text-sm font-semibold text-foreground">
-                      {L(f.value)}
-                    </dd>
+                    <dd className="mt-1 text-sm font-semibold text-foreground">{L(f.value)}</dd>
                   </div>
                 ))}
               </dl>
@@ -167,18 +169,11 @@ function AboutPage() {
                     key={set.id}
                     className="rounded-xl border border-border bg-card p-6 shadow-sm"
                   >
-                    <h3 className="text-sm font-extrabold text-foreground">
-                      {L(set.name)}
-                    </h3>
-                    <p className="text-xs text-muted-foreground mb-4 mt-0.5">
-                      {L(set.tagline)}
-                    </p>
+                    <h3 className="text-sm font-extrabold text-foreground">{L(set.name)}</h3>
+                    <p className="text-xs text-muted-foreground mb-4 mt-0.5">{L(set.tagline)}</p>
                     <dl className="divide-y divide-border/60">
                       {set.rows.map((r, i) => (
-                        <div
-                          key={i}
-                          className="flex justify-between gap-4 py-2 text-xs"
-                        >
+                        <div key={i} className="flex justify-between gap-4 py-2 text-xs">
                           <dt className="text-muted-foreground">{L(r.label)}</dt>
                           <dd className="font-mono font-bold text-foreground text-right">
                             {L(r.value)}
@@ -194,13 +189,8 @@ function AboutPage() {
             {section.kind === "list" && (
               <ul className="space-y-3">
                 {section.items.map((item, i) => (
-                  <li
-                    key={i}
-                    className="rounded-xl border border-border bg-card p-5 shadow-sm"
-                  >
-                    <h3 className="text-sm font-extrabold text-foreground">
-                      {L(item.title)}
-                    </h3>
+                  <li key={i} className="rounded-xl border border-border bg-card p-5 shadow-sm">
+                    <h3 className="text-sm font-extrabold text-foreground">{L(item.title)}</h3>
                     <p className="mt-1 text-xs text-muted-foreground leading-relaxed">
                       {L(item.description)}
                     </p>
@@ -217,9 +207,7 @@ function AboutPage() {
                     <div className="text-xs font-mono font-bold text-rocsta-accent uppercase tracking-widest">
                       {p.year}
                     </div>
-                    <p className="mt-1 text-sm text-foreground leading-relaxed">
-                      {L(p.text)}
-                    </p>
+                    <p className="mt-1 text-sm text-foreground leading-relaxed">{L(p.text)}</p>
                   </li>
                 ))}
               </ol>
@@ -230,9 +218,7 @@ function AboutPage() {
 
       <section className="mt-14 rounded-2xl bg-rocsta-dark p-6 md:p-8 text-white">
         <h2 className="text-2xl font-bold mb-3">{L(aboutMission.title)}</h2>
-        <p className="text-sm text-slate-300 leading-relaxed max-w-3xl">
-          {L(aboutMission.desc)}
-        </p>
+        <p className="text-sm text-slate-300 leading-relaxed max-w-3xl">{L(aboutMission.desc)}</p>
         <div className="mt-6 flex flex-wrap gap-3">
           <Link
             to="/community"

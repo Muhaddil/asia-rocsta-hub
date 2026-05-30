@@ -1,13 +1,15 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState, useMemo, useEffect } from "react";
 import { z } from "zod";
+import { useQuery } from "@tanstack/react-query";
 import { PageShell, Crumbs } from "@/components/page-shell";
-import { useLanguage, type Language } from "@/components/language-provider";
+import { useLanguage } from "@/components/language-provider";
 import { useDebounce, normalizeString } from "@/lib/utils";
 import { parts as staticParts } from "@/data/parts";
-import { api, type ApiPart } from "@/lib/api";
+import { api } from "@/lib/api";
 import type { Part, PartCategory, Motor, VerificationStatus } from "@/data/types";
 import { localize } from "@/data/types";
+import ogImage from "@/assets/rocsta-hero.jpg";
 import {
   Search,
   FilterX,
@@ -15,9 +17,7 @@ import {
   AlertTriangle,
   HelpCircle,
   Wrench,
-  BookOpen,
   Info,
-  Layers,
   Sparkles,
   Loader2,
 } from "lucide-react";
@@ -61,9 +61,39 @@ export const Route = createFileRoute("/parts")({
           "Encuentra referencias OEM, equivalencias de la gama Mazda (B2200, 626), medidas y compatibilidad de piezas para reparar tu Asia Rocsta.",
       },
       { property: "og:title", content: "Catálogo de Piezas — Asia Rocsta Archive" },
+      {
+        property: "og:description",
+        content:
+          "Encuentra referencias OEM, equivalencias de la gama Mazda (B2200, 626), medidas y compatibilidad de piezas para reparar tu Asia Rocsta.",
+      },
       { property: "og:url", content: "/parts" },
+      { property: "og:image", content: ogImage },
+      { name: "twitter:image", content: ogImage },
     ],
     links: [{ rel: "canonical", href: "/parts" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            {
+              "@type": "ListItem",
+              position: 1,
+              name: "Inicio",
+              item: "https://muhaddil.github.io/asia-rocsta-hub/",
+            },
+            {
+              "@type": "ListItem",
+              position: 2,
+              name: "Catálogo de Piezas",
+              item: "https://muhaddil.github.io/asia-rocsta-hub/parts",
+            },
+          ],
+        }),
+      },
+    ],
   }),
   component: PartsPage,
 });
@@ -82,68 +112,27 @@ function PartsPage() {
   const searchParams = Route.useSearch();
   const navigate = useNavigate({ from: Route.fullPath });
 
-  const [parts, setParts] = useState<Part[]>(staticParts);
-  const [loading, setLoading] = useState(false);
-
-   useEffect(() => {
-     const loadParts = async () => {
-       setLoading(true);
-       try {
-         const apiParts = await api.getParts();
-         const convertedParts: Part[] = apiParts.map((ap) => ({
-           id: ap.id,
-           name: ap.name,
-           category: ap.category as PartCategory,
-           description: ap.description,
-           oem: ap.oem,
-           equiv: ap.equiv,
-           status: ap.status as VerificationStatus,
-           motor: ap.motor as Motor,
-           notes: ap.notes,
-           refs: ap.refs || [],
-         }));
-         setParts(convertedParts);
-       } catch (err) {
-         console.warn("Failed to load parts from API, using static data:", err);
-         setParts(staticParts);
-       } finally {
-         setLoading(false);
-       }
-     };
-
-     let interval: NodeJS.Timeout;
-
-     const startPolling = () => {
-       loadParts();
-       interval = setInterval(loadParts, 30000);
-     };
-
-     const stopPolling = () => {
-       if (interval) {
-         clearInterval(interval);
-       }
-     };
-
-     // Start polling when component mounts
-     startPolling();
-
-     // Pause polling when tab is hidden, resume when visible
-     const handleVisibilityChange = () => {
-       if (document.hidden) {
-         stopPolling();
-       } else {
-         startPolling();
-       }
-     };
-
-     document.addEventListener("visibilitychange", handleVisibilityChange);
-
-     // Cleanup
-     return () => {
-       stopPolling();
-       document.removeEventListener("visibilitychange", handleVisibilityChange);
-     };
-   }, []);
+  const { data: parts = staticParts, isLoading: loading } = useQuery({
+    queryKey: ["parts"],
+    queryFn: async () => {
+      const apiParts = await api.getParts();
+      return apiParts.map((ap) => ({
+        id: ap.id,
+        name: ap.name,
+        category: ap.category as PartCategory,
+        description: ap.description,
+        oem: ap.oem,
+        equiv: ap.equiv,
+        status: ap.status as VerificationStatus,
+        motor: ap.motor as Motor,
+        notes: ap.notes,
+        refs: ap.refs || [],
+      })) as Part[];
+    },
+    initialData: staticParts,
+    refetchInterval: 30000,
+    refetchIntervalInBackground: false,
+  });
 
   const [selectedPart, setSelectedPart] = useState<Part | null>(null);
 
@@ -200,27 +189,25 @@ function PartsPage() {
       // 3. Status Filter
       if (currentStatus && part.status !== currentStatus) return false;
 
-       // 4. Text Search Filter (name, oem, description, equivalents, refs)
-       if (currentSearch) {
-         const query = normalizeString(currentSearch);
-         const name = normalizeString(localize(part.name, language));
-         const oem = normalizeString(localize(part.oem, language));
-         const desc = normalizeString(localize(part.description, language));
-         const equivs = part.equiv.map((e) =>
-           normalizeString(e),
-         );
-         const refs = (part.refs || []).map((r) => normalizeString(r));
+      // 4. Text Search Filter (name, oem, description, equivalents, refs)
+      if (currentSearch) {
+        const query = normalizeString(currentSearch);
+        const name = normalizeString(localize(part.name, language));
+        const oem = normalizeString(localize(part.oem, language));
+        const desc = normalizeString(localize(part.description, language));
+        const equivs = part.equiv.map((e) => normalizeString(e));
+        const refs = (part.refs || []).map((r) => normalizeString(r));
 
-         const matchesName = name.includes(query);
-         const matchesOem = oem.includes(query);
-         const matchesDesc = desc.includes(query);
-         const matchesEquiv = equivs.some((e) => e.includes(query));
-         const matchesRefs = refs.some((r) => r.includes(query));
+        const matchesName = name.includes(query);
+        const matchesOem = oem.includes(query);
+        const matchesDesc = desc.includes(query);
+        const matchesEquiv = equivs.some((e) => e.includes(query));
+        const matchesRefs = refs.some((r) => r.includes(query));
 
-         if (!matchesName && !matchesOem && !matchesDesc && !matchesEquiv && !matchesRefs) {
-           return false;
-         }
-       }
+        if (!matchesName && !matchesOem && !matchesDesc && !matchesEquiv && !matchesRefs) {
+          return false;
+        }
+      }
 
       return true;
     });
@@ -238,70 +225,72 @@ function PartsPage() {
           <p className="mt-2 text-base text-muted-foreground max-w-3xl">{t("parts.desc")}</p>
         </div>
 
-          <div className="rounded-xl border border-border bg-card p-4 shadow-sm space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              <div className="relative">
-                <Search className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
-                <Input
-                  type="text"
-                  placeholder={t("parts.searchPartsPlaceholder")}
-                  value={searchInput}
-                  onChange={(e) => setSearchInput(e.target.value)}
-                  className="pl-9 bg-muted/40 focus-visible:ring-rocsta-green"
-                />
-              </div>
-
-              <div>
-                <select
-                  value={currentCategory || ""}
-                  onChange={(e) =>
-                    updateSearch({ category: (e.target.value || undefined) as PartCategory | undefined })
-                  }
-                  className="w-full h-9 rounded-md border border-input bg-card px-3 text-xs focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-rocsta-green"
-                >
-                  <option value="">{t("parts.filter.allCategories")}</option>
-                  <option value="engine">{t("cat.engine")}</option>
-                  <option value="transmission">{t("cat.transmission")}</option>
-                  <option value="suspension">{t("cat.suspension")}</option>
-                  <option value="electrical">{t("cat.electrical")}</option>
-                  <option value="brakes">{t("cat.brakes")}</option>
-                  <option value="tires">{t("cat.tires")}</option>
-                  <option value="body">{t("cat.body")}</option>
-                </select>
-              </div>
-
-              <div>
-                <select
-                  value={currentMotor || ""}
-                  onChange={(e) =>
-                    updateSearch({ motor: (e.target.value || undefined) as Motor | undefined })
-                  }
-                  className="w-full h-9 rounded-md border border-input bg-card px-3 text-xs focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-rocsta-green"
-                >
-                  <option value="">{t("parts.filter.allEnginesLabel")}</option>
-                  <option value="F8">{t("parts.filter.engineF8")}</option>
-                  <option value="R2">{t("parts.filter.engineR2")}</option>
-                  <option value="ambos">{t("parts.filter.engineBothOption")}</option>
-                </select>
-              </div>
-
-              <div>
-                <select
-                  value={currentStatus || ""}
-                  onChange={(e) =>
-                    updateSearch({
-                      status: (e.target.value || undefined) as VerificationStatus | undefined,
-                    })
-                  }
-                  className="w-full h-9 rounded-md border border-input bg-card px-3 text-xs focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-rocsta-green"
-                >
-                  <option value="">{t("parts.filter.allStatusLabel")}</option>
-                  <option value="verified">{t("parts.filter.verified100")}</option>
-                  <option value="mod">{t("parts.filter.requiresMod")}</option>
-                  <option value="unverified">{t("parts.filter.unverified")}</option>
-                </select>
-              </div>
+        <div className="rounded-xl border border-border bg-card p-4 shadow-sm space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div className="relative">
+              <Search className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+              <Input
+                type="text"
+                placeholder={t("parts.searchPartsPlaceholder")}
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
+                className="pl-9 bg-muted/40 focus-visible:ring-rocsta-green"
+              />
             </div>
+
+            <div>
+              <select
+                value={currentCategory || ""}
+                onChange={(e) =>
+                  updateSearch({
+                    category: (e.target.value || undefined) as PartCategory | undefined,
+                  })
+                }
+                className="w-full h-9 rounded-md border border-input bg-card px-3 text-xs focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-rocsta-green"
+              >
+                <option value="">{t("parts.filter.allCategories")}</option>
+                <option value="engine">{t("cat.engine")}</option>
+                <option value="transmission">{t("cat.transmission")}</option>
+                <option value="suspension">{t("cat.suspension")}</option>
+                <option value="electrical">{t("cat.electrical")}</option>
+                <option value="brakes">{t("cat.brakes")}</option>
+                <option value="tires">{t("cat.tires")}</option>
+                <option value="body">{t("cat.body")}</option>
+              </select>
+            </div>
+
+            <div>
+              <select
+                value={currentMotor || ""}
+                onChange={(e) =>
+                  updateSearch({ motor: (e.target.value || undefined) as Motor | undefined })
+                }
+                className="w-full h-9 rounded-md border border-input bg-card px-3 text-xs focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-rocsta-green"
+              >
+                <option value="">{t("parts.filter.allEnginesLabel")}</option>
+                <option value="F8">{t("parts.filter.engineF8")}</option>
+                <option value="R2">{t("parts.filter.engineR2")}</option>
+                <option value="ambos">{t("parts.filter.engineBothOption")}</option>
+              </select>
+            </div>
+
+            <div>
+              <select
+                value={currentStatus || ""}
+                onChange={(e) =>
+                  updateSearch({
+                    status: (e.target.value || undefined) as VerificationStatus | undefined,
+                  })
+                }
+                className="w-full h-9 rounded-md border border-input bg-card px-3 text-xs focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-rocsta-green"
+              >
+                <option value="">{t("parts.filter.allStatusLabel")}</option>
+                <option value="verified">{t("parts.filter.verified100")}</option>
+                <option value="mod">{t("parts.filter.requiresMod")}</option>
+                <option value="unverified">{t("parts.filter.unverified")}</option>
+              </select>
+            </div>
+          </div>
 
           {hasActiveFilters && (
             <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-border/60">
@@ -393,10 +382,20 @@ function PartsPage() {
                     <TableRow
                       key={part.id}
                       onClick={() => setSelectedPart(part)}
-                      className="cursor-pointer hover:bg-muted/30 transition-colors"
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                          e.preventDefault();
+                          setSelectedPart(part);
+                        }
+                      }}
+                      tabIndex={0}
+                      role="button"
+                      className="cursor-pointer hover:bg-muted/30 transition-colors focus:outline-none focus:ring-2 focus:ring-inset focus:ring-rocsta-green/30"
                     >
                       <TableCell className="px-6 py-4">
-                        <div className="font-bold text-sm text-foreground">{localize(part.name, language)}</div>
+                        <div className="font-bold text-sm text-foreground">
+                          {localize(part.name, language)}
+                        </div>
                         <div className="text-xs text-muted-foreground font-normal max-w-sm truncate mt-0.5">
                           {localize(part.description, language)}
                         </div>
@@ -415,11 +414,11 @@ function PartsPage() {
                           className={[
                             "text-[10px] font-bold uppercase py-0.5",
                             part.motor === "F8" &&
-                            "border-sky-500/20 bg-sky-500/5 text-sky-600 dark:text-sky-400",
+                              "border-sky-500/20 bg-sky-500/5 text-sky-600 dark:text-sky-400",
                             part.motor === "R2" &&
-                            "border-amber-500/20 bg-amber-500/5 text-amber-600 dark:text-amber-400",
+                              "border-amber-500/20 bg-amber-500/5 text-amber-600 dark:text-amber-400",
                             part.motor === "ambos" &&
-                            "border-purple-500/20 bg-purple-500/5 text-purple-600 dark:text-purple-400",
+                              "border-purple-500/20 bg-purple-500/5 text-purple-600 dark:text-purple-400",
                           ]
                             .filter(Boolean)
                             .join(" ")}
@@ -497,11 +496,11 @@ function PartsPage() {
                     className={[
                       "text-[9px] font-bold uppercase py-0.5",
                       selectedPart.motor === "F8" &&
-                      "border-sky-500/20 bg-sky-500/5 text-sky-600 dark:text-sky-400",
+                        "border-sky-500/20 bg-sky-500/5 text-sky-600 dark:text-sky-400",
                       selectedPart.motor === "R2" &&
-                      "border-amber-500/20 bg-amber-500/5 text-amber-600 dark:text-amber-400",
+                        "border-amber-500/20 bg-amber-500/5 text-amber-600 dark:text-amber-400",
                       selectedPart.motor === "ambos" &&
-                      "border-purple-500/20 bg-purple-500/5 text-purple-600 dark:text-purple-400",
+                        "border-purple-500/20 bg-purple-500/5 text-purple-600 dark:text-purple-400",
                     ]
                       .filter(Boolean)
                       .join(" ")}

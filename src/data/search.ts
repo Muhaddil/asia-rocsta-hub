@@ -5,14 +5,7 @@ import { problems } from "./problems";
 import { manuals } from "./manuals";
 import { localize, type LocalizedString, type SearchResult } from "./types";
 import type { Language } from "@/components/language-provider";
-
-/** Normalizes a string by lowercasing and stripping diacritics. */
-function normalizeString(str: string): string {
-  return str
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "");
-}
+import { normalizeString } from "@/lib/utils";
 
 /** Joins all localized variants of a value for indexing across languages. */
 function indexed(value: string | LocalizedString | undefined): string {

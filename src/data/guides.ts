@@ -20,43 +20,67 @@ export const guides: Guide[] = [
     motor: "R2",
     category: "engine",
     tools: [
-      { es: "Llave de carraca con vasos de 10, 12, 14 y 17 mm", en: "Ratchet wrench with 10, 12, 14 and 17 mm sockets" },
+      {
+        es: "Llave de carraca con vasos de 10, 12, 14 y 17 mm",
+        en: "Ratchet wrench with 10, 12, 14 and 17 mm sockets",
+      },
       { es: "Llave dinamométrica (20-120 Nm)", en: "Torque wrench (20-120 Nm)" },
-      { es: "Pasador de bloqueo de bomba inyectora (o broca de 6 mm)", en: "Injection pump locking pin (or 6 mm drill bit)" },
+      {
+        es: "Pasador de bloqueo de bomba inyectora (o broca de 6 mm)",
+        en: "Injection pump locking pin (or 6 mm drill bit)",
+      },
       { es: "Destornillador plano grande o palanca", en: "Large flat-head screwdriver or pry bar" },
-      { es: "Rotulador permanente o corrector blanco (para marcar)", en: "Permanent marker or white correction pen (for marking)" },
+      {
+        es: "Rotulador permanente o corrector blanco (para marcar)",
+        en: "Permanent marker or white correction pen (for marking)",
+      },
     ],
     steps: [
       {
-        title: { es: "Paso 1: Desmontaje de componentes periféricos", en: "Step 1: Remove peripheral components" },
+        title: {
+          es: "Paso 1: Desmontaje de componentes periféricos",
+          en: "Step 1: Remove peripheral components",
+        },
         content: {
           es: "Desconectar la batería por seguridad. Vaciar parcialmente el refrigerante y retirar el radiador para ganar espacio de trabajo óptimo en el frente del motor. Desmontar las correas de accesorios (alternador, bomba de dirección) y retirar el ventilador viscoso junto con su polea (4 tuercas de 10 mm).",
           en: "Disconnect the battery for safety. Partially drain the coolant and remove the radiator to gain optimal working space at the front of the engine. Remove the accessory belts (alternator, power steering pump) and remove the viscous fan together with its pulley (4 x 10 mm nuts).",
         },
       },
       {
-        title: { es: "Paso 2: Retirada de las tapas de distribución", en: "Step 2: Remove the timing covers" },
+        title: {
+          es: "Paso 2: Retirada de las tapas de distribución",
+          en: "Step 2: Remove the timing covers",
+        },
         content: {
           es: "Quitar los tornillos de 10 mm de las carcasas plásticas superior e inferior de la distribución. Examinar el estado de las juntas de goma de las carcasas y reemplazarlas si están agrietadas o empapadas en aceite.",
           en: "Remove the 10 mm screws from the upper and lower plastic timing covers. Inspect the condition of the rubber gaskets on the covers and replace them if they are cracked or soaked in oil.",
         },
       },
       {
-        title: { es: "Paso 3: Alineación de las marcas de tiempo", en: "Step 3: Align the timing marks" },
+        title: {
+          es: "Paso 3: Alineación de las marcas de tiempo",
+          en: "Step 3: Align the timing marks",
+        },
         content: {
           es: "Girar el cigüeñal manualmente en el sentido de las agujas del reloj usando un vaso de 17 mm en el perno de la polea del cigüeñal. Alinear las marcas de sincronización:\n1. Marca del árbol de levas alineada con la muesca de la culata a las 12 en punto.\n2. Marca del cigüeñal alineada con la flecha del bloque a las 12 en punto.\n3. Insertar una broca o pasador de 6 mm en el orificio de la polea de la bomba inyectora para bloquearla contra el soporte.",
           en: "Rotate the crankshaft clockwise by hand using a 17 mm socket on the crankshaft pulley bolt. Align the timing marks:\n1. Camshaft mark aligned with the cylinder head notch at 12 o'clock.\n2. Crankshaft mark aligned with the block arrow at 12 o'clock.\n3. Insert a 6 mm drill bit or pin into the injection pump pulley hole to lock it against the bracket.",
         },
       },
       {
-        title: { es: "Paso 4: Aflojar el tensor y retirar la correa vieja", en: "Step 4: Loosen the tensioner and remove the old belt" },
+        title: {
+          es: "Paso 4: Aflojar el tensor y retirar la correa vieja",
+          en: "Step 4: Loosen the tensioner and remove the old belt",
+        },
         content: {
           es: "Aflojar el perno del rodillo tensor (14 mm). Empujar el rodillo tensor hacia atrás para comprimir el muelle y apretar ligeramente el perno para mantenerlo bloqueado en la posición floja. Deslizar la correa de distribución hacia afuera con cuidado de no mover los engranajes.",
           en: "Loosen the tensioner pulley bolt (14 mm). Push the tensioner pulley back to compress the spring and lightly tighten the bolt to keep it locked in the loose position. Slide the timing belt off, being careful not to move the gears.",
         },
       },
       {
-        title: { es: "Paso 5: Instalación de la nueva correa y tensión", en: "Step 5: Install the new belt and tension" },
+        title: {
+          es: "Paso 5: Instalación de la nueva correa y tensión",
+          en: "Step 5: Install the new belt and tension",
+        },
         content: {
           es: "Instalar la correa comenzando por el cigüeñal, pasando por el rodillo guía, el engranaje de la bomba inyectora, el árbol de levas y finalmente sobre el rodillo tensor. Asegurarse de que el lado de tracción (derecho) quede completamente tenso.\nAflojar el perno del tensor para permitir que el muelle aplique presión automática. Girar el cigüeñal dos vueltas completas para asentar la correa. Verificar que todas las marcas sigan perfectamente alineadas y apretar el perno del rodillo tensor a 38 Nm.",
           en: "Install the belt starting at the crankshaft, passing around the guide pulley, the injection pump gear, the camshaft, and finally over the tensioner pulley. Make sure the traction side (right side) is completely taut.\nLoosen the tensioner bolt to allow the spring to apply automatic pressure. Rotate the crankshaft two full turns to seat the belt. Verify that all marks remain perfectly aligned and tighten the tensioner pulley bolt to 38 Nm.",
@@ -106,14 +130,20 @@ export const guides: Guide[] = [
         },
       },
       {
-        title: { es: "Paso 2: Extracción del cuerpo interno", en: "Step 2: Remove the internal body" },
+        title: {
+          es: "Paso 2: Extracción del cuerpo interno",
+          en: "Step 2: Remove the internal body",
+        },
         content: {
           es: "Retirar el circlip grande del extremo del palier utilizando los alicates de anillos elásticos. A continuación, retirar los 6 pernos de 12 mm que sujetan el cuerpo del cubo al buje de la rueda. Retirar todo el conjunto mecánico interno deslizándolo hacia afuera.",
           en: "Remove the large circlip from the end of the axle shaft using snap ring pliers. Then remove the 6 x 12 mm bolts securing the hub body to the wheel hub. Slide the entire internal mechanical assembly outward.",
         },
       },
       {
-        title: { es: "Paso 3: Limpieza profunda y desengrase", en: "Step 3: Deep cleaning and degreasing" },
+        title: {
+          es: "Paso 3: Limpieza profunda y desengrase",
+          en: "Step 3: Deep cleaning and degreasing",
+        },
         content: {
           es: "Sumergir todas las piezas mecánicas (engranaje deslizante, muelle, anillo estriado) en desengrasante o limpiador de frenos. Limpiar con un cepillo hasta eliminar por completo la grasa vieja reseca, óxido, tierra y partículas metálicas. Dejar secar completamente al aire.",
           en: "Submerge all mechanical parts (sliding gear, spring, splined ring) in degreaser or brake cleaner. Scrub with a brush until all old dried grease, rust, dirt and metal particles are completely removed. Allow to air dry completely.",
@@ -127,7 +157,10 @@ export const guides: Guide[] = [
         },
       },
       {
-        title: { es: "Paso 5: Engrase moderado e instalación", en: "Step 5: Moderate greasing and installation" },
+        title: {
+          es: "Paso 5: Engrase moderado e instalación",
+          en: "Step 5: Moderate greasing and installation",
+        },
         content: {
           es: "Aplicar una capa **fina** de grasa EP2 en los dientes deslizantes y estrías. **¡Atención!** No rellenar el cubo de grasa en exceso; demasiada grasa densa impedirá que el muelle empuje el engranaje correctamente en invierno y causará fallos de tracción 4x4.\nDeslizar el cuerpo interno en el buje, apretar los 6 pernos de 12 mm a 25 Nm en estrella. Instalar el circlip del palier.",
           en: "Apply a **thin** layer of EP2 grease to the sliding teeth and splines. **Warning!** Do not overfill the hub with grease; too much thick grease will prevent the spring from pushing the gear correctly in winter and will cause 4x4 traction failure.\nSlide the internal body into the hub, tighten the 6 x 12 mm bolts to 25 Nm in a star pattern. Install the axle circlip.",
@@ -162,7 +195,10 @@ export const guides: Guide[] = [
     tools: [
       { es: "Llave fija o de estrella de 12 mm", en: "12 mm open-end or box wrench" },
       { es: "Cepillo metálico pequeño", en: "Small wire brush" },
-      { es: "Spray descarbonizante o limpiador de hornos", en: "Decarbonizing spray or oven cleaner" },
+      {
+        es: "Spray descarbonizante o limpiador de hornos",
+        en: "Decarbonizing spray or oven cleaner",
+      },
       { es: "Destornillador plano", en: "Flat-head screwdriver" },
     ],
     steps: [
@@ -188,7 +224,10 @@ export const guides: Guide[] = [
         },
       },
       {
-        title: { es: "Paso 4: Montaje (o anulación opcional)", en: "Step 4: Reassembly (or optional removal)" },
+        title: {
+          es: "Paso 4: Montaje (o anulación opcional)",
+          en: "Step 4: Reassembly (or optional removal)",
+        },
         content: {
           es: "Si se desea mantener original: volver a montar la válvula con su junta metálica limpia y apretar a 20 Nm. Si se opta por anularla (bajo responsabilidad en base a normativa local): fabricar una pletina ciega de chapa de aluminio de 1.5mm con la misma forma de la junta metálica pero sin el orificio central, colocándola entre el tubo de escape y la EGR, además de taponar la manguera de vacío con un rodamiento pequeño.",
           en: "To keep it original: reassemble the valve with the clean metal gasket and tighten to 20 Nm. To remove it (at your own risk based on local regulations): make a blind plate from 1.5 mm aluminum sheet with the same shape as the metal gasket but without the center hole, placing it between the exhaust pipe and the EGR, and plug the vacuum hose with a small bearing.",

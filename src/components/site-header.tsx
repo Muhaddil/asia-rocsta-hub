@@ -277,8 +277,7 @@ export function SiteHeader() {
                         onClick={() => setMobileMenuOpen(false)}
                         className="flex items-center gap-2 py-1.5 hover:text-rocsta-green transition-colors"
                       >
-                        <FileText className="size-4 text-rocsta-accent" />{" "}
-                        {t("header.mobileAbout")}
+                        <FileText className="size-4 text-rocsta-accent" /> {t("header.mobileAbout")}
                       </Link>
                     </div>
                   </div>
@@ -350,7 +349,9 @@ export function SiteHeader() {
                       onClick={() => setQuery(s.term[language] || s.term["es"])}
                       className="flex items-center justify-between rounded-lg border border-border/40 bg-muted/20 p-2.5 text-left text-xs hover:bg-muted/65 hover:border-rocsta-green/20 transition-all"
                     >
-                      <span className="font-semibold text-foreground">{s.term[language] || s.term["es"]}</span>
+                      <span className="font-semibold text-foreground">
+                        {s.term[language] || s.term["es"]}
+                      </span>
                       <span className="text-[9px] font-bold uppercase text-muted-foreground">
                         {t(s.typeKey)}
                       </span>
