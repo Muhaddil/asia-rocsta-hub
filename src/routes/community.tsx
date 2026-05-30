@@ -679,7 +679,7 @@ function CommunityPage() {
               {loading ? (
                 <Loader2 className="size-5 animate-spin" />
               ) : (
-                (stats?.partsDocumented ?? "-")
+                (stats?.partsCatalog ?? "-")
               )}{" "}
               <span className="text-xs text-rocsta-green font-semibold">
                 {t("comm.statsItems")}
@@ -694,7 +694,7 @@ function CommunityPage() {
               {loading ? (
                 <Loader2 className="size-5 animate-spin" />
               ) : (
-                (stats?.verifiedEquivalences ?? "-")
+                (stats?.partsDocumented ?? "-")
               )}{" "}
               <span className="text-xs text-rocsta-green font-semibold">
                 {t("comm.statsSwaps")}
