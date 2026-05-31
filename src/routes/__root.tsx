@@ -295,7 +295,7 @@ function RootComponent() {
   const [ready, setReady] = useState(false);
 
   const TRANSITION_DELAY = 1000;
-  const MIN_EXTRA_DELAY = 1000;
+  const MIN_EXTRA_DELAY = 500;
   const FONTS_TIMEOUT = 3000;
 
   useEffect(() => {
