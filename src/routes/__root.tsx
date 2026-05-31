@@ -127,14 +127,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "stylesheet", href: appCss },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      {
-        rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap",
-      },
       { rel: "manifest", href: `${BASE}manifest.json` },
       { rel: "icon", type: "image/svg+xml", href: `${BASE}favicon.svg` },
       { rel: "apple-touch-icon", href: `${BASE}favicon.svg` },
-      { rel: "preload", as: "image", href: ogImage },
     ],
   }),
   shellComponent: RootShell,
@@ -187,6 +182,26 @@ function RootShell({ children }: { children: React.ReactNode }) {
             `,
           }}
         />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                var fl = document.createElement("link");
+                fl.rel = "stylesheet";
+                fl.href = "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap";
+                fl.media = "print";
+                fl.onload = function() { fl.media = "all"; };
+                document.head.appendChild(fl);
+              })();
+            `,
+          }}
+        />
+        <noscript>
+          <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+          />
+        </noscript>
         <style
           dangerouslySetInnerHTML={{
             __html: `
