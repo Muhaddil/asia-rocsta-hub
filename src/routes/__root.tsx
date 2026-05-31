@@ -125,9 +125,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       ],
       links: [
         { rel: "canonical", href: `${SITE_URL}/` },
-        { rel: "stylesheet", href: appCss },
         { rel: "preconnect", href: "https://fonts.googleapis.com" },
         { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+        { rel: "preconnect", href: "https://asiarocstahub.dpdns.org" },
         { rel: "manifest", href: `${BASE}manifest.json` },
         { rel: "icon", type: "image/svg+xml", href: `${BASE}favicon.svg` },
         { rel: "apple-touch-icon", href: `${BASE}favicon.svg` },
@@ -162,6 +162,21 @@ function RootShell({ children }: { children: React.ReactNode }) {
     <html lang={initialLang} suppressHydrationWarning>
       <head>
         <HeadContent />
+        <link rel="preload" href={appCss} as="style" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                var fl = document.createElement("link");
+                fl.rel = "stylesheet";
+                fl.href = "${appCss}";
+                fl.media = "print";
+                fl.onload = function() { fl.media = "all"; };
+                document.head.appendChild(fl);
+              })();
+            `,
+          }}
+        />
         <script
           dangerouslySetInnerHTML={{
             __html: `
