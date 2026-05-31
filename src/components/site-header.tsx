@@ -21,7 +21,7 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { useLanguage, type Language } from "@/components/language-provider";
-import { localePath } from "@/lib/locale-helpers";
+import { localePath, stripBase } from "@/lib/locale-helpers";
 
 const SUGGESTED_SEARCHES: { term: Record<Language, string>; typeKey: string }[] = [
   { term: { es: "Bomba inyectora", en: "Injection pump" }, typeKey: "header.badgeSwap" },
@@ -185,8 +185,8 @@ export function SiteHeader() {
               onClick={() => {
                 const newLang = language === "es" ? "en" : "es";
                 setLanguage(newLang);
-                const currentPath = window.location.pathname;
-                const pathWithoutLocale = currentPath.replace(/^\/(es|en)/, "") || "/";
+                const withoutBase = stripBase(window.location.pathname);
+                const pathWithoutLocale = withoutBase.replace(/^\/(es|en)/, "") || "/";
                 navigate({ to: `/${newLang}${pathWithoutLocale}`, search: true, replace: true });
               }}
               aria-label={language === "es" ? "Switch to English" : "Cambiar a Español"}

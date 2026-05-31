@@ -5,6 +5,7 @@ import type { Language } from "@/lib/i18n-routing";
 import ogImage from "@/assets/rocsta-hero.jpg";
 
 const SITE_URL = "https://muhaddil.github.io/asia-rocsta-hub";
+const BASE = (import.meta as { env: Record<string, string> }).env?.BASE_URL || "/";
 
 function detectLocale(): Language {
   try {
@@ -42,8 +43,8 @@ function RootIndex() {
 
   return (
     <nav>
-      <a href="/es/">Español</a>
-      <a href="/en/">English</a>
+      <a href={`${BASE}es/`}>Español</a>
+      <a href={`${BASE}en/`}>English</a>
     </nav>
   );
 }
