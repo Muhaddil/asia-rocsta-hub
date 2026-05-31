@@ -30,7 +30,7 @@ export type ManualType = "workshop" | "electrical" | "catalog" | "datasheet" | "
 export type ManualFormat = "pdf" | "image" | "web";
 
 /** Manual language */
-export type ManualLanguage = "es" | "en" | "ko" | "fr" | "de";
+export type ManualLanguage = "es" | "en" | "ko" | "fr" | "de" | "pt";
 
 import type { Language } from "@/components/language-provider";
 

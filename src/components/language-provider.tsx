@@ -1,8 +1,11 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import esJson from "@/locales/es.json";
 import enJson from "@/locales/en.json";
+import frJson from "@/locales/fr.json";
+import ptJson from "@/locales/pt.json";
+import deJson from "@/locales/de.json";
 
-export type Language = "es" | "en";
+export type Language = "es" | "en" | "fr" | "pt" | "de";
 
 interface LanguageContextType {
   language: Language;
@@ -17,18 +20,22 @@ for (const key of Object.keys(esJson)) {
   UI_TRANSLATIONS[key] = {
     es: esJson[key as keyof typeof esJson],
     en: enJson[key as keyof typeof enJson] as string,
+    fr: frJson[key as keyof typeof frJson] as string,
+    pt: ptJson[key as keyof typeof ptJson] as string,
+    de: deJson[key as keyof typeof deJson] as string,
   };
 }
 
 const detectLanguage = (): Language => {
   try {
     const saved = localStorage.getItem("rocsta-lang") as Language | null;
-    if (saved === "es" || saved === "en") {
+    if (saved === "es" || saved === "en" || saved === "fr" || saved === "pt" || saved === "de") {
       return saved;
     }
 
     const browserLang = navigator.language.split("-")[0];
-    return browserLang === "es" ? "es" : "en";
+    const validLanguages: Language[] = ["es", "en", "fr", "pt", "de"];
+    return validLanguages.includes(browserLang as Language) ? (browserLang as Language) : "en";
   } catch {
     return "en";
   }

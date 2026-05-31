@@ -3,7 +3,7 @@ import type { Language } from "@/components/language-provider";
 export type { Language };
 
 export const DEFAULT_LOCALE: Language = "es";
-export const LOCALES: Language[] = ["es", "en"];
+export const LOCALES: Language[] = ["es", "en", "fr", "pt", "de"];
 
 export function isValidLocale(value: string | undefined): value is Language {
   return LOCALES.includes(value as Language);

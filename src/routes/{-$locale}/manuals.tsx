@@ -120,6 +120,7 @@ function ManualsPage() {
     ko: { label: t("manuals.lang.ko"), flag: "🇰🇷" },
     fr: { label: t("manuals.lang.fr"), flag: "🇫🇷" },
     de: { label: t("manuals.lang.de"), flag: "🇩🇪" },
+    pt: { label: t("manuals.lang.pt"), flag: "🇵🇹" },
   };
 
   const updateSearch = (newParams: Partial<ManualsSearch>) => {

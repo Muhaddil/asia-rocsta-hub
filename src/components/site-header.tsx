@@ -125,19 +125,28 @@ export function SiteHeader() {
               <Link to={localePath("/parts")} className="hover:text-foreground transition-colors">
                 {t("nav.parts")}
               </Link>
-              <Link to={localePath("/compatibility")} className="hover:text-foreground transition-colors">
+              <Link
+                to={localePath("/compatibility")}
+                className="hover:text-foreground transition-colors"
+              >
                 {t("nav.compatibility")}
               </Link>
               <Link to={localePath("/guides")} className="hover:text-foreground transition-colors">
                 {t("nav.guides")}
               </Link>
-              <Link to={localePath("/problems")} className="hover:text-foreground transition-colors">
+              <Link
+                to={localePath("/problems")}
+                className="hover:text-foreground transition-colors"
+              >
                 {t("nav.problems")}
               </Link>
               <Link to={localePath("/manuals")} className="hover:text-foreground transition-colors">
                 {t("nav.manuals")}
               </Link>
-              <Link to={localePath("/community")} className="hover:text-foreground transition-colors">
+              <Link
+                to={localePath("/community")}
+                className="hover:text-foreground transition-colors"
+              >
                 {t("nav.community")}
               </Link>
               <Link to={localePath("/about")} className="hover:text-foreground transition-colors">
@@ -181,19 +190,24 @@ export function SiteHeader() {
               )}
             </button>
 
-            <button
-              onClick={() => {
-                const newLang = language === "es" ? "en" : "es";
+            <select
+              value={language}
+              onChange={(e) => {
+                const newLang = e.target.value as Language;
                 setLanguage(newLang);
                 const withoutBase = stripBase(window.location.pathname);
-                const pathWithoutLocale = withoutBase.replace(/^\/(es|en)/, "") || "/";
+                const pathWithoutLocale = withoutBase.replace(/^\/(es|en|fr|pt|de)/, "") || "/";
                 navigate({ to: `/${newLang}${pathWithoutLocale}`, search: true, replace: true });
               }}
-              aria-label={language === "es" ? "Switch to English" : "Cambiar a Español"}
-              className="h-9 w-9 inline-flex items-center justify-center rounded-md border border-border hover:bg-muted transition-colors text-xs font-extrabold uppercase tracking-wider"
+              aria-label="Seleccionar idioma"
+              className="h-9 px-2 rounded-md border border-border bg-background text-xs font-bold uppercase cursor-pointer hover:bg-muted transition-colors"
             >
-              {language === "es" ? "EN" : "ES"}
-            </button>
+              <option value="es">ES</option>
+              <option value="en">EN</option>
+              {/* <option value="fr">FR</option>
+              <option value="pt">PT</option>
+              <option value="de">DE</option> */}
+            </select>
 
             <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
               <SheetTrigger asChild>

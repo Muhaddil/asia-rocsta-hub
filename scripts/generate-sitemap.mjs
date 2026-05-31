@@ -19,11 +19,13 @@ const pages = [
 ];
 
 const urls = locales
-  .flatMap((locale) => pages.map((p) => ({
-    path: locale + p.path,
-    changefreq: p.changefreq,
-    priority: p.priority,
-  })))
+  .flatMap((locale) =>
+    pages.map((p) => ({
+      path: locale + p.path,
+      changefreq: p.changefreq,
+      priority: p.priority,
+    })),
+  )
   .map(
     (r) => `  <url>
     <loc>${BASE_URL}${r.path}</loc>

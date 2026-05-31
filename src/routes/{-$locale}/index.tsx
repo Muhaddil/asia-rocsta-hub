@@ -211,7 +211,10 @@ function LocaleIndex() {
       <section className="mb-12">
         <div className="mb-6 flex items-center justify-between">
           <h2 className="text-2xl font-bold tracking-tight text-foreground">{t("home.popular")}</h2>
-          <Link to={`/${locale}/parts`} className="text-sm font-bold text-rocsta-green hover:underline">
+          <Link
+            to={`/${locale}/parts`}
+            className="text-sm font-bold text-rocsta-green hover:underline"
+          >
             {t("home.popular.viewAll")}
           </Link>
         </div>
@@ -303,7 +306,10 @@ function LocaleIndex() {
           <h2 className="text-2xl font-bold tracking-tight text-foreground">
             {t("home.guides.recent")}
           </h2>
-          <Link to={`/${locale}/guides`} className="text-sm font-bold text-rocsta-green hover:underline">
+          <Link
+            to={`/${locale}/guides`}
+            className="text-sm font-bold text-rocsta-green hover:underline"
+          >
             {t("home.guides.all")}
           </Link>
         </div>

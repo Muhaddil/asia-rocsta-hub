@@ -8,7 +8,8 @@ export function getCurrentLocale(): Language {
   const path = window.location.pathname.replace(BASE_PATH, "");
   const segments = path.split("/").filter(Boolean);
   const first = segments[0];
-  if (first === "es" || first === "en") return first;
+  if (first === "es" || first === "en" || first === "fr" || first === "pt" || first === "de")
+    return first;
   return "es";
 }
 
