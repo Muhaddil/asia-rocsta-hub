@@ -214,9 +214,9 @@ export function SiteHeader() {
                   </SheetHeader>
 
                   <div className="space-y-4">
-                    <h4 className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
+                    <h3 className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
                       {t("header.sections")}
-                    </h4>
+                    </h3>
                     <div className="grid grid-cols-1 gap-2 text-sm font-semibold text-foreground pl-1">
                       <Link
                         to="/"
@@ -283,9 +283,9 @@ export function SiteHeader() {
                   </div>
 
                   <div className="space-y-3 pt-2">
-                    <h4 className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
+                    <h3 className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
                       {t("header.systems")}
-                    </h4>
+                    </h3>
                     <div className="grid grid-cols-1 gap-1 text-xs text-muted-foreground font-medium pl-1">
                       {MOBILE_CATEGORIES(t).map((cat, i) => (
                         <Link

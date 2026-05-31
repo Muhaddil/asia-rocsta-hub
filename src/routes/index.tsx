@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, Suspense, lazy } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import {
   Search,
@@ -12,14 +12,29 @@ import {
 } from "lucide-react";
 import { PageShell } from "@/components/page-shell";
 import { useLanguage } from "@/components/language-provider";
-import { SystemDiagram } from "@/components/home/system-diagram";
-import { MaintenanceSchedule } from "@/components/home/maintenance-schedule";
-import { CommunityGallery } from "@/components/home/community-gallery";
 import { parts } from "@/data/parts";
 import { problems } from "@/data/problems";
 import { guides } from "@/data/guides";
 import { localize, type GuideLevel } from "@/data/types";
 import ogImage from "@/assets/rocsta-hero.jpg";
+
+const SITE_URL = "https://muhaddil.github.io/asia-rocsta-hub";
+
+const SystemDiagram = lazy(() =>
+  import("@/components/home/system-diagram").then((m) => ({ default: m.SystemDiagram })),
+);
+const MaintenanceSchedule = lazy(() =>
+  import("@/components/home/maintenance-schedule").then((m) => ({
+    default: m.MaintenanceSchedule,
+  })),
+);
+const CommunityGallery = lazy(() =>
+  import("@/components/home/community-gallery").then((m) => ({ default: m.CommunityGallery })),
+);
+
+function LazyLoad({ children }: { children: React.ReactNode }) {
+  return <Suspense fallback={<div className="h-48" />}>{children}</Suspense>;
+}
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -36,11 +51,11 @@ export const Route = createFileRoute("/")({
         content:
           "Todo sobre el Asia Rocsta: piezas, equivalencias OEM, guías de reparación, problemas comunes y comunidad de restauradores.",
       },
-      { property: "og:url", content: "/" },
+      { property: "og:url", content: SITE_URL },
       { property: "og:image", content: ogImage },
       { name: "twitter:image", content: ogImage },
     ],
-    links: [{ rel: "canonical", href: "/" }],
+    links: [{ rel: "canonical", href: `${SITE_URL}/` }],
   }),
   component: Index,
 });
@@ -160,7 +175,9 @@ function Index() {
         />
       </div> */}
 
-      <SystemDiagram />
+      <LazyLoad>
+        <SystemDiagram />
+      </LazyLoad>
 
       <div className="mb-12 grid grid-cols-2 lg:grid-cols-4 gap-px bg-border rounded-xl overflow-hidden border border-border">
         {STATS.map((s) => (
@@ -283,7 +300,9 @@ function Index() {
         </div>
       </section>
 
-      <MaintenanceSchedule />
+      <LazyLoad>
+        <MaintenanceSchedule />
+      </LazyLoad>
 
       <section className="mb-12">
         <div className="mb-6 flex items-center justify-between">
@@ -310,7 +329,9 @@ function Index() {
         </div>
       </section>
 
-      <CommunityGallery />
+      <LazyLoad>
+        <CommunityGallery />
+      </LazyLoad>
 
       <section className="rounded-2xl bg-rocsta-dark p-6 md:p-8 text-white shadow-md">
         <div className="mb-8 flex items-end justify-between gap-4 flex-wrap">
@@ -358,9 +379,9 @@ function Index() {
                   {i.severity === "info" ? "i" : "!"}
                 </div>
                 <div>
-                  <h4 className="font-bold text-slate-100 hover:text-rocsta-green transition-colors">
+                  <h3 className="text-base font-bold text-slate-100 hover:text-rocsta-green transition-colors">
                     {title}
-                  </h4>
+                  </h3>
                   <p className="text-sm text-slate-400 mt-1 leading-relaxed">{symptom}</p>
                 </div>
               </div>

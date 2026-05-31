@@ -3,6 +3,7 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
+import { ViteImageOptimizer } from "vite-plugin-image-optimizer";
 import path from "node:path";
 
 const isGitHubPages = process.env.GITHUB_PAGES === "true";
@@ -34,6 +35,12 @@ export default defineConfig({
     }),
     react(),
     tailwindcss(),
+    ViteImageOptimizer({
+      jpeg: { quality: 75, progressive: true },
+      jpg: { quality: 75, progressive: true },
+      png: { quality: 75 },
+      webp: { quality: 75 },
+    }),
   ],
 
   resolve: {
