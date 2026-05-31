@@ -1,10 +1,12 @@
-import { cpSync, existsSync } from "node:fs";
+import { cpSync, existsSync, writeFileSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const shellPath = resolve(__dirname, "..", "dist", "client", "_shell.html");
-const indexPath = resolve(__dirname, "..", "dist", "client", "index.html");
+const clientDir = resolve(__dirname, "..", "dist", "client");
+const shellPath = resolve(clientDir, "_shell.html");
+const indexPath = resolve(clientDir, "index.html");
+const nojekyllPath = resolve(clientDir, ".nojekyll");
 
 if (existsSync(shellPath)) {
   cpSync(shellPath, indexPath);
@@ -12,3 +14,6 @@ if (existsSync(shellPath)) {
 } else {
   console.warn("⚠ _shell.html not found, skipping copy");
 }
+
+writeFileSync(nojekyllPath, "", "utf-8");
+console.log("✓ .nojekyll created");
