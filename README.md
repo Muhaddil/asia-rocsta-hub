@@ -1,3 +1,7 @@
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/Muhaddil/asia-rocsta-hub)
+[![Build](https://github.com/Muhaddil/asia-rocsta-hub/actions/workflows/deploy.yml/badge.svg)](https://github.com/Muhaddil/asia-rocsta-hub/actions/workflows/deploy.yml)
+[![pages-build-deployment](https://github.com/Muhaddil/asia-rocsta-hub/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/Muhaddil/asia-rocsta-hub/actions/workflows/pages/pages-build-deployment)
+
 # Asia Rocsta Archive
 
 Wiki técnica, catálogo de piezas y comunidad para el Asia Rocsta — el 4x4 clásico coreano fabricado por Asia Motors (KIA) entre 1990 y 1997, con motores Mazda F8 (1.8 gasolina) y R2 (2.2 diésel).
