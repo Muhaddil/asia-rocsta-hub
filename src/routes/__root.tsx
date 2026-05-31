@@ -14,6 +14,7 @@ import { ThemeProvider } from "../components/theme-provider";
 import { LanguageProvider, useLanguage } from "../components/language-provider";
 import { SiteHeader } from "../components/site-header";
 import { SiteFooter } from "../components/site-footer";
+import { getMetaTranslation, getInitialLanguage } from "../lib/meta-translations";
 import ogImage from "../assets/rocsta-hero.jpg";
 const BASE = (import.meta as { env: Record<string, string> }).env?.BASE_URL || "/";
 const SITE_URL = "https://muhaddil.github.io/asia-rocsta-hub";
@@ -96,42 +97,46 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
 }
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
-  head: () => ({
-    meta: [
-      { charSet: "utf-8" },
-      {
-        name: "google-site-verification",
-        content: "bzPq3iFrBUmU5sXmM9rQUqTjD9BGTs14nv_OppxH8E8",
-      },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Asia Rocsta Archive — Wiki técnica, piezas y guías" },
-      {
-        name: "description",
-        content:
-          "Plataforma de referencia para el Asia Rocsta: base de datos de piezas, equivalencias OEM, guías de reparación, manuales y comunidad de restauradores.",
-      },
-      { name: "author", content: "Asia Rocsta Archive" },
-      { property: "og:title", content: "Asia Rocsta Archive" },
-      {
-        property: "og:description",
-        content:
-          "Wiki técnica + foro + base de datos mecánica dedicada exclusivamente al Asia Rocsta.",
-      },
-      { property: "og:type", content: "website" },
-      { property: "og:image", content: ogImage },
-      { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:image", content: ogImage },
-    ],
-    links: [
-      { rel: "canonical", href: `${SITE_URL}/` },
-      { rel: "stylesheet", href: appCss },
-      { rel: "preconnect", href: "https://fonts.googleapis.com" },
-      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      { rel: "manifest", href: `${BASE}manifest.json` },
-      { rel: "icon", type: "image/svg+xml", href: `${BASE}favicon.svg` },
-      { rel: "apple-touch-icon", href: `${BASE}favicon.svg` },
-    ],
-  }),
+  head: () => {
+    const lang = getInitialLanguage();
+    return {
+      meta: [
+        { charSet: "utf-8" },
+        {
+          name: "google-site-verification",
+          content: "bzPq3iFrBUmU5sXmM9rQUqTjD9BGTs14nv_OppxH8E8",
+        },
+        { name: "viewport", content: "width=device-width, initial-scale=1" },
+        { title: getMetaTranslation("meta.root.title", lang) },
+        {
+          name: "description",
+          content: getMetaTranslation("meta.root.description", lang),
+        },
+        { name: "author", content: "Asia Rocsta Archive" },
+        { property: "og:title", content: getMetaTranslation("meta.root.ogTitle", lang) },
+        {
+          property: "og:description",
+          content: getMetaTranslation("meta.root.ogDescription", lang),
+        },
+        { property: "og:type", content: "website" },
+        { property: "og:image", content: ogImage },
+        { name: "twitter:card", content: "summary_large_image" },
+        { name: "twitter:image", content: ogImage },
+      ],
+      links: [
+        { rel: "canonical", href: `${SITE_URL}/` },
+        { rel: "stylesheet", href: appCss },
+        { rel: "preconnect", href: "https://fonts.googleapis.com" },
+        { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+        { rel: "manifest", href: `${BASE}manifest.json` },
+        { rel: "icon", type: "image/svg+xml", href: `${BASE}favicon.svg` },
+        { rel: "apple-touch-icon", href: `${BASE}favicon.svg` },
+        { rel: "alternate", hrefLang: "es", href: `${SITE_URL}/?lang=es` },
+        { rel: "alternate", hrefLang: "en", href: `${SITE_URL}/?lang=en` },
+        { rel: "alternate", hrefLang: "x-default", href: `${SITE_URL}/` },
+      ],
+    };
+  },
   shellComponent: RootShell,
   component: RootComponent,
   notFoundComponent: NotFoundComponent,
@@ -152,8 +157,9 @@ function SkipToContent() {
 }
 
 function RootShell({ children }: { children: React.ReactNode }) {
+  const initialLang = getInitialLanguage();
   return (
-    <html lang="es" suppressHydrationWarning>
+    <html lang={initialLang} suppressHydrationWarning>
       <head>
         <HeadContent />
         <script

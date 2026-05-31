@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { PageShell } from "@/components/page-shell";
 import { useLanguage } from "@/components/language-provider";
+import { useMetaTags } from "@/hooks/use-meta-tags";
 import { SystemDiagram } from "@/components/home/system-diagram";
 import { MaintenanceSchedule } from "@/components/home/maintenance-schedule";
 import { CommunityGallery } from "@/components/home/community-gallery";
@@ -19,37 +20,52 @@ import { parts } from "@/data/parts";
 import { problems } from "@/data/problems";
 import { guides } from "@/data/guides";
 import { localize, type GuideLevel } from "@/data/types";
+import { getMetaTranslation, getInitialLanguage } from "@/lib/meta-translations";
 import ogImage from "@/assets/rocsta-hero.jpg";
 
 const SITE_URL = "https://muhaddil.github.io/asia-rocsta-hub";
 
 export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "Asia Rocsta Archive — Wiki técnica y base de datos de piezas" },
-      {
-        name: "description",
-        content:
-          "Todo sobre el Asia Rocsta: piezas, equivalencias OEM, guías de reparación, problemas comunes y comunidad de restauradores.",
-      },
-      { property: "og:title", content: "Asia Rocsta Archive" },
-      {
-        property: "og:description",
-        content:
-          "Todo sobre el Asia Rocsta: piezas, equivalencias OEM, guías de reparación, problemas comunes y comunidad de restauradores.",
-      },
-      { property: "og:url", content: SITE_URL },
-      { property: "og:image", content: ogImage },
-      { name: "twitter:image", content: ogImage },
-    ],
-    links: [{ rel: "canonical", href: `${SITE_URL}/` }],
-  }),
+  head: () => {
+    const lang = getInitialLanguage();
+    return {
+      meta: [
+        { title: getMetaTranslation("meta.home.title", lang) },
+        {
+          name: "description",
+          content: getMetaTranslation("meta.home.description", lang),
+        },
+        { property: "og:title", content: getMetaTranslation("meta.home.ogTitle", lang) },
+        {
+          property: "og:description",
+          content: getMetaTranslation("meta.home.ogDescription", lang),
+        },
+        { property: "og:url", content: SITE_URL },
+        { property: "og:image", content: ogImage },
+        { name: "twitter:image", content: ogImage },
+      ],
+      links: [
+        { rel: "canonical", href: `${SITE_URL}/` },
+        { rel: "alternate", hrefLang: "es", href: `${SITE_URL}/?lang=es` },
+        { rel: "alternate", hrefLang: "en", href: `${SITE_URL}/?lang=en` },
+        { rel: "alternate", hrefLang: "x-default", href: `${SITE_URL}/` },
+      ],
+    };
+  },
   component: Index,
 });
 
 function Index() {
   const navigate = useNavigate();
   const { t, language } = useLanguage();
+
+  useMetaTags({
+    title: getMetaTranslation("meta.home.title", language),
+    description: getMetaTranslation("meta.home.description", language),
+    ogTitle: getMetaTranslation("meta.home.ogTitle", language),
+    ogDescription: getMetaTranslation("meta.home.ogDescription", language),
+    ogImage: ogImage,
+  });
 
   const popularParts = useMemo(() => {
     const ids = ["p-001", "p-002", "p-011", "p-015", "p-031"];

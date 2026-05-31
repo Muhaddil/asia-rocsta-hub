@@ -1,52 +1,70 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageShell } from "@/components/page-shell";
 import { useLanguage } from "@/components/language-provider";
+import { useMetaTags } from "@/hooks/use-meta-tags";
 import { aboutHero, aboutSections, aboutMission, type Localized } from "@/data/about";
+import { getMetaTranslation, getInitialLanguage } from "@/lib/meta-translations";
 import heroImg from "@/assets/rocsta-hero.jpg";
 import ogImage from "@/assets/rocsta-hero.jpg";
 
+const SITE_URL = "https://muhaddil.github.io/asia-rocsta-hub";
+
 export const Route = createFileRoute("/about")({
-  head: () => ({
-    meta: [
-      { title: "Acerca del Asia Rocsta — Historia, motores y dimensiones" },
-      {
-        name: "description",
-        content:
-          "Análisis técnico en profundidad del Asia Rocsta (1990–1997): origen militar KIA KM410, motores Mazda F8 y R2, dimensiones SWB/LWB, suspensiones, capacidades off-road y variantes.",
-      },
-      { property: "og:title", content: "Acerca del Asia Rocsta" },
-      {
-        property: "og:description",
-        content:
-          "Origen, motorizaciones, dimensiones, frenos, capacidades off-road y línea temporal del 4x4 clásico coreano de Asia Motors (KIA).",
-      },
-      { property: "og:url", content: "/about" },
-      { property: "og:type", content: "article" },
-      { property: "og:image", content: ogImage },
-      { name: "twitter:image", content: ogImage },
-    ],
-    links: [{ rel: "canonical", href: "/about" }],
-    scripts: [
-      {
-        type: "application/ld+json",
-        children: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "Vehicle",
-          name: "Asia Rocsta",
-          manufacturer: { "@type": "Organization", name: "Asia Motors (KIA)" },
-          productionDate: "1990/1997",
-          vehicleConfiguration: "4x4 SUV",
-          fuelType: ["Gasoline", "Diesel"],
-        }),
-      },
-    ],
-  }),
+  head: () => {
+    const lang = getInitialLanguage();
+    return {
+      meta: [
+        { title: getMetaTranslation("meta.about.title", lang) },
+        {
+          name: "description",
+          content: getMetaTranslation("meta.about.description", lang),
+        },
+        { property: "og:title", content: getMetaTranslation("meta.about.ogTitle", lang) },
+        {
+          property: "og:description",
+          content: getMetaTranslation("meta.about.ogDescription", lang),
+        },
+        { property: "og:url", content: `${SITE_URL}/about` },
+        { property: "og:type", content: "article" },
+        { property: "og:image", content: ogImage },
+        { name: "twitter:image", content: ogImage },
+      ],
+      links: [
+        { rel: "canonical", href: `${SITE_URL}/about` },
+        { rel: "alternate", hrefLang: "es", href: `${SITE_URL}/about?lang=es` },
+        { rel: "alternate", hrefLang: "en", href: `${SITE_URL}/about?lang=en` },
+        { rel: "alternate", hrefLang: "x-default", href: `${SITE_URL}/about` },
+      ],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Vehicle",
+            name: "Asia Rocsta",
+            manufacturer: { "@type": "Organization", name: "Asia Motors (KIA)" },
+            productionDate: "1990/1997",
+            vehicleConfiguration: "4x4 SUV",
+            fuelType: ["Gasoline", "Diesel"],
+          }),
+        },
+      ],
+    };
+  },
   component: AboutPage,
 });
 
 function AboutPage() {
   const { language, t } = useLanguage();
   const L = (v: Localized) => v[language] ?? v.es;
+
+  useMetaTags({
+    title: getMetaTranslation("meta.about.title", language),
+    description: getMetaTranslation("meta.about.description", language),
+    ogTitle: getMetaTranslation("meta.about.ogTitle", language),
+    ogDescription: getMetaTranslation("meta.about.ogDescription", language),
+    ogImage: ogImage,
+  });
 
   return (
     <PageShell>

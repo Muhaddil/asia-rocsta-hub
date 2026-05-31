@@ -4,11 +4,13 @@ import { z } from "zod";
 import { useQuery } from "@tanstack/react-query";
 import { PageShell, Crumbs } from "@/components/page-shell";
 import { useLanguage } from "@/components/language-provider";
+import { useMetaTags } from "@/hooks/use-meta-tags";
 import { useDebounce, normalizeString } from "@/lib/utils";
 import { parts as staticParts } from "@/data/parts";
 import { api } from "@/lib/api";
 import type { Part, PartCategory, Motor, VerificationStatus } from "@/data/types";
 import { localize } from "@/data/types";
+import { getMetaTranslation, getInitialLanguage } from "@/lib/meta-translations";
 import ogImage from "@/assets/rocsta-hero.jpg";
 import {
   Search,
@@ -39,6 +41,8 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 
+const SITE_URL = "https://muhaddil.github.io/asia-rocsta-hub";
+
 const partsSearchSchema = z.object({
   category: z
     .enum(["engine", "transmission", "suspension", "electrical", "brakes", "tires", "body"])
@@ -52,49 +56,55 @@ type PartsSearch = z.infer<typeof partsSearchSchema>;
 
 export const Route = createFileRoute("/parts")({
   validateSearch: (search) => partsSearchSchema.parse(search),
-  head: () => ({
-    meta: [
-      { title: "Catálogo de Piezas y Repuestos — Asia Rocsta Archive" },
-      {
-        name: "description",
-        content:
-          "Encuentra referencias OEM, equivalencias de la gama Mazda (B2200, 626), medidas y compatibilidad de piezas para reparar tu Asia Rocsta.",
-      },
-      { property: "og:title", content: "Catálogo de Piezas — Asia Rocsta Archive" },
-      {
-        property: "og:description",
-        content:
-          "Encuentra referencias OEM, equivalencias de la gama Mazda (B2200, 626), medidas y compatibilidad de piezas para reparar tu Asia Rocsta.",
-      },
-      { property: "og:url", content: "/parts" },
-      { property: "og:image", content: ogImage },
-      { name: "twitter:image", content: ogImage },
-    ],
-    links: [{ rel: "canonical", href: "/parts" }],
-    scripts: [
-      {
-        type: "application/ld+json",
-        children: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "BreadcrumbList",
-          itemListElement: [
-            {
-              "@type": "ListItem",
-              position: 1,
-              name: "Inicio",
-              item: "https://muhaddil.github.io/asia-rocsta-hub/",
-            },
-            {
-              "@type": "ListItem",
-              position: 2,
-              name: "Catálogo de Piezas",
-              item: "https://muhaddil.github.io/asia-rocsta-hub/parts",
-            },
-          ],
-        }),
-      },
-    ],
-  }),
+  head: () => {
+    const lang = getInitialLanguage();
+    return {
+      meta: [
+        { title: getMetaTranslation("meta.parts.title", lang) },
+        {
+          name: "description",
+          content: getMetaTranslation("meta.parts.description", lang),
+        },
+        { property: "og:title", content: getMetaTranslation("meta.parts.ogTitle", lang) },
+        {
+          property: "og:description",
+          content: getMetaTranslation("meta.parts.ogDescription", lang),
+        },
+        { property: "og:url", content: `${SITE_URL}/parts` },
+        { property: "og:image", content: ogImage },
+        { name: "twitter:image", content: ogImage },
+      ],
+      links: [
+        { rel: "canonical", href: `${SITE_URL}/parts` },
+        { rel: "alternate", hrefLang: "es", href: `${SITE_URL}/parts?lang=es` },
+        { rel: "alternate", hrefLang: "en", href: `${SITE_URL}/parts?lang=en` },
+        { rel: "alternate", hrefLang: "x-default", href: `${SITE_URL}/parts` },
+      ],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              {
+                "@type": "ListItem",
+                position: 1,
+                name: lang === "en" ? "Home" : "Inicio",
+                item: "https://muhaddil.github.io/asia-rocsta-hub/",
+              },
+              {
+                "@type": "ListItem",
+                position: 2,
+                name: lang === "en" ? "Parts Catalog" : "Catálogo de Piezas",
+                item: "https://muhaddil.github.io/asia-rocsta-hub/parts",
+              },
+            ],
+          }),
+        },
+      ],
+    };
+  },
   component: PartsPage,
 });
 
@@ -111,6 +121,14 @@ function PartsPage() {
   };
   const searchParams = Route.useSearch();
   const navigate = useNavigate({ from: Route.fullPath });
+
+  useMetaTags({
+    title: getMetaTranslation("meta.parts.title", language),
+    description: getMetaTranslation("meta.parts.description", language),
+    ogTitle: getMetaTranslation("meta.parts.ogTitle", language),
+    ogDescription: getMetaTranslation("meta.parts.ogDescription", language),
+    ogImage: ogImage,
+  });
 
   const { data: parts = staticParts, isLoading: loading } = useQuery({
     queryKey: ["parts"],

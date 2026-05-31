@@ -20,21 +20,27 @@ for (const key of Object.keys(esJson)) {
   };
 }
 
+const detectLanguage = (): Language => {
+  try {
+    const saved = localStorage.getItem("rocsta-lang") as Language | null;
+    if (saved === "es" || saved === "en") {
+      return saved;
+    }
+
+    const browserLang = navigator.language.split("-")[0];
+    return browserLang === "es" ? "es" : "en";
+  } catch {
+    return "en";
+  }
+};
+
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [language, setLanguageState] = useState<Language>("es");
+  const [language, setLanguageState] = useState<Language>("en");
+  const [isHydrated, setIsHydrated] = useState(false);
 
   useEffect(() => {
-    try {
-      const saved = localStorage.getItem("rocsta-lang") as Language | null;
-      if (saved === "es" || saved === "en") {
-        setLanguageState(saved);
-        return;
-      }
-      const browserLang = navigator.language.split("-")[0];
-      setLanguageState(browserLang === "en" ? "en" : "es");
-    } catch {
-      /* Malo */
-    }
+    setLanguageState(detectLanguage());
+    setIsHydrated(true);
   }, []);
 
   const setLanguage = (lang: Language) => {
@@ -49,7 +55,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const t = (key: string, replacements?: Record<string, string | number>): string => {
     const entry = UI_TRANSLATIONS[key];
     if (!entry) return key;
-    let text = entry[language] || entry["es"] || key;
+    let text = entry[language] || entry["en"] || key;
     if (replacements) {
       Object.entries(replacements).forEach(([k, v]) => {
         text = text.replace(`{${k}}`, String(v));
@@ -57,6 +63,14 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     }
     return text;
   };
+
+  if (!isHydrated) {
+    return (
+      <LanguageContext.Provider value={{ language: "en", setLanguage, t }}>
+        {children}
+      </LanguageContext.Provider>
+    );
+  }
 
   return (
     <LanguageContext.Provider value={{ language, setLanguage, t }}>

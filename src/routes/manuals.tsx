@@ -2,11 +2,13 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useMemo } from "react";
 import { z } from "zod";
 import { useLanguage } from "@/components/language-provider";
+import { useMetaTags } from "@/hooks/use-meta-tags";
 import { normalizeString } from "@/lib/utils";
 import { PageShell, Crumbs } from "@/components/page-shell";
 import { manuals } from "@/data/manuals";
 import type { ManualType, ManualLanguage } from "@/data/types";
 import { localize } from "@/data/types";
+import { getMetaTranslation, getInitialLanguage } from "@/lib/meta-translations";
 import ogImage from "@/assets/rocsta-hero.jpg";
 import {
   Search,
@@ -21,6 +23,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 
+const SITE_URL = "https://muhaddil.github.io/asia-rocsta-hub";
+
 const manualsSearchSchema = z.object({
   search: z.string().optional(),
   type: z.enum(["workshop", "electrical", "catalog", "datasheet", "other"]).optional(),
@@ -32,49 +36,55 @@ type ManualsSearch = z.infer<typeof manualsSearchSchema>;
 
 export const Route = createFileRoute("/manuals")({
   validateSearch: (search) => manualsSearchSchema.parse(search),
-  head: () => ({
-    meta: [
-      { title: "Manuales de Taller y Esquemas Eléctricos — Asia Rocsta Archive" },
-      {
-        name: "description",
-        content:
-          "Descarga manuales de servicio oficiales del chasis, motores diésel Mazda R2 y gasolina F8, esquemas de cables eléctricos y fichas técnicas reducidas.",
-      },
-      { property: "og:title", content: "Manuales Técnicos — Asia Rocsta Archive" },
-      {
-        property: "og:description",
-        content:
-          "Descarga manuales de servicio, esquemas eléctricos y fichas técnicas del Asia Rocsta y motores Mazda R2 y F8.",
-      },
-      { property: "og:url", content: "/manuals" },
-      { property: "og:image", content: ogImage },
-      { name: "twitter:image", content: ogImage },
-    ],
-    links: [{ rel: "canonical", href: "/manuals" }],
-    scripts: [
-      {
-        type: "application/ld+json",
-        children: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "BreadcrumbList",
-          itemListElement: [
-            {
-              "@type": "ListItem",
-              position: 1,
-              name: "Inicio",
-              item: "https://muhaddil.github.io/asia-rocsta-hub/",
-            },
-            {
-              "@type": "ListItem",
-              position: 2,
-              name: "Manuales Técnicos",
-              item: "https://muhaddil.github.io/asia-rocsta-hub/manuals",
-            },
-          ],
-        }),
-      },
-    ],
-  }),
+  head: () => {
+    const lang = getInitialLanguage();
+    return {
+      meta: [
+        { title: getMetaTranslation("meta.manuals.title", lang) },
+        {
+          name: "description",
+          content: getMetaTranslation("meta.manuals.description", lang),
+        },
+        { property: "og:title", content: getMetaTranslation("meta.manuals.ogTitle", lang) },
+        {
+          property: "og:description",
+          content: getMetaTranslation("meta.manuals.ogDescription", lang),
+        },
+        { property: "og:url", content: `${SITE_URL}/manuals` },
+        { property: "og:image", content: ogImage },
+        { name: "twitter:image", content: ogImage },
+      ],
+      links: [
+        { rel: "canonical", href: `${SITE_URL}/manuals` },
+        { rel: "alternate", hrefLang: "es", href: `${SITE_URL}/manuals?lang=es` },
+        { rel: "alternate", hrefLang: "en", href: `${SITE_URL}/manuals?lang=en` },
+        { rel: "alternate", hrefLang: "x-default", href: `${SITE_URL}/manuals` },
+      ],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              {
+                "@type": "ListItem",
+                position: 1,
+                name: lang === "en" ? "Home" : "Inicio",
+                item: "https://muhaddil.github.io/asia-rocsta-hub/",
+              },
+              {
+                "@type": "ListItem",
+                position: 2,
+                name: lang === "en" ? "Technical Manuals" : "Manuales Técnicos",
+                item: "https://muhaddil.github.io/asia-rocsta-hub/manuals",
+              },
+            ],
+          }),
+        },
+      ],
+    };
+  },
   component: ManualsPage,
 });
 
@@ -82,6 +92,14 @@ function ManualsPage() {
   const { t, language } = useLanguage();
   const searchParams = Route.useSearch();
   const navigate = useNavigate({ from: Route.fullPath });
+
+  useMetaTags({
+    title: getMetaTranslation("meta.manuals.title", language),
+    description: getMetaTranslation("meta.manuals.description", language),
+    ogTitle: getMetaTranslation("meta.manuals.ogTitle", language),
+    ogDescription: getMetaTranslation("meta.manuals.ogDescription", language),
+    ogImage: ogImage,
+  });
 
   const TYPE_LABELS: Record<ManualType, string> = {
     workshop: t("manuals.type.workshop"),

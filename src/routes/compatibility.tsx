@@ -7,9 +7,13 @@ import { compatibilities as staticCompatibilities } from "@/data/compatibility";
 import type { Compatibility, Difficulty } from "@/data/types";
 import { localize } from "@/data/types";
 import { useLanguage } from "@/components/language-provider";
+import { useMetaTags } from "@/hooks/use-meta-tags";
 import { api, ApiError, type ApiCompatibility } from "@/lib/api";
 import { useDebounce, normalizeString } from "@/lib/utils";
+import { getMetaTranslation, getInitialLanguage } from "@/lib/meta-translations";
 import ogImage from "@/assets/rocsta-hero.jpg";
+
+const SITE_URL = "https://muhaddil.github.io/asia-rocsta-hub";
 
 const DIFFICULTY_KEYS: Record<Difficulty, string> = {
   Fácil: "comp.diff.easy",
@@ -74,49 +78,55 @@ function toCompat(item: ApiCompatibility): Compatibility {
 
 export const Route = createFileRoute("/compatibility")({
   validateSearch: (search) => compatibilitySearchSchema.parse(search),
-  head: () => ({
-    meta: [
-      { title: "Compatibilidad entre Marcas y Equivalencias — Asia Rocsta Archive" },
-      {
-        name: "description",
-        content:
-          "Descubre qué piezas de otros todoterrenos y turismos (Mazda B2200, Kia Sportage, Toyota Land Cruiser) sirven para reparar o modificar el Asia Rocsta.",
-      },
-      { property: "og:title", content: "Compatibilidades — Asia Rocsta Archive" },
-      {
-        property: "og:description",
-        content:
-          "Descubre qué piezas de otros todoterrenos (Mazda B2200, Kia Sportage, Toyota Land Cruiser) sirven para tu Asia Rocsta.",
-      },
-      { property: "og:url", content: "/compatibility" },
-      { property: "og:image", content: ogImage },
-      { name: "twitter:image", content: ogImage },
-    ],
-    links: [{ rel: "canonical", href: "/compatibility" }],
-    scripts: [
-      {
-        type: "application/ld+json",
-        children: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "BreadcrumbList",
-          itemListElement: [
-            {
-              "@type": "ListItem",
-              position: 1,
-              name: "Inicio",
-              item: "https://muhaddil.github.io/asia-rocsta-hub/",
-            },
-            {
-              "@type": "ListItem",
-              position: 2,
-              name: "Compatibilidades",
-              item: "https://muhaddil.github.io/asia-rocsta-hub/compatibility",
-            },
-          ],
-        }),
-      },
-    ],
-  }),
+  head: () => {
+    const lang = getInitialLanguage();
+    return {
+      meta: [
+        { title: getMetaTranslation("meta.compatibility.title", lang) },
+        {
+          name: "description",
+          content: getMetaTranslation("meta.compatibility.description", lang),
+        },
+        { property: "og:title", content: getMetaTranslation("meta.compatibility.ogTitle", lang) },
+        {
+          property: "og:description",
+          content: getMetaTranslation("meta.compatibility.ogDescription", lang),
+        },
+        { property: "og:url", content: `${SITE_URL}/compatibility` },
+        { property: "og:image", content: ogImage },
+        { name: "twitter:image", content: ogImage },
+      ],
+      links: [
+        { rel: "canonical", href: `${SITE_URL}/compatibility` },
+        { rel: "alternate", hrefLang: "es", href: `${SITE_URL}/compatibility?lang=es` },
+        { rel: "alternate", hrefLang: "en", href: `${SITE_URL}/compatibility?lang=en` },
+        { rel: "alternate", hrefLang: "x-default", href: `${SITE_URL}/compatibility` },
+      ],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              {
+                "@type": "ListItem",
+                position: 1,
+                name: lang === "en" ? "Home" : "Inicio",
+                item: "https://muhaddil.github.io/asia-rocsta-hub/",
+              },
+              {
+                "@type": "ListItem",
+                position: 2,
+                name: lang === "en" ? "Compatibility" : "Compatibilidades",
+                item: "https://muhaddil.github.io/asia-rocsta-hub/compatibility",
+              },
+            ],
+          }),
+        },
+      ],
+    };
+  },
   component: CompatibilityPage,
 });
 
@@ -134,6 +144,14 @@ function CompatibilityPage() {
   };
   const searchParams = Route.useSearch();
   const navigate = useNavigate({ from: Route.fullPath });
+
+  useMetaTags({
+    title: getMetaTranslation("meta.compatibility.title", language),
+    description: getMetaTranslation("meta.compatibility.description", language),
+    ogTitle: getMetaTranslation("meta.compatibility.ogTitle", language),
+    ogDescription: getMetaTranslation("meta.compatibility.ogDescription", language),
+    ogImage: ogImage,
+  });
 
   const { data: compatibilities = [], isLoading: loading } = useQuery({
     queryKey: ["compatibilities"],

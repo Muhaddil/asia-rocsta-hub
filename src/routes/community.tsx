@@ -3,8 +3,10 @@ import { useState } from "react";
 import { z } from "zod";
 import { useQuery } from "@tanstack/react-query";
 import { useLanguage } from "@/components/language-provider";
+import { useMetaTags } from "@/hooks/use-meta-tags";
 import { PageShell, Crumbs } from "@/components/page-shell";
 import { api, type FormType } from "@/lib/api";
+import { getMetaTranslation, getInitialLanguage } from "@/lib/meta-translations";
 import ogImage from "@/assets/rocsta-hero.jpg";
 import {
   Users,
@@ -30,55 +32,63 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+const SITE_URL = "https://muhaddil.github.io/asia-rocsta-hub";
+
 const communitySearchSchema = z.object({
   tab: z.enum(["comp", "part", "guide", "problem", "bug", "partwrong", "photo"]).optional(),
 });
 
 export const Route = createFileRoute("/community")({
   validateSearch: (search) => communitySearchSchema.parse(search),
-  head: () => ({
-    meta: [
-      { title: "Comunidad y Colaboración — Asia Rocsta Archive" },
-      {
-        name: "description",
-        content:
-          "Súmate a la comunidad mundial del Asia Rocsta. Aporta guías, códigos OEM o reporta equivalencias para que la base de datos crezca.",
-      },
-      { property: "og:title", content: "Comunidad — Asia Rocsta Archive" },
-      {
-        property: "og:description",
-        content:
-          "Aporta guías, códigos OEM o reporta equivalencias para que la base de datos del Asia Rocsta crezca.",
-      },
-      { property: "og:url", content: "/community" },
-      { property: "og:image", content: ogImage },
-      { name: "twitter:image", content: ogImage },
-    ],
-    links: [{ rel: "canonical", href: "/community" }],
-    scripts: [
-      {
-        type: "application/ld+json",
-        children: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "BreadcrumbList",
-          itemListElement: [
-            {
-              "@type": "ListItem",
-              position: 1,
-              name: "Inicio",
-              item: "https://muhaddil.github.io/asia-rocsta-hub/",
-            },
-            {
-              "@type": "ListItem",
-              position: 2,
-              name: "Comunidad",
-              item: "https://muhaddil.github.io/asia-rocsta-hub/community",
-            },
-          ],
-        }),
-      },
-    ],
-  }),
+  head: () => {
+    const lang = getInitialLanguage();
+    return {
+      meta: [
+        { title: getMetaTranslation("meta.community.title", lang) },
+        {
+          name: "description",
+          content: getMetaTranslation("meta.community.description", lang),
+        },
+        { property: "og:title", content: getMetaTranslation("meta.community.ogTitle", lang) },
+        {
+          property: "og:description",
+          content: getMetaTranslation("meta.community.ogDescription", lang),
+        },
+        { property: "og:url", content: `${SITE_URL}/community` },
+        { property: "og:image", content: ogImage },
+        { name: "twitter:image", content: ogImage },
+      ],
+      links: [
+        { rel: "canonical", href: `${SITE_URL}/community` },
+        { rel: "alternate", hrefLang: "es", href: `${SITE_URL}/community?lang=es` },
+        { rel: "alternate", hrefLang: "en", href: `${SITE_URL}/community?lang=en` },
+        { rel: "alternate", hrefLang: "x-default", href: `${SITE_URL}/community` },
+      ],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              {
+                "@type": "ListItem",
+                position: 1,
+                name: lang === "en" ? "Home" : "Inicio",
+                item: "https://muhaddil.github.io/asia-rocsta-hub/",
+              },
+              {
+                "@type": "ListItem",
+                position: 2,
+                name: lang === "en" ? "Community" : "Comunidad",
+                item: "https://muhaddil.github.io/asia-rocsta-hub/community",
+              },
+            ],
+          }),
+        },
+      ],
+    };
+  },
   component: CommunityPage,
 });
 
@@ -169,9 +179,17 @@ function renderSelect(
 }
 
 function CommunityPage() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const searchParams = Route.useSearch();
   const navigate = useNavigate({ from: Route.fullPath });
+
+  useMetaTags({
+    title: getMetaTranslation("meta.community.title", language),
+    description: getMetaTranslation("meta.community.description", language),
+    ogTitle: getMetaTranslation("meta.community.ogTitle", language),
+    ogDescription: getMetaTranslation("meta.community.ogDescription", language),
+    ogImage: ogImage,
+  });
 
   const formType = searchParams.tab || "comp";
   const isValidTab = (v: string): v is FormType =>

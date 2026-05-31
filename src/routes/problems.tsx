@@ -4,12 +4,16 @@ import { z } from "zod";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { PageShell, Crumbs } from "@/components/page-shell";
 import { useLanguage } from "@/components/language-provider";
+import { useMetaTags } from "@/hooks/use-meta-tags";
 import { normalizeString } from "@/lib/utils";
 import { problems as staticProblems } from "@/data/problems";
 import type { Problem, Motor, Severity, Difficulty } from "@/data/types";
 import { localize } from "@/data/types";
 import { api, ApiError, type ApiProblem } from "@/lib/api";
+import { getMetaTranslation, getInitialLanguage } from "@/lib/meta-translations";
 import ogImage from "@/assets/rocsta-hero.jpg";
+
+const SITE_URL = "https://muhaddil.github.io/asia-rocsta-hub";
 
 const DIFFICULTY_KEYS: Record<Difficulty, string> = {
   Fácil: "comp.diff.easy",
@@ -52,49 +56,55 @@ type ProblemsSearch = z.infer<typeof problemsSearchSchema>;
 
 export const Route = createFileRoute("/problems")({
   validateSearch: (search) => problemsSearchSchema.parse(search),
-  head: () => ({
-    meta: [
-      { title: "Problemas Comunes y Averías — Asia Rocsta Archive" },
-      {
-        name: "description",
-        content:
-          "Registro e historial de fallos mecánicos típicos del Asia Rocsta. Diagnóstico de averías, síntomas, causas, soluciones y costes estimados.",
-      },
-      { property: "og:title", content: "Problemas Comunes — Asia Rocsta Archive" },
-      {
-        property: "og:description",
-        content:
-          "Registro de fallos mecánicos típicos del Asia Rocsta: diagnóstico, síntomas, causas, soluciones y costes.",
-      },
-      { property: "og:url", content: "/problems" },
-      { property: "og:image", content: ogImage },
-      { name: "twitter:image", content: ogImage },
-    ],
-    links: [{ rel: "canonical", href: "/problems" }],
-    scripts: [
-      {
-        type: "application/ld+json",
-        children: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "BreadcrumbList",
-          itemListElement: [
-            {
-              "@type": "ListItem",
-              position: 1,
-              name: "Inicio",
-              item: "https://muhaddil.github.io/asia-rocsta-hub/",
-            },
-            {
-              "@type": "ListItem",
-              position: 2,
-              name: "Problemas Comunes",
-              item: "https://muhaddil.github.io/asia-rocsta-hub/problems",
-            },
-          ],
-        }),
-      },
-    ],
-  }),
+  head: () => {
+    const lang = getInitialLanguage();
+    return {
+      meta: [
+        { title: getMetaTranslation("meta.problems.title", lang) },
+        {
+          name: "description",
+          content: getMetaTranslation("meta.problems.description", lang),
+        },
+        { property: "og:title", content: getMetaTranslation("meta.problems.ogTitle", lang) },
+        {
+          property: "og:description",
+          content: getMetaTranslation("meta.problems.ogDescription", lang),
+        },
+        { property: "og:url", content: `${SITE_URL}/problems` },
+        { property: "og:image", content: ogImage },
+        { name: "twitter:image", content: ogImage },
+      ],
+      links: [
+        { rel: "canonical", href: `${SITE_URL}/problems` },
+        { rel: "alternate", hrefLang: "es", href: `${SITE_URL}/problems?lang=es` },
+        { rel: "alternate", hrefLang: "en", href: `${SITE_URL}/problems?lang=en` },
+        { rel: "alternate", hrefLang: "x-default", href: `${SITE_URL}/problems` },
+      ],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              {
+                "@type": "ListItem",
+                position: 1,
+                name: lang === "en" ? "Home" : "Inicio",
+                item: "https://muhaddil.github.io/asia-rocsta-hub/",
+              },
+              {
+                "@type": "ListItem",
+                position: 2,
+                name: lang === "en" ? "Common Issues" : "Problemas Comunes",
+                item: "https://muhaddil.github.io/asia-rocsta-hub/problems",
+              },
+            ],
+          }),
+        },
+      ],
+    };
+  },
   component: ProblemsPage,
 });
 
@@ -120,6 +130,14 @@ function ProblemsPage() {
   const { t, language } = useLanguage();
   const searchParams = Route.useSearch();
   const navigate = useNavigate({ from: Route.fullPath });
+
+  useMetaTags({
+    title: getMetaTranslation("meta.problems.title", language),
+    description: getMetaTranslation("meta.problems.description", language),
+    ogTitle: getMetaTranslation("meta.problems.ogTitle", language),
+    ogDescription: getMetaTranslation("meta.problems.ogDescription", language),
+    ogImage: ogImage,
+  });
 
   const CATEGORY_LABELS = {
     engine: t("cat.engine"),
