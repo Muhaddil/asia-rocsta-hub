@@ -127,6 +127,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "stylesheet", href: appCss },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap",
+      },
       { rel: "manifest", href: `${BASE}manifest.json` },
       { rel: "icon", type: "image/svg+xml", href: `${BASE}favicon.svg` },
       { rel: "apple-touch-icon", href: `${BASE}favicon.svg` },
@@ -183,26 +187,6 @@ function RootShell({ children }: { children: React.ReactNode }) {
             `,
           }}
         />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                var fl = document.createElement("link");
-                fl.rel = "stylesheet";
-                fl.href = "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap";
-                fl.media = "print";
-                fl.onload = function() { fl.media = "all"; };
-                document.head.appendChild(fl);
-              })();
-            `,
-          }}
-        />
-        <noscript>
-          <link
-            rel="stylesheet"
-            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
-          />
-        </noscript>
         <style
           dangerouslySetInnerHTML={{
             __html: `
@@ -358,36 +342,3 @@ function RootComponent() {
   );
 }
 
-// function RootComponent() {
-//   const { queryClient } = Route.useRouteContext();
-//   const [ready, setReady] = useState(false);
-
-//   useEffect(() => {
-//     const el = document.getElementById("loading-overlay");
-//     if (el) {
-//       el.style.opacity = "0";
-//       el.style.pointerEvents = "none";
-//       setReady(true);
-//       setTimeout(() => el.remove(), 350);
-//     } else {
-//       setReady(true);
-//     }
-//   }, []);
-
-//   return (
-//     <QueryClientProvider client={queryClient}>
-//       <ThemeProvider>
-//         <div
-//           className="min-h-screen flex flex-col bg-background text-foreground"
-//           style={{ opacity: ready ? 1 : 0, transition: "opacity 350ms ease-in-out" }}
-//         >
-//           <SiteHeader />
-//           <div className="flex-1">
-//             <Outlet />
-//           </div>
-//           <SiteFooter />
-//         </div>
-//       </ThemeProvider>
-//     </QueryClientProvider>
-//   );
-// }
