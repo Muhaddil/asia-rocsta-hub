@@ -16,16 +16,28 @@ export function SiteFooter() {
           © {mounted ? new Date().getFullYear() : 2026} Asia Rocsta Archive · {t("footer.tagline")}
         </div>
         <div className="flex items-center gap-6">
-          <Link to="/about" className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors">
+          <Link
+            to="/about"
+            className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors"
+          >
             {t("nav.about")}
           </Link>
-          <Link to="/coming-soon" className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors">
+          <Link
+            to="/coming-soon"
+            className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors"
+          >
             {t("footer.docs")}
           </Link>
-          <Link to="/coming-soon" className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors">
+          <Link
+            to="/coming-soon"
+            className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors"
+          >
             {t("footer.api")}
           </Link>
-          <Link to="/community" className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors">
+          <Link
+            to="/community"
+            className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors"
+          >
             {t("footer.contribute")}
           </Link>
         </div>

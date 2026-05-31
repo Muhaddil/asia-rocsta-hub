@@ -14,7 +14,10 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 
 const UI_TRANSLATIONS: Record<string, Record<Language, string>> = {};
 for (const key of Object.keys(esJson)) {
-  UI_TRANSLATIONS[key] = { es: esJson[key as keyof typeof esJson], en: enJson[key as keyof typeof enJson] as string };
+  UI_TRANSLATIONS[key] = {
+    es: esJson[key as keyof typeof esJson],
+    en: enJson[key as keyof typeof enJson] as string,
+  };
 }
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {

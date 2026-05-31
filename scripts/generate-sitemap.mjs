@@ -23,7 +23,7 @@ const urls = routes
     <loc>${BASE_URL}${r.path}</loc>
     <changefreq>${r.changefreq}</changefreq>
     <priority>${r.priority}</priority>
-  </url>`
+  </url>`,
   )
   .join("\n");
 

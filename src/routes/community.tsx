@@ -676,11 +676,7 @@ function CommunityPage() {
               {t("comm.stats.parts")}
             </div>
             <div className="text-3xl font-extrabold text-foreground font-mono mt-2 flex items-baseline gap-1">
-              {loading ? (
-                <Loader2 className="size-5 animate-spin" />
-              ) : (
-                (stats?.partsCatalog ?? "-")
-              )}{" "}
+              {loading ? <Loader2 className="size-5 animate-spin" /> : (stats?.partsCatalog ?? "-")}{" "}
               <span className="text-xs text-rocsta-green font-semibold">
                 {t("comm.statsItems")}
               </span>
