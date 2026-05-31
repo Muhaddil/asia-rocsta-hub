@@ -74,9 +74,16 @@ export interface Compatibility {
   category: PartCategory;
 }
 
+export interface GuideTool {
+  name: LocalizedString;
+  quantity: number;
+  image?: string;
+}
+
 export interface GuideStep {
   title: LocalizedString;
   content: LocalizedString;
+  images?: string[];
 }
 
 export interface Guide {
@@ -89,7 +96,7 @@ export interface Guide {
   /** Asset image path or external URL */
   image?: string;
   motor: Motor;
-  tools: LocalizedString[];
+  tools: GuideTool[];
   steps: GuideStep[];
   tags: string[];
   contributions: number;

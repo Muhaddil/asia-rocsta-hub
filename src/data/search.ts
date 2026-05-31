@@ -78,7 +78,7 @@ export function globalSearch(query: string, lang: Language = "es"): SearchResult
       [
         indexed(guide.title),
         indexed(guide.description),
-        guide.tools.map((t) => indexed(t)).join(" "),
+        guide.tools.map((t) => indexed(t.name)).join(" "),
         guide.tags.join(" "),
       ].join(" "),
     );

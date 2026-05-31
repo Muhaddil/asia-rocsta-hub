@@ -53,9 +53,16 @@ export interface ApiPart {
   refs?: string[];
 }
 
+export interface ApiGuideTool {
+  name: { es: string; en: string };
+  quantity: number;
+  image?: string;
+}
+
 export interface ApiGuideStep {
   title: { es: string; en: string };
   content: { es: string; en: string };
+  images?: string[];
 }
 
 export interface ApiGalleryEntry {
@@ -93,7 +100,7 @@ export interface ApiGuide {
   image?: string;
   motor: string;
   category: string;
-  tools: Array<{ es: string; en: string }>;
+  tools: ApiGuideTool[];
   steps: ApiGuideStep[];
   tags: string[];
   contributions: number;

@@ -21,18 +21,30 @@ export const guides: Guide[] = [
     category: "engine",
     tools: [
       {
-        es: "Llave de carraca con vasos de 10, 12, 14 y 17 mm",
-        en: "Ratchet wrench with 10, 12, 14 and 17 mm sockets",
+        name: {
+          es: "Llave de carraca con vasos de 10, 12, 14 y 17 mm",
+          en: "Ratchet wrench with 10, 12, 14 and 17 mm sockets",
+        },
+        quantity: 1,
       },
-      { es: "Llave dinamométrica (20-120 Nm)", en: "Torque wrench (20-120 Nm)" },
       {
-        es: "Pasador de bloqueo de bomba inyectora (o broca de 6 mm)",
-        en: "Injection pump locking pin (or 6 mm drill bit)",
+        name: { es: "Llave dinamométrica (20-120 Nm)", en: "Torque wrench (20-120 Nm)" },
+        quantity: 1,
       },
-      { es: "Destornillador plano grande o palanca", en: "Large flat-head screwdriver or pry bar" },
       {
-        es: "Rotulador permanente o corrector blanco (para marcar)",
-        en: "Permanent marker or white correction pen (for marking)",
+        name: {
+          es: "Pasador de bloqueo de bomba inyectora (o broca de 6 mm)",
+          en: "Injection pump locking pin (or 6 mm drill bit)",
+        },
+        quantity: 1,
+      },
+      { name: { es: "Destornillador plano grande o palanca", en: "Large flat-head screwdriver or pry bar" }, quantity: 1 },
+      {
+        name: {
+          es: "Rotulador permanente o corrector blanco (para marcar)",
+          en: "Permanent marker or white correction pen (for marking)",
+        },
+        quantity: 1,
       },
     ],
     steps: [
@@ -114,12 +126,12 @@ export const guides: Guide[] = [
     motor: "ambos",
     category: "transmission",
     tools: [
-      { es: "Llave Allen de 4 mm (para tapa del cubo)", en: "4 mm Allen key (for hub cover)" },
-      { es: "Llave de vaso o estrella de 12 mm", en: "12 mm socket or wrench" },
-      { es: "Alicates para circlips (anillos elásticos)", en: "Circlip pliers (snap ring pliers)" },
-      { es: "Desengrasante / Limpiador de frenos", en: "Degreaser / Brake cleaner" },
-      { es: "Grasa de litio EP2 de alta calidad", en: "High-quality EP2 lithium grease" },
-      { es: "Trapos limpios", en: "Clean rags" },
+      { name: { es: "Llave Allen de 4 mm (para tapa del cubo)", en: "4 mm Allen key (for hub cover)" }, quantity: 1 },
+      { name: { es: "Llave de vaso o estrella de 12 mm", en: "12 mm socket or wrench" }, quantity: 1 },
+      { name: { es: "Alicates para circlips (anillos elásticos)", en: "Circlip pliers (snap ring pliers)" }, quantity: 1 },
+      { name: { es: "Desengrasante / Limpiador de frenos", en: "Degreaser / Brake cleaner" }, quantity: 1 },
+      { name: { es: "Grasa de litio EP2 de alta calidad", en: "High-quality EP2 lithium grease" }, quantity: 1 },
+      { name: { es: "Trapos limpios", en: "Clean rags" }, quantity: 1 },
     ],
     steps: [
       {
@@ -135,7 +147,7 @@ export const guides: Guide[] = [
           en: "Step 2: Remove the internal body",
         },
         content: {
-          es: "Retirar el circlip grande del extremo del palier utilizando los alicates de anillos elásticos. A continuación, retirar los 6 pernos de 12 mm que sujetan el cuerpo del cubo al buje de la rueda. Retirar todo el conjunto mecánico interno deslizándolo hacia afuera.",
+          es: "Retirar el circlip grande del extremo del palier utilizando los alicates de anillos elásticos. A continuación, retirar los 6 pernos de 12 mm que sujetan el cuerpo del cubo al buje de la rueda. Retirar todo el conjunto mecánico deslizándolo hacia afuera.",
           en: "Remove the large circlip from the end of the axle shaft using snap ring pliers. Then remove the 6 x 12 mm bolts securing the hub body to the wheel hub. Slide the entire internal mechanical assembly outward.",
         },
       },
@@ -193,13 +205,16 @@ export const guides: Guide[] = [
     motor: "R2",
     category: "engine",
     tools: [
-      { es: "Llave fija o de estrella de 12 mm", en: "12 mm open-end or box wrench" },
-      { es: "Cepillo metálico pequeño", en: "Small wire brush" },
+      { name: { es: "Llave fija o de estrella de 12 mm", en: "12 mm open-end or box wrench" }, quantity: 1 },
+      { name: { es: "Cepillo metálico pequeño", en: "Small wire brush" }, quantity: 1 },
       {
-        es: "Spray descarbonizante o limpiador de hornos",
-        en: "Decarbonizing spray or oven cleaner",
+        name: {
+          es: "Spray descarbonizante o limpiador de hornos",
+          en: "Decarbonizing spray or oven cleaner",
+        },
+        quantity: 1,
       },
-      { es: "Destornillador plano", en: "Flat-head screwdriver" },
+      { name: { es: "Destornillador plano", en: "Flat-head screwdriver" }, quantity: 1 },
     ],
     steps: [
       {

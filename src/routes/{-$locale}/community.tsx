@@ -237,6 +237,17 @@ function CommunityPage() {
 
   const [extra, setExtra] = useState<Record<string, string>>({});
 
+  const [guideSteps, setGuideSteps] = useState<Array<{
+    title: string;
+    content: string;
+    images: string;
+  }>>([{ title: "", content: "", images: "" }]);
+
+  const [guideTools, setGuideTools] = useState<Array<{
+    name: string;
+    quantity: number;
+  }>>([{ name: "", quantity: 1 }]);
+
   const handleExtra = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
   ) => {
@@ -255,6 +266,40 @@ function CommunityPage() {
     setEmail("");
     setExtra({});
     setPhotoFile(null);
+    setGuideSteps([{ title: "", content: "", images: "" }]);
+    setGuideTools([{ name: "", quantity: 1 }]);
+  };
+
+  const addGuideStep = () => {
+    setGuideSteps(prev => [...prev, { title: "", content: "", images: "" }]);
+  };
+
+  const removeGuideStep = (index: number) => {
+    if (guideSteps.length > 1) {
+      setGuideSteps(prev => prev.filter((_, i) => i !== index));
+    }
+  };
+
+  const updateGuideStep = (index: number, field: string, value: string) => {
+    setGuideSteps(prev => prev.map((step, i) => 
+      i === index ? { ...step, [field]: value } : step
+    ));
+  };
+
+  const addGuideTool = () => {
+    setGuideTools(prev => [...prev, { name: "", quantity: 1 }]);
+  };
+
+  const removeGuideTool = (index: number) => {
+    if (guideTools.length > 1) {
+      setGuideTools(prev => prev.filter((_, i) => i !== index));
+    }
+  };
+
+  const updateGuideTool = (index: number, field: string, value: string | number) => {
+    setGuideTools(prev => prev.map((tool, i) => 
+      i === index ? { ...tool, [field]: value } : tool
+    ));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -270,6 +315,36 @@ function CommunityPage() {
         fd.append("country", extra.photo_country || "");
         if (photoFile) fd.append("photo", photoFile);
         await api.submitGalleryPhoto(fd);
+      } else if (formType === "guide") {
+        const langKey = language as "es" | "en";
+        const guideData = {
+          title: extra.guide_title || "",
+          description: extra.guide_description || "",
+          level: extra.guide_level || "Intermedio",
+          time: extra.guide_time || "",
+          category: extra.guide_category || "engine",
+          motor: extra.guide_motor || "ambos",
+          tools: guideTools.filter(t => t.name).map(t => ({
+            name: { [langKey]: t.name } as any,
+            quantity: t.quantity
+          })),
+          steps: guideSteps.filter(s => s.content).map(s => ({
+            title: { [langKey]: s.title } as any,
+            content: { [langKey]: s.content } as any,
+            images: s.images ? s.images.split(",").map(url => url.trim()).filter(url => url) : []
+          })),
+          tags: extra.guide_tags ? extra.guide_tags.split(",").map(t => t.trim()) : [],
+          _lang: langKey
+        };
+        
+        await api.submit({
+          type: "guide",
+          username,
+          email,
+          title: guideData.title,
+          description: guideData.description,
+          data: guideData as any
+        });
       } else {
         await api.submit({
           type: formType,
@@ -438,47 +513,206 @@ function CommunityPage() {
   }
 
   function renderGuideFields() {
+    const isEn = language === "en";
+
     return (
       <>
         <Field label={t("comm.form.guide.title")}>
           {renderInput(
             "guide_title",
             extra.guide_title || "",
-            t("comm.form.guide.titlePlaceholder"),
+            isEn ? "e.g. Handbrake cable tightening" : "Ej. Tensado del cable de freno de mano",
             handleExtra,
           )}
         </Field>
+        
+        <Field label={t("comm.form.guide.description")}>
+          {renderTextarea(
+            "guide_description",
+            extra.guide_description || "",
+            isEn ? "Briefly describe what you'll learn in this guide..." : "Describe brevemente qué aprenderás en esta guía...",
+            handleExtra,
+            3,
+          )}
+        </Field>
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <Field label={t("comm.form.guide.level")}>
+            {renderSelect(
+              "guide_level",
+              extra.guide_level || "Intermedio",
+              [
+                { value: "Principiante", label: t("guides.level.beginner") },
+                { value: "Intermedio", label: t("guides.level.intermediate") },
+                { value: "Avanzado", label: t("guides.level.advanced") },
+              ],
+              handleExtraValue,
+            )}
+          </Field>
+          <Field label={t("comm.form.guide.time")}>
+            {renderInput(
+              "guide_time",
+              extra.guide_time || "",
+              isEn ? "e.g. 2.5 h" : "Ej: 2.5 h",
+              handleExtra,
+            )}
+          </Field>
+          <Field label={t("comm.form.guide.motor")}>
+            {renderSelect(
+              "guide_motor",
+              extra.guide_motor || "ambos",
+              [
+                { value: "F8", label: "F8" },
+                { value: "R2", label: "R2" },
+                { value: "ambos", label: "F8 / R2" },
+              ],
+              handleExtraValue,
+            )}
+          </Field>
+        </div>
+
         <Field label={t("comm.form.guide.category")}>
           {renderSelect(
             "guide_category",
-            extra.guide_category || "mecanica",
+            extra.guide_category || "engine",
             [
-              { value: "mecanica", label: "Mecánica" },
-              { value: "electricidad", label: "Electricidad" },
-              { value: "carroceria", label: "Carrocería" },
-              { value: "mantenimiento", label: "Mantenimiento" },
-              { value: "otro", label: "Otro" },
+              { value: "engine", label: t("cat.engine") },
+              { value: "transmission", label: t("cat.transmission") },
+              { value: "suspension", label: t("cat.suspension") },
+              { value: "electrical", label: t("cat.electrical") },
+              { value: "brakes", label: t("cat.brakes") },
+              { value: "tires", label: t("cat.tires") },
+              { value: "body", label: t("cat.body") },
             ],
             handleExtraValue,
           )}
         </Field>
-        <Field label={t("comm.form.guide.tools")}>
+
+        <Field label={t("comm.form.guide.tags")}>
           {renderInput(
-            "guide_tools",
-            extra.guide_tools || "",
-            t("comm.form.guide.toolsPlaceholder"),
+            "guide_tags",
+            extra.guide_tags || "",
+            t("comm.form.guide.tagsPlaceholder"),
             handleExtra,
           )}
         </Field>
-        <Field label={t("comm.form.guide.content")}>
-          {renderTextarea(
-            "guide_content",
-            extra.guide_content || "",
-            t("comm.form.guide.contentPlaceholder"),
-            handleExtra,
-            6,
-          )}
-        </Field>
+
+        <div className="space-y-3">
+          <div className="flex items-center justify-between">
+            <label className="text-xs font-bold text-muted-foreground uppercase">
+              {t("guides.dialog.toolsLabel")}
+            </label>
+            <button
+              type="button"
+              onClick={addGuideTool}
+              className="text-[10px] font-bold text-rocsta-green hover:underline flex items-center gap-1"
+            >
+              + {t("comm.form.guide.addTool")}
+            </button>
+          </div>
+          
+          {guideTools.map((tool, index) => (
+            <div key={index} className="rounded-lg border border-border bg-muted/20 p-3 space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] font-bold text-muted-foreground uppercase">
+                  {t("comm.form.guide.tool")} {index + 1}
+                </span>
+                {guideTools.length > 1 && (
+                  <button
+                    type="button"
+                    onClick={() => removeGuideTool(index)}
+                    className="text-[10px] text-red-500 hover:underline"
+                  >
+                    {t("comm.form.guide.remove")}
+                  </button>
+                )}
+              </div>
+              <div className="flex items-center gap-2">
+                <input
+                  type="text"
+                  value={tool.name}
+                  onChange={(e) => updateGuideTool(index, "name", e.target.value)}
+                  placeholder={isEn ? "Tool name" : "Nombre de la herramienta"}
+                  className="flex-1 rounded-md border border-input bg-muted/30 px-3 py-2 text-xs shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-rocsta-green"
+                />
+                <input
+                  type="number"
+                  value={tool.quantity}
+                  onChange={(e) => updateGuideTool(index, "quantity", parseInt(e.target.value) || 1)}
+                  min="1"
+                  className="w-16 rounded-md border border-input bg-muted/30 px-3 py-2 text-xs shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-rocsta-green"
+                />
+                <span className="text-[10px] text-muted-foreground">x</span>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <label className="text-xs font-bold text-muted-foreground uppercase">
+              {t("guides.dialog.stepsLabel")}
+            </label>
+            <button
+              type="button"
+              onClick={addGuideStep}
+              className="text-[10px] font-bold text-rocsta-green hover:underline flex items-center gap-1"
+            >
+              + {t("comm.form.guide.addStep")}
+            </button>
+          </div>
+
+          {guideSteps.map((step, index) => (
+            <div key={index} className="rounded-lg border border-border bg-muted/20 p-4 space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-bold text-foreground">
+                  {t("comm.form.guide.step")} {index + 1}
+                </span>
+                {guideSteps.length > 1 && (
+                  <button
+                    type="button"
+                    onClick={() => removeGuideStep(index)}
+                    className="text-[10px] text-red-500 hover:underline"
+                  >
+                    {t("comm.form.guide.remove")}
+                  </button>
+                )}
+              </div>
+
+              <input
+                type="text"
+                value={step.title}
+                onChange={(e) => updateGuideStep(index, "title", e.target.value)}
+                placeholder={isEn ? "Step title" : "Título del paso"}
+                className="w-full rounded-md border border-input bg-muted/30 px-3 py-2 text-xs shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-rocsta-green"
+              />
+
+              <textarea
+                value={step.content}
+                onChange={(e) => updateGuideStep(index, "content", e.target.value)}
+                placeholder={isEn ? "Step content..." : "Contenido del paso..."}
+                rows={3}
+                className="w-full rounded-md border border-input bg-muted/30 px-3 py-2 text-xs shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-rocsta-green"
+              />
+
+              <div>
+                <label className="text-[10px] font-bold text-muted-foreground uppercase mb-1 block">
+                  {t("comm.form.guide.stepImages")}
+                </label>
+                <input
+                  type="text"
+                  value={step.images}
+                  onChange={(e) => updateGuideStep(index, "images", e.target.value)}
+                  placeholder={isEn ? "Image URLs separated by commas" : "URLs de imágenes separadas por comas"}
+                  className="w-full rounded-md border border-input bg-muted/30 px-3 py-2 text-[10px] shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-rocsta-green font-mono"
+                />
+                <p className="text-[9px] text-muted-foreground mt-1">
+                  {t("comm.form.guide.imagesHelp")}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
       </>
     );
   }

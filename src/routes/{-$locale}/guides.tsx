@@ -122,8 +122,16 @@ function toGuide(ag: ApiGuide): Guide {
     time: ag.time,
     image: ag.image,
     motor: ag.motor as Motor,
-    tools: ag.tools,
-    steps: ag.steps,
+    tools: ag.tools.map((t) => ({
+      name: t.name,
+      quantity: t.quantity,
+      image: t.image,
+    })),
+    steps: ag.steps.map((s) => ({
+      title: s.title,
+      content: s.content,
+      images: s.images || [],
+    })),
     tags: ag.tags,
     contributions: ag.contributions,
     category: ag.category as PartCategory,
@@ -216,7 +224,7 @@ function GuidesPage() {
         const query = normalizeString(currentSearch);
         const title = normalizeString(localize(guide.title, language));
         const desc = normalizeString(localize(guide.description, language));
-        const tools = guide.tools.map((t) => normalizeString(localize(t, language)));
+        const tools = guide.tools.map((t) => normalizeString(localize(t.name, language)));
         const tags = guide.tags.map((t) => normalizeString(t));
 
         if (
@@ -483,7 +491,12 @@ function GuidesPage() {
                       className="text-xs text-muted-foreground flex items-start gap-2"
                     >
                       <span className="h-1.5 w-1.5 rounded-full bg-rocsta-accent mt-1.5 shrink-0" />
-                      <span>{localize(tool, language)}</span>
+                      <span>
+                        {tool.quantity > 1 && (
+                          <span className="font-bold text-foreground">{tool.quantity}x </span>
+                        )}
+                        {localize(tool.name, language)}
+                      </span>
                     </li>
                   ))}
                 </ul>
@@ -505,6 +518,20 @@ function GuidesPage() {
                       </AccordionTrigger>
                       <AccordionContent className="text-xs text-muted-foreground leading-relaxed pb-4 pt-1 whitespace-pre-line border-t border-border/40 text-pretty font-normal">
                         {localize(step.content, language)}
+                        {step.images && step.images.length > 0 && (
+                          <div className="mt-3 grid grid-cols-2 gap-2">
+                            {step.images.map((img, imgIndex) => (
+                              <div key={imgIndex} className="overflow-hidden rounded-lg border border-border bg-muted">
+                                <img
+                                  src={img}
+                                  alt={`${localize(step.title, language)} - ${imgIndex + 1}`}
+                                  className="w-full h-32 object-cover"
+                                  loading="lazy"
+                                />
+                              </div>
+                            ))}
+                          </div>
+                        )}
                       </AccordionContent>
                     </AccordionItem>
                   ))}
