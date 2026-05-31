@@ -7,19 +7,17 @@ const STATIC_ASSETS = [
 ];
 
 self.addEventListener("install", (event) => {
-  event.waitUntil(
-    caches.open(CACHE).then((cache) => cache.addAll(STATIC_ASSETS))
-  );
+  event.waitUntil(caches.open(CACHE).then((cache) => cache.addAll(STATIC_ASSETS)));
   self.skipWaiting();
 });
 
 self.addEventListener("activate", (event) => {
   event.waitUntil(
-    caches.keys().then((keys) =>
-      Promise.all(
-        keys.filter((key) => key !== CACHE).map((key) => caches.delete(key))
-      )
-    )
+    caches
+      .keys()
+      .then((keys) =>
+        Promise.all(keys.filter((key) => key !== CACHE).map((key) => caches.delete(key))),
+      ),
   );
   self.clients.claim();
 });
@@ -32,7 +30,9 @@ self.addEventListener("fetch", (event) => {
 
   if (request.method !== "GET") return;
 
-  const isHashedAsset = /assets\/.*\.[a-f0-9]{8,}\.(js|css|jpg|jpeg|png|webp|svg|woff2)$/.test(url.pathname);
+  const isHashedAsset = /assets\/.*\.[a-f0-9]{8,}\.(js|css|jpg|jpeg|png|webp|svg|woff2)$/.test(
+    url.pathname,
+  );
 
   if (isHashedAsset) {
     event.respondWith(
@@ -45,16 +45,14 @@ self.addEventListener("fetch", (event) => {
             }
             return response;
           });
-        })
-      )
+        }),
+      ),
     );
     return;
   }
 
   if (request.mode === "navigate") {
-    event.respondWith(
-      fetch(request).catch(() => caches.match("/asia-rocsta-hub/"))
-    );
+    event.respondWith(fetch(request).catch(() => caches.match("/asia-rocsta-hub/")));
     return;
   }
 
@@ -68,6 +66,6 @@ self.addEventListener("fetch", (event) => {
         return response;
       });
       return cached || fetched;
-    })
+    }),
   );
 });
