@@ -10,7 +10,8 @@ import { useLanguage } from "@/components/language-provider";
 import { useMetaTags } from "@/hooks/use-meta-tags";
 import { api, ApiError, type ApiCompatibility } from "@/lib/api";
 import { useDebounce, normalizeString } from "@/lib/utils";
-import { getMetaTranslation, getInitialLanguage } from "@/lib/meta-translations";
+import { getMetaTranslation } from "@/lib/meta-translations";
+import { resolveLocale, getAlternateHrefs } from "@/lib/i18n-routing";
 import ogImage from "@/assets/rocsta-hero.jpg";
 
 const SITE_URL = "https://muhaddil.github.io/asia-rocsta-hub";
@@ -76,31 +77,33 @@ function toCompat(item: ApiCompatibility): Compatibility {
   };
 }
 
-export const Route = createFileRoute("/compatibility")({
+export const Route = createFileRoute("/{-$locale}/compatibility")({
   validateSearch: (search) => compatibilitySearchSchema.parse(search),
-  head: () => {
-    const lang = getInitialLanguage();
+  head: ({ params }) => {
+    const locale = resolveLocale(params.locale);
     return {
       meta: [
-        { title: getMetaTranslation("meta.compatibility.title", lang) },
+        { title: getMetaTranslation("meta.compatibility.title", locale) },
         {
           name: "description",
-          content: getMetaTranslation("meta.compatibility.description", lang),
+          content: getMetaTranslation("meta.compatibility.description", locale),
         },
-        { property: "og:title", content: getMetaTranslation("meta.compatibility.ogTitle", lang) },
+        { property: "og:title", content: getMetaTranslation("meta.compatibility.ogTitle", locale) },
         {
           property: "og:description",
-          content: getMetaTranslation("meta.compatibility.ogDescription", lang),
+          content: getMetaTranslation("meta.compatibility.ogDescription", locale),
         },
-        { property: "og:url", content: `${SITE_URL}/compatibility` },
+        { property: "og:url", content: `${SITE_URL}/${locale}/compatibility` },
         { property: "og:image", content: ogImage },
         { name: "twitter:image", content: ogImage },
       ],
       links: [
-        { rel: "canonical", href: `${SITE_URL}/compatibility` },
-        { rel: "alternate", hrefLang: "es", href: `${SITE_URL}/compatibility?lang=es` },
-        { rel: "alternate", hrefLang: "en", href: `${SITE_URL}/compatibility?lang=en` },
-        { rel: "alternate", hrefLang: "x-default", href: `${SITE_URL}/compatibility` },
+        { rel: "canonical", href: `${SITE_URL}/${locale}/compatibility` },
+        ...getAlternateHrefs("/compatibility", SITE_URL).map((a) => ({
+          rel: "alternate" as const,
+          hrefLang: a.hreflang,
+          href: a.href,
+        })),
       ],
       scripts: [
         {
@@ -112,13 +115,13 @@ export const Route = createFileRoute("/compatibility")({
               {
                 "@type": "ListItem",
                 position: 1,
-                name: lang === "en" ? "Home" : "Inicio",
+                name: locale === "en" ? "Home" : "Inicio",
                 item: "https://muhaddil.github.io/asia-rocsta-hub/",
               },
               {
                 "@type": "ListItem",
                 position: 2,
-                name: lang === "en" ? "Compatibility" : "Compatibilidades",
+                name: locale === "en" ? "Compatibility" : "Compatibilidades",
                 item: "https://muhaddil.github.io/asia-rocsta-hub/compatibility",
               },
             ],
@@ -133,6 +136,8 @@ export const Route = createFileRoute("/compatibility")({
 function CompatibilityPage() {
   const queryClient = useQueryClient();
   const { t, language } = useLanguage();
+  const { locale } = Route.useParams();
+  const lang = resolveLocale(locale);
   const CATEGORY_LABELS = {
     engine: t("cat.engine"),
     transmission: t("cat.transmission"),
@@ -146,10 +151,10 @@ function CompatibilityPage() {
   const navigate = useNavigate({ from: Route.fullPath });
 
   useMetaTags({
-    title: getMetaTranslation("meta.compatibility.title", language),
-    description: getMetaTranslation("meta.compatibility.description", language),
-    ogTitle: getMetaTranslation("meta.compatibility.ogTitle", language),
-    ogDescription: getMetaTranslation("meta.compatibility.ogDescription", language),
+    title: getMetaTranslation("meta.compatibility.title", lang),
+    description: getMetaTranslation("meta.compatibility.description", lang),
+    ogTitle: getMetaTranslation("meta.compatibility.ogTitle", lang),
+    ogDescription: getMetaTranslation("meta.compatibility.ogDescription", lang),
     ogImage: ogImage,
   });
 

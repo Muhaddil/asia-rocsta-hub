@@ -9,202 +9,168 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as ProblemsRouteImport } from './routes/problems'
-import { Route as PartsRouteImport } from './routes/parts'
-import { Route as ManualsRouteImport } from './routes/manuals'
-import { Route as GuidesRouteImport } from './routes/guides'
-import { Route as CompatibilityRouteImport } from './routes/compatibility'
-import { Route as CommunityRouteImport } from './routes/community'
-import { Route as ComingSoonRouteImport } from './routes/coming-soon'
-import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as Char123LocaleChar125IndexRouteImport } from './routes/{-$locale}/index'
+import { Route as Char123LocaleChar125ProblemsRouteImport } from './routes/{-$locale}/problems'
+import { Route as Char123LocaleChar125PartsRouteImport } from './routes/{-$locale}/parts'
+import { Route as Char123LocaleChar125ManualsRouteImport } from './routes/{-$locale}/manuals'
+import { Route as Char123LocaleChar125GuidesRouteImport } from './routes/{-$locale}/guides'
+import { Route as Char123LocaleChar125CompatibilityRouteImport } from './routes/{-$locale}/compatibility'
+import { Route as Char123LocaleChar125CommunityRouteImport } from './routes/{-$locale}/community'
+import { Route as Char123LocaleChar125ComingSoonRouteImport } from './routes/{-$locale}/coming-soon'
+import { Route as Char123LocaleChar125AboutRouteImport } from './routes/{-$locale}/about'
 
-const ProblemsRoute = ProblemsRouteImport.update({
-  id: '/problems',
-  path: '/problems',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PartsRoute = PartsRouteImport.update({
-  id: '/parts',
-  path: '/parts',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ManualsRoute = ManualsRouteImport.update({
-  id: '/manuals',
-  path: '/manuals',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const GuidesRoute = GuidesRouteImport.update({
-  id: '/guides',
-  path: '/guides',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CompatibilityRoute = CompatibilityRouteImport.update({
-  id: '/compatibility',
-  path: '/compatibility',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CommunityRoute = CommunityRouteImport.update({
-  id: '/community',
-  path: '/community',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ComingSoonRoute = ComingSoonRouteImport.update({
-  id: '/coming-soon',
-  path: '/coming-soon',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AboutRoute = AboutRouteImport.update({
-  id: '/about',
-  path: '/about',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const Char123LocaleChar125IndexRoute =
+  Char123LocaleChar125IndexRouteImport.update({
+    id: '/{-$locale}/',
+    path: '/{-$locale}/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const Char123LocaleChar125ProblemsRoute =
+  Char123LocaleChar125ProblemsRouteImport.update({
+    id: '/{-$locale}/problems',
+    path: '/{-$locale}/problems',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const Char123LocaleChar125PartsRoute =
+  Char123LocaleChar125PartsRouteImport.update({
+    id: '/{-$locale}/parts',
+    path: '/{-$locale}/parts',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const Char123LocaleChar125ManualsRoute =
+  Char123LocaleChar125ManualsRouteImport.update({
+    id: '/{-$locale}/manuals',
+    path: '/{-$locale}/manuals',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const Char123LocaleChar125GuidesRoute =
+  Char123LocaleChar125GuidesRouteImport.update({
+    id: '/{-$locale}/guides',
+    path: '/{-$locale}/guides',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const Char123LocaleChar125CompatibilityRoute =
+  Char123LocaleChar125CompatibilityRouteImport.update({
+    id: '/{-$locale}/compatibility',
+    path: '/{-$locale}/compatibility',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const Char123LocaleChar125CommunityRoute =
+  Char123LocaleChar125CommunityRouteImport.update({
+    id: '/{-$locale}/community',
+    path: '/{-$locale}/community',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const Char123LocaleChar125ComingSoonRoute =
+  Char123LocaleChar125ComingSoonRouteImport.update({
+    id: '/{-$locale}/coming-soon',
+    path: '/{-$locale}/coming-soon',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const Char123LocaleChar125AboutRoute =
+  Char123LocaleChar125AboutRouteImport.update({
+    id: '/{-$locale}/about',
+    path: '/{-$locale}/about',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
-  '/coming-soon': typeof ComingSoonRoute
-  '/community': typeof CommunityRoute
-  '/compatibility': typeof CompatibilityRoute
-  '/guides': typeof GuidesRoute
-  '/manuals': typeof ManualsRoute
-  '/parts': typeof PartsRoute
-  '/problems': typeof ProblemsRoute
+  '/{-$locale}/about': typeof Char123LocaleChar125AboutRoute
+  '/{-$locale}/coming-soon': typeof Char123LocaleChar125ComingSoonRoute
+  '/{-$locale}/community': typeof Char123LocaleChar125CommunityRoute
+  '/{-$locale}/compatibility': typeof Char123LocaleChar125CompatibilityRoute
+  '/{-$locale}/guides': typeof Char123LocaleChar125GuidesRoute
+  '/{-$locale}/manuals': typeof Char123LocaleChar125ManualsRoute
+  '/{-$locale}/parts': typeof Char123LocaleChar125PartsRoute
+  '/{-$locale}/problems': typeof Char123LocaleChar125ProblemsRoute
+  '/{-$locale}/': typeof Char123LocaleChar125IndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
-  '/coming-soon': typeof ComingSoonRoute
-  '/community': typeof CommunityRoute
-  '/compatibility': typeof CompatibilityRoute
-  '/guides': typeof GuidesRoute
-  '/manuals': typeof ManualsRoute
-  '/parts': typeof PartsRoute
-  '/problems': typeof ProblemsRoute
+  '/{-$locale}/about': typeof Char123LocaleChar125AboutRoute
+  '/{-$locale}/coming-soon': typeof Char123LocaleChar125ComingSoonRoute
+  '/{-$locale}/community': typeof Char123LocaleChar125CommunityRoute
+  '/{-$locale}/compatibility': typeof Char123LocaleChar125CompatibilityRoute
+  '/{-$locale}/guides': typeof Char123LocaleChar125GuidesRoute
+  '/{-$locale}/manuals': typeof Char123LocaleChar125ManualsRoute
+  '/{-$locale}/parts': typeof Char123LocaleChar125PartsRoute
+  '/{-$locale}/problems': typeof Char123LocaleChar125ProblemsRoute
+  '/{-$locale}': typeof Char123LocaleChar125IndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
-  '/coming-soon': typeof ComingSoonRoute
-  '/community': typeof CommunityRoute
-  '/compatibility': typeof CompatibilityRoute
-  '/guides': typeof GuidesRoute
-  '/manuals': typeof ManualsRoute
-  '/parts': typeof PartsRoute
-  '/problems': typeof ProblemsRoute
+  '/{-$locale}/about': typeof Char123LocaleChar125AboutRoute
+  '/{-$locale}/coming-soon': typeof Char123LocaleChar125ComingSoonRoute
+  '/{-$locale}/community': typeof Char123LocaleChar125CommunityRoute
+  '/{-$locale}/compatibility': typeof Char123LocaleChar125CompatibilityRoute
+  '/{-$locale}/guides': typeof Char123LocaleChar125GuidesRoute
+  '/{-$locale}/manuals': typeof Char123LocaleChar125ManualsRoute
+  '/{-$locale}/parts': typeof Char123LocaleChar125PartsRoute
+  '/{-$locale}/problems': typeof Char123LocaleChar125ProblemsRoute
+  '/{-$locale}/': typeof Char123LocaleChar125IndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/about'
-    | '/coming-soon'
-    | '/community'
-    | '/compatibility'
-    | '/guides'
-    | '/manuals'
-    | '/parts'
-    | '/problems'
+    | '/{-$locale}/about'
+    | '/{-$locale}/coming-soon'
+    | '/{-$locale}/community'
+    | '/{-$locale}/compatibility'
+    | '/{-$locale}/guides'
+    | '/{-$locale}/manuals'
+    | '/{-$locale}/parts'
+    | '/{-$locale}/problems'
+    | '/{-$locale}/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/about'
-    | '/coming-soon'
-    | '/community'
-    | '/compatibility'
-    | '/guides'
-    | '/manuals'
-    | '/parts'
-    | '/problems'
+    | '/{-$locale}/about'
+    | '/{-$locale}/coming-soon'
+    | '/{-$locale}/community'
+    | '/{-$locale}/compatibility'
+    | '/{-$locale}/guides'
+    | '/{-$locale}/manuals'
+    | '/{-$locale}/parts'
+    | '/{-$locale}/problems'
+    | '/{-$locale}'
   id:
     | '__root__'
     | '/'
-    | '/about'
-    | '/coming-soon'
-    | '/community'
-    | '/compatibility'
-    | '/guides'
-    | '/manuals'
-    | '/parts'
-    | '/problems'
+    | '/{-$locale}/about'
+    | '/{-$locale}/coming-soon'
+    | '/{-$locale}/community'
+    | '/{-$locale}/compatibility'
+    | '/{-$locale}/guides'
+    | '/{-$locale}/manuals'
+    | '/{-$locale}/parts'
+    | '/{-$locale}/problems'
+    | '/{-$locale}/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AboutRoute: typeof AboutRoute
-  ComingSoonRoute: typeof ComingSoonRoute
-  CommunityRoute: typeof CommunityRoute
-  CompatibilityRoute: typeof CompatibilityRoute
-  GuidesRoute: typeof GuidesRoute
-  ManualsRoute: typeof ManualsRoute
-  PartsRoute: typeof PartsRoute
-  ProblemsRoute: typeof ProblemsRoute
+  Char123LocaleChar125AboutRoute: typeof Char123LocaleChar125AboutRoute
+  Char123LocaleChar125ComingSoonRoute: typeof Char123LocaleChar125ComingSoonRoute
+  Char123LocaleChar125CommunityRoute: typeof Char123LocaleChar125CommunityRoute
+  Char123LocaleChar125CompatibilityRoute: typeof Char123LocaleChar125CompatibilityRoute
+  Char123LocaleChar125GuidesRoute: typeof Char123LocaleChar125GuidesRoute
+  Char123LocaleChar125ManualsRoute: typeof Char123LocaleChar125ManualsRoute
+  Char123LocaleChar125PartsRoute: typeof Char123LocaleChar125PartsRoute
+  Char123LocaleChar125ProblemsRoute: typeof Char123LocaleChar125ProblemsRoute
+  Char123LocaleChar125IndexRoute: typeof Char123LocaleChar125IndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/problems': {
-      id: '/problems'
-      path: '/problems'
-      fullPath: '/problems'
-      preLoaderRoute: typeof ProblemsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/parts': {
-      id: '/parts'
-      path: '/parts'
-      fullPath: '/parts'
-      preLoaderRoute: typeof PartsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/manuals': {
-      id: '/manuals'
-      path: '/manuals'
-      fullPath: '/manuals'
-      preLoaderRoute: typeof ManualsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/guides': {
-      id: '/guides'
-      path: '/guides'
-      fullPath: '/guides'
-      preLoaderRoute: typeof GuidesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/compatibility': {
-      id: '/compatibility'
-      path: '/compatibility'
-      fullPath: '/compatibility'
-      preLoaderRoute: typeof CompatibilityRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/community': {
-      id: '/community'
-      path: '/community'
-      fullPath: '/community'
-      preLoaderRoute: typeof CommunityRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/coming-soon': {
-      id: '/coming-soon'
-      path: '/coming-soon'
-      fullPath: '/coming-soon'
-      preLoaderRoute: typeof ComingSoonRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/': {
       id: '/'
       path: '/'
@@ -212,19 +178,84 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/{-$locale}/': {
+      id: '/{-$locale}/'
+      path: '/{-$locale}'
+      fullPath: '/{-$locale}/'
+      preLoaderRoute: typeof Char123LocaleChar125IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/{-$locale}/problems': {
+      id: '/{-$locale}/problems'
+      path: '/{-$locale}/problems'
+      fullPath: '/{-$locale}/problems'
+      preLoaderRoute: typeof Char123LocaleChar125ProblemsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/{-$locale}/parts': {
+      id: '/{-$locale}/parts'
+      path: '/{-$locale}/parts'
+      fullPath: '/{-$locale}/parts'
+      preLoaderRoute: typeof Char123LocaleChar125PartsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/{-$locale}/manuals': {
+      id: '/{-$locale}/manuals'
+      path: '/{-$locale}/manuals'
+      fullPath: '/{-$locale}/manuals'
+      preLoaderRoute: typeof Char123LocaleChar125ManualsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/{-$locale}/guides': {
+      id: '/{-$locale}/guides'
+      path: '/{-$locale}/guides'
+      fullPath: '/{-$locale}/guides'
+      preLoaderRoute: typeof Char123LocaleChar125GuidesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/{-$locale}/compatibility': {
+      id: '/{-$locale}/compatibility'
+      path: '/{-$locale}/compatibility'
+      fullPath: '/{-$locale}/compatibility'
+      preLoaderRoute: typeof Char123LocaleChar125CompatibilityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/{-$locale}/community': {
+      id: '/{-$locale}/community'
+      path: '/{-$locale}/community'
+      fullPath: '/{-$locale}/community'
+      preLoaderRoute: typeof Char123LocaleChar125CommunityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/{-$locale}/coming-soon': {
+      id: '/{-$locale}/coming-soon'
+      path: '/{-$locale}/coming-soon'
+      fullPath: '/{-$locale}/coming-soon'
+      preLoaderRoute: typeof Char123LocaleChar125ComingSoonRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/{-$locale}/about': {
+      id: '/{-$locale}/about'
+      path: '/{-$locale}/about'
+      fullPath: '/{-$locale}/about'
+      preLoaderRoute: typeof Char123LocaleChar125AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AboutRoute: AboutRoute,
-  ComingSoonRoute: ComingSoonRoute,
-  CommunityRoute: CommunityRoute,
-  CompatibilityRoute: CompatibilityRoute,
-  GuidesRoute: GuidesRoute,
-  ManualsRoute: ManualsRoute,
-  PartsRoute: PartsRoute,
-  ProblemsRoute: ProblemsRoute,
+  Char123LocaleChar125AboutRoute: Char123LocaleChar125AboutRoute,
+  Char123LocaleChar125ComingSoonRoute: Char123LocaleChar125ComingSoonRoute,
+  Char123LocaleChar125CommunityRoute: Char123LocaleChar125CommunityRoute,
+  Char123LocaleChar125CompatibilityRoute:
+    Char123LocaleChar125CompatibilityRoute,
+  Char123LocaleChar125GuidesRoute: Char123LocaleChar125GuidesRoute,
+  Char123LocaleChar125ManualsRoute: Char123LocaleChar125ManualsRoute,
+  Char123LocaleChar125PartsRoute: Char123LocaleChar125PartsRoute,
+  Char123LocaleChar125ProblemsRoute: Char123LocaleChar125ProblemsRoute,
+  Char123LocaleChar125IndexRoute: Char123LocaleChar125IndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

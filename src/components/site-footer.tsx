@@ -1,6 +1,7 @@
 import { useLanguage } from "@/components/language-provider";
 import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
+import { localePath } from "@/lib/locale-helpers";
 
 export function SiteFooter() {
   const { t } = useLanguage();
@@ -17,25 +18,25 @@ export function SiteFooter() {
         </div>
         <div className="flex items-center gap-6">
           <Link
-            to="/about"
+            to={localePath("/about")}
             className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors"
           >
             {t("nav.about")}
           </Link>
           <Link
-            to="/coming-soon"
+            to={localePath("/coming-soon")}
             className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors"
           >
             {t("footer.docs")}
           </Link>
           <Link
-            to="/coming-soon"
+            to={localePath("/coming-soon")}
             className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors"
           >
             {t("footer.api")}
           </Link>
           <Link
-            to="/community"
+            to={localePath("/community")}
             className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors"
           >
             {t("footer.contribute")}

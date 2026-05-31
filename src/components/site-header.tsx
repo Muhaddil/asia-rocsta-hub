@@ -21,6 +21,7 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { useLanguage, type Language } from "@/components/language-provider";
+import { localePath } from "@/lib/locale-helpers";
 
 const SUGGESTED_SEARCHES: { term: Record<Language, string>; typeKey: string }[] = [
   { term: { es: "Bomba inyectora", en: "Injection pump" }, typeKey: "header.badgeSwap" },
@@ -112,7 +113,7 @@ export function SiteHeader() {
       <nav className="sticky top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur-md">
         <div className="mx-auto flex h-16 max-w-7xl items-center px-4 sm:px-6">
           <div className="flex min-w-0 items-center gap-6 xl:gap-8">
-            <Link to="/" className="flex items-center gap-2">
+            <Link to={localePath("/")} className="flex items-center gap-2">
               <div className="h-8 w-8 rounded bg-rocsta-green flex items-center justify-center">
                 <span className="text-primary-foreground font-bold text-xs">AR</span>
               </div>
@@ -121,25 +122,25 @@ export function SiteHeader() {
               </span>
             </Link>
             <div className="hidden md:flex items-center gap-4 xl:gap-6 text-sm font-medium text-muted-foreground whitespace-nowrap">
-              <Link to="/parts" className="hover:text-foreground transition-colors">
+              <Link to={localePath("/parts")} className="hover:text-foreground transition-colors">
                 {t("nav.parts")}
               </Link>
-              <Link to="/compatibility" className="hover:text-foreground transition-colors">
+              <Link to={localePath("/compatibility")} className="hover:text-foreground transition-colors">
                 {t("nav.compatibility")}
               </Link>
-              <Link to="/guides" className="hover:text-foreground transition-colors">
+              <Link to={localePath("/guides")} className="hover:text-foreground transition-colors">
                 {t("nav.guides")}
               </Link>
-              <Link to="/problems" className="hover:text-foreground transition-colors">
+              <Link to={localePath("/problems")} className="hover:text-foreground transition-colors">
                 {t("nav.problems")}
               </Link>
-              <Link to="/manuals" className="hover:text-foreground transition-colors">
+              <Link to={localePath("/manuals")} className="hover:text-foreground transition-colors">
                 {t("nav.manuals")}
               </Link>
-              <Link to="/community" className="hover:text-foreground transition-colors">
+              <Link to={localePath("/community")} className="hover:text-foreground transition-colors">
                 {t("nav.community")}
               </Link>
-              <Link to="/about" className="hover:text-foreground transition-colors">
+              <Link to={localePath("/about")} className="hover:text-foreground transition-colors">
                 {t("nav.about")}
               </Link>
             </div>
@@ -181,7 +182,13 @@ export function SiteHeader() {
             </button>
 
             <button
-              onClick={() => setLanguage(language === "es" ? "en" : "es")}
+              onClick={() => {
+                const newLang = language === "es" ? "en" : "es";
+                setLanguage(newLang);
+                const currentPath = window.location.pathname;
+                const pathWithoutLocale = currentPath.replace(/^\/(es|en)/, "") || "/";
+                navigate({ to: `/${newLang}${pathWithoutLocale}`, search: true, replace: true });
+              }}
               aria-label={language === "es" ? "Switch to English" : "Cambiar a Español"}
               className="h-9 w-9 inline-flex items-center justify-center rounded-md border border-border hover:bg-muted transition-colors text-xs font-extrabold uppercase tracking-wider"
             >
@@ -219,21 +226,21 @@ export function SiteHeader() {
                     </h3>
                     <div className="grid grid-cols-1 gap-2 text-sm font-semibold text-foreground pl-1">
                       <Link
-                        to="/"
+                        to={localePath("/")}
                         onClick={() => setMobileMenuOpen(false)}
                         className="flex items-center gap-2 py-1.5 hover:text-rocsta-green transition-colors"
                       >
                         <Home className="size-4 text-rocsta-accent" /> {t("header.mobileHome")}
                       </Link>
                       <Link
-                        to="/parts"
+                        to={localePath("/parts")}
                         onClick={() => setMobileMenuOpen(false)}
                         className="flex items-center gap-2 py-1.5 hover:text-rocsta-green transition-colors"
                       >
                         <Wrench className="size-4 text-rocsta-accent" /> {t("header.mobileParts")}
                       </Link>
                       <Link
-                        to="/compatibility"
+                        to={localePath("/compatibility")}
                         onClick={() => setMobileMenuOpen(false)}
                         className="flex items-center gap-2 py-1.5 hover:text-rocsta-green transition-colors"
                       >
@@ -241,7 +248,7 @@ export function SiteHeader() {
                         {t("header.mobileCompat")}
                       </Link>
                       <Link
-                        to="/guides"
+                        to={localePath("/guides")}
                         onClick={() => setMobileMenuOpen(false)}
                         className="flex items-center gap-2 py-1.5 hover:text-rocsta-green transition-colors"
                       >
@@ -249,7 +256,7 @@ export function SiteHeader() {
                         {t("header.mobileGuides")}
                       </Link>
                       <Link
-                        to="/problems"
+                        to={localePath("/problems")}
                         onClick={() => setMobileMenuOpen(false)}
                         className="flex items-center gap-2 py-1.5 hover:text-rocsta-green transition-colors"
                       >
@@ -257,7 +264,7 @@ export function SiteHeader() {
                         {t("header.mobileProblems")}
                       </Link>
                       <Link
-                        to="/manuals"
+                        to={localePath("/manuals")}
                         onClick={() => setMobileMenuOpen(false)}
                         className="flex items-center gap-2 py-1.5 hover:text-rocsta-green transition-colors"
                       >
@@ -265,7 +272,7 @@ export function SiteHeader() {
                         {t("header.mobileManuals")}
                       </Link>
                       <Link
-                        to="/community"
+                        to={localePath("/community")}
                         onClick={() => setMobileMenuOpen(false)}
                         className="flex items-center gap-2 py-1.5 hover:text-rocsta-green transition-colors"
                       >
@@ -273,7 +280,7 @@ export function SiteHeader() {
                         {t("header.mobileCommunity")}
                       </Link>
                       <Link
-                        to="/about"
+                        to={localePath("/about")}
                         onClick={() => setMobileMenuOpen(false)}
                         className="flex items-center gap-2 py-1.5 hover:text-rocsta-green transition-colors"
                       >
@@ -290,7 +297,7 @@ export function SiteHeader() {
                       {MOBILE_CATEGORIES(t).map((cat, i) => (
                         <Link
                           key={i}
-                          to={cat.to}
+                          to={localePath(cat.to)}
                           search={{ category: cat.tag as any }}
                           onClick={() => setMobileMenuOpen(false)}
                           className="py-1 hover:text-rocsta-green transition-colors"

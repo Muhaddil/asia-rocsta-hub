@@ -10,7 +10,8 @@ import { problems as staticProblems } from "@/data/problems";
 import type { Problem, Motor, Severity, Difficulty } from "@/data/types";
 import { localize } from "@/data/types";
 import { api, ApiError, type ApiProblem } from "@/lib/api";
-import { getMetaTranslation, getInitialLanguage } from "@/lib/meta-translations";
+import { getMetaTranslation } from "@/lib/meta-translations";
+import { resolveLocale, getAlternateHrefs } from "@/lib/i18n-routing";
 import ogImage from "@/assets/rocsta-hero.jpg";
 
 const SITE_URL = "https://muhaddil.github.io/asia-rocsta-hub";
@@ -54,31 +55,33 @@ const problemsSearchSchema = z.object({
 
 type ProblemsSearch = z.infer<typeof problemsSearchSchema>;
 
-export const Route = createFileRoute("/problems")({
+export const Route = createFileRoute("/{-$locale}/problems")({
   validateSearch: (search) => problemsSearchSchema.parse(search),
-  head: () => {
-    const lang = getInitialLanguage();
+  head: ({ params }) => {
+    const locale = resolveLocale(params.locale);
     return {
       meta: [
-        { title: getMetaTranslation("meta.problems.title", lang) },
+        { title: getMetaTranslation("meta.problems.title", locale) },
         {
           name: "description",
-          content: getMetaTranslation("meta.problems.description", lang),
+          content: getMetaTranslation("meta.problems.description", locale),
         },
-        { property: "og:title", content: getMetaTranslation("meta.problems.ogTitle", lang) },
+        { property: "og:title", content: getMetaTranslation("meta.problems.ogTitle", locale) },
         {
           property: "og:description",
-          content: getMetaTranslation("meta.problems.ogDescription", lang),
+          content: getMetaTranslation("meta.problems.ogDescription", locale),
         },
-        { property: "og:url", content: `${SITE_URL}/problems` },
+        { property: "og:url", content: `${SITE_URL}/${locale}/problems` },
         { property: "og:image", content: ogImage },
         { name: "twitter:image", content: ogImage },
       ],
       links: [
-        { rel: "canonical", href: `${SITE_URL}/problems` },
-        { rel: "alternate", hrefLang: "es", href: `${SITE_URL}/problems?lang=es` },
-        { rel: "alternate", hrefLang: "en", href: `${SITE_URL}/problems?lang=en` },
-        { rel: "alternate", hrefLang: "x-default", href: `${SITE_URL}/problems` },
+        { rel: "canonical", href: `${SITE_URL}/${locale}/problems` },
+        ...getAlternateHrefs("/problems", SITE_URL).map((a) => ({
+          rel: "alternate" as const,
+          hrefLang: a.hreflang,
+          href: a.href,
+        })),
       ],
       scripts: [
         {
@@ -90,13 +93,13 @@ export const Route = createFileRoute("/problems")({
               {
                 "@type": "ListItem",
                 position: 1,
-                name: lang === "en" ? "Home" : "Inicio",
+                name: locale === "en" ? "Home" : "Inicio",
                 item: "https://muhaddil.github.io/asia-rocsta-hub/",
               },
               {
                 "@type": "ListItem",
                 position: 2,
-                name: lang === "en" ? "Common Issues" : "Problemas Comunes",
+                name: locale === "en" ? "Common Issues" : "Problemas Comunes",
                 item: "https://muhaddil.github.io/asia-rocsta-hub/problems",
               },
             ],
@@ -128,14 +131,16 @@ function toProblem(item: ApiProblem): Problem {
 function ProblemsPage() {
   const queryClient = useQueryClient();
   const { t, language } = useLanguage();
+  const { locale } = Route.useParams();
+  const lang = resolveLocale(locale);
   const searchParams = Route.useSearch();
   const navigate = useNavigate({ from: Route.fullPath });
 
   useMetaTags({
-    title: getMetaTranslation("meta.problems.title", language),
-    description: getMetaTranslation("meta.problems.description", language),
-    ogTitle: getMetaTranslation("meta.problems.ogTitle", language),
-    ogDescription: getMetaTranslation("meta.problems.ogDescription", language),
+    title: getMetaTranslation("meta.problems.title", lang),
+    description: getMetaTranslation("meta.problems.description", lang),
+    ogTitle: getMetaTranslation("meta.problems.ogTitle", lang),
+    ogDescription: getMetaTranslation("meta.problems.ogDescription", lang),
     ogImage: ogImage,
   });
 

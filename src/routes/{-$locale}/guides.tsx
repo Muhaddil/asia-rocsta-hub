@@ -10,7 +10,8 @@ import { guides as staticGuides } from "@/data/guides";
 import { api, type ApiGuide } from "@/lib/api";
 import type { Guide, Motor, GuideLevel, PartCategory } from "@/data/types";
 import { localize } from "@/data/types";
-import { getMetaTranslation, getInitialLanguage } from "@/lib/meta-translations";
+import { getMetaTranslation } from "@/lib/meta-translations";
+import { resolveLocale, getAlternateHrefs } from "@/lib/i18n-routing";
 import ogImage from "@/assets/rocsta-hero.jpg";
 import {
   Search,
@@ -49,31 +50,33 @@ const guidesSearchSchema = z.object({
 
 type GuidesSearch = z.infer<typeof guidesSearchSchema>;
 
-export const Route = createFileRoute("/guides")({
+export const Route = createFileRoute("/{-$locale}/guides")({
   validateSearch: (search) => guidesSearchSchema.parse(search),
-  head: () => {
-    const lang = getInitialLanguage();
+  head: ({ params }) => {
+    const locale = resolveLocale(params.locale);
     return {
       meta: [
-        { title: getMetaTranslation("meta.guides.title", lang) },
+        { title: getMetaTranslation("meta.guides.title", locale) },
         {
           name: "description",
-          content: getMetaTranslation("meta.guides.description", lang),
+          content: getMetaTranslation("meta.guides.description", locale),
         },
-        { property: "og:title", content: getMetaTranslation("meta.guides.ogTitle", lang) },
+        { property: "og:title", content: getMetaTranslation("meta.guides.ogTitle", locale) },
         {
           property: "og:description",
-          content: getMetaTranslation("meta.guides.ogDescription", lang),
+          content: getMetaTranslation("meta.guides.ogDescription", locale),
         },
-        { property: "og:url", content: `${SITE_URL}/guides` },
+        { property: "og:url", content: `${SITE_URL}/${locale}/guides` },
         { property: "og:image", content: ogImage },
         { name: "twitter:image", content: ogImage },
       ],
       links: [
-        { rel: "canonical", href: `${SITE_URL}/guides` },
-        { rel: "alternate", hrefLang: "es", href: `${SITE_URL}/guides?lang=es` },
-        { rel: "alternate", hrefLang: "en", href: `${SITE_URL}/guides?lang=en` },
-        { rel: "alternate", hrefLang: "x-default", href: `${SITE_URL}/guides` },
+        { rel: "canonical", href: `${SITE_URL}/${locale}/guides` },
+        ...getAlternateHrefs("/guides", SITE_URL).map((a) => ({
+          rel: "alternate" as const,
+          hrefLang: a.hreflang,
+          href: a.href,
+        })),
       ],
       scripts: [
         {
@@ -85,13 +88,13 @@ export const Route = createFileRoute("/guides")({
               {
                 "@type": "ListItem",
                 position: 1,
-                name: lang === "en" ? "Home" : "Inicio",
+                name: locale === "en" ? "Home" : "Inicio",
                 item: "https://muhaddil.github.io/asia-rocsta-hub/",
               },
               {
                 "@type": "ListItem",
                 position: 2,
-                name: lang === "en" ? "Technical Guides" : "Guías Técnicas",
+                name: locale === "en" ? "Technical Guides" : "Guías Técnicas",
                 item: "https://muhaddil.github.io/asia-rocsta-hub/guides",
               },
             ],
@@ -129,6 +132,8 @@ function toGuide(ag: ApiGuide): Guide {
 
 function GuidesPage() {
   const { t, language } = useLanguage();
+  const { locale } = Route.useParams();
+  const lang = resolveLocale(locale);
   const CATEGORY_LABELS: Record<string, string> = {
     engine: t("cat.engine"),
     transmission: t("cat.transmission"),
@@ -142,10 +147,10 @@ function GuidesPage() {
   const navigate = useNavigate({ from: Route.fullPath });
 
   useMetaTags({
-    title: getMetaTranslation("meta.guides.title", language),
-    description: getMetaTranslation("meta.guides.description", language),
-    ogTitle: getMetaTranslation("meta.guides.ogTitle", language),
-    ogDescription: getMetaTranslation("meta.guides.ogDescription", language),
+    title: getMetaTranslation("meta.guides.title", lang),
+    description: getMetaTranslation("meta.guides.description", lang),
+    ogTitle: getMetaTranslation("meta.guides.ogTitle", lang),
+    ogDescription: getMetaTranslation("meta.guides.ogDescription", lang),
     ogImage: ogImage,
   });
 

@@ -6,7 +6,8 @@ import { useLanguage } from "@/components/language-provider";
 import { useMetaTags } from "@/hooks/use-meta-tags";
 import { PageShell, Crumbs } from "@/components/page-shell";
 import { api, type FormType } from "@/lib/api";
-import { getMetaTranslation, getInitialLanguage } from "@/lib/meta-translations";
+import { getMetaTranslation } from "@/lib/meta-translations";
+import { resolveLocale, getAlternateHrefs } from "@/lib/i18n-routing";
 import ogImage from "@/assets/rocsta-hero.jpg";
 import {
   Users,
@@ -38,31 +39,33 @@ const communitySearchSchema = z.object({
   tab: z.enum(["comp", "part", "guide", "problem", "bug", "partwrong", "photo"]).optional(),
 });
 
-export const Route = createFileRoute("/community")({
+export const Route = createFileRoute("/{-$locale}/community")({
   validateSearch: (search) => communitySearchSchema.parse(search),
-  head: () => {
-    const lang = getInitialLanguage();
+  head: ({ params }) => {
+    const locale = resolveLocale(params.locale);
     return {
       meta: [
-        { title: getMetaTranslation("meta.community.title", lang) },
+        { title: getMetaTranslation("meta.community.title", locale) },
         {
           name: "description",
-          content: getMetaTranslation("meta.community.description", lang),
+          content: getMetaTranslation("meta.community.description", locale),
         },
-        { property: "og:title", content: getMetaTranslation("meta.community.ogTitle", lang) },
+        { property: "og:title", content: getMetaTranslation("meta.community.ogTitle", locale) },
         {
           property: "og:description",
-          content: getMetaTranslation("meta.community.ogDescription", lang),
+          content: getMetaTranslation("meta.community.ogDescription", locale),
         },
-        { property: "og:url", content: `${SITE_URL}/community` },
+        { property: "og:url", content: `${SITE_URL}/${locale}/community` },
         { property: "og:image", content: ogImage },
         { name: "twitter:image", content: ogImage },
       ],
       links: [
-        { rel: "canonical", href: `${SITE_URL}/community` },
-        { rel: "alternate", hrefLang: "es", href: `${SITE_URL}/community?lang=es` },
-        { rel: "alternate", hrefLang: "en", href: `${SITE_URL}/community?lang=en` },
-        { rel: "alternate", hrefLang: "x-default", href: `${SITE_URL}/community` },
+        { rel: "canonical", href: `${SITE_URL}/${locale}/community` },
+        ...getAlternateHrefs("/community", SITE_URL).map((a) => ({
+          rel: "alternate" as const,
+          hrefLang: a.hreflang,
+          href: a.href,
+        })),
       ],
       scripts: [
         {
@@ -74,13 +77,13 @@ export const Route = createFileRoute("/community")({
               {
                 "@type": "ListItem",
                 position: 1,
-                name: lang === "en" ? "Home" : "Inicio",
+                name: locale === "en" ? "Home" : "Inicio",
                 item: "https://muhaddil.github.io/asia-rocsta-hub/",
               },
               {
                 "@type": "ListItem",
                 position: 2,
-                name: lang === "en" ? "Community" : "Comunidad",
+                name: locale === "en" ? "Community" : "Comunidad",
                 item: "https://muhaddil.github.io/asia-rocsta-hub/community",
               },
             ],
@@ -180,14 +183,16 @@ function renderSelect(
 
 function CommunityPage() {
   const { t, language } = useLanguage();
+  const { locale } = Route.useParams();
+  const lang = resolveLocale(locale);
   const searchParams = Route.useSearch();
   const navigate = useNavigate({ from: Route.fullPath });
 
   useMetaTags({
-    title: getMetaTranslation("meta.community.title", language),
-    description: getMetaTranslation("meta.community.description", language),
-    ogTitle: getMetaTranslation("meta.community.ogTitle", language),
-    ogDescription: getMetaTranslation("meta.community.ogDescription", language),
+    title: getMetaTranslation("meta.community.title", lang),
+    description: getMetaTranslation("meta.community.description", lang),
+    ogTitle: getMetaTranslation("meta.community.ogTitle", lang),
+    ogDescription: getMetaTranslation("meta.community.ogDescription", lang),
     ogImage: ogImage,
   });
 

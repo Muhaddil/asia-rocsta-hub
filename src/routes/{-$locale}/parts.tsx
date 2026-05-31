@@ -10,7 +10,8 @@ import { parts as staticParts } from "@/data/parts";
 import { api } from "@/lib/api";
 import type { Part, PartCategory, Motor, VerificationStatus } from "@/data/types";
 import { localize } from "@/data/types";
-import { getMetaTranslation, getInitialLanguage } from "@/lib/meta-translations";
+import { getMetaTranslation } from "@/lib/meta-translations";
+import { resolveLocale, getAlternateHrefs } from "@/lib/i18n-routing";
 import ogImage from "@/assets/rocsta-hero.jpg";
 import {
   Search,
@@ -54,31 +55,33 @@ const partsSearchSchema = z.object({
 
 type PartsSearch = z.infer<typeof partsSearchSchema>;
 
-export const Route = createFileRoute("/parts")({
+export const Route = createFileRoute("/{-$locale}/parts")({
   validateSearch: (search) => partsSearchSchema.parse(search),
-  head: () => {
-    const lang = getInitialLanguage();
+  head: ({ params }) => {
+    const locale = resolveLocale(params.locale);
     return {
       meta: [
-        { title: getMetaTranslation("meta.parts.title", lang) },
+        { title: getMetaTranslation("meta.parts.title", locale) },
         {
           name: "description",
-          content: getMetaTranslation("meta.parts.description", lang),
+          content: getMetaTranslation("meta.parts.description", locale),
         },
-        { property: "og:title", content: getMetaTranslation("meta.parts.ogTitle", lang) },
+        { property: "og:title", content: getMetaTranslation("meta.parts.ogTitle", locale) },
         {
           property: "og:description",
-          content: getMetaTranslation("meta.parts.ogDescription", lang),
+          content: getMetaTranslation("meta.parts.ogDescription", locale),
         },
-        { property: "og:url", content: `${SITE_URL}/parts` },
+        { property: "og:url", content: `${SITE_URL}/${locale}/parts` },
         { property: "og:image", content: ogImage },
         { name: "twitter:image", content: ogImage },
       ],
       links: [
-        { rel: "canonical", href: `${SITE_URL}/parts` },
-        { rel: "alternate", hrefLang: "es", href: `${SITE_URL}/parts?lang=es` },
-        { rel: "alternate", hrefLang: "en", href: `${SITE_URL}/parts?lang=en` },
-        { rel: "alternate", hrefLang: "x-default", href: `${SITE_URL}/parts` },
+        { rel: "canonical", href: `${SITE_URL}/${locale}/parts` },
+        ...getAlternateHrefs("/parts", SITE_URL).map((a) => ({
+          rel: "alternate" as const,
+          hrefLang: a.hreflang,
+          href: a.href,
+        })),
       ],
       scripts: [
         {
@@ -90,13 +93,13 @@ export const Route = createFileRoute("/parts")({
               {
                 "@type": "ListItem",
                 position: 1,
-                name: lang === "en" ? "Home" : "Inicio",
+                name: locale === "en" ? "Home" : "Inicio",
                 item: "https://muhaddil.github.io/asia-rocsta-hub/",
               },
               {
                 "@type": "ListItem",
                 position: 2,
-                name: lang === "en" ? "Parts Catalog" : "Catálogo de Piezas",
+                name: locale === "en" ? "Parts Catalog" : "Catálogo de Piezas",
                 item: "https://muhaddil.github.io/asia-rocsta-hub/parts",
               },
             ],
@@ -110,6 +113,8 @@ export const Route = createFileRoute("/parts")({
 
 function PartsPage() {
   const { t, language } = useLanguage();
+  const { locale } = Route.useParams();
+  const lang = resolveLocale(locale);
   const CATEGORY_LABELS: Record<PartCategory, string> = {
     engine: t("cat.engine"),
     transmission: t("cat.transmission"),
@@ -123,10 +128,10 @@ function PartsPage() {
   const navigate = useNavigate({ from: Route.fullPath });
 
   useMetaTags({
-    title: getMetaTranslation("meta.parts.title", language),
-    description: getMetaTranslation("meta.parts.description", language),
-    ogTitle: getMetaTranslation("meta.parts.ogTitle", language),
-    ogDescription: getMetaTranslation("meta.parts.ogDescription", language),
+    title: getMetaTranslation("meta.parts.title", lang),
+    description: getMetaTranslation("meta.parts.description", lang),
+    ogTitle: getMetaTranslation("meta.parts.ogTitle", lang),
+    ogDescription: getMetaTranslation("meta.parts.ogDescription", lang),
     ogImage: ogImage,
   });
 

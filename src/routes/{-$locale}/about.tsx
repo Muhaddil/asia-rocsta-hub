@@ -3,37 +3,40 @@ import { PageShell } from "@/components/page-shell";
 import { useLanguage } from "@/components/language-provider";
 import { useMetaTags } from "@/hooks/use-meta-tags";
 import { aboutHero, aboutSections, aboutMission, type Localized } from "@/data/about";
-import { getMetaTranslation, getInitialLanguage } from "@/lib/meta-translations";
+import { getMetaTranslation } from "@/lib/meta-translations";
+import { resolveLocale, getAlternateHrefs } from "@/lib/i18n-routing";
 import heroImg from "@/assets/rocsta-hero.jpg";
 import ogImage from "@/assets/rocsta-hero.jpg";
 
 const SITE_URL = "https://muhaddil.github.io/asia-rocsta-hub";
 
-export const Route = createFileRoute("/about")({
-  head: () => {
-    const lang = getInitialLanguage();
+export const Route = createFileRoute("/{-$locale}/about")({
+  head: ({ params }) => {
+    const locale = resolveLocale(params.locale);
     return {
       meta: [
-        { title: getMetaTranslation("meta.about.title", lang) },
+        { title: getMetaTranslation("meta.about.title", locale) },
         {
           name: "description",
-          content: getMetaTranslation("meta.about.description", lang),
+          content: getMetaTranslation("meta.about.description", locale),
         },
-        { property: "og:title", content: getMetaTranslation("meta.about.ogTitle", lang) },
+        { property: "og:title", content: getMetaTranslation("meta.about.ogTitle", locale) },
         {
           property: "og:description",
-          content: getMetaTranslation("meta.about.ogDescription", lang),
+          content: getMetaTranslation("meta.about.ogDescription", locale),
         },
-        { property: "og:url", content: `${SITE_URL}/about` },
+        { property: "og:url", content: `${SITE_URL}/${locale}/about` },
         { property: "og:type", content: "article" },
         { property: "og:image", content: ogImage },
         { name: "twitter:image", content: ogImage },
       ],
       links: [
-        { rel: "canonical", href: `${SITE_URL}/about` },
-        { rel: "alternate", hrefLang: "es", href: `${SITE_URL}/about?lang=es` },
-        { rel: "alternate", hrefLang: "en", href: `${SITE_URL}/about?lang=en` },
-        { rel: "alternate", hrefLang: "x-default", href: `${SITE_URL}/about` },
+        { rel: "canonical", href: `${SITE_URL}/${locale}/about` },
+        ...getAlternateHrefs("/about", SITE_URL).map((a) => ({
+          rel: "alternate" as const,
+          hrefLang: a.hreflang,
+          href: a.href,
+        })),
       ],
       scripts: [
         {
@@ -57,12 +60,14 @@ export const Route = createFileRoute("/about")({
 function AboutPage() {
   const { language, t } = useLanguage();
   const L = (v: Localized) => v[language] ?? v.es;
+  const { locale } = Route.useParams();
+  const lang = resolveLocale(locale);
 
   useMetaTags({
-    title: getMetaTranslation("meta.about.title", language),
-    description: getMetaTranslation("meta.about.description", language),
-    ogTitle: getMetaTranslation("meta.about.ogTitle", language),
-    ogDescription: getMetaTranslation("meta.about.ogDescription", language),
+    title: getMetaTranslation("meta.about.title", lang),
+    description: getMetaTranslation("meta.about.description", lang),
+    ogTitle: getMetaTranslation("meta.about.ogTitle", lang),
+    ogDescription: getMetaTranslation("meta.about.ogDescription", lang),
     ogImage: ogImage,
   });
 

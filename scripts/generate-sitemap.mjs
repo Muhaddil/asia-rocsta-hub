@@ -5,7 +5,8 @@ import { fileURLToPath } from "node:url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const BASE_URL = "https://muhaddil.github.io/asia-rocsta-hub";
 
-const routes = [
+const locales = ["", "/es", "/en"];
+const pages = [
   { path: "/", changefreq: "weekly", priority: "1.0" },
   { path: "/parts", changefreq: "weekly", priority: "0.9" },
   { path: "/compatibility", changefreq: "weekly", priority: "0.9" },
@@ -17,7 +18,12 @@ const routes = [
   { path: "/coming-soon", changefreq: "monthly", priority: "0.3" },
 ];
 
-const urls = routes
+const urls = locales
+  .flatMap((locale) => pages.map((p) => ({
+    path: locale + p.path,
+    changefreq: p.changefreq,
+    priority: p.priority,
+  })))
   .map(
     (r) => `  <url>
     <loc>${BASE_URL}${r.path}</loc>

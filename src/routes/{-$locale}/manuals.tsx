@@ -8,7 +8,8 @@ import { PageShell, Crumbs } from "@/components/page-shell";
 import { manuals } from "@/data/manuals";
 import type { ManualType, ManualLanguage } from "@/data/types";
 import { localize } from "@/data/types";
-import { getMetaTranslation, getInitialLanguage } from "@/lib/meta-translations";
+import { getMetaTranslation } from "@/lib/meta-translations";
+import { resolveLocale, getAlternateHrefs } from "@/lib/i18n-routing";
 import ogImage from "@/assets/rocsta-hero.jpg";
 import {
   Search,
@@ -34,31 +35,33 @@ const manualsSearchSchema = z.object({
 
 type ManualsSearch = z.infer<typeof manualsSearchSchema>;
 
-export const Route = createFileRoute("/manuals")({
+export const Route = createFileRoute("/{-$locale}/manuals")({
   validateSearch: (search) => manualsSearchSchema.parse(search),
-  head: () => {
-    const lang = getInitialLanguage();
+  head: ({ params }) => {
+    const locale = resolveLocale(params.locale);
     return {
       meta: [
-        { title: getMetaTranslation("meta.manuals.title", lang) },
+        { title: getMetaTranslation("meta.manuals.title", locale) },
         {
           name: "description",
-          content: getMetaTranslation("meta.manuals.description", lang),
+          content: getMetaTranslation("meta.manuals.description", locale),
         },
-        { property: "og:title", content: getMetaTranslation("meta.manuals.ogTitle", lang) },
+        { property: "og:title", content: getMetaTranslation("meta.manuals.ogTitle", locale) },
         {
           property: "og:description",
-          content: getMetaTranslation("meta.manuals.ogDescription", lang),
+          content: getMetaTranslation("meta.manuals.ogDescription", locale),
         },
-        { property: "og:url", content: `${SITE_URL}/manuals` },
+        { property: "og:url", content: `${SITE_URL}/${locale}/manuals` },
         { property: "og:image", content: ogImage },
         { name: "twitter:image", content: ogImage },
       ],
       links: [
-        { rel: "canonical", href: `${SITE_URL}/manuals` },
-        { rel: "alternate", hrefLang: "es", href: `${SITE_URL}/manuals?lang=es` },
-        { rel: "alternate", hrefLang: "en", href: `${SITE_URL}/manuals?lang=en` },
-        { rel: "alternate", hrefLang: "x-default", href: `${SITE_URL}/manuals` },
+        { rel: "canonical", href: `${SITE_URL}/${locale}/manuals` },
+        ...getAlternateHrefs("/manuals", SITE_URL).map((a) => ({
+          rel: "alternate" as const,
+          hrefLang: a.hreflang,
+          href: a.href,
+        })),
       ],
       scripts: [
         {
@@ -70,13 +73,13 @@ export const Route = createFileRoute("/manuals")({
               {
                 "@type": "ListItem",
                 position: 1,
-                name: lang === "en" ? "Home" : "Inicio",
+                name: locale === "en" ? "Home" : "Inicio",
                 item: "https://muhaddil.github.io/asia-rocsta-hub/",
               },
               {
                 "@type": "ListItem",
                 position: 2,
-                name: lang === "en" ? "Technical Manuals" : "Manuales Técnicos",
+                name: locale === "en" ? "Technical Manuals" : "Manuales Técnicos",
                 item: "https://muhaddil.github.io/asia-rocsta-hub/manuals",
               },
             ],
@@ -90,14 +93,16 @@ export const Route = createFileRoute("/manuals")({
 
 function ManualsPage() {
   const { t, language } = useLanguage();
+  const { locale } = Route.useParams();
+  const lang = resolveLocale(locale);
   const searchParams = Route.useSearch();
   const navigate = useNavigate({ from: Route.fullPath });
 
   useMetaTags({
-    title: getMetaTranslation("meta.manuals.title", language),
-    description: getMetaTranslation("meta.manuals.description", language),
-    ogTitle: getMetaTranslation("meta.manuals.ogTitle", language),
-    ogDescription: getMetaTranslation("meta.manuals.ogDescription", language),
+    title: getMetaTranslation("meta.manuals.title", lang),
+    description: getMetaTranslation("meta.manuals.description", lang),
+    ogTitle: getMetaTranslation("meta.manuals.ogTitle", lang),
+    ogDescription: getMetaTranslation("meta.manuals.ogDescription", lang),
     ogImage: ogImage,
   });
 

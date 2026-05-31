@@ -2,36 +2,39 @@ import { createFileRoute } from "@tanstack/react-router";
 import { PageShell, Crumbs } from "@/components/page-shell";
 import { useLanguage } from "@/components/language-provider";
 import { useMetaTags } from "@/hooks/use-meta-tags";
-import { getMetaTranslation, getInitialLanguage } from "@/lib/meta-translations";
+import { getMetaTranslation } from "@/lib/meta-translations";
+import { resolveLocale, getAlternateHrefs } from "@/lib/i18n-routing";
 import { Construction } from "lucide-react";
 import ogImage from "@/assets/rocsta-hero.jpg";
 
 const SITE_URL = "https://muhaddil.github.io/asia-rocsta-hub";
 
-export const Route = createFileRoute("/coming-soon")({
-  head: () => {
-    const lang = getInitialLanguage();
+export const Route = createFileRoute("/{-$locale}/coming-soon")({
+  head: ({ params }) => {
+    const locale = resolveLocale(params.locale);
     return {
       meta: [
-        { title: getMetaTranslation("meta.comingSoon.title", lang) },
+        { title: getMetaTranslation("meta.comingSoon.title", locale) },
         {
           name: "description",
-          content: getMetaTranslation("meta.comingSoon.description", lang),
+          content: getMetaTranslation("meta.comingSoon.description", locale),
         },
-        { property: "og:title", content: getMetaTranslation("meta.comingSoon.ogTitle", lang) },
+        { property: "og:title", content: getMetaTranslation("meta.comingSoon.ogTitle", locale) },
         {
           property: "og:description",
-          content: getMetaTranslation("meta.comingSoon.ogDescription", lang),
+          content: getMetaTranslation("meta.comingSoon.ogDescription", locale),
         },
-        { property: "og:url", content: `${SITE_URL}/coming-soon` },
+        { property: "og:url", content: `${SITE_URL}/${locale}/coming-soon` },
         { property: "og:image", content: ogImage },
         { name: "twitter:image", content: ogImage },
       ],
       links: [
-        { rel: "canonical", href: `${SITE_URL}/coming-soon` },
-        { rel: "alternate", hrefLang: "es", href: `${SITE_URL}/coming-soon?lang=es` },
-        { rel: "alternate", hrefLang: "en", href: `${SITE_URL}/coming-soon?lang=en` },
-        { rel: "alternate", hrefLang: "x-default", href: `${SITE_URL}/coming-soon` },
+        { rel: "canonical", href: `${SITE_URL}/${locale}/coming-soon` },
+        ...getAlternateHrefs("/coming-soon", SITE_URL).map((a) => ({
+          rel: "alternate" as const,
+          hrefLang: a.hreflang,
+          href: a.href,
+        })),
       ],
     };
   },
@@ -40,12 +43,14 @@ export const Route = createFileRoute("/coming-soon")({
 
 function ComingSoonPage() {
   const { t, language } = useLanguage();
+  const { locale } = Route.useParams();
+  const lang = resolveLocale(locale);
 
   useMetaTags({
-    title: getMetaTranslation("meta.comingSoon.title", language),
-    description: getMetaTranslation("meta.comingSoon.description", language),
-    ogTitle: getMetaTranslation("meta.comingSoon.ogTitle", language),
-    ogDescription: getMetaTranslation("meta.comingSoon.ogDescription", language),
+    title: getMetaTranslation("meta.comingSoon.title", lang),
+    description: getMetaTranslation("meta.comingSoon.description", lang),
+    ogTitle: getMetaTranslation("meta.comingSoon.ogTitle", lang),
+    ogDescription: getMetaTranslation("meta.comingSoon.ogDescription", lang),
     ogImage: ogImage,
   });
 
