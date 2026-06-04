@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { useLanguage } from "@/components/language-provider";
 import { api, getApiBase, type ApiGalleryEntry } from "@/lib/api";
-import { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 
 const API_BASE = getApiBase();
@@ -13,16 +13,13 @@ function imageUrl(path: string): string {
 
 export function CommunityGallery() {
   const { t } = useLanguage();
-  const [entries, setEntries] = useState<ApiGalleryEntry[]>([]);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    api
-      .getGallery()
-      .then(setEntries)
-      .catch(() => setEntries([]))
-      .finally(() => setLoading(false));
-  }, []);
+  const { data: entries = [], isLoading: loading } = useQuery({
+    queryKey: ["gallery"],
+    queryFn: () => api.getGallery(),
+    refetchInterval: 60000,
+    refetchOnWindowFocus: true,
+  });
 
   return (
     <section className="mb-12">

@@ -171,8 +171,8 @@ function GuidesPage() {
       return list.map(toGuide);
     },
     initialData: staticGuides,
-    refetchInterval: 30000,
-    refetchIntervalInBackground: false,
+    refetchInterval: 60000,
+    refetchOnWindowFocus: true,
   });
 
   const updateSearch = (newParams: Partial<GuidesSearch>) => {

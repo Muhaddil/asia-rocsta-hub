@@ -70,6 +70,11 @@ export default defineConfig({
         { path: "/fr/coming-soon" },
         { path: "/pt/coming-soon" },
         { path: "/de/coming-soon" },
+        { path: "/es/forum" },
+        { path: "/en/forum" },
+        { path: "/fr/forum" },
+        { path: "/pt/forum" },
+        { path: "/de/forum" },
       ],
       router: {
         basepath: basePath,

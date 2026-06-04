@@ -9,6 +9,7 @@ import {
   Users,
   GitCompare,
   ArrowRight,
+  MessageSquare,
 } from "lucide-react";
 import { PageShell } from "@/components/page-shell";
 import { useLanguage } from "@/components/language-provider";
@@ -134,6 +135,12 @@ function LocaleIndex() {
       icon: Users,
       label: t("home.quick.community"),
       desc: t("home.quick.communityDesc"),
+    },
+    {
+      to: `/${locale}/forum` as const,
+      icon: MessageSquare,
+      label: t("home.quick.forum"),
+      desc: t("home.quick.forumDesc"),
     },
   ];
 

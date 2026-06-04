@@ -15,6 +15,7 @@ import { Route as Char123LocaleChar125ProblemsRouteImport } from './routes/{-$lo
 import { Route as Char123LocaleChar125PartsRouteImport } from './routes/{-$locale}/parts'
 import { Route as Char123LocaleChar125ManualsRouteImport } from './routes/{-$locale}/manuals'
 import { Route as Char123LocaleChar125GuidesRouteImport } from './routes/{-$locale}/guides'
+import { Route as Char123LocaleChar125ForumRouteImport } from './routes/{-$locale}/forum'
 import { Route as Char123LocaleChar125CompatibilityRouteImport } from './routes/{-$locale}/compatibility'
 import { Route as Char123LocaleChar125CommunityRouteImport } from './routes/{-$locale}/community'
 import { Route as Char123LocaleChar125ComingSoonRouteImport } from './routes/{-$locale}/coming-soon'
@@ -55,6 +56,12 @@ const Char123LocaleChar125GuidesRoute =
     path: '/{-$locale}/guides',
     getParentRoute: () => rootRouteImport,
   } as any)
+const Char123LocaleChar125ForumRoute =
+  Char123LocaleChar125ForumRouteImport.update({
+    id: '/{-$locale}/forum',
+    path: '/{-$locale}/forum',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const Char123LocaleChar125CompatibilityRoute =
   Char123LocaleChar125CompatibilityRouteImport.update({
     id: '/{-$locale}/compatibility',
@@ -86,6 +93,7 @@ export interface FileRoutesByFullPath {
   '/{-$locale}/coming-soon': typeof Char123LocaleChar125ComingSoonRoute
   '/{-$locale}/community': typeof Char123LocaleChar125CommunityRoute
   '/{-$locale}/compatibility': typeof Char123LocaleChar125CompatibilityRoute
+  '/{-$locale}/forum': typeof Char123LocaleChar125ForumRoute
   '/{-$locale}/guides': typeof Char123LocaleChar125GuidesRoute
   '/{-$locale}/manuals': typeof Char123LocaleChar125ManualsRoute
   '/{-$locale}/parts': typeof Char123LocaleChar125PartsRoute
@@ -98,6 +106,7 @@ export interface FileRoutesByTo {
   '/{-$locale}/coming-soon': typeof Char123LocaleChar125ComingSoonRoute
   '/{-$locale}/community': typeof Char123LocaleChar125CommunityRoute
   '/{-$locale}/compatibility': typeof Char123LocaleChar125CompatibilityRoute
+  '/{-$locale}/forum': typeof Char123LocaleChar125ForumRoute
   '/{-$locale}/guides': typeof Char123LocaleChar125GuidesRoute
   '/{-$locale}/manuals': typeof Char123LocaleChar125ManualsRoute
   '/{-$locale}/parts': typeof Char123LocaleChar125PartsRoute
@@ -111,6 +120,7 @@ export interface FileRoutesById {
   '/{-$locale}/coming-soon': typeof Char123LocaleChar125ComingSoonRoute
   '/{-$locale}/community': typeof Char123LocaleChar125CommunityRoute
   '/{-$locale}/compatibility': typeof Char123LocaleChar125CompatibilityRoute
+  '/{-$locale}/forum': typeof Char123LocaleChar125ForumRoute
   '/{-$locale}/guides': typeof Char123LocaleChar125GuidesRoute
   '/{-$locale}/manuals': typeof Char123LocaleChar125ManualsRoute
   '/{-$locale}/parts': typeof Char123LocaleChar125PartsRoute
@@ -125,6 +135,7 @@ export interface FileRouteTypes {
     | '/{-$locale}/coming-soon'
     | '/{-$locale}/community'
     | '/{-$locale}/compatibility'
+    | '/{-$locale}/forum'
     | '/{-$locale}/guides'
     | '/{-$locale}/manuals'
     | '/{-$locale}/parts'
@@ -137,6 +148,7 @@ export interface FileRouteTypes {
     | '/{-$locale}/coming-soon'
     | '/{-$locale}/community'
     | '/{-$locale}/compatibility'
+    | '/{-$locale}/forum'
     | '/{-$locale}/guides'
     | '/{-$locale}/manuals'
     | '/{-$locale}/parts'
@@ -149,6 +161,7 @@ export interface FileRouteTypes {
     | '/{-$locale}/coming-soon'
     | '/{-$locale}/community'
     | '/{-$locale}/compatibility'
+    | '/{-$locale}/forum'
     | '/{-$locale}/guides'
     | '/{-$locale}/manuals'
     | '/{-$locale}/parts'
@@ -162,6 +175,7 @@ export interface RootRouteChildren {
   Char123LocaleChar125ComingSoonRoute: typeof Char123LocaleChar125ComingSoonRoute
   Char123LocaleChar125CommunityRoute: typeof Char123LocaleChar125CommunityRoute
   Char123LocaleChar125CompatibilityRoute: typeof Char123LocaleChar125CompatibilityRoute
+  Char123LocaleChar125ForumRoute: typeof Char123LocaleChar125ForumRoute
   Char123LocaleChar125GuidesRoute: typeof Char123LocaleChar125GuidesRoute
   Char123LocaleChar125ManualsRoute: typeof Char123LocaleChar125ManualsRoute
   Char123LocaleChar125PartsRoute: typeof Char123LocaleChar125PartsRoute
@@ -213,6 +227,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Char123LocaleChar125GuidesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/{-$locale}/forum': {
+      id: '/{-$locale}/forum'
+      path: '/{-$locale}/forum'
+      fullPath: '/{-$locale}/forum'
+      preLoaderRoute: typeof Char123LocaleChar125ForumRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/{-$locale}/compatibility': {
       id: '/{-$locale}/compatibility'
       path: '/{-$locale}/compatibility'
@@ -251,6 +272,7 @@ const rootRouteChildren: RootRouteChildren = {
   Char123LocaleChar125CommunityRoute: Char123LocaleChar125CommunityRoute,
   Char123LocaleChar125CompatibilityRoute:
     Char123LocaleChar125CompatibilityRoute,
+  Char123LocaleChar125ForumRoute: Char123LocaleChar125ForumRoute,
   Char123LocaleChar125GuidesRoute: Char123LocaleChar125GuidesRoute,
   Char123LocaleChar125ManualsRoute: Char123LocaleChar125ManualsRoute,
   Char123LocaleChar125PartsRoute: Char123LocaleChar125PartsRoute,

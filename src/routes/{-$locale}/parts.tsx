@@ -153,8 +153,8 @@ function PartsPage() {
       })) as Part[];
     },
     initialData: staticParts,
-    refetchInterval: 30000,
-    refetchIntervalInBackground: false,
+    refetchInterval: 60000,
+    refetchOnWindowFocus: true,
   });
 
   const [selectedPart, setSelectedPart] = useState<Part | null>(null);

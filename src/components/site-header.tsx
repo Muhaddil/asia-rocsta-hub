@@ -12,9 +12,11 @@ import {
   Sparkles,
   Home,
   Users,
+  MessageSquare,
+  MoreHorizontal,
 } from "lucide-react";
 import { useTheme } from "./theme-provider";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { globalSearch } from "@/data/search";
 import type { SearchResult } from "@/data/types";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
@@ -39,6 +41,20 @@ const MOBILE_CATEGORIES = (t: (key: string) => string) => [
   { label: t("cat.tires"), to: "/parts" as const, tag: "tires" as const },
 ];
 
+const PRIMARY_NAV = (t: (key: string) => string) => [
+  { label: t("nav.parts"), to: "/parts" },
+  { label: t("nav.compatibility"), to: "/compatibility" },
+  { label: t("nav.guides"), to: "/guides" },
+  { label: t("nav.problems"), to: "/problems" },
+];
+
+const SECONDARY_NAV = (t: (key: string) => string) => [
+  { label: t("nav.manuals"), to: "/manuals" },
+  { label: t("nav.community"), to: "/community" },
+  { label: t("nav.forum"), to: "/forum" },
+  { label: t("nav.about"), to: "/about" },
+];
+
 export function SiteHeader() {
   const { resolved, setTheme } = useTheme();
   const navigate = useNavigate();
@@ -53,6 +69,8 @@ export function SiteHeader() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [query, setQuery] = useState("");
+  const [moreOpen, setMoreOpen] = useState(false);
+  const moreRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -64,6 +82,18 @@ export function SiteHeader() {
     document.addEventListener("keydown", down);
     return () => document.removeEventListener("keydown", down);
   }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (moreRef.current && !moreRef.current.contains(e.target as Node)) {
+        setMoreOpen(false);
+      }
+    };
+    if (moreOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [moreOpen]);
 
   const results = useMemo(() => {
     return globalSearch(query, language);
@@ -121,37 +151,39 @@ export function SiteHeader() {
                 Rocsta<span className="text-rocsta-accent">Archive</span>
               </span>
             </Link>
-            <div className="hidden md:flex items-center gap-3 xl:gap-4 text-sm font-medium text-muted-foreground whitespace-nowrap overflow-x-auto flex-1 min-w-0">
-              <Link to={localePath("/parts")} className="hover:text-foreground transition-colors">
-                {t("nav.parts")}
-              </Link>
-              <Link
-                to={localePath("/compatibility")}
-                className="hover:text-foreground transition-colors"
-              >
-                {t("nav.compatibility")}
-              </Link>
-              <Link to={localePath("/guides")} className="hover:text-foreground transition-colors">
-                {t("nav.guides")}
-              </Link>
-              <Link
-                to={localePath("/problems")}
-                className="hover:text-foreground transition-colors"
-              >
-                {t("nav.problems")}
-              </Link>
-              <Link to={localePath("/manuals")} className="hover:text-foreground transition-colors">
-                {t("nav.manuals")}
-              </Link>
-              <Link
-                to={localePath("/community")}
-                className="hover:text-foreground transition-colors"
-              >
-                {t("nav.community")}
-              </Link>
-              <Link to={localePath("/about")} className="hover:text-foreground transition-colors">
-                {t("nav.about")}
-              </Link>
+            <div className="hidden md:flex items-center gap-3 xl:gap-4 text-sm font-medium text-muted-foreground min-w-0">
+              {PRIMARY_NAV(t).map((link) => (
+                <Link
+                  key={link.to}
+                  to={localePath(link.to)}
+                  className="hover:text-foreground transition-colors whitespace-nowrap"
+                >
+                  {link.label}
+                </Link>
+              ))}
+              <div className="relative" ref={moreRef}>
+                <button
+                  onClick={() => setMoreOpen((o) => !o)}
+                  className="flex items-center gap-1 hover:text-foreground transition-colors whitespace-nowrap"
+                >
+                  <MoreHorizontal className="size-4" />
+                  {t("nav.more")}
+                </button>
+                {moreOpen && (
+                  <div className="absolute top-full left-0 mt-1 z-50 min-w-[160px] rounded-md border border-border bg-card shadow-md py-1">
+                    {SECONDARY_NAV(t).map((link) => (
+                      <Link
+                        key={link.to}
+                        to={localePath(link.to)}
+                        onClick={() => setMoreOpen(false)}
+                        className="block px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors"
+                      >
+                        {link.label}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
 
@@ -292,6 +324,14 @@ export function SiteHeader() {
                       >
                         <Users className="size-4 text-rocsta-accent" />{" "}
                         {t("header.mobileCommunity")}
+                      </Link>
+                      <Link
+                        to={localePath("/forum")}
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="flex items-center gap-2 py-1.5 hover:text-rocsta-green transition-colors"
+                      >
+                        <MessageSquare className="size-4 text-rocsta-accent" />{" "}
+                        {t("header.mobileForum")}
                       </Link>
                       <Link
                         to={localePath("/about")}

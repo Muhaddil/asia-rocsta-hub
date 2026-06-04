@@ -161,8 +161,8 @@ function ProblemsPage() {
       return list.map(toProblem);
     },
     initialData: staticProblems,
-    refetchInterval: 30000,
-    refetchIntervalInBackground: false,
+    refetchInterval: 60000,
+    refetchOnWindowFocus: true,
   });
 
   const [confirmed, setConfirmed] = useState<Set<string>>(() => {

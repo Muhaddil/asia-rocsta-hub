@@ -214,15 +214,15 @@ function CommunityPage() {
   const { data: stats = null, isLoading: loadingStats } = useQuery({
     queryKey: ["community-stats"],
     queryFn: () => api.getStats(),
-    refetchInterval: 30000,
-    refetchIntervalInBackground: false,
+    refetchInterval: 60000,
+    refetchOnWindowFocus: true,
   });
 
   const { data: members = [], isLoading: loadingMembers } = useQuery({
     queryKey: ["community-members"],
     queryFn: () => api.getMembers(),
-    refetchInterval: 30000,
-    refetchIntervalInBackground: false,
+    refetchInterval: 60000,
+    refetchOnWindowFocus: true,
   });
 
   const loading = loadingStats || loadingMembers;
