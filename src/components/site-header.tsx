@@ -121,7 +121,7 @@ export function SiteHeader() {
                 Rocsta<span className="text-rocsta-accent">Archive</span>
               </span>
             </Link>
-            <div className="hidden md:flex items-center gap-4 xl:gap-6 text-sm font-medium text-muted-foreground whitespace-nowrap">
+            <div className="hidden md:flex items-center gap-3 xl:gap-4 text-sm font-medium text-muted-foreground whitespace-nowrap overflow-x-auto flex-1 min-w-0">
               <Link to={localePath("/parts")} className="hover:text-foreground transition-colors">
                 {t("nav.parts")}
               </Link>
