@@ -2,6 +2,7 @@ import { useLanguage } from "@/components/language-provider";
 import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { localePath } from "@/lib/locale-helpers";
+import { CURRENT_VERSION } from "@/data/version";
 
 export function SiteFooter() {
   const { t } = useLanguage();
@@ -41,7 +42,14 @@ export function SiteFooter() {
           >
             {t("footer.contribute")}
           </Link>
+          <Link
+            to={localePath("/changelog")}
+            className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors"
+          >
+            {t("nav.changelog")}
+          </Link>
         </div>
+        <div className="text-[10px] text-muted-foreground/60 font-mono">v{CURRENT_VERSION}</div>
       </div>
     </footer>
   );

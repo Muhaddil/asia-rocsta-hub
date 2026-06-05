@@ -14,6 +14,7 @@ import { ThemeProvider } from "../components/theme-provider";
 import { LanguageProvider, useLanguage } from "../components/language-provider";
 import { SiteHeader } from "../components/site-header";
 import { SiteFooter } from "../components/site-footer";
+import { UpdateBanner } from "../components/update-banner";
 import { getMetaTranslation, getInitialLanguage } from "../lib/meta-translations";
 import ogImage from "../assets/rocsta-hero.jpg";
 import { localePath } from "@/lib/locale-helpers";
@@ -368,6 +369,7 @@ function RootComponent() {
       <QueryClientProvider client={queryClient}>
         <ThemeProvider>
           <div className="min-h-screen flex flex-col bg-background text-foreground">
+            <UpdateBanner />
             <SiteHeader />
             <div className="flex-1">
               <Outlet />

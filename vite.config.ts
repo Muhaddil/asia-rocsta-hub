@@ -75,6 +75,11 @@ export default defineConfig({
         { path: "/fr/forum" },
         { path: "/pt/forum" },
         { path: "/de/forum" },
+        { path: "/es/changelog" },
+        { path: "/en/changelog" },
+        { path: "/fr/changelog" },
+        { path: "/pt/changelog" },
+        { path: "/de/changelog" },
       ],
       router: {
         basepath: basePath,

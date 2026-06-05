@@ -41,6 +41,8 @@ jobs:
         run: |
           echo "VITE_API_URL=${{ secrets.VITE_API_URL }}" > .env
           pnpm build
+          VERSION=$(node -p "require('./package.json').version")
+          echo "{\"version\": \"$VERSION\"}" > dist/client/version.json
         env:
           GITHUB_PAGES: "true"
 

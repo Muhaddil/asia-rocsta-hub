@@ -636,5 +636,16 @@
   "forum.pending.emptyDesc": "All content has been reviewed.",
   "forum.pending.threads": "Pending threads",
   "forum.pending.posts": "Pending replies",
-  "forum.pending.inThread": "In thread:"
+  "forum.pending.inThread": "In thread:",
+  "nav.changelog": "Changelog",
+  "version.newAvailable": "New version available",
+  "version.current": "Current version:",
+  "version.viewChangelog": "View changelog",
+  "changelog.title": "Changelog",
+  "changelog.subtitle": "Version history for Asia Rocsta Archive",
+  "changelog.current": "Current",
+  "meta.changelog.title": "Changelog – Asia Rocsta Archive",
+  "meta.changelog.description": "Version history and changelog for Asia Rocsta Archive.",
+  "meta.changelog.ogTitle": "Changelog – Asia Rocsta Archive",
+  "meta.changelog.ogDescription": "Version history and changelog for Asia Rocsta Archive."
 }

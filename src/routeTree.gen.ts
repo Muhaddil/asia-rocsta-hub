@@ -19,6 +19,7 @@ import { Route as Char123LocaleChar125ForumRouteImport } from './routes/{-$local
 import { Route as Char123LocaleChar125CompatibilityRouteImport } from './routes/{-$locale}/compatibility'
 import { Route as Char123LocaleChar125CommunityRouteImport } from './routes/{-$locale}/community'
 import { Route as Char123LocaleChar125ComingSoonRouteImport } from './routes/{-$locale}/coming-soon'
+import { Route as Char123LocaleChar125ChangelogRouteImport } from './routes/{-$locale}/changelog'
 import { Route as Char123LocaleChar125AboutRouteImport } from './routes/{-$locale}/about'
 
 const IndexRoute = IndexRouteImport.update({
@@ -80,6 +81,12 @@ const Char123LocaleChar125ComingSoonRoute =
     path: '/{-$locale}/coming-soon',
     getParentRoute: () => rootRouteImport,
   } as any)
+const Char123LocaleChar125ChangelogRoute =
+  Char123LocaleChar125ChangelogRouteImport.update({
+    id: '/{-$locale}/changelog',
+    path: '/{-$locale}/changelog',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const Char123LocaleChar125AboutRoute =
   Char123LocaleChar125AboutRouteImport.update({
     id: '/{-$locale}/about',
@@ -90,6 +97,7 @@ const Char123LocaleChar125AboutRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/{-$locale}/about': typeof Char123LocaleChar125AboutRoute
+  '/{-$locale}/changelog': typeof Char123LocaleChar125ChangelogRoute
   '/{-$locale}/coming-soon': typeof Char123LocaleChar125ComingSoonRoute
   '/{-$locale}/community': typeof Char123LocaleChar125CommunityRoute
   '/{-$locale}/compatibility': typeof Char123LocaleChar125CompatibilityRoute
@@ -103,6 +111,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/{-$locale}/about': typeof Char123LocaleChar125AboutRoute
+  '/{-$locale}/changelog': typeof Char123LocaleChar125ChangelogRoute
   '/{-$locale}/coming-soon': typeof Char123LocaleChar125ComingSoonRoute
   '/{-$locale}/community': typeof Char123LocaleChar125CommunityRoute
   '/{-$locale}/compatibility': typeof Char123LocaleChar125CompatibilityRoute
@@ -117,6 +126,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/{-$locale}/about': typeof Char123LocaleChar125AboutRoute
+  '/{-$locale}/changelog': typeof Char123LocaleChar125ChangelogRoute
   '/{-$locale}/coming-soon': typeof Char123LocaleChar125ComingSoonRoute
   '/{-$locale}/community': typeof Char123LocaleChar125CommunityRoute
   '/{-$locale}/compatibility': typeof Char123LocaleChar125CompatibilityRoute
@@ -132,6 +142,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/{-$locale}/about'
+    | '/{-$locale}/changelog'
     | '/{-$locale}/coming-soon'
     | '/{-$locale}/community'
     | '/{-$locale}/compatibility'
@@ -145,6 +156,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/{-$locale}/about'
+    | '/{-$locale}/changelog'
     | '/{-$locale}/coming-soon'
     | '/{-$locale}/community'
     | '/{-$locale}/compatibility'
@@ -158,6 +170,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/{-$locale}/about'
+    | '/{-$locale}/changelog'
     | '/{-$locale}/coming-soon'
     | '/{-$locale}/community'
     | '/{-$locale}/compatibility'
@@ -172,6 +185,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   Char123LocaleChar125AboutRoute: typeof Char123LocaleChar125AboutRoute
+  Char123LocaleChar125ChangelogRoute: typeof Char123LocaleChar125ChangelogRoute
   Char123LocaleChar125ComingSoonRoute: typeof Char123LocaleChar125ComingSoonRoute
   Char123LocaleChar125CommunityRoute: typeof Char123LocaleChar125CommunityRoute
   Char123LocaleChar125CompatibilityRoute: typeof Char123LocaleChar125CompatibilityRoute
@@ -255,6 +269,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Char123LocaleChar125ComingSoonRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/{-$locale}/changelog': {
+      id: '/{-$locale}/changelog'
+      path: '/{-$locale}/changelog'
+      fullPath: '/{-$locale}/changelog'
+      preLoaderRoute: typeof Char123LocaleChar125ChangelogRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/{-$locale}/about': {
       id: '/{-$locale}/about'
       path: '/{-$locale}/about'
@@ -268,6 +289,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   Char123LocaleChar125AboutRoute: Char123LocaleChar125AboutRoute,
+  Char123LocaleChar125ChangelogRoute: Char123LocaleChar125ChangelogRoute,
   Char123LocaleChar125ComingSoonRoute: Char123LocaleChar125ComingSoonRoute,
   Char123LocaleChar125CommunityRoute: Char123LocaleChar125CommunityRoute,
   Char123LocaleChar125CompatibilityRoute:
