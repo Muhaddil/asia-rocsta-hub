@@ -25,7 +25,10 @@ import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle } from "@/co
 import { useLanguage, type Language } from "@/components/language-provider";
 import { localePath, stripBase } from "@/lib/locale-helpers";
 
-const SUGGESTED_SEARCHES: { term: Record<Language, string>; typeKey: string }[] = [
+const SUGGESTED_SEARCHES: {
+  term: Partial<Record<Language, string>>;
+  typeKey: string;
+}[] = [
   { term: { es: "Bomba inyectora", en: "Injection pump" }, typeKey: "header.badgeSwap" },
   { term: { es: "Correa de distribución", en: "Timing belt" }, typeKey: "header.badgeGuide" },
   { term: { es: "Pastillas de freno", en: "Brake pads" }, typeKey: "header.badgePart" },
@@ -407,7 +410,7 @@ export function SiteHeader() {
                   {SUGGESTED_SEARCHES.map((s, idx) => (
                     <button
                       key={idx}
-                      onClick={() => setQuery(s.term[language] || s.term["es"])}
+                      onClick={() => setQuery(s.term[language] || s.term["es"] || "")}
                       className="flex items-center justify-between rounded-lg border border-border/40 bg-muted/20 p-2.5 text-left text-xs hover:bg-muted/65 hover:border-rocsta-green/20 transition-all"
                     >
                       <span className="font-semibold text-foreground">

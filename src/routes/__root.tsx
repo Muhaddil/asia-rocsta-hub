@@ -16,6 +16,8 @@ import { SiteHeader } from "../components/site-header";
 import { SiteFooter } from "../components/site-footer";
 import { getMetaTranslation, getInitialLanguage } from "../lib/meta-translations";
 import ogImage from "../assets/rocsta-hero.jpg";
+import { localePath } from "@/lib/locale-helpers";
+
 const BASE = (import.meta as { env: Record<string, string> }).env?.BASE_URL || "/";
 const SITE_URL = "https://muhaddil.github.io/asia-rocsta-hub";
 
@@ -53,7 +55,7 @@ function NotFoundComponent() {
               {t("notFound.back")}
             </Link>
             <Link
-              to="/parts"
+              to={localePath("/parts")}
               className="inline-flex items-center justify-center rounded-xl border border-border bg-card px-6 py-3 text-sm font-bold text-foreground hover:bg-muted transition-all"
             >
               {t("home.quick.parts")}

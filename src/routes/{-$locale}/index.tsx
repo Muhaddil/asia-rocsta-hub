@@ -24,6 +24,7 @@ import { localize, type GuideLevel } from "@/data/types";
 import { getMetaTranslation } from "@/lib/meta-translations";
 import { resolveLocale, getAlternateHrefs } from "@/lib/i18n-routing";
 import ogImage from "@/assets/rocsta-hero.jpg";
+import { localePath } from "@/lib/locale-helpers";
 
 const SITE_URL = "https://muhaddil.github.io/asia-rocsta-hub";
 
@@ -199,7 +200,7 @@ function LocaleIndex() {
           {QUICK_ACCESS.map((q) => (
             <Link
               key={q.to + q.label}
-              to={q.to}
+              to={localePath(q.to)}
               className="group rounded-xl border border-border bg-card p-5 transition-all hover:border-rocsta-green/40 hover:shadow-md"
             >
               <div className="flex items-start justify-between mb-3">
@@ -219,7 +220,7 @@ function LocaleIndex() {
         <div className="mb-6 flex items-center justify-between">
           <h2 className="text-2xl font-bold tracking-tight text-foreground">{t("home.popular")}</h2>
           <Link
-            to={`/${locale}/parts`}
+            to={localePath("/parts")}
             className="text-sm font-bold text-rocsta-green hover:underline"
           >
             {t("home.popular.viewAll")}
@@ -314,7 +315,7 @@ function LocaleIndex() {
             {t("home.guides.recent")}
           </h2>
           <Link
-            to={`/${locale}/guides`}
+            to={localePath("/guides")}
             className="text-sm font-bold text-rocsta-green hover:underline"
           >
             {t("home.guides.all")}
@@ -324,7 +325,7 @@ function LocaleIndex() {
           {recentGuides.map((guide) => (
             <GuideCard
               key={guide.id}
-              locale={locale}
+              locale={locale || "en"}
               img={guide.image || ""}
               level={guide.level}
               time={guide.time}
@@ -346,7 +347,7 @@ function LocaleIndex() {
             <p className="text-slate-400 text-sm mt-0.5">{t("home.issues.desc")}</p>
           </div>
           <Link
-            to={`/${locale}/problems`}
+            to={localePath("/problems")}
             className="rounded-md bg-white/10 px-4 py-2 text-sm font-bold hover:bg-white/20 transition-all shadow-sm border border-white/5"
           >
             {t("home.issues.viewAll")}
@@ -427,7 +428,7 @@ function GuideCard({
   const { t } = useLanguage();
   return (
     <Link
-      to={`/${locale}/guides`}
+      to={localePath("/guides")}
       search={{ search: title }}
       className="group overflow-hidden rounded-xl border border-border bg-card transition-all hover:shadow-lg block cursor-pointer"
     >

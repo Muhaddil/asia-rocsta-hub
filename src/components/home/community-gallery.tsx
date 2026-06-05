@@ -3,6 +3,7 @@ import { useLanguage } from "@/components/language-provider";
 import { api, getApiBase, type ApiGalleryEntry } from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
+import { localePath } from "@/lib/locale-helpers";
 
 const API_BASE = getApiBase();
 
@@ -29,7 +30,7 @@ export function CommunityGallery() {
           <p className="text-sm text-muted-foreground mt-1">{t("home.gallery.desc")}</p>
         </div>
         <Link
-          to="/community"
+          to={localePath("/compatibility")}
           search={{ tab: "photo" }}
           className="text-sm font-bold text-rocsta-green hover:underline"
         >
