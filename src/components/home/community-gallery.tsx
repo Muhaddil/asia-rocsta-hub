@@ -30,7 +30,7 @@ export function CommunityGallery() {
           <p className="text-sm text-muted-foreground mt-1">{t("home.gallery.desc")}</p>
         </div>
         <Link
-          to={localePath("/compatibility")}
+          to={localePath("/community")}
           search={{ tab: "photo" }}
           className="text-sm font-bold text-rocsta-green hover:underline"
         >
