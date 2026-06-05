@@ -29,7 +29,7 @@ export function globalSearch(query: string, lang: Language = "es"): SearchResult
     const target = normalizeString(
       [
         indexed(part.name),
-        part.oem,
+        indexed(part.oem),
         indexed(part.description),
         part.equiv.join(" "),
         (part.refs || []).join(" "),
@@ -41,7 +41,7 @@ export function globalSearch(query: string, lang: Language = "es"): SearchResult
         type: "part",
         id: part.id,
         title: name,
-        description: `OEM: ${part.oem} | Cat: ${part.category} | Motor: ${part.motor}`,
+        description: `OEM: ${localize(part.oem, lang)} | Cat: ${part.category} | Motor: ${part.motor}`,
         to: "/parts",
         params: { search: name, category: part.category },
       });

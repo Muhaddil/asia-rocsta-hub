@@ -41,6 +41,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { localePath } from "@/lib/locale-helpers";
 
 const SITE_URL = "https://muhaddil.github.io/asia-rocsta-hub";
 
@@ -144,7 +145,16 @@ function PartsPage() {
         name: ap.name,
         category: ap.category as PartCategory,
         description: ap.description,
-        oem: ap.oem,
+        oem:
+          typeof ap.oem === "string" && ap.oem.startsWith("{")
+            ? (() => {
+                try {
+                  return JSON.parse(ap.oem);
+                } catch {
+                  return ap.oem;
+                }
+              })()
+            : ap.oem,
         equiv: ap.equiv,
         status: ap.status as VerificationStatus,
         motor: ap.motor as Motor,
@@ -200,19 +210,15 @@ function PartsPage() {
 
   const filteredParts = useMemo(() => {
     return parts.filter((part) => {
-      // 1. Category Filter
       if (currentCategory && part.category !== currentCategory) return false;
 
-      // 2. Motor Filter
       if (currentMotor) {
         if (currentMotor === "F8" && part.motor === "R2") return false;
         if (currentMotor === "R2" && part.motor === "F8") return false;
       }
 
-      // 3. Status Filter
       if (currentStatus && part.status !== currentStatus) return false;
 
-      // 4. Text Search Filter (name, oem, description, equivalents, refs)
       if (currentSearch) {
         const query = normalizeString(currentSearch);
         const name = normalizeString(localize(part.name, language));
@@ -371,7 +377,7 @@ function PartsPage() {
             {t("ui.partsDocumented")}.
           </span>
           {currentCategory && (
-            <Link to="/parts" className="font-bold text-rocsta-green hover:underline">
+            <Link to={localePath("/parts")} className="font-bold text-rocsta-green hover:underline">
               {t("parts.viewAllCats")}
             </Link>
           )}
@@ -437,11 +443,11 @@ function PartsPage() {
                           className={[
                             "text-[10px] font-bold uppercase py-0.5",
                             part.motor === "F8" &&
-                              "border-sky-500/20 bg-sky-500/5 text-sky-600 dark:text-sky-400",
+                            "border-sky-500/20 bg-sky-500/5 text-sky-600 dark:text-sky-400",
                             part.motor === "R2" &&
-                              "border-amber-500/20 bg-amber-500/5 text-amber-600 dark:text-amber-400",
+                            "border-amber-500/20 bg-amber-500/5 text-amber-600 dark:text-amber-400",
                             part.motor === "ambos" &&
-                              "border-purple-500/20 bg-purple-500/5 text-purple-600 dark:text-purple-400",
+                            "border-purple-500/20 bg-purple-500/5 text-purple-600 dark:text-purple-400",
                           ]
                             .filter(Boolean)
                             .join(" ")}
@@ -519,11 +525,11 @@ function PartsPage() {
                     className={[
                       "text-[9px] font-bold uppercase py-0.5",
                       selectedPart.motor === "F8" &&
-                        "border-sky-500/20 bg-sky-500/5 text-sky-600 dark:text-sky-400",
+                      "border-sky-500/20 bg-sky-500/5 text-sky-600 dark:text-sky-400",
                       selectedPart.motor === "R2" &&
-                        "border-amber-500/20 bg-amber-500/5 text-amber-600 dark:text-amber-400",
+                      "border-amber-500/20 bg-amber-500/5 text-amber-600 dark:text-amber-400",
                       selectedPart.motor === "ambos" &&
-                        "border-purple-500/20 bg-purple-500/5 text-purple-600 dark:text-purple-400",
+                      "border-purple-500/20 bg-purple-500/5 text-purple-600 dark:text-purple-400",
                     ]
                       .filter(Boolean)
                       .join(" ")}
