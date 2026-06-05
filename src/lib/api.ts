@@ -152,7 +152,6 @@ export interface ForumUser {
   displayName: string;
 }
 
-
 export class ApiError extends Error {
   status: number;
   errorCode?: string;
@@ -312,7 +311,7 @@ export const api = {
 
   createForumPost(
     threadId: number,
-    data: { author_name: string; content: string }
+    data: { author_name: string; content: string },
   ): Promise<{ status: string; message: string }> {
     return request(`/api/forum/threads/${threadId}/posts`, {
       method: "POST",
@@ -357,14 +356,20 @@ export const api = {
     return request(`/api/forum/posts/${id}`, { method: "DELETE" });
   },
 
-  setForumThreadStatus(id: number, status: "approved" | "rejected" | "pending"): Promise<{ message: string }> {
+  setForumThreadStatus(
+    id: number,
+    status: "approved" | "rejected" | "pending",
+  ): Promise<{ message: string }> {
     return request(`/api/forum/threads/${id}/status`, {
       method: "PATCH",
       body: JSON.stringify({ status }),
     });
   },
 
-  setForumPostStatus(id: number, status: "approved" | "rejected" | "pending"): Promise<{ message: string }> {
+  setForumPostStatus(
+    id: number,
+    status: "approved" | "rejected" | "pending",
+  ): Promise<{ message: string }> {
     return request(`/api/forum/posts/${id}/status`, {
       method: "PATCH",
       body: JSON.stringify({ status }),
@@ -383,7 +388,10 @@ export const api = {
     });
   },
 
-  getForumPending(): Promise<{ threads: ApiForumThread[]; posts: ApiForumPost[] & { thread_title: string }[] }> {
+  getForumPending(): Promise<{
+    threads: ApiForumThread[];
+    posts: ApiForumPost[] & { thread_title: string }[];
+  }> {
     return request("/api/forum/admin/pending");
   },
 
@@ -467,7 +475,11 @@ const ERROR_TRANSLATIONS: Record<string, Record<string, string>> = {
   },
 };
 
-export function translateError(errorCode: string | undefined, locale: string, fallback?: string): string {
+export function translateError(
+  errorCode: string | undefined,
+  locale: string,
+  fallback?: string,
+): string {
   if (!errorCode) return fallback || "Error";
   const lang = locale in ERROR_TRANSLATIONS ? locale : "en";
   return ERROR_TRANSLATIONS[lang][errorCode] || fallback || errorCode;

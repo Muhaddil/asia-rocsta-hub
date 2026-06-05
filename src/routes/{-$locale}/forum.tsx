@@ -166,10 +166,13 @@ function ForumPage() {
   useEffect(() => {
     const token = getForumToken();
     if (token) {
-      api.forumMe().then(({ user }) => {
-        if (user) setForumUser(user);
-        else setForumToken(null);
-      }).catch(() => setForumToken(null));
+      api
+        .forumMe()
+        .then(({ user }) => {
+          if (user) setForumUser(user);
+          else setForumToken(null);
+        })
+        .catch(() => setForumToken(null));
     }
   }, []);
 
@@ -196,7 +199,9 @@ function ForumPage() {
       setAuthDisplayName("");
       queryClient.invalidateQueries({ queryKey: ["forum-threads"] });
     } catch (err: any) {
-      setAuthError(translateError((err as any).errorCode, lang) || err.message || t("forum.auth.error"));
+      setAuthError(
+        translateError((err as any).errorCode, lang) || err.message || t("forum.auth.error"),
+      );
     } finally {
       setAuthLoading(false);
     }
@@ -245,7 +250,11 @@ function ForumPage() {
     refetchOnWindowFocus: true,
   });
 
-  const { data: threadDetails = null, isLoading: loadingDetails, refetch: refetchDetails } = useQuery({
+  const {
+    data: threadDetails = null,
+    isLoading: loadingDetails,
+    refetch: refetchDetails,
+  } = useQuery({
     queryKey: ["forum-thread", activeThreadId],
     queryFn: () => (activeThreadId ? api.getForumThread(activeThreadId) : Promise.resolve(null)),
     enabled: !!activeThreadId,
@@ -270,13 +279,20 @@ function ForumPage() {
       }
     },
     onError: (err: any) => {
-      setCreateThreadError(translateError((err as any).errorCode, lang) || err.message || t("forum.create.error"));
+      setCreateThreadError(
+        translateError((err as any).errorCode, lang) || err.message || t("forum.create.error"),
+      );
     },
   });
 
   const createReplyMutation = useMutation({
-    mutationFn: ({ threadId, data }: { threadId: number; data: { author_name: string; content: string } }) =>
-      api.createForumPost(threadId, data),
+    mutationFn: ({
+      threadId,
+      data,
+    }: {
+      threadId: number;
+      data: { author_name: string; content: string };
+    }) => api.createForumPost(threadId, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["forum-thread", activeThreadId] });
       queryClient.invalidateQueries({ queryKey: ["forum-threads"] });
@@ -284,7 +300,9 @@ function ForumPage() {
       setReplyError("");
     },
     onError: (err: any) => {
-      setReplyError(translateError((err as any).errorCode, lang) || err.message || t("forum.reply.error"));
+      setReplyError(
+        translateError((err as any).errorCode, lang) || err.message || t("forum.reply.error"),
+      );
     },
   });
 
@@ -425,12 +443,7 @@ function ForumPage() {
 
   return (
     <PageShell>
-      <Crumbs
-        items={[
-          { label: t("ui.archive") },
-          { label: t("nav.forum"), active: true },
-        ]}
-      />
+      <Crumbs items={[{ label: t("ui.archive") }, { label: t("nav.forum"), active: true }]} />
 
       <div className="flex items-center justify-between mb-6">
         <div />
@@ -466,7 +479,9 @@ function ForumPage() {
             <DialogContent className="max-w-sm border-border bg-card">
               <DialogHeader>
                 <DialogTitle className="text-sm font-bold">
-                  {authMode === "login" ? t("forum.auth.loginTitle") : t("forum.auth.registerTitle")}
+                  {authMode === "login"
+                    ? t("forum.auth.loginTitle")
+                    : t("forum.auth.registerTitle")}
                 </DialogTitle>
               </DialogHeader>
               <form onSubmit={handleAuth} className="space-y-3 pt-2">
@@ -519,8 +534,14 @@ function ForumPage() {
                   disabled={authLoading}
                   className="inline-flex h-9 w-full items-center justify-center gap-1.5 rounded-md bg-rocsta-green px-4 text-xs font-bold text-primary-foreground hover:opacity-90 transition-all shadow-sm disabled:opacity-50"
                 >
-                  {authLoading ? <Loader2 className="size-3.5 animate-spin" /> : <LogIn className="size-3.5" />}
-                  {authMode === "login" ? t("forum.auth.loginSubmit") : t("forum.auth.registerSubmit")}
+                  {authLoading ? (
+                    <Loader2 className="size-3.5 animate-spin" />
+                  ) : (
+                    <LogIn className="size-3.5" />
+                  )}
+                  {authMode === "login"
+                    ? t("forum.auth.loginSubmit")
+                    : t("forum.auth.registerSubmit")}
                 </button>
                 <button
                   type="button"
@@ -558,12 +579,18 @@ function ForumPage() {
                 {t(`forum.cat.${threadDetails.thread.category}`)}
               </Badge>
               {threadDetails.thread.status === "pending" && (
-                <Badge variant="outline" className="bg-amber-500/10 text-amber-500 border-amber-500/20 text-[9px]">
+                <Badge
+                  variant="outline"
+                  className="bg-amber-500/10 text-amber-500 border-amber-500/20 text-[9px]"
+                >
                   {t("forum.status.pending")}
                 </Badge>
               )}
               {threadDetails.thread.status === "rejected" && (
-                <Badge variant="outline" className="bg-red-500/10 text-red-500 border-red-500/20 text-[9px]">
+                <Badge
+                  variant="outline"
+                  className="bg-red-500/10 text-red-500 border-red-500/20 text-[9px]"
+                >
                   {t("forum.status.rejected")}
                 </Badge>
               )}
@@ -582,8 +609,12 @@ function ForumPage() {
                 <User className="size-4" />
               </div>
               <div className="text-xs">
-                <span className="font-extrabold text-foreground">{threadDetails.thread.author_name}</span>
-                <span className="text-[10px] text-muted-foreground ml-1">({t("forum.detail.author")})</span>
+                <span className="font-extrabold text-foreground">
+                  {threadDetails.thread.author_name}
+                </span>
+                <span className="text-[10px] text-muted-foreground ml-1">
+                  ({t("forum.detail.author")})
+                </span>
               </div>
             </div>
 
@@ -598,15 +629,23 @@ function ForumPage() {
                 }}
                 className={`flex items-center gap-1 transition-colors ${threadDetails.thread.liked ? "text-red-500" : "text-muted-foreground hover:text-red-400"}`}
                 disabled={!forumUser}
-                title={forumUser ? (threadDetails.thread.liked ? "Quitar me gusta" : "Me gusta") : "Inicia sesión"}
+                title={
+                  forumUser
+                    ? threadDetails.thread.liked
+                      ? "Quitar me gusta"
+                      : "Me gusta"
+                    : "Inicia sesión"
+                }
               >
-                <Heart className={`size-4 ${threadDetails.thread.liked ? "fill-current" : ""}`} /> {threadDetails.thread.likes_count} {t("forum.likes")}
+                <Heart className={`size-4 ${threadDetails.thread.liked ? "fill-current" : ""}`} />{" "}
+                {threadDetails.thread.likes_count} {t("forum.likes")}
               </button>
               <span className="flex items-center gap-1">
                 <Eye className="size-4" /> {threadDetails.thread.views} {t("forum.views")}
               </span>
               <span className="flex items-center gap-1">
-                <MessageCircle className="size-4" /> {threadDetails.thread.replies_count} {t("forum.replies")}
+                <MessageCircle className="size-4" /> {threadDetails.thread.replies_count}{" "}
+                {t("forum.replies")}
               </span>
             </div>
 
@@ -618,7 +657,12 @@ function ForumPage() {
                 </span>
                 {threadDetails.thread.status !== "approved" && (
                   <button
-                    onClick={() => moderateThreadMutation.mutate({ id: threadDetails.thread.id, status: "approved" })}
+                    onClick={() =>
+                      moderateThreadMutation.mutate({
+                        id: threadDetails.thread.id,
+                        status: "approved",
+                      })
+                    }
                     className="inline-flex items-center gap-1 rounded-md bg-green-500/10 border border-green-500/20 px-2 py-1 text-[10px] font-bold text-green-600 dark:text-green-400 hover:bg-green-500/20 transition-colors"
                   >
                     <Check className="size-3" /> {t("forum.moderation.approve")}
@@ -626,7 +670,12 @@ function ForumPage() {
                 )}
                 {threadDetails.thread.status !== "rejected" && (
                   <button
-                    onClick={() => moderateThreadMutation.mutate({ id: threadDetails.thread.id, status: "rejected" })}
+                    onClick={() =>
+                      moderateThreadMutation.mutate({
+                        id: threadDetails.thread.id,
+                        status: "rejected",
+                      })
+                    }
                     className="inline-flex items-center gap-1 rounded-md bg-red-500/10 border border-red-500/20 px-2 py-1 text-[10px] font-bold text-red-600 dark:text-red-400 hover:bg-red-500/20 transition-colors"
                   >
                     <X className="size-3" /> {t("forum.moderation.reject")}
@@ -635,7 +684,7 @@ function ForumPage() {
                 <button
                   onClick={() =>
                     showConfirm(t("forum.moderation.confirmDelete"), () =>
-                      deleteThreadMutation.mutate(threadDetails.thread.id)
+                      deleteThreadMutation.mutate(threadDetails.thread.id),
                     )
                   }
                   className="inline-flex items-center gap-1 rounded-md border border-border px-2 py-1 text-[10px] font-bold text-muted-foreground hover:bg-muted transition-colors"
@@ -648,7 +697,10 @@ function ForumPage() {
 
           <div className="space-y-4 pt-4">
             <h2 className="text-lg font-bold text-foreground">
-              {t("forum.detail.repliesTitle").replace("{count}", String(threadDetails.posts.length))}
+              {t("forum.detail.repliesTitle").replace(
+                "{count}",
+                String(threadDetails.posts.length),
+              )}
             </h2>
 
             {threadDetails.posts.length === 0 ? (
@@ -674,14 +726,22 @@ function ForumPage() {
                         <div className="h-6 w-6 rounded-full bg-muted flex items-center justify-center text-muted-foreground">
                           <User className="size-3.5" />
                         </div>
-                        <span className="text-xs font-bold text-foreground">{post.author_name}</span>
+                        <span className="text-xs font-bold text-foreground">
+                          {post.author_name}
+                        </span>
                         {post.status === "pending" && (
-                          <Badge variant="outline" className="bg-amber-500/10 text-amber-500 border-amber-500/20 text-[8px] py-0">
+                          <Badge
+                            variant="outline"
+                            className="bg-amber-500/10 text-amber-500 border-amber-500/20 text-[8px] py-0"
+                          >
                             {t("forum.status.pending")}
                           </Badge>
                         )}
                         {post.status === "rejected" && (
-                          <Badge variant="outline" className="bg-red-500/10 text-red-500 border-red-500/20 text-[8px] py-0">
+                          <Badge
+                            variant="outline"
+                            className="bg-red-500/10 text-red-500 border-red-500/20 text-[8px] py-0"
+                          >
                             {t("forum.status.rejected")}
                           </Badge>
                         )}
@@ -694,7 +754,9 @@ function ForumPage() {
                           <div className="flex items-center gap-1">
                             {post.status !== "approved" && (
                               <button
-                                onClick={() => moderatePostMutation.mutate({ id: post.id, status: "approved" })}
+                                onClick={() =>
+                                  moderatePostMutation.mutate({ id: post.id, status: "approved" })
+                                }
                                 className="rounded p-0.5 text-green-500 hover:bg-green-500/10 transition-colors"
                                 title={t("forum.moderation.approve")}
                               >
@@ -703,7 +765,9 @@ function ForumPage() {
                             )}
                             {post.status !== "rejected" && (
                               <button
-                                onClick={() => moderatePostMutation.mutate({ id: post.id, status: "rejected" })}
+                                onClick={() =>
+                                  moderatePostMutation.mutate({ id: post.id, status: "rejected" })
+                                }
                                 className="rounded p-0.5 text-amber-500 hover:bg-amber-500/10 transition-colors"
                                 title={t("forum.moderation.reject")}
                               >
@@ -713,7 +777,7 @@ function ForumPage() {
                             <button
                               onClick={() =>
                                 showConfirm(t("forum.moderation.confirmDelete"), () =>
-                                  deletePostMutation.mutate(post.id)
+                                  deletePostMutation.mutate(post.id),
                                 )
                               }
                               className="rounded p-0.5 text-red-500 hover:bg-red-500/10 transition-colors"
@@ -735,9 +799,16 @@ function ForumPage() {
                         }}
                         className={`flex items-center gap-1 transition-colors ${post.liked ? "text-red-500" : "text-muted-foreground hover:text-red-400"}`}
                         disabled={!forumUser}
-                        title={forumUser ? (post.liked ? "Quitar me gusta" : "Me gusta") : "Inicia sesión"}
+                        title={
+                          forumUser
+                            ? post.liked
+                              ? "Quitar me gusta"
+                              : "Me gusta"
+                            : "Inicia sesión"
+                        }
                       >
-                        <Heart className={`size-3 ${post.liked ? "fill-current" : ""}`} /> {post.likes_count}
+                        <Heart className={`size-3 ${post.liked ? "fill-current" : ""}`} />{" "}
+                        {post.likes_count}
                       </button>
                     </div>
                   </div>
@@ -756,7 +827,10 @@ function ForumPage() {
               <form onSubmit={handleCreateReply} className="space-y-3">
                 <div className="flex items-center gap-2 text-xs text-muted-foreground">
                   <User className="size-3.5" />
-                  <span>{t("forum.reply.postingAs")} <strong className="text-foreground">{forumUser.displayName}</strong></span>
+                  <span>
+                    {t("forum.reply.postingAs")}{" "}
+                    <strong className="text-foreground">{forumUser.displayName}</strong>
+                  </span>
                 </div>
 
                 <div className="space-y-1">
@@ -812,9 +886,7 @@ function ForumPage() {
               <h1 className="text-3xl font-extrabold tracking-tight text-foreground">
                 {t("forum.title")}
               </h1>
-              <p className="mt-1 text-sm text-muted-foreground max-w-2xl">
-                {t("forum.desc")}
-              </p>
+              <p className="mt-1 text-sm text-muted-foreground max-w-2xl">{t("forum.desc")}</p>
             </div>
 
             {forumUser ? (
@@ -835,9 +907,15 @@ function ForumPage() {
 
                   <div className="flex items-center gap-2 text-xs text-muted-foreground mb-2">
                     <User className="size-3.5" />
-                    <span>{t("forum.reply.postingAs")} <strong className="text-foreground">{forumUser.displayName}</strong></span>
+                    <span>
+                      {t("forum.reply.postingAs")}{" "}
+                      <strong className="text-foreground">{forumUser.displayName}</strong>
+                    </span>
                     {!forumUser && (
-                      <Badge variant="outline" className="bg-amber-500/10 text-amber-500 border-amber-500/20 text-[8px]">
+                      <Badge
+                        variant="outline"
+                        className="bg-amber-500/10 text-amber-500 border-amber-500/20 text-[8px]"
+                      >
                         {t("forum.status.pending")}
                       </Badge>
                     )}
@@ -945,7 +1023,7 @@ function ForumPage() {
               >
                 <Shield className="size-3" />
                 {t("forum.tab.pending")}
-                {pendingData && (pendingData.threads.length + pendingData.posts.length) > 0 && (
+                {pendingData && pendingData.threads.length + pendingData.posts.length > 0 && (
                   <span className="inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-amber-500/20 px-1 text-[9px] font-bold text-amber-600 dark:text-amber-400">
                     {pendingData.threads.length + pendingData.posts.length}
                   </span>
@@ -995,47 +1073,69 @@ function ForumPage() {
                     <Loader2 className="size-6 animate-spin text-rocsta-green" />
                     <span>{t("ui.loading")}</span>
                   </div>
-                ) : pendingData && (pendingData.threads.length + pendingData.posts.length) === 0 ? (
+                ) : pendingData && pendingData.threads.length + pendingData.posts.length === 0 ? (
                   <div className="rounded-xl border border-dashed border-border bg-card py-16 text-center">
                     <div className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-green-500/10 text-green-500 mb-3">
                       <Check className="size-5" />
                     </div>
-                    <h3 className="text-sm font-bold text-foreground">{t("forum.pending.empty")}</h3>
-                    <p className="mt-1 text-xs text-muted-foreground">{t("forum.pending.emptyDesc")}</p>
+                    <h3 className="text-sm font-bold text-foreground">
+                      {t("forum.pending.empty")}
+                    </h3>
+                    <p className="mt-1 text-xs text-muted-foreground">
+                      {t("forum.pending.emptyDesc")}
+                    </p>
                   </div>
                 ) : (
                   <div className="space-y-4">
                     {pendingData!.threads.length > 0 && (
                       <div>
                         <h3 className="text-xs font-bold text-muted-foreground uppercase mb-2 flex items-center gap-1">
-                          <MessageSquare className="size-3" /> {t("forum.pending.threads")} ({pendingData!.threads.length})
+                          <MessageSquare className="size-3" /> {t("forum.pending.threads")} (
+                          {pendingData!.threads.length})
                         </h3>
                         <div className="divide-y divide-border/60 rounded-xl border border-border bg-card overflow-hidden">
                           {pendingData!.threads.map((thread) => (
                             <div key={thread.id} className="p-4 space-y-2 bg-amber-500/[0.02]">
                               <div className="flex items-center justify-between">
-                                <Badge variant="outline" className={getCategoryColor(thread.category)}>
+                                <Badge
+                                  variant="outline"
+                                  className={getCategoryColor(thread.category)}
+                                >
                                   {t(`forum.cat.${thread.category}`)}
                                 </Badge>
                                 <span className="text-[9px] text-muted-foreground font-semibold">
                                   {formatDate(thread.created_at)}
                                 </span>
                               </div>
-                              <h4 className="text-sm font-extrabold text-foreground">{thread.title}</h4>
-                              <p className="text-xs text-muted-foreground line-clamp-2">{thread.content}</p>
+                              <h4 className="text-sm font-extrabold text-foreground">
+                                {thread.title}
+                              </h4>
+                              <p className="text-xs text-muted-foreground line-clamp-2">
+                                {thread.content}
+                              </p>
                               <div className="flex items-center justify-between">
                                 <span className="text-[10px] text-muted-foreground font-semibold flex items-center gap-1">
                                   <User className="size-3" /> {thread.author_name}
                                 </span>
                                 <div className="flex items-center gap-1">
                                   <button
-                                    onClick={() => moderateThreadMutation.mutate({ id: thread.id, status: "approved" })}
+                                    onClick={() =>
+                                      moderateThreadMutation.mutate({
+                                        id: thread.id,
+                                        status: "approved",
+                                      })
+                                    }
                                     className="inline-flex items-center gap-1 rounded-md bg-green-500/10 border border-green-500/20 px-2 py-1 text-[10px] font-bold text-green-600 dark:text-green-400 hover:bg-green-500/20 transition-colors"
                                   >
                                     <Check className="size-3" /> {t("forum.moderation.approve")}
                                   </button>
                                   <button
-                                    onClick={() => moderateThreadMutation.mutate({ id: thread.id, status: "rejected" })}
+                                    onClick={() =>
+                                      moderateThreadMutation.mutate({
+                                        id: thread.id,
+                                        status: "rejected",
+                                      })
+                                    }
                                     className="inline-flex items-center gap-1 rounded-md bg-red-500/10 border border-red-500/20 px-2 py-1 text-[10px] font-bold text-red-600 dark:text-red-400 hover:bg-red-500/20 transition-colors"
                                   >
                                     <X className="size-3" /> {t("forum.moderation.reject")}
@@ -1043,7 +1143,7 @@ function ForumPage() {
                                   <button
                                     onClick={() =>
                                       showConfirm(t("forum.moderation.confirmDelete"), () =>
-                                        deleteThreadMutation.mutate(thread.id)
+                                        deleteThreadMutation.mutate(thread.id),
                                       )
                                     }
                                     className="inline-flex items-center gap-1 rounded-md border border-border px-2 py-1 text-[10px] font-bold text-muted-foreground hover:bg-muted transition-colors"
@@ -1061,33 +1161,47 @@ function ForumPage() {
                     {pendingData!.posts.length > 0 && (
                       <div>
                         <h3 className="text-xs font-bold text-muted-foreground uppercase mb-2 flex items-center gap-1">
-                          <MessageCircle className="size-3" /> {t("forum.pending.posts")} ({pendingData!.posts.length})
+                          <MessageCircle className="size-3" /> {t("forum.pending.posts")} (
+                          {pendingData!.posts.length})
                         </h3>
                         <div className="divide-y divide-border/60 rounded-xl border border-border bg-card overflow-hidden">
                           {(pendingData!.posts as any[]).map((post) => (
                             <div key={post.id} className="p-4 space-y-2 bg-amber-500/[0.02]">
                               <div className="flex items-center justify-between">
                                 <span className="text-[10px] text-muted-foreground font-semibold">
-                                  {t("forum.pending.inThread")} <strong className="text-foreground">{post.thread_title}</strong>
+                                  {t("forum.pending.inThread")}{" "}
+                                  <strong className="text-foreground">{post.thread_title}</strong>
                                 </span>
                                 <span className="text-[9px] text-muted-foreground font-semibold">
                                   {formatDate(post.created_at)}
                                 </span>
                               </div>
-                              <p className="text-xs text-foreground/95 whitespace-pre-wrap">{post.content}</p>
+                              <p className="text-xs text-foreground/95 whitespace-pre-wrap">
+                                {post.content}
+                              </p>
                               <div className="flex items-center justify-between">
                                 <span className="text-[10px] text-muted-foreground font-semibold flex items-center gap-1">
                                   <User className="size-3" /> {post.author_name}
                                 </span>
                                 <div className="flex items-center gap-1">
                                   <button
-                                    onClick={() => moderatePostMutation.mutate({ id: post.id, status: "approved" })}
+                                    onClick={() =>
+                                      moderatePostMutation.mutate({
+                                        id: post.id,
+                                        status: "approved",
+                                      })
+                                    }
                                     className="inline-flex items-center gap-1 rounded-md bg-green-500/10 border border-green-500/20 px-2 py-1 text-[10px] font-bold text-green-600 dark:text-green-400 hover:bg-green-500/20 transition-colors"
                                   >
                                     <Check className="size-3" /> {t("forum.moderation.approve")}
                                   </button>
                                   <button
-                                    onClick={() => moderatePostMutation.mutate({ id: post.id, status: "rejected" })}
+                                    onClick={() =>
+                                      moderatePostMutation.mutate({
+                                        id: post.id,
+                                        status: "rejected",
+                                      })
+                                    }
                                     className="inline-flex items-center gap-1 rounded-md bg-red-500/10 border border-red-500/20 px-2 py-1 text-[10px] font-bold text-red-600 dark:text-red-400 hover:bg-red-500/20 transition-colors"
                                   >
                                     <X className="size-3" /> {t("forum.moderation.reject")}
@@ -1095,7 +1209,7 @@ function ForumPage() {
                                   <button
                                     onClick={() =>
                                       showConfirm(t("forum.moderation.confirmDelete"), () =>
-                                        deletePostMutation.mutate(post.id)
+                                        deletePostMutation.mutate(post.id),
                                       )
                                     }
                                     className="inline-flex items-center gap-1 rounded-md border border-border px-2 py-1 text-[10px] font-bold text-muted-foreground hover:bg-muted transition-colors"
@@ -1155,17 +1269,26 @@ function ForumPage() {
                             <div className="flex items-center gap-2">
                               <Badge
                                 variant="outline"
-                                className={[getCategoryColor(thread.category), "text-[9px] py-0 px-1.5"].join(" ")}
+                                className={[
+                                  getCategoryColor(thread.category),
+                                  "text-[9px] py-0 px-1.5",
+                                ].join(" ")}
                               >
                                 {t(`forum.cat.${thread.category}`)}
                               </Badge>
                               {thread.status === "pending" && (
-                                <Badge variant="outline" className="bg-amber-500/10 text-amber-500 border-amber-500/20 text-[8px] py-0 px-1">
+                                <Badge
+                                  variant="outline"
+                                  className="bg-amber-500/10 text-amber-500 border-amber-500/20 text-[8px] py-0 px-1"
+                                >
                                   {t("forum.status.pending")}
                                 </Badge>
                               )}
                               {thread.status === "rejected" && (
-                                <Badge variant="outline" className="bg-red-500/10 text-red-500 border-red-500/20 text-[8px] py-0 px-1">
+                                <Badge
+                                  variant="outline"
+                                  className="bg-red-500/10 text-red-500 border-red-500/20 text-[8px] py-0 px-1"
+                                >
                                   {t("forum.status.rejected")}
                                 </Badge>
                               )}
@@ -1203,15 +1326,23 @@ function ForumPage() {
                                 }}
                                 className={`flex items-center gap-1 transition-colors ${thread.liked ? "text-red-500" : "text-slate-400 hover:text-red-400"}`}
                                 disabled={!forumUser}
-                                title={forumUser ? (thread.liked ? "Quitar me gusta" : "Me gusta") : "Inicia sesión"}
+                                title={
+                                  forumUser
+                                    ? thread.liked
+                                      ? "Quitar me gusta"
+                                      : "Me gusta"
+                                    : "Inicia sesión"
+                                }
                               >
-                                <Heart className={`size-3 ${thread.liked ? "fill-current" : ""}`} /> {thread.likes_count}
+                                <Heart className={`size-3 ${thread.liked ? "fill-current" : ""}`} />{" "}
+                                {thread.likes_count}
                               </button>
                               <span className="flex items-center gap-1">
                                 <Eye className="size-3 text-slate-400" /> {thread.views}
                               </span>
                               <span className="flex items-center gap-1">
-                                <MessageCircle className="size-3 text-slate-400" /> {thread.replies_count}
+                                <MessageCircle className="size-3 text-slate-400" />{" "}
+                                {thread.replies_count}
                               </span>
                             </div>
                           </div>
@@ -1229,7 +1360,9 @@ function ForumPage() {
       <Dialog open={confirmOpen} onOpenChange={setConfirmOpen}>
         <DialogContent className="max-w-sm border-border bg-card">
           <DialogHeader>
-            <DialogTitle className="text-sm font-bold">{t("forum.moderation.confirmTitle")}</DialogTitle>
+            <DialogTitle className="text-sm font-bold">
+              {t("forum.moderation.confirmTitle")}
+            </DialogTitle>
           </DialogHeader>
           <p className="text-xs text-muted-foreground">{confirmMessage}</p>
           <div className="flex items-center justify-end gap-2 pt-2">

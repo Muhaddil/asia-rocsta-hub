@@ -38,7 +38,13 @@ export const guides: Guide[] = [
         },
         quantity: 1,
       },
-      { name: { es: "Destornillador plano grande o palanca", en: "Large flat-head screwdriver or pry bar" }, quantity: 1 },
+      {
+        name: {
+          es: "Destornillador plano grande o palanca",
+          en: "Large flat-head screwdriver or pry bar",
+        },
+        quantity: 1,
+      },
       {
         name: {
           es: "Rotulador permanente o corrector blanco (para marcar)",
@@ -126,11 +132,32 @@ export const guides: Guide[] = [
     motor: "ambos",
     category: "transmission",
     tools: [
-      { name: { es: "Llave Allen de 4 mm (para tapa del cubo)", en: "4 mm Allen key (for hub cover)" }, quantity: 1 },
-      { name: { es: "Llave de vaso o estrella de 12 mm", en: "12 mm socket or wrench" }, quantity: 1 },
-      { name: { es: "Alicates para circlips (anillos elásticos)", en: "Circlip pliers (snap ring pliers)" }, quantity: 1 },
-      { name: { es: "Desengrasante / Limpiador de frenos", en: "Degreaser / Brake cleaner" }, quantity: 1 },
-      { name: { es: "Grasa de litio EP2 de alta calidad", en: "High-quality EP2 lithium grease" }, quantity: 1 },
+      {
+        name: {
+          es: "Llave Allen de 4 mm (para tapa del cubo)",
+          en: "4 mm Allen key (for hub cover)",
+        },
+        quantity: 1,
+      },
+      {
+        name: { es: "Llave de vaso o estrella de 12 mm", en: "12 mm socket or wrench" },
+        quantity: 1,
+      },
+      {
+        name: {
+          es: "Alicates para circlips (anillos elásticos)",
+          en: "Circlip pliers (snap ring pliers)",
+        },
+        quantity: 1,
+      },
+      {
+        name: { es: "Desengrasante / Limpiador de frenos", en: "Degreaser / Brake cleaner" },
+        quantity: 1,
+      },
+      {
+        name: { es: "Grasa de litio EP2 de alta calidad", en: "High-quality EP2 lithium grease" },
+        quantity: 1,
+      },
       { name: { es: "Trapos limpios", en: "Clean rags" }, quantity: 1 },
     ],
     steps: [
@@ -205,7 +232,10 @@ export const guides: Guide[] = [
     motor: "R2",
     category: "engine",
     tools: [
-      { name: { es: "Llave fija o de estrella de 12 mm", en: "12 mm open-end or box wrench" }, quantity: 1 },
+      {
+        name: { es: "Llave fija o de estrella de 12 mm", en: "12 mm open-end or box wrench" },
+        quantity: 1,
+      },
       { name: { es: "Cepillo metálico pequeño", en: "Small wire brush" }, quantity: 1 },
       {
         name: {

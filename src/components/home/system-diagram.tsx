@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Cog, GitBranch, CircleDot, Disc, Zap, Box } from "lucide-react";
 import { useLanguage } from "@/components/language-provider";
 import type { PartCategory } from "@/data/types";
+import { localePath } from "@/lib/locale-helpers";
 import rocstaBlueprint from "@/assets/rocsta-hero.jpg";
 
 type Hotspot = {
@@ -49,7 +50,8 @@ export function SystemDiagram() {
   const { t } = useLanguage();
   const [hovered, setHovered] = useState<string | null>(null);
 
-  const go = (category: PartCategory) => navigate({ to: "/parts", search: { category } });
+  const go = (category: PartCategory) =>
+    navigate({ to: localePath("/parts") as "/{-$locale}/parts", search: { category } });
 
   return (
     <section className="mb-12">

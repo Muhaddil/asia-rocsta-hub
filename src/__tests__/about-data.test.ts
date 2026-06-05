@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { aboutSections, aboutHero } from "../data/about";
-import type { AboutFact, AboutInfo, AboutSection, Localized } from "../data/types";
+import type { AboutFact, AboutInfo, AboutSection, Localized } from "../data/about";
 
 describe("about data integrity", () => {
   describe("aboutHero", () => {
@@ -41,7 +41,7 @@ describe("about data integrity", () => {
 
   describe("facts sections", () => {
     const factsSections = aboutSections.filter(
-      (s): s is Extract<AboutSection, { kind: "facts" }> => s.kind === "facts"
+      (s): s is Extract<AboutSection, { kind: "facts" }> => s.kind === "facts",
     );
 
     it("has at least one facts section", () => {
@@ -85,7 +85,7 @@ describe("about data integrity", () => {
 
   describe("engines section", () => {
     const enginesSection = aboutSections.find(
-      (s): s is Extract<AboutSection, { kind: "engines" }> => s.kind === "engines"
+      (s): s is Extract<AboutSection, { kind: "engines" }> => s.kind === "engines",
     );
 
     it("exists and has engines", () => {
@@ -146,7 +146,7 @@ describe("about data integrity", () => {
 
   describe("dimensions section", () => {
     const dimSection = aboutSections.find(
-      (s): s is Extract<AboutSection, { kind: "dimensions" }> => s.kind === "dimensions"
+      (s): s is Extract<AboutSection, { kind: "dimensions" }> => s.kind === "dimensions",
     );
 
     it("exists and has dimension sets", () => {
@@ -187,7 +187,7 @@ describe("about data integrity", () => {
 
   describe("list sections", () => {
     const listSections = aboutSections.filter(
-      (s): s is Extract<AboutSection, { kind: "list" }> => s.kind === "list"
+      (s): s is Extract<AboutSection, { kind: "list" }> => s.kind === "list",
     );
 
     it("every list section has items", () => {
@@ -210,7 +210,7 @@ describe("about data integrity", () => {
 
   describe("timeline sections", () => {
     const timelineSections = aboutSections.filter(
-      (s): s is Extract<AboutSection, { kind: "timeline" }> => s.kind === "timeline"
+      (s): s is Extract<AboutSection, { kind: "timeline" }> => s.kind === "timeline",
     );
 
     it("every timeline section has entries", () => {
@@ -237,7 +237,7 @@ describe("about data integrity", () => {
 
       for (const section of aboutSections) {
         allLocalized.push(section.title);
-        if (section.intro) allLocalized.push(section.intro);
+        if ("intro" in section && section.intro) allLocalized.push(section.intro);
 
         if (section.kind === "facts") {
           for (const fact of section.facts) {

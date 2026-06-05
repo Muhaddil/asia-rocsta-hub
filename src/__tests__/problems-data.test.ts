@@ -67,7 +67,15 @@ describe("problems data integrity", () => {
     });
 
     it("every problem has a valid category", () => {
-      const valid = ["engine", "transmission", "suspension", "electrical", "brakes", "tires", "body"];
+      const valid = [
+        "engine",
+        "transmission",
+        "suspension",
+        "electrical",
+        "brakes",
+        "tires",
+        "body",
+      ];
       for (const p of problems) {
         expect(valid).toContain(p.category);
       }

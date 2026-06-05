@@ -29,7 +29,7 @@ const SITE_URL = "https://muhaddil.github.io/asia-rocsta-hub";
 const manualsSearchSchema = z.object({
   search: z.string().optional(),
   type: z.enum(["workshop", "electrical", "catalog", "datasheet", "other"]).optional(),
-  language: z.enum(["es", "en", "ko", "fr", "de"]).optional(),
+  language: z.enum(["es", "en", "ko", "fr", "de", "pt"]).optional(),
   motor: z.enum(["F8", "R2", "ambos"]).optional(),
 });
 

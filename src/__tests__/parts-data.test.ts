@@ -27,7 +27,15 @@ describe("parts.json data integrity", () => {
     });
 
     it("every part has a valid category", () => {
-      const validCategories = ["engine", "transmission", "suspension", "electrical", "brakes", "tires", "body"];
+      const validCategories = [
+        "engine",
+        "transmission",
+        "suspension",
+        "electrical",
+        "brakes",
+        "tires",
+        "body",
+      ];
       for (const part of parts) {
         expect(validCategories).toContain(part.category);
       }

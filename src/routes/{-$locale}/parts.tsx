@@ -443,11 +443,11 @@ function PartsPage() {
                           className={[
                             "text-[10px] font-bold uppercase py-0.5",
                             part.motor === "F8" &&
-                            "border-sky-500/20 bg-sky-500/5 text-sky-600 dark:text-sky-400",
+                              "border-sky-500/20 bg-sky-500/5 text-sky-600 dark:text-sky-400",
                             part.motor === "R2" &&
-                            "border-amber-500/20 bg-amber-500/5 text-amber-600 dark:text-amber-400",
+                              "border-amber-500/20 bg-amber-500/5 text-amber-600 dark:text-amber-400",
                             part.motor === "ambos" &&
-                            "border-purple-500/20 bg-purple-500/5 text-purple-600 dark:text-purple-400",
+                              "border-purple-500/20 bg-purple-500/5 text-purple-600 dark:text-purple-400",
                           ]
                             .filter(Boolean)
                             .join(" ")}
@@ -525,11 +525,11 @@ function PartsPage() {
                     className={[
                       "text-[9px] font-bold uppercase py-0.5",
                       selectedPart.motor === "F8" &&
-                      "border-sky-500/20 bg-sky-500/5 text-sky-600 dark:text-sky-400",
+                        "border-sky-500/20 bg-sky-500/5 text-sky-600 dark:text-sky-400",
                       selectedPart.motor === "R2" &&
-                      "border-amber-500/20 bg-amber-500/5 text-amber-600 dark:text-amber-400",
+                        "border-amber-500/20 bg-amber-500/5 text-amber-600 dark:text-amber-400",
                       selectedPart.motor === "ambos" &&
-                      "border-purple-500/20 bg-purple-500/5 text-purple-600 dark:text-purple-400",
+                        "border-purple-500/20 bg-purple-500/5 text-purple-600 dark:text-purple-400",
                     ]
                       .filter(Boolean)
                       .join(" ")}

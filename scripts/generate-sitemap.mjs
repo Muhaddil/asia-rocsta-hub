@@ -55,7 +55,10 @@ for (const locale of LOCALES) {
       lang: l,
       href: `${BASE_URL}/${l}${page.path === "/" ? "/" : page.path}`,
     }));
-    alternates.push({ lang: "x-default", href: `${BASE_URL}/${DEFAULT_LOCALE}${page.path === "/" ? "/" : page.path}` });
+    alternates.push({
+      lang: "x-default",
+      href: `${BASE_URL}/${DEFAULT_LOCALE}${page.path === "/" ? "/" : page.path}`,
+    });
 
     urlEntries.push({
       loc,

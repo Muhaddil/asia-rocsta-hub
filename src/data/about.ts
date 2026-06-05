@@ -7,7 +7,7 @@
 //      `aboutSections` con el tipo `AboutSection` apropiado.
 // =====================================================================
 
-export type Localized = { es: string; en: string; };
+export type Localized = { es: string; en: string };
 
 export type AboutInfo = {
   tooltip: Localized;
@@ -32,45 +32,45 @@ export type AboutDimensionSet = {
 
 export type AboutSection =
   | {
-    kind: "prose";
-    id: string;
-    title: Localized;
-    paragraphs: Localized[];
-  }
+      kind: "prose";
+      id: string;
+      title: Localized;
+      paragraphs: Localized[];
+    }
   | {
-    kind: "facts";
-    id: string;
-    title: Localized;
-    intro?: Localized;
-    facts: AboutFact[];
-  }
+      kind: "facts";
+      id: string;
+      title: Localized;
+      intro?: Localized;
+      facts: AboutFact[];
+    }
   | {
-    kind: "engines";
-    id: string;
-    title: Localized;
-    intro?: Localized;
-    engines: AboutEngine[];
-  }
+      kind: "engines";
+      id: string;
+      title: Localized;
+      intro?: Localized;
+      engines: AboutEngine[];
+    }
   | {
-    kind: "dimensions";
-    id: string;
-    title: Localized;
-    intro?: Localized;
-    sets: AboutDimensionSet[];
-  }
+      kind: "dimensions";
+      id: string;
+      title: Localized;
+      intro?: Localized;
+      sets: AboutDimensionSet[];
+    }
   | {
-    kind: "list";
-    id: string;
-    title: Localized;
-    intro?: Localized;
-    items: { title: Localized; description: Localized }[];
-  }
+      kind: "list";
+      id: string;
+      title: Localized;
+      intro?: Localized;
+      items: { title: Localized; description: Localized }[];
+    }
   | {
-    kind: "timeline";
-    id: string;
-    title: Localized;
-    entries: { year: string; text: Localized }[];
-  };
+      kind: "timeline";
+      id: string;
+      title: Localized;
+      entries: { year: string; text: Localized }[];
+    };
 
 export const aboutHero = {
   crumb: { es: "Acerca de", en: "About" } satisfies Localized,
@@ -267,11 +267,11 @@ export const aboutSections: AboutSection[] = [
         es:
           "Esto le da una rigidez estructural excepcional y permite que la carrocería sea casi un elemento " +
           "decorativo, separable del bastidor. Se ofrecieron dos familias dimensionales: batalla larga " +
-          "(Country / Country Classic) y batalla corta (Deluxe / Softtop / \"Stubby\").",
+          '(Country / Country Classic) y batalla corta (Deluxe / Softtop / "Stubby").',
         en:
           "This grants exceptional structural rigidity and means the body is almost a cosmetic shell, " +
           "removable from the chassis. Two dimensional families were offered: long-wheelbase " +
-          "(Country / Country Classic) and short-wheelbase (Deluxe / Softtop / \"Stubby\").",
+          '(Country / Country Classic) and short-wheelbase (Deluxe / Softtop / "Stubby").',
       },
       {
         es:
@@ -452,8 +452,8 @@ export const aboutSections: AboutSection[] = [
       {
         id: "swb",
         name: {
-          es: "Batalla corta · Deluxe / Softtop / \"Stubby\"",
-          en: "Short wheelbase · Deluxe / Softtop / \"Stubby\"",
+          es: 'Batalla corta · Deluxe / Softtop / "Stubby"',
+          en: 'Short wheelbase · Deluxe / Softtop / "Stubby"',
         },
         tagline: { es: "Maniobrable en terreno cerrado.", en: "Nimble in tight terrain." },
         rows: [
@@ -602,7 +602,10 @@ export const aboutSections: AboutSection[] = [
             label: { es: "Bore × carrera", en: "Bore × stroke" },
             value: { es: "86 × 77 mm", en: "86 × 77 mm" },
             info: {
-              tooltip: { es: "Diámetro 86 mm · carrera 77 mm — motor cuadrado", en: "Bore 86 mm · stroke 77 mm — square engine" },
+              tooltip: {
+                es: "Diámetro 86 mm · carrera 77 mm — motor cuadrado",
+                en: "Bore 86 mm · stroke 77 mm — square engine",
+              },
               dialog: {
                 title: { es: "Bore × carrera", en: "Bore × stroke" },
                 body: {
@@ -616,7 +619,10 @@ export const aboutSections: AboutSection[] = [
             label: { es: "Distribución", en: "Valvetrain" },
             value: { es: "SOHC 8v (árbol de levas en cabeza)", en: "SOHC 8v (overhead camshaft)" },
             info: {
-              tooltip: { es: "SOHC 8 válvulas · correa dentada", en: "SOHC 8 valves · timing belt" },
+              tooltip: {
+                es: "SOHC 8 válvulas · correa dentada",
+                en: "SOHC 8 valves · timing belt",
+              },
               dialog: {
                 title: { es: "Distribución", en: "Valvetrain" },
                 body: {
@@ -713,7 +719,10 @@ export const aboutSections: AboutSection[] = [
           },
           {
             label: { es: "Bloque / culata", en: "Block / head" },
-            value: { es: "Bloque hierro fundido · culata aleación", en: "Cast-iron block · alloy head" },
+            value: {
+              es: "Bloque hierro fundido · culata aleación",
+              en: "Cast-iron block · alloy head",
+            },
             info: {
               tooltip: {
                 es: "Bloque de hierro muy duradero, culata ligera de aleación",
@@ -841,7 +850,10 @@ export const aboutSections: AboutSection[] = [
         },
       },
       {
-        code: { es: "Mazda R2 — 2.2 Diésel (primera generación)", en: "Mazda R2 — 2.2 Diesel (first generation)" },
+        code: {
+          es: "Mazda R2 — 2.2 Diésel (primera generación)",
+          en: "Mazda R2 — 2.2 Diesel (first generation)",
+        },
         fuel: { es: "Diésel", en: "Diesel" },
         specs: [
           {
@@ -985,7 +997,10 @@ export const aboutSections: AboutSection[] = [
           },
           {
             label: { es: "Bloque / culata", en: "Block / head" },
-            value: { es: "Bloque hierro fundido · culata aluminio", en: "Cast-iron block · aluminium head" },
+            value: {
+              es: "Bloque hierro fundido · culata aluminio",
+              en: "Cast-iron block · aluminium head",
+            },
             info: {
               tooltip: {
                 es: "Bloque robusto — culata de aluminio punto débil (grietas)",
@@ -1115,14 +1130,20 @@ export const aboutSections: AboutSection[] = [
         },
       },
       {
-        code: { es: "Mazda RF — 2.2 Diésel (segunda generación)", en: "Mazda RF — 2.2 Diesel (second generation)" },
+        code: {
+          es: "Mazda RF — 2.2 Diésel (segunda generación)",
+          en: "Mazda RF — 2.2 Diesel (second generation)",
+        },
         fuel: { es: "Diésel", en: "Diesel" },
         specs: [
           {
             label: { es: "Cilindrada", en: "Displacement" },
             value: { es: "2.184 cc · 4 cil. en línea", en: "2,184 cc · 4-cyl inline" },
             info: {
-              tooltip: { es: "2,2 litros — misma cilindrada que el R2", en: "2.2 litres — same displacement as the R2" },
+              tooltip: {
+                es: "2,2 litros — misma cilindrada que el R2",
+                en: "2.2 litres — same displacement as the R2",
+              },
               dialog: {
                 title: { es: "Cilindrada del RF", en: "RF displacement" },
                 body: {
@@ -1136,7 +1157,10 @@ export const aboutSections: AboutSection[] = [
             label: { es: "Bore × carrera", en: "Bore × stroke" },
             value: { es: "86 × 94 mm", en: "86 × 94 mm" },
             info: {
-              tooltip: { es: "Carrera larga (undersquare) — par a bajas rpm", en: "Long stroke (undersquare) — low-end torque" },
+              tooltip: {
+                es: "Carrera larga (undersquare) — par a bajas rpm",
+                en: "Long stroke (undersquare) — low-end torque",
+              },
               dialog: {
                 title: { es: "Bore × carrera del RF", en: "RF bore × stroke" },
                 body: {
@@ -1150,7 +1174,10 @@ export const aboutSections: AboutSection[] = [
             label: { es: "Distribución", en: "Valvetrain" },
             value: { es: "SOHC 8v (árbol de levas en cabeza)", en: "SOHC 8v (overhead camshaft)" },
             info: {
-              tooltip: { es: "SOHC — más refinado que el OHV del R2", en: "SOHC — more refined than the R2's OHV" },
+              tooltip: {
+                es: "SOHC — más refinado que el OHV del R2",
+                en: "SOHC — more refined than the R2's OHV",
+              },
               dialog: {
                 title: { es: "Distribución del RF", en: "RF valvetrain" },
                 body: {
@@ -1167,7 +1194,10 @@ export const aboutSections: AboutSection[] = [
               en: "Mechanical indirect injection (swirl chamber)",
             },
             info: {
-              tooltip: { es: "Inyección indirecta con precámara de torbellino", en: "Indirect injection with swirl pre-chamber" },
+              tooltip: {
+                es: "Inyección indirecta con precámara de torbellino",
+                en: "Indirect injection with swirl pre-chamber",
+              },
               dialog: {
                 title: { es: "Alimentación del RF", en: "RF fueling system" },
                 body: {
@@ -1181,7 +1211,10 @@ export const aboutSections: AboutSection[] = [
             label: { es: "Compresión", en: "Compression ratio" },
             value: { es: "22,9 : 1", en: "22.9 : 1" },
             info: {
-              tooltip: { es: "22,9:1 — muy alta, típica de diésel atmosférico", en: "22.9:1 — very high, typical of NA diesel" },
+              tooltip: {
+                es: "22,9:1 — muy alta, típica de diésel atmosférico",
+                en: "22.9:1 — very high, typical of NA diesel",
+              },
               dialog: {
                 title: { es: "Compresión del RF", en: "RF compression ratio" },
                 body: {
@@ -1195,7 +1228,10 @@ export const aboutSections: AboutSection[] = [
             label: { es: "Potencia", en: "Power" },
             value: { es: "≈ 53 kW (72 CV) a 4.050 rpm", en: "≈ 53 kW (72 hp) @ 4,050 rpm" },
             info: {
-              tooltip: { es: "72 CV — apenas 4 CV más que el R2", en: "72 hp — barely 4 hp more than the R2" },
+              tooltip: {
+                es: "72 CV — apenas 4 CV más que el R2",
+                en: "72 hp — barely 4 hp more than the R2",
+              },
               dialog: {
                 title: { es: "Potencia del RF", en: "RF power output" },
                 body: {
@@ -1209,7 +1245,10 @@ export const aboutSections: AboutSection[] = [
             label: { es: "Par", en: "Torque" },
             value: { es: "142 Nm a 2.500 rpm", en: "142 Nm @ 2,500 rpm" },
             info: {
-              tooltip: { es: "142 Nm — 5 Nm más que el R2, entrega más lineal", en: "142 Nm — 5 Nm more than R2, smoother delivery" },
+              tooltip: {
+                es: "142 Nm — 5 Nm más que el R2, entrega más lineal",
+                en: "142 Nm — 5 Nm more than R2, smoother delivery",
+              },
               dialog: {
                 title: { es: "Par motor del RF", en: "RF torque" },
                 body: {
@@ -1223,7 +1262,10 @@ export const aboutSections: AboutSection[] = [
             label: { es: "Relación pot./peso", en: "Power/weight" },
             value: { es: "≈ 42,4 kW/t", en: "≈ 42.4 kW/t" },
             info: {
-              tooltip: { es: "42,4 kW/t — apenas superior al R2 (40-42 kW/t)", en: "42.4 kW/t — barely higher than R2 (40-42 kW/t)" },
+              tooltip: {
+                es: "42,4 kW/t — apenas superior al R2 (40-42 kW/t)",
+                en: "42.4 kW/t — barely higher than R2 (40-42 kW/t)",
+              },
               dialog: {
                 title: { es: "Relación potencia/peso del RF", en: "RF power-to-weight ratio" },
                 body: {
@@ -1235,9 +1277,15 @@ export const aboutSections: AboutSection[] = [
           },
           {
             label: { es: "Bloque / culata", en: "Block / head" },
-            value: { es: "Bloque hierro fundido · culata aluminio", en: "Cast-iron block · aluminium head" },
+            value: {
+              es: "Bloque hierro fundido · culata aluminio",
+              en: "Cast-iron block · aluminium head",
+            },
             info: {
-              tooltip: { es: "Mismo bloque R2, diferente culata SOHC", en: "Same R2 block, different SOHC head" },
+              tooltip: {
+                es: "Mismo bloque R2, diferente culata SOHC",
+                en: "Same R2 block, different SOHC head",
+              },
               dialog: {
                 title: { es: "Bloque y culata del RF", en: "RF block and head" },
                 body: {
@@ -1251,7 +1299,10 @@ export const aboutSections: AboutSection[] = [
             label: { es: "Capacidad aceite", en: "Oil capacity" },
             value: { es: "4,7 L (con filtro)", en: "4.7 L (with filter)" },
             info: {
-              tooltip: { es: "4,7 L — más que el F8 (3,9), menos que el R2 (6,5)", en: "4.7 L — more than F8 (3.9), less than R2 (6.5)" },
+              tooltip: {
+                es: "4,7 L — más que el F8 (3,9), menos que el R2 (6,5)",
+                en: "4.7 L — more than F8 (3.9), less than R2 (6.5)",
+              },
               dialog: {
                 title: { es: "Capacidad de aceite del RF", en: "RF oil capacity" },
                 body: {
@@ -1265,7 +1316,10 @@ export const aboutSections: AboutSection[] = [
             label: { es: "Aceite recomendado", en: "Recommended oil" },
             value: { es: "5W-30", en: "5W-30" },
             info: {
-              tooltip: { es: "5W-30 diésel sintético — especificación API CF", en: "5W-30 diesel synthetic — API CF spec" },
+              tooltip: {
+                es: "5W-30 diésel sintético — especificación API CF",
+                en: "5W-30 diesel synthetic — API CF spec",
+              },
               dialog: {
                 title: { es: "Aceite recomendado para RF", en: "Recommended oil for RF" },
                 body: {
@@ -1279,7 +1333,10 @@ export const aboutSections: AboutSection[] = [
             label: { es: "Peso del motor", en: "Engine weight" },
             value: { es: "≈ 197 kg", en: "≈ 197 kg" },
             info: {
-              tooltip: { es: "197 kg — el más pesado por la culata SOHC", en: "197 kg — heaviest due to SOHC head" },
+              tooltip: {
+                es: "197 kg — el más pesado por la culata SOHC",
+                en: "197 kg — heaviest due to SOHC head",
+              },
               dialog: {
                 title: { es: "Peso del motor RF", en: "RF engine weight" },
                 body: {
@@ -1293,7 +1350,10 @@ export const aboutSections: AboutSection[] = [
             label: { es: "Refrigeración", en: "Cooling" },
             value: { es: "Líquida (agua/anticongelante)", en: "Liquid (water/coolant)" },
             info: {
-              tooltip: { es: "Refrigeración líquida vital para motor diésel SOHC", en: "Liquid cooling vital for SOHC diesel" },
+              tooltip: {
+                es: "Refrigeración líquida vital para motor diésel SOHC",
+                en: "Liquid cooling vital for SOHC diesel",
+              },
               dialog: {
                 title: { es: "Sistema de refrigeración del RF", en: "RF cooling system" },
                 body: {
@@ -1307,7 +1367,10 @@ export const aboutSections: AboutSection[] = [
             label: { es: "Depósito", en: "Fuel tank" },
             value: { es: "62 L", en: "62 L" },
             info: {
-              tooltip: { es: "62 L — autonomía RF ≈ 650-800 km", en: "62 L — RF range ≈ 650-800 km" },
+              tooltip: {
+                es: "62 L — autonomía RF ≈ 650-800 km",
+                en: "62 L — RF range ≈ 650-800 km",
+              },
               dialog: {
                 title: { es: "Depósito de combustible", en: "Fuel tank" },
                 body: {
@@ -1456,15 +1519,18 @@ export const aboutSections: AboutSection[] = [
           dialog: {
             title: { es: "Neumáticos", en: "Tyres" },
             body: {
-              es: "El Rocsta se equipó de serie con dos medidas de neumáticos según versión:\n\n215/75 R15 (versiones de trabajo: Country, Pick-up):\n• Neumático más estrecho — mejor flotación en barro.\n• Mayor confort de marcha.\n• Menor consumo.\n\n235/75 R15 (Deluxe):\n• Neumático más ancho — mejor tracción en seco y roca.\n• Mejor estética.\n• Mayor consumo y ruido.\n\nAmbas medidas son 15\". Se pueden montar neumáticos más grandes (31×10.5 R15 o 235/85 R15) con modificaciones mínimas (elevar suspensión o recortar guardabarros).",
-              en: "The Rocsta was fitted with two tyre sizes depending on version:\n\n215/75 R15 (work versions: Country, Pick-up):\n• Narrower tyre — better mud flotation.\n• Better ride comfort.\n• Lower consumption.\n\n235/75 R15 (Deluxe):\n• Wider tyre — better dry and rock traction.\n• Better looks.\n• Higher consumption and noise.\n\nBoth sizes are 15\". Larger tyres (31×10.5 R15 or 235/85 R15) can be fitted with minor modifications (suspension lift or fender trimming).",
+              es: 'El Rocsta se equipó de serie con dos medidas de neumáticos según versión:\n\n215/75 R15 (versiones de trabajo: Country, Pick-up):\n• Neumático más estrecho — mejor flotación en barro.\n• Mayor confort de marcha.\n• Menor consumo.\n\n235/75 R15 (Deluxe):\n• Neumático más ancho — mejor tracción en seco y roca.\n• Mejor estética.\n• Mayor consumo y ruido.\n\nAmbas medidas son 15". Se pueden montar neumáticos más grandes (31×10.5 R15 o 235/85 R15) con modificaciones mínimas (elevar suspensión o recortar guardabarros).',
+              en: 'The Rocsta was fitted with two tyre sizes depending on version:\n\n215/75 R15 (work versions: Country, Pick-up):\n• Narrower tyre — better mud flotation.\n• Better ride comfort.\n• Lower consumption.\n\n235/75 R15 (Deluxe):\n• Wider tyre — better dry and rock traction.\n• Better looks.\n• Higher consumption and noise.\n\nBoth sizes are 15". Larger tyres (31×10.5 R15 or 235/85 R15) can be fitted with minor modifications (suspension lift or fender trimming).',
             },
           },
         },
       },
       {
         label: { es: "Llantas", en: "Wheels" },
-        value: { es: "15\" × 5,5J acero · 15\" × 6J aleación (Deluxe)", en: "15\" × 5.5J steel · 15\" × 6J alloy (Deluxe)" },
+        value: {
+          es: '15" × 5,5J acero · 15" × 6J aleación (Deluxe)',
+          en: '15" × 5.5J steel · 15" × 6J alloy (Deluxe)',
+        },
         info: {
           tooltip: {
             es: "Llantas de acero (trabajo) o aleación (Deluxe)",
@@ -1473,8 +1539,8 @@ export const aboutSections: AboutSection[] = [
           dialog: {
             title: { es: "Llantas", en: "Wheels" },
             body: {
-              es: "Las llantas de serie son de 15\":\n• Versiones de trabajo: 5,5J de acero (pintadas en negro o gris).\n• Deluxe: 6J de aleación (color plata o gris claro).\n\nLas llantas de acero son más pesadas pero más resistentes a impactos off-road. Las de aleación son más ligeras y estéticas, pero pueden agrietarse con piedras grandes.\n\nCompatibilidad: las llantas del Rocsta tienen un PCD de 6×139,7 mm (6 tornillos), el mismo que Toyota Land Cruiser, Suzuki Vitara y muchos 4x4 japoneses. Hay multitud de opciones de segunda mano.\n\nET (offset): ≈ -6 a +10 mm según llanta.",
-              en: "Standard wheels are 15\":\n• Work versions: 5.5J steel (painted black or grey).\n• Deluxe: 6J alloy (silver or light grey).\n\nSteel wheels are heavier but more resistant to off-road impacts. Alloy wheels are lighter and better looking, but can crack on large rocks.\n\nCompatibility: Rocsta wheels have a PCD of 6×139.7 mm (6 lugs), same as Toyota Land Cruiser, Suzuki Vitara and many Japanese 4x4s. Plenty of second-hand options available.\n\nET (offset): ≈ -6 to +10 mm depending on wheel.",
+              es: 'Las llantas de serie son de 15":\n• Versiones de trabajo: 5,5J de acero (pintadas en negro o gris).\n• Deluxe: 6J de aleación (color plata o gris claro).\n\nLas llantas de acero son más pesadas pero más resistentes a impactos off-road. Las de aleación son más ligeras y estéticas, pero pueden agrietarse con piedras grandes.\n\nCompatibilidad: las llantas del Rocsta tienen un PCD de 6×139,7 mm (6 tornillos), el mismo que Toyota Land Cruiser, Suzuki Vitara y muchos 4x4 japoneses. Hay multitud de opciones de segunda mano.\n\nET (offset): ≈ -6 a +10 mm según llanta.',
+              en: 'Standard wheels are 15":\n• Work versions: 5.5J steel (painted black or grey).\n• Deluxe: 6J alloy (silver or light grey).\n\nSteel wheels are heavier but more resistant to off-road impacts. Alloy wheels are lighter and better looking, but can crack on large rocks.\n\nCompatibility: Rocsta wheels have a PCD of 6×139.7 mm (6 lugs), same as Toyota Land Cruiser, Suzuki Vitara and many Japanese 4x4s. Plenty of second-hand options available.\n\nET (offset): ≈ -6 to +10 mm depending on wheel.',
             },
           },
         },
@@ -1550,7 +1616,10 @@ export const aboutSections: AboutSection[] = [
       },
       {
         label: { es: "Llantas", en: "Wheels" },
-        value: { es: "15\" × 5,5J acero · 15\" × 6J aleación (Deluxe)", en: "15\" × 5.5J steel · 15\" × 6J alloy (Deluxe)" },
+        value: {
+          es: '15" × 5,5J acero · 15" × 6J aleación (Deluxe)',
+          en: '15" × 5.5J steel · 15" × 6J alloy (Deluxe)',
+        },
       },
       {
         label: { es: "Altura libre al suelo", en: "Ground clearance" },
@@ -1738,7 +1807,10 @@ export const aboutSections: AboutSection[] = [
         },
       },
       {
-        title: { es: "Country Classic (LWB · Hard Top equipado)", en: "Country Classic (LWB · Hard Top equipped)" },
+        title: {
+          es: "Country Classic (LWB · Hard Top equipado)",
+          en: "Country Classic (LWB · Hard Top equipped)",
+        },
         description: {
           es:
             "Versión enriquecida del Country con mejor acabado interior, tapizado mejorado y equipamiento " +
@@ -1789,7 +1861,10 @@ export const aboutSections: AboutSection[] = [
   {
     kind: "list",
     id: "common-faults",
-    title: { es: "Fallos comunes y mantenimiento preventivo", en: "Common faults & preventive maintenance" },
+    title: {
+      es: "Fallos comunes y mantenimiento preventivo",
+      en: "Common faults & preventive maintenance",
+    },
     intro: {
       es:
         "La mayoría de los problemas del Rocsta son predecibles y fáciles de resolver si se anticipan. " +
@@ -1800,7 +1875,10 @@ export const aboutSections: AboutSection[] = [
     },
     items: [
       {
-        title: { es: "Correa de distribución (RF diésel) — CRÍTICO", en: "Timing belt (RF diesel) — CRITICAL" },
+        title: {
+          es: "Correa de distribución (RF diésel) — CRÍTICO",
+          en: "Timing belt (RF diesel) — CRITICAL",
+        },
         description: {
           es:
             "El fallo más peligroso del motor RF. La correa debe cambiarse cada 80.000 km o 5 años " +

@@ -14,7 +14,13 @@ import {
 import { getMetaTranslation } from "@/lib/meta-translations";
 import { resolveLocale, getAlternateHrefs } from "@/lib/i18n-routing";
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "@/components/ui/tooltip";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 import heroImg from "@/assets/rocsta-hero.jpg";
 import ogImage from "@/assets/rocsta-hero.jpg";
 import { localePath } from "@/lib/locale-helpers";
@@ -110,7 +116,7 @@ function InfoIcon({ info, lang }: { info: AboutInfo; lang: "es" | "en" }) {
 
 function AboutPage() {
   const { language, t } = useLanguage();
-  const L = (v: Localized) => v[language] ?? v.es;
+  const L = (v: Localized) => v[language as "es" | "en"] ?? v.es;
   const { locale } = Route.useParams();
   const lang = resolveLocale(locale);
 

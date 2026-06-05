@@ -56,7 +56,15 @@ describe("compatibility.json data integrity", () => {
     });
 
     it("every entry has a valid category", () => {
-      const valid = ["engine", "transmission", "suspension", "electrical", "brakes", "tires", "body"];
+      const valid = [
+        "engine",
+        "transmission",
+        "suspension",
+        "electrical",
+        "brakes",
+        "tires",
+        "body",
+      ];
       for (const c of compatibilities) {
         expect(valid).toContain(c.category);
       }

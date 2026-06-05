@@ -521,7 +521,10 @@ function GuidesPage() {
                         {step.images && step.images.length > 0 && (
                           <div className="mt-3 grid grid-cols-2 gap-2">
                             {step.images.map((img, imgIndex) => (
-                              <div key={imgIndex} className="overflow-hidden rounded-lg border border-border bg-muted">
+                              <div
+                                key={imgIndex}
+                                className="overflow-hidden rounded-lg border border-border bg-muted"
+                              >
                                 <img
                                   src={img}
                                   alt={`${localize(step.title, language)} - ${imgIndex + 1}`}

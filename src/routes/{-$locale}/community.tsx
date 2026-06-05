@@ -237,16 +237,20 @@ function CommunityPage() {
 
   const [extra, setExtra] = useState<Record<string, string>>({});
 
-  const [guideSteps, setGuideSteps] = useState<Array<{
-    title: string;
-    content: string;
-    images: string;
-  }>>([{ title: "", content: "", images: "" }]);
+  const [guideSteps, setGuideSteps] = useState<
+    Array<{
+      title: string;
+      content: string;
+      images: string;
+    }>
+  >([{ title: "", content: "", images: "" }]);
 
-  const [guideTools, setGuideTools] = useState<Array<{
-    name: string;
-    quantity: number;
-  }>>([{ name: "", quantity: 1 }]);
+  const [guideTools, setGuideTools] = useState<
+    Array<{
+      name: string;
+      quantity: number;
+    }>
+  >([{ name: "", quantity: 1 }]);
 
   const handleExtra = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
@@ -271,35 +275,35 @@ function CommunityPage() {
   };
 
   const addGuideStep = () => {
-    setGuideSteps(prev => [...prev, { title: "", content: "", images: "" }]);
+    setGuideSteps((prev) => [...prev, { title: "", content: "", images: "" }]);
   };
 
   const removeGuideStep = (index: number) => {
     if (guideSteps.length > 1) {
-      setGuideSteps(prev => prev.filter((_, i) => i !== index));
+      setGuideSteps((prev) => prev.filter((_, i) => i !== index));
     }
   };
 
   const updateGuideStep = (index: number, field: string, value: string) => {
-    setGuideSteps(prev => prev.map((step, i) => 
-      i === index ? { ...step, [field]: value } : step
-    ));
+    setGuideSteps((prev) =>
+      prev.map((step, i) => (i === index ? { ...step, [field]: value } : step)),
+    );
   };
 
   const addGuideTool = () => {
-    setGuideTools(prev => [...prev, { name: "", quantity: 1 }]);
+    setGuideTools((prev) => [...prev, { name: "", quantity: 1 }]);
   };
 
   const removeGuideTool = (index: number) => {
     if (guideTools.length > 1) {
-      setGuideTools(prev => prev.filter((_, i) => i !== index));
+      setGuideTools((prev) => prev.filter((_, i) => i !== index));
     }
   };
 
   const updateGuideTool = (index: number, field: string, value: string | number) => {
-    setGuideTools(prev => prev.map((tool, i) => 
-      i === index ? { ...tool, [field]: value } : tool
-    ));
+    setGuideTools((prev) =>
+      prev.map((tool, i) => (i === index ? { ...tool, [field]: value } : tool)),
+    );
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -324,26 +328,35 @@ function CommunityPage() {
           time: extra.guide_time || "",
           category: extra.guide_category || "engine",
           motor: extra.guide_motor || "ambos",
-          tools: guideTools.filter(t => t.name).map(t => ({
-            name: { [langKey]: t.name } as any,
-            quantity: t.quantity
-          })),
-          steps: guideSteps.filter(s => s.content).map(s => ({
-            title: { [langKey]: s.title } as any,
-            content: { [langKey]: s.content } as any,
-            images: s.images ? s.images.split(",").map(url => url.trim()).filter(url => url) : []
-          })),
-          tags: extra.guide_tags ? extra.guide_tags.split(",").map(t => t.trim()) : [],
-          _lang: langKey
+          tools: guideTools
+            .filter((t) => t.name)
+            .map((t) => ({
+              name: { [langKey]: t.name } as any,
+              quantity: t.quantity,
+            })),
+          steps: guideSteps
+            .filter((s) => s.content)
+            .map((s) => ({
+              title: { [langKey]: s.title } as any,
+              content: { [langKey]: s.content } as any,
+              images: s.images
+                ? s.images
+                    .split(",")
+                    .map((url) => url.trim())
+                    .filter((url) => url)
+                : [],
+            })),
+          tags: extra.guide_tags ? extra.guide_tags.split(",").map((t) => t.trim()) : [],
+          _lang: langKey,
         };
-        
+
         await api.submit({
           type: "guide",
           username,
           email,
           title: guideData.title,
           description: guideData.description,
-          data: guideData as any
+          data: guideData as any,
         });
       } else {
         await api.submit({
@@ -525,12 +538,14 @@ function CommunityPage() {
             handleExtra,
           )}
         </Field>
-        
+
         <Field label={t("comm.form.guide.description")}>
           {renderTextarea(
             "guide_description",
             extra.guide_description || "",
-            isEn ? "Briefly describe what you'll learn in this guide..." : "Describe brevemente qué aprenderás en esta guía...",
+            isEn
+              ? "Briefly describe what you'll learn in this guide..."
+              : "Describe brevemente qué aprenderás en esta guía...",
             handleExtra,
             3,
           )}
@@ -610,7 +625,7 @@ function CommunityPage() {
               + {t("comm.form.guide.addTool")}
             </button>
           </div>
-          
+
           {guideTools.map((tool, index) => (
             <div key={index} className="rounded-lg border border-border bg-muted/20 p-3 space-y-2">
               <div className="flex items-center justify-between">
@@ -638,7 +653,9 @@ function CommunityPage() {
                 <input
                   type="number"
                   value={tool.quantity}
-                  onChange={(e) => updateGuideTool(index, "quantity", parseInt(e.target.value) || 1)}
+                  onChange={(e) =>
+                    updateGuideTool(index, "quantity", parseInt(e.target.value) || 1)
+                  }
                   min="1"
                   className="w-16 rounded-md border border-input bg-muted/30 px-3 py-2 text-xs shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-rocsta-green"
                 />
@@ -703,7 +720,9 @@ function CommunityPage() {
                   type="text"
                   value={step.images}
                   onChange={(e) => updateGuideStep(index, "images", e.target.value)}
-                  placeholder={isEn ? "Image URLs separated by commas" : "URLs de imágenes separadas por comas"}
+                  placeholder={
+                    isEn ? "Image URLs separated by commas" : "URLs de imágenes separadas por comas"
+                  }
                   className="w-full rounded-md border border-input bg-muted/30 px-3 py-2 text-[10px] shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-rocsta-green font-mono"
                 />
                 <p className="text-[9px] text-muted-foreground mt-1">

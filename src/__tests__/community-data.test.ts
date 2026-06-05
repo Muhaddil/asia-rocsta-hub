@@ -55,10 +55,7 @@ describe("community stats", () => {
 
   describe("totalContributions", () => {
     it("returns a number >= sum of parts + compatibilities + guides", () => {
-      const memberContributions = communityMembers.reduce(
-        (sum, m) => sum + m.contributions,
-        0,
-      );
+      const memberContributions = communityMembers.reduce((sum, m) => sum + m.contributions, 0);
       const expected = memberContributions + parts.length + compatibilities.length + guides.length;
       expect(communityStats.totalContributions).toBe(expected);
     });
@@ -66,7 +63,7 @@ describe("community stats", () => {
     it("is greater than parts + compatibilities + guides", () => {
       // Even with empty members, contributions = parts + compatibilities + guides
       expect(communityStats.totalContributions).toBeGreaterThanOrEqual(
-        parts.length + compatibilities.length + guides.length
+        parts.length + compatibilities.length + guides.length,
       );
     });
   });
