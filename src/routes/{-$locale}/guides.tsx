@@ -6,7 +6,7 @@ import { useLanguage } from "@/components/language-provider";
 import { useMetaTags } from "@/hooks/use-meta-tags";
 import { useDebounce, normalizeString } from "@/lib/utils";
 import { PageShell, Crumbs } from "@/components/page-shell";
-import { guides as staticGuides } from "@/data/guides";
+
 import { api, type ApiGuide } from "@/lib/api";
 import type { Guide, Motor, GuideLevel, PartCategory } from "@/data/types";
 import { localize } from "@/data/types";
@@ -164,13 +164,12 @@ function GuidesPage() {
 
   const [selectedGuide, setSelectedGuide] = useState<Guide | null>(null);
 
-  const { data: guides = staticGuides, isLoading: loading } = useQuery({
+  const { data: guides = [], isLoading: loading } = useQuery({
     queryKey: ["guides"],
     queryFn: async () => {
       const list = await api.getGuides();
       return list.map(toGuide);
     },
-    initialData: staticGuides,
     refetchInterval: 60000,
     refetchOnWindowFocus: true,
   });
@@ -339,7 +338,17 @@ function GuidesPage() {
           {t("guides.resultsFound", { count: filteredList.length })}
         </div>
 
-        {filteredList.length > 0 ? (
+        {!loading && guides.length === 0 ? (
+          <div className="rounded-xl border border-border bg-card p-12 text-center shadow-sm">
+            <div className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-rocsta-accent/10 text-rocsta-accent mb-3">
+              <BookOpen className="size-6" />
+            </div>
+            <h3 className="text-base font-bold text-foreground">{t("guides.noResults")}</h3>
+            <p className="mt-1 text-sm text-muted-foreground max-w-xs mx-auto">
+              {t("guides.noResultsDesc")}
+            </p>
+          </div>
+        ) : filteredList.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredList.map((guide) => (
               <article
@@ -417,12 +426,14 @@ function GuidesPage() {
             <p className="mt-1 text-sm text-muted-foreground max-w-xs mx-auto">
               {t("guides.noResultsDesc")}
             </p>
-            <button
-              onClick={clearFilters}
-              className="mt-4 inline-flex h-9 items-center justify-center rounded-md bg-rocsta-green px-4 text-xs font-bold text-primary-foreground hover:opacity-90 transition-all"
-            >
-              {t("ui.resetFilters")}
-            </button>
+            {hasActiveFilters && (
+              <button
+                onClick={clearFilters}
+                className="mt-4 inline-flex h-9 items-center justify-center rounded-md bg-rocsta-green px-4 text-xs font-bold text-primary-foreground hover:opacity-90 transition-all"
+              >
+                {t("ui.resetFilters")}
+              </button>
+            )}
           </div>
         )}
       </div>

@@ -10,6 +10,20 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "1.4.1",
+    date: "2026-06-08",
+    changes: [
+      {
+        es: "Se han eliminado las guías estáticas",
+        en: "Static guides have been removed",
+      },
+      {
+        es: "Se han actualizado las dependencias de la web",
+        en: "Web dependencies have been updated",
+      },
+    ],
+  },
+  {
     version: "1.4.0",
     date: "2026-06-05",
     changes: [

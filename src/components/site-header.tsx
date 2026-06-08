@@ -29,11 +29,11 @@ const SUGGESTED_SEARCHES: {
   term: Partial<Record<Language, string>>;
   typeKey: string;
 }[] = [
-    { term: { es: "Bomba inyectora", en: "Injection pump" }, typeKey: "header.badgeSwap" },
-    { term: { es: "Correa de distribución", en: "Timing belt" }, typeKey: "header.badgeGuide" },
-    { term: { es: "Pastillas de freno", en: "Brake pads" }, typeKey: "header.badgePart" },
-    { term: { es: "Caja de dirección", en: "Steering box" }, typeKey: "header.badgeIssue" },
-  ];
+  { term: { es: "Bomba inyectora", en: "Injection pump" }, typeKey: "header.badgeSwap" },
+  { term: { es: "Correa de distribución", en: "Timing belt" }, typeKey: "header.badgeGuide" },
+  { term: { es: "Pastillas de freno", en: "Brake pads" }, typeKey: "header.badgePart" },
+  { term: { es: "Caja de dirección", en: "Steering box" }, typeKey: "header.badgeIssue" },
+];
 
 const MOBILE_CATEGORIES = (t: (key: string) => string) => [
   { label: t("cat.engine"), to: "/parts" as const, tag: "engine" as const },

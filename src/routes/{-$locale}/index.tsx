@@ -309,34 +309,36 @@ function LocaleIndex() {
 
       <MaintenanceSchedule />
 
-      <section className="mb-12">
-        <div className="mb-6 flex items-center justify-between">
-          <h2 className="text-2xl font-bold tracking-tight text-foreground">
-            {t("home.guides.recent")}
-          </h2>
-          <Link
-            to={localePath("/guides")}
-            className="text-sm font-bold text-rocsta-green hover:underline"
-          >
-            {t("home.guides.all")}
-          </Link>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {recentGuides.map((guide) => (
-            <GuideCard
-              key={guide.id}
-              locale={locale || "en"}
-              img={guide.image || ""}
-              level={guide.level}
-              time={guide.time}
-              title={localize(guide.title, language)}
-              desc={localize(guide.description, language)}
-              contributions={guide.contributions}
-              advanced={guide.level !== "Principiante"}
-            />
-          ))}
-        </div>
-      </section>
+      {recentGuides.length > 0 && (
+        <section className="mb-12">
+          <div className="mb-6 flex items-center justify-between">
+            <h2 className="text-2xl font-bold tracking-tight text-foreground">
+              {t("home.guides.recent")}
+            </h2>
+            <Link
+              to={localePath("/guides")}
+              className="text-sm font-bold text-rocsta-green hover:underline"
+            >
+              {t("home.guides.all")}
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {recentGuides.map((guide) => (
+              <GuideCard
+                key={guide.id}
+                locale={locale || "en"}
+                img={guide.image || ""}
+                level={guide.level}
+                time={guide.time}
+                title={localize(guide.title, language)}
+                desc={localize(guide.description, language)}
+                contributions={guide.contributions}
+                advanced={guide.level !== "Principiante"}
+              />
+            ))}
+          </div>
+        </section>
+      )}
 
       <CommunityGallery />
 
