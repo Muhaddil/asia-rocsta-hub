@@ -50,7 +50,7 @@ function NotFoundComponent() {
           <p className="mt-3 text-base text-muted-foreground max-w-md">{t("notFound.desc")}</p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
             <Link
-              to="/"
+              to={localePath("/")}
               className="inline-flex items-center justify-center rounded-xl bg-rocsta-green px-6 py-3 text-sm font-bold text-primary-foreground hover:opacity-90 transition-all shadow-sm"
             >
               {t("notFound.back")}
@@ -88,7 +88,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
             {t("error.retry")}
           </button>
           <a
-            href="/"
+            href={localePath("/")}
             className="inline-flex items-center justify-center rounded-md border border-border bg-background px-4 py-2 text-sm font-medium hover:bg-muted"
           >
             {t("nav.home")}

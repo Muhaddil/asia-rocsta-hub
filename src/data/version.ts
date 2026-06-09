@@ -10,6 +10,36 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "1.4.2",
+    date: "2026-06-09",
+    changes: [
+      {
+        es: "Se ha corregido el rol de accesibilidad de los elementos del diagrama de sistemas, cambiándolo de enlace a botón",
+        en: "Fix accessibility role from link to button on system diagram elements",
+      },
+      {
+        es: "Se ha actualizado una dependencia de la web",
+        en: "Web dependency has been updated",
+      },
+      {
+        es: "Se ha reestructurado el sistema de rutas para utilizar localePath en todas las páginas en lugar de rutas codificadas",
+        en: "Rework routing to use localePath across all pages instead of hardcoded paths",
+      },
+      {
+        es: "Se han añadido etiquetas localizadas para los prefijos de búsqueda en todos los idiomas compatibles",
+        en: "Add localized search prefix labels for all supported locales",
+      },
+      {
+        es: "Se han eliminado los dos puntos finales redundantes en los textos de la interfaz de los archivos de idioma",
+        en: "Clean up redundant trailing colons from UI text in locale files",
+      },
+      {
+        es: "Se ha eliminado un elemento span vacío que no se utilizaba en el componente SiteFooter",
+        en: "Remove unused empty span in SiteFooter component",
+      },
+    ],
+  },
+  {
     version: "1.4.1",
     date: "2026-06-08",
     changes: [

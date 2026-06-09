@@ -7,6 +7,48 @@ import { localize, type LocalizedString, type SearchResult } from "./types";
 import type { Language } from "@/components/language-provider";
 import { normalizeString } from "@/lib/utils";
 
+/** Simple translation map for search result labels (avoids importing React context). */
+const SEARCH_LABELS: Record<string, Record<Language, string>> = {
+  "search.prefix.oem": { es: "OEM", en: "OEM", fr: "OEM", pt: "OEM", de: "OEM" },
+  "search.prefix.cat": { es: "Cat", en: "Cat", fr: "Cat", pt: "Cat", de: "Kat" },
+  "search.prefix.motor": { es: "Motor", en: "Engine", fr: "Moteur", pt: "Motor", de: "Motor" },
+  "search.prefix.swap": {
+    es: "Equivalencia",
+    en: "Equivalent",
+    fr: "Équivalent",
+    pt: "Equivalente",
+    de: "Äquivalent",
+  },
+  "search.prefix.donor": {
+    es: "Donante",
+    en: "Donor",
+    fr: "Donateur",
+    pt: "Doador",
+    de: "Spender",
+  },
+  "search.prefix.guide": { es: "Guía", en: "Guide", fr: "Guide", pt: "Guia", de: "Anleitung" },
+  "search.prefix.issue": { es: "Fallo", en: "Issue", fr: "Problème", pt: "Falha", de: "Fehler" },
+  "search.prefix.severity": {
+    es: "Severidad",
+    en: "Severity",
+    fr: "Sévérité",
+    pt: "Gravidade",
+    de: "Schweregrad",
+  },
+  "search.prefix.doc": {
+    es: "Documento",
+    en: "Document",
+    fr: "Document",
+    pt: "Documento",
+    de: "Dokument",
+  },
+  "search.prefix.lang": { es: "Idioma", en: "Language", fr: "Langue", pt: "Idioma", de: "Sprache" },
+};
+
+function searchLabel(key: string, lang: Language): string {
+  return SEARCH_LABELS[key]?.[lang] || SEARCH_LABELS[key]?.["es"] || key;
+}
+
 /** Joins all localized variants of a value for indexing across languages. */
 function indexed(value: string | LocalizedString | undefined): string {
   if (!value) return "";
@@ -41,7 +83,7 @@ export function globalSearch(query: string, lang: Language = "es"): SearchResult
         type: "part",
         id: part.id,
         title: name,
-        description: `OEM: ${localize(part.oem, lang)} | Cat: ${part.category} | Motor: ${part.motor}`,
+        description: `${searchLabel("search.prefix.oem", lang)}: ${localize(part.oem, lang)} | ${searchLabel("search.prefix.cat", lang)}: ${part.category} | ${searchLabel("search.prefix.motor", lang)}: ${part.motor}`,
         to: "/parts",
         params: { search: name, category: part.category },
       });
@@ -64,8 +106,8 @@ export function globalSearch(query: string, lang: Language = "es"): SearchResult
       results.push({
         type: "compatibility",
         id: comp.id,
-        title: `Equivalencia: ${rocstaPart}`,
-        description: `Donante: ${donorVehicle} (${comp.type})`,
+        title: `${searchLabel("search.prefix.swap", lang)}: ${rocstaPart}`,
+        description: `${searchLabel("search.prefix.donor", lang)}: ${donorVehicle} (${comp.type})`,
         to: "/compatibility",
         params: { search: rocstaPart, category: comp.category },
       });
@@ -87,7 +129,7 @@ export function globalSearch(query: string, lang: Language = "es"): SearchResult
         type: "guide",
         id: guide.id,
         title: localize(guide.title, lang),
-        description: `Guía (${guide.level}) | ${guide.time} | Motor: ${guide.motor}`,
+        description: `${searchLabel("search.prefix.guide", lang)} (${guide.level}) | ${guide.time} | ${searchLabel("search.prefix.motor", lang)}: ${guide.motor}`,
         to: "/guides",
         params: { slug: guide.slug },
       });
@@ -110,8 +152,8 @@ export function globalSearch(query: string, lang: Language = "es"): SearchResult
       results.push({
         type: "problem",
         id: prob.id,
-        title: `Fallo: ${title}`,
-        description: `Severidad: ${prob.severity} | ${symptom.substring(0, 80)}...`,
+        title: `${searchLabel("search.prefix.issue", lang)}: ${title}`,
+        description: `${searchLabel("search.prefix.severity", lang)}: ${prob.severity} | ${symptom.substring(0, 80)}...`,
         to: "/problems",
         params: { search: title },
       });
@@ -129,7 +171,7 @@ export function globalSearch(query: string, lang: Language = "es"): SearchResult
         type: "manual",
         id: man.id,
         title,
-        description: `Documento (${man.format.toUpperCase()}) | Idioma: ${man.language.toUpperCase()}`,
+        description: `${searchLabel("search.prefix.doc", lang)} (${man.format.toUpperCase()}) | ${searchLabel("search.prefix.lang", lang)}: ${man.language.toUpperCase()}`,
         to: "/manuals",
         params: { search: title },
       });

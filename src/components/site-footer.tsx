@@ -47,7 +47,6 @@ export function SiteFooter() {
           to={localePath("/changelog")}
           className="rounded border border-border/60 bg-muted/40 px-2 py-0.5 text-[11px] font-mono text-muted-foreground/70 hover:bg-muted/60"
         >
-          <span className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors" />
           v{CURRENT_VERSION}
         </Link>
       </div>

@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import {
   Search,
   BookOpen,
@@ -63,6 +63,7 @@ export const Route = createFileRoute("/{-$locale}/")({
 function LocaleIndex() {
   const { t, language } = useLanguage();
   const { locale } = Route.useParams();
+  const navigate = useNavigate();
 
   useMetaTags({
     title: getMetaTranslation("meta.home.title", language),
@@ -102,43 +103,43 @@ function LocaleIndex() {
 
   const QUICK_ACCESS = [
     {
-      to: `/${locale}/parts` as const,
+      to: "/parts" as const,
       icon: Wrench,
       label: t("home.quick.parts"),
       desc: t("home.quick.partsDesc"),
     },
     {
-      to: `/${locale}/compatibility` as const,
+      to: "/compatibility" as const,
       icon: GitCompare,
       label: t("home.quick.comp"),
       desc: t("home.quick.compDesc"),
     },
     {
-      to: `/${locale}/guides` as const,
+      to: "/guides" as const,
       icon: BookOpen,
       label: t("home.quick.guides"),
       desc: t("home.quick.guidesDesc"),
     },
     {
-      to: `/${locale}/problems` as const,
+      to: "/problems" as const,
       icon: AlertTriangle,
       label: t("home.quick.problems"),
       desc: t("home.quick.problemsDesc"),
     },
     {
-      to: `/${locale}/manuals` as const,
+      to: "/manuals" as const,
       icon: FileText,
       label: t("home.quick.manuals"),
       desc: t("home.quick.manualsDesc"),
     },
     {
-      to: `/${locale}/community` as const,
+      to: "/community" as const,
       icon: Users,
       label: t("home.quick.community"),
       desc: t("home.quick.communityDesc"),
     },
     {
-      to: `/${locale}/forum` as const,
+      to: "/forum" as const,
       icon: MessageSquare,
       label: t("home.quick.forum"),
       desc: t("home.quick.forumDesc"),
@@ -265,12 +266,12 @@ function LocaleIndex() {
                         key={p.id}
                         className="hover:bg-muted/40 transition-colors cursor-pointer"
                         onClick={() =>
-                          (window.location.href = `/${locale}/parts?search=${encodeURIComponent(name)}`)
+                          navigate({ to: localePath("/parts"), search: { search: name } })
                         }
                         onKeyDown={(e) => {
                           if (e.key === "Enter" || e.key === " ") {
                             e.preventDefault();
-                            window.location.href = `/${locale}/parts?search=${encodeURIComponent(name)}`;
+                            navigate({ to: localePath("/parts"), search: { search: name } });
                           }
                         }}
                         tabIndex={0}
@@ -363,12 +364,18 @@ function LocaleIndex() {
               <div
                 key={i.id}
                 onClick={() =>
-                  (window.location.href = `/${locale}/problems?search=${encodeURIComponent(title.substring(0, 15))}`)
+                  navigate({
+                    to: localePath("/problems"),
+                    search: { search: title.substring(0, 15) },
+                  })
                 }
                 onKeyDown={(e) => {
                   if (e.key === "Enter" || e.key === " ") {
                     e.preventDefault();
-                    window.location.href = `/${locale}/problems?search=${encodeURIComponent(title.substring(0, 15))}`;
+                    navigate({
+                      to: localePath("/problems"),
+                      search: { search: title.substring(0, 15) },
+                    });
                   }
                 }}
                 tabIndex={0}

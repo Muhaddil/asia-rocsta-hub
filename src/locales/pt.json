@@ -554,5 +554,15 @@
   "meta.comingSoon.title": "Em Breve — Asia Rocsta Archive",
   "meta.comingSoon.description": "Esta secção está em desenvolvimento. Fique atento às novidades do Asia Rocsta Archive.",
   "meta.comingSoon.ogTitle": "Em Breve — Asia Rocsta Archive",
-  "meta.comingSoon.ogDescription": "Esta secção está em desenvolvimento. Fique atento às novidades do Asia Rocsta Archive."
+  "meta.comingSoon.ogDescription": "Esta secção está em desenvolvimento. Fique atento às novidades do Asia Rocsta Archive.",
+  "search.prefix.oem": "OEM",
+  "search.prefix.cat": "Cat",
+  "search.prefix.motor": "Motor",
+  "search.prefix.swap": "Equivalente",
+  "search.prefix.donor": "Doador",
+  "search.prefix.guide": "Guia",
+  "search.prefix.issue": "Falha",
+  "search.prefix.severity": "Gravidade",
+  "search.prefix.doc": "Documento",
+  "search.prefix.lang": "Idioma"
 }

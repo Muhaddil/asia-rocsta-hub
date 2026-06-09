@@ -91,7 +91,7 @@ export function SystemDiagram() {
                   onKeyDown={(e) => {
                     if (e.key === "Enter" || e.key === " ") go(h.category);
                   }}
-                  role="link"
+                  role="button"
                   tabIndex={0}
                   aria-label={`${t("home.diagram.title")}: ${t(h.labelKey)}`}
                   className="cursor-pointer focus:outline-none focus:ring-2 focus:ring-rocsta-green focus:ring-offset-2 rounded-lg"
