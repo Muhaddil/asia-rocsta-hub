@@ -1,4 +1,4 @@
-export const CURRENT_VERSION = "1.4.0";
+export const CURRENT_VERSION = "1.4.2";
 
 export type Localized = { es: string; en: string; fr?: string; pt?: string; de?: string };
 
