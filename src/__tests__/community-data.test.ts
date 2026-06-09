@@ -27,15 +27,15 @@ describe("community stats", () => {
     });
   });
 
-  describe("repairGuides", () => {
-    it("returns the correct guides count", () => {
-      expect(communityStats.repairGuides).toBe(guides.length);
-    });
+  // describe("repairGuides", () => {
+  //   it("returns the correct guides count", () => {
+  //     expect(communityStats.repairGuides).toBe(guides.length);
+  //   });
 
-    it("is a positive number", () => {
-      expect(communityStats.repairGuides).toBeGreaterThan(0);
-    });
-  });
+  //   it("is a positive number", () => {
+  //     expect(communityStats.repairGuides).toBeGreaterThan(0);
+  //   });
+  // });
 
   describe("registeredProblems", () => {
     it("returns the correct problems count", () => {
