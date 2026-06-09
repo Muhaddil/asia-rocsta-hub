@@ -1,11 +1,14 @@
+import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { useLanguage } from "@/components/language-provider";
-import { api, getApiBase, type ApiGalleryEntry } from "@/lib/api";
+import { api, getApiBase } from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 import { localePath } from "@/lib/locale-helpers";
+import { GalleryLightbox } from "@/components/gallery-lightbox";
 
 const API_BASE = getApiBase();
+const HOMEPAGE_LIMIT = 6;
 
 function imageUrl(path: string): string {
   if (path.startsWith("http")) return path;
@@ -14,13 +17,18 @@ function imageUrl(path: string): string {
 
 export function CommunityGallery() {
   const { t } = useLanguage();
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
-  const { data: entries = [], isLoading: loading } = useQuery({
+  const { data: allEntries = [], isLoading: loading } = useQuery({
     queryKey: ["gallery"],
     queryFn: () => api.getGallery(),
     refetchInterval: 60000,
     refetchOnWindowFocus: true,
   });
+
+  const verifiedEntries = allEntries.filter((e) => e.verified);
+  const displayEntries = verifiedEntries.slice(0, HOMEPAGE_LIMIT);
+  const hasMore = verifiedEntries.length > HOMEPAGE_LIMIT;
 
   return (
     <section className="mb-12">
@@ -43,44 +51,71 @@ export function CommunityGallery() {
           <div className="col-span-full flex justify-center py-12">
             <Loader2 className="size-6 animate-spin text-muted-foreground" />
           </div>
-        ) : entries.length === 0 ? (
+        ) : displayEntries.length === 0 ? (
           <p className="col-span-full text-center text-sm text-muted-foreground py-12">
             {t("home.gallery.empty")}
           </p>
         ) : (
-          entries
-            .filter((e) => e.verified)
-            .map((e) => (
-              <article
-                key={e.id}
-                className="group overflow-hidden rounded-xl border border-border bg-card shadow-sm hover:shadow-md transition-all"
-              >
-                <div className="aspect-[4/3] overflow-hidden bg-muted">
-                  <img
-                    src={imageUrl(e.image)}
-                    alt={`Asia Rocsta ${e.year}`}
-                    loading="lazy"
-                    className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
-                  />
-                </div>
-                <div className="p-4 flex items-center justify-between">
-                  <div>
-                    <div className="text-sm font-extrabold text-foreground">
-                      Rocsta {e.year} · {e.motor}
-                    </div>
-                    <div className="text-xs text-muted-foreground mt-0.5">
-                      {e.country && `${e.country} — `}
-                      {e.owner}
-                    </div>
+          displayEntries.map((e, idx) => (
+            <article
+              key={e.id}
+              className="group overflow-hidden rounded-xl border border-border bg-card shadow-sm hover:shadow-md transition-all cursor-pointer"
+              onClick={() => setLightboxIndex(idx)}
+              onKeyDown={(ev) => {
+                if (ev.key === "Enter" || ev.key === " ") {
+                  ev.preventDefault();
+                  setLightboxIndex(idx);
+                }
+              }}
+              tabIndex={0}
+              role="button"
+            >
+              <div className="aspect-[4/3] overflow-hidden bg-muted">
+                <img
+                  src={imageUrl(e.image)}
+                  alt={`Asia Rocsta ${e.year}`}
+                  loading="lazy"
+                  className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
+                />
+              </div>
+              <div className="p-4 flex items-center justify-between">
+                <div>
+                  <div className="text-sm font-extrabold text-foreground">
+                    Rocsta {e.year} · {e.motor}
                   </div>
-                  {/* <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+                  <div className="text-xs text-muted-foreground mt-0.5">
+                    {e.country && `${e.country} — `}
+                    {e.owner}
+                  </div>
+                </div>
+                {/* <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
                   {t("home.gallery.placeholder")}
                 </span> */}
-                </div>
-              </article>
-            ))
+              </div>
+            </article>
+          ))
         )}
       </div>
+
+      {hasMore && !loading && (
+        <div className="mt-6 text-center">
+          <Link
+            to={localePath("/gallery")}
+            className="inline-flex items-center gap-1.5 text-sm font-bold text-rocsta-green hover:underline"
+          >
+            {t("home.gallery.viewAll")}
+          </Link>
+        </div>
+      )}
+
+      {lightboxIndex !== null && (
+        <GalleryLightbox
+          entries={verifiedEntries}
+          open={lightboxIndex !== null}
+          initialIndex={lightboxIndex}
+          onClose={() => setLightboxIndex(null)}
+        />
+      )}
     </section>
   );
 }

@@ -80,6 +80,11 @@ export default defineConfig({
         { path: "/fr/changelog" },
         { path: "/pt/changelog" },
         { path: "/de/changelog" },
+        { path: "/es/gallery" },
+        { path: "/en/gallery" },
+        { path: "/fr/gallery" },
+        { path: "/pt/gallery" },
+        { path: "/de/gallery" },
       ],
       router: {
         basepath: basePath,

@@ -7,3 +7,4 @@ dist
 server.ts
 server/
 .tanstack/
+.trae/

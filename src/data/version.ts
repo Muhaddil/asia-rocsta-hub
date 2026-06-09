@@ -1,4 +1,4 @@
-export const CURRENT_VERSION = "1.4.2";
+export const CURRENT_VERSION = "1.4.3";
 
 export type Localized = { es: string; en: string; fr?: string; pt?: string; de?: string };
 
@@ -9,6 +9,32 @@ export interface ChangelogEntry {
 }
 
 export const CHANGELOG: ChangelogEntry[] = [
+  {
+    version: "1.4.3",
+    date: "2026-06-09",
+    changes: [
+      {
+        es: "Se ha añadido una galería comunitaria con vista previa en la página principal y soporte para visualización ampliada de imágenes",
+        en: "Add community gallery with homepage preview and lightbox support",
+      },
+      {
+        es: "Se ha añadido una página completa de galería con paginación y traducciones multilingües",
+        en: "Add full gallery page with pagination and multi-language localization",
+      },
+      {
+        es: "Se han localizado los enlaces de navegación y las etiquetas SEO de la galería",
+        en: "Localize gallery navigation links and SEO meta tags",
+      },
+      {
+        es: "Se ha actualizado el sitemap para incluir las nuevas rutas de la galería",
+        en: "Update sitemap to include new gallery routes",
+      },
+      {
+        es: "Se ha actualizado la versión del proyecto a la 1.4.3",
+        en: "Bump project version to 1.4.3",
+      },
+    ],
+  },
   {
     version: "1.4.2",
     date: "2026-06-09",

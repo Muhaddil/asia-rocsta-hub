@@ -14,6 +14,7 @@ import {
   Users,
   MessageSquare,
   MoreHorizontal,
+  Camera,
 } from "lucide-react";
 import { useTheme } from "./theme-provider";
 import { useState, useEffect, useMemo, useRef } from "react";
@@ -56,6 +57,7 @@ const SECONDARY_NAV = (t: (key: string) => string) => [
   { label: t("nav.community"), to: "/community" },
   { label: t("nav.forum"), to: "/forum" },
   { label: t("nav.about"), to: "/about" },
+  { label: t("nav.gallery"), to: "/gallery" },
 ];
 
 export function SiteHeader() {
@@ -342,6 +344,13 @@ export function SiteHeader() {
                         className="flex items-center gap-2 py-1.5 hover:text-rocsta-green transition-colors"
                       >
                         <FileText className="size-4 text-rocsta-accent" /> {t("header.mobileAbout")}
+                      </Link>
+                      <Link
+                        to={localePath("/gallery")}
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="flex items-center gap-2 py-1.5 hover:text-rocsta-green transition-colors"
+                      >
+                        <Camera className="size-4 text-rocsta-accent" /> {t("header.mobileGallery")}
                       </Link>
                     </div>
                   </div>
