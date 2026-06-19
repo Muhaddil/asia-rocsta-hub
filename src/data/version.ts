@@ -1,4 +1,4 @@
-export const CURRENT_VERSION = "1.4.3";
+export const CURRENT_VERSION = "1.4.4";
 
 export type Localized = { es: string; en: string; fr?: string; pt?: string; de?: string };
 
@@ -9,6 +9,24 @@ export interface ChangelogEntry {
 }
 
 export const CHANGELOG: ChangelogEntry[] = [
+    {
+    version: "1.4.4",
+    date: "2026-06-09",
+    changes: [
+      {
+        es: "Se han arreglado unos datos incorrectos sobre las motorizaciones del Rocsta",
+        en: "Fix incorrect data about Rocsta engine options",
+      },
+      {
+        es: "Se han actualizado diversas dependencias de la web",
+        en: "Update several web dependencies",
+      },
+      {
+        es: "Se ha actualizado la versión del proyecto a la 1.4.4",
+        en: "Bump project version to 1.4.4",
+      },
+    ],
+  },
   {
     version: "1.4.3",
     date: "2026-06-09",
