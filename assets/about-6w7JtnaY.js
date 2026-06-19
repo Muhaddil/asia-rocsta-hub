@@ -1,4 +1,4 @@
-import{d as e,l as t,r as n}from"./useRouter-DeDOna9C.js";import{a as r,c as i,t as a}from"./locale-helpers-DjoQGWfv.js";import{r as o,t as s}from"./use-meta-tags-BexKZDjV.js";import{t as c}from"./info-DmzmPQgt.js";import{B as l,C as u,E as d,G as f,H as p,I as m,M as h,P as g,R as _,S as v,T as y,U as b,W as x,_ as S,g as C,h as w,j as T,t as E,w as ee,z as te}from"./index-iKgHZUcZ.js";import{a as ne,i as re,o as ie,r as ae,s as D,t as oe}from"./dist-BOSjdBa2.js";var O=e(t(),1),k={crumb:{es:`Acerca de`,en:`About`},title:{es:`Asia Rocsta — análisis técnico en profundidad`,en:`Asia Rocsta — in-depth technical analysis`},lead:{es:`El Rocsta es un todoterreno coreano fabricado por Asia Motors (filial de KIA) entre 1990 y 1997, inspirado abiertamente en la filosofía del Jeep CJ y construido sobre el chasis militar KIA KM410. Sus entrañas son japonesas: motores y cajas Mazda fabricados bajo licencia que hoy garantizan fiabilidad y disponibilidad de recambios.`,en:`The Rocsta is a Korean off-roader built by Asia Motors (a KIA subsidiary) between 1990 and 1997, openly inspired by the Jeep CJ philosophy and built on the KIA KM410 military chassis. Its mechanicals are Japanese: Mazda engines and gearboxes manufactured under licence, which today guarantee reliability and spare-part availability.`}},A=[{kind:`facts`,id:`identity`,title:{es:`Identidad del vehículo`,en:`Vehicle identity`},facts:[{label:{es:`Fabricante`,en:`Manufacturer`},value:{es:`Asia Motors Corporation (KIA)`,en:`Asia Motors Corporation (KIA)`},info:{tooltip:{es:`Asia Motors era filial de KIA Motors, ambos surcoreanos`,en:`Asia Motors was a subsidiary of KIA Motors, both South Korean`},dialog:{title:{es:`Sobre Asia Motors`,en:`About Asia Motors`},body:{es:`Asia Motors Co., Ltd. fue un fabricante surcoreano de vehículos especializado en todoterrenos y vehículos militares, fundado en 1964 en Seúl. Era filial de KIA Motors (fundada en 1944). En 1999, KIA absorbió definitivamente la marca.
+import{d as e,l as t,r as n}from"./useRouter-DeDOna9C.js";import{a as r,c as i,t as a}from"./locale-helpers-Du57u-dI.js";import{r as o,t as s}from"./use-meta-tags-k0-v0ik7.js";import{t as c}from"./info-a5lnJxI2.js";import{B as l,C as u,E as d,G as f,H as p,I as m,M as h,P as g,R as _,S as v,T as y,U as b,W as x,_ as S,g as C,h as w,j as T,t as E,w as ee,z as te}from"./index-Cc1dcL2d.js";import{a as ne,i as re,o as ie,r as ae,s as D,t as oe}from"./dist-BjNPJzP5.js";var O=e(t(),1),k={crumb:{es:`Acerca de`,en:`About`},title:{es:`Asia Rocsta — análisis técnico en profundidad`,en:`Asia Rocsta — in-depth technical analysis`},lead:{es:`El Rocsta es un todoterreno coreano fabricado por Asia Motors (filial de KIA) entre 1990 y 1997, inspirado abiertamente en la filosofía del Jeep CJ y construido sobre el chasis militar KIA KM410. Sus entrañas son japonesas: motores y cajas Mazda fabricados bajo licencia que hoy garantizan fiabilidad y disponibilidad de recambios.`,en:`The Rocsta is a Korean off-roader built by Asia Motors (a KIA subsidiary) between 1990 and 1997, openly inspired by the Jeep CJ philosophy and built on the KIA KM410 military chassis. Its mechanicals are Japanese: Mazda engines and gearboxes manufactured under licence, which today guarantee reliability and spare-part availability.`}},A=[{kind:`facts`,id:`identity`,title:{es:`Identidad del vehículo`,en:`Vehicle identity`},facts:[{label:{es:`Fabricante`,en:`Manufacturer`},value:{es:`Asia Motors Corporation (KIA)`,en:`Asia Motors Corporation (KIA)`},info:{tooltip:{es:`Asia Motors era filial de KIA Motors, ambos surcoreanos`,en:`Asia Motors was a subsidiary of KIA Motors, both South Korean`},dialog:{title:{es:`Sobre Asia Motors`,en:`About Asia Motors`},body:{es:`Asia Motors Co., Ltd. fue un fabricante surcoreano de vehículos especializado en todoterrenos y vehículos militares, fundado en 1964 en Seúl. Era filial de KIA Motors (fundada en 1944). En 1999, KIA absorbió definitivamente la marca.
 
 Antes del Rocsta, Asia Motors producía el KM410, un todoterreno militar del que deriva directamente el Rocsta. Tras el éxito del Rocsta civil, Asia Motors pasó a producir exclusivamente el modelo hasta su cierre.`,en:`Asia Motors Co., Ltd. was a South Korean vehicle manufacturer specialised in off-road and military vehicles, founded in 1964 in Seoul. It was a subsidiary of KIA Motors (founded in 1944). In 1999, KIA fully absorbed the brand.
 
@@ -214,29 +214,29 @@ Later versions (approx. from 1993) fitted multipoint electronic fuel injection (
 
 En la práctica, puedes usar gasolina 95 sin problema. No tiene sentido usar 98 ya que el motor no aprovecha la mayor resistencia a la detonación.`,en:`A compression ratio of 8.6:1 is low for a petrol engine of the era (contemporaries ranged 9.0–9.5:1). This allows using mid-octane fuel without detonation issues, but limits thermal efficiency and specific power.
 
-In practice, you can use RON 95 fuel without problems. There is no point using RON 98 as the engine does not benefit from the higher detonation resistance.`}}}},{label:{es:`Potencia`,en:`Power`},value:{es:`≈ 70 kW (95 CV) a 5.000 rpm`,en:`≈ 70 kW (95 hp) @ 5,000 rpm`},info:{tooltip:{es:`95 CV — suficiente para off-road, justo en carretera`,en:`95 hp — adequate for off-road, tight on road`},dialog:{title:{es:`Potencia del F8`,en:`F8 power output`},body:{es:`Con 95 CV, el F8 no es un motor potente en términos modernos, pero su par a 2.500 rpm (159 Nm) lo hace apto para todoterreno. La potencia máxima se alcanza a 5.000 rpm, lo que da un margen de giro útil.
+In practice, you can use RON 95 fuel without problems. There is no point using RON 98 as the engine does not benefit from the higher detonation resistance.`}}}},{label:{es:`Potencia`,en:`Power`},value:{es:`≈ 60 kW (81 CV) a 5.500 rpm`,en:`≈ 60 kW (81 hp) @ 5,500 rpm`},info:{tooltip:{es:`81 CV — suficiente para off-road, justo en carretera`,en:`81 hp — adequate for off-road, tight on road`},dialog:{title:{es:`Potencia del F8`,en:`F8 power output`},body:{es:`Con 81 CV, el F8 no es un motor potente en términos modernos, pero su par a 2.500 rpm (133 Nm) lo hace apto para todoterreno. La potencia máxima se alcanza a 5.500 rpm, lo que da un margen de giro útil.
 
-En carretera, mantener velocidades de crucero de 100-110 km/h es posible aunque forzando el motor. Adelantar requiere planificación. La relación de cambio del 5ª directa permite la velocidad de 120 km/h a ≈ 4.000 rpm, donde el motor está en su zona de consumo máximo.`,en:`With 95 hp, the F8 is not powerful by modern standards, but its torque at 2,500 rpm (159 Nm) makes it suitable for off-road. Peak power is reached at 5,000 rpm, giving a useful rev range.
+En carretera, mantener velocidades de crucero de 100-110 km/h es posible aunque forzando el motor. Adelantar requiere planificación. La relación de cambio del 5ª directa permite la velocidad de 120 km/h a ≈ 4.000 rpm, donde el motor está en su zona de consumo máximo.`,en:`With 81 hp, the F8 is not powerful by modern standards, but its torque at 2,500 rpm (133 Nm) makes it suitable for off-road. Peak power is reached at 5,500 rpm, giving a useful rev range.
 
-On road, cruising at 100-110 km/h is possible although the engine is working. Overtaking requires planning. The 5th direct gear allows 120 km/h at ≈ 4,000 rpm, where the engine is at its peak fuel consumption.`}}}},{label:{es:`Par`,en:`Torque`},value:{es:`159 Nm a 2.500 rpm`,en:`159 Nm @ 2,500 rpm`},info:{tooltip:{es:`Par bajo a bajas rpm — buena respuesta off-road`,en:`Torque low at low rpm — good off-road response`},dialog:{title:{es:`Par motor del F8`,en:`F8 torque`},body:{es:`El par de 159 Nm a tan solo 2.500 rpm es un valor bajo (para su época) pero entregado muy pronto. Esto permite al Rocsta moverse con fluidez en marchas cortas sin necesidad de revolucionar el motor.
+On road, cruising at 100-110 km/h is possible although the engine is working. Overtaking requires planning. The 5th direct gear allows 120 km/h at ≈ 4,000 rpm, where the engine is at its peak fuel consumption.`}}}},{label:{es:`Par`,en:`Torque`},value:{es:`133 Nm a 2.500 rpm`,en:`133 Nm @ 2,500 rpm`},info:{tooltip:{es:`Par modesto a bajas rpm — respuesta off-road progresiva`,en:`Modest low-rpm torque — progressive off-road response`},dialog:{title:{es:`Par motor del F8`,en:`F8 torque`},body:{es:`El par de 133 Nm a 2.500 rpm es un valor contenido pero entregado muy pronto. Esto permite al Rocsta moverse con fluidez en marchas cortas sin necesidad de revolucionar el motor.
 
 En off-road práctico:
 • 4L (reducción 2,05:1) permite circular a paso de peatón con el motor a ralentí, sin tocar el acelerador.
 • La progresividad del par es buena, sin picos ni caídas bruscas.
-• En arena o barro no hay suficiente par para levantar la rueda, lo que paradójicamente mejora la tracción.`,en:`The 159 Nm at just 2,500 rpm is a low value (for its era) but delivered very early. This allows the Rocsta to move smoothly in low gears without needing to rev the engine.
+• En arena o barro no hay suficiente par para levantar la rueda, lo que paradójicamente mejora la tracción.`,en:`The 133 Nm at 2,500 rpm is a modest value but delivered very early. This allows the Rocsta to move smoothly in low gears without needing to rev the engine.
 
 In practical off-road:
 • 4L (2.05:1 reduction) allows walking-speed travel at idle without touching the accelerator.
 • Torque progression is smooth, without peaks or sudden drops.
-• In sand or mud there is not enough torque to lift a wheel, paradoxically improving traction.`}}}},{label:{es:`Relación pot./peso`,en:`Power/weight`},value:{es:`≈ 56–58 kW/t`,en:`≈ 56–58 kW/t`},info:{tooltip:{es:`Peor que un Jimny (~65 kW/t), mejor que un Land Cruiser 70 (~45 kW/t)`,en:`Worse than a Jimny (~65 kW/t), better than a Land Cruiser 70 (~45 kW/t)`},dialog:{title:{es:`Relación potencia/peso del F8`,en:`F8 power-to-weight ratio`},body:{es:`La relación potencia/peso del F8 es de 56–58 kW/t, determinada por el peso del Rocsta LWB (≈ 1.200-1.250 kg). Para comparación:
-• Suzuki Samurai (1.3L): ≈ 48 kW/t (menos que el F8).
+• In sand or mud there is not enough torque to lift a wheel, paradoxically improving traction.`}}}},{label:{es:`Relación pot./peso`,en:`Power/weight`},value:{es:`≈ 48–50 kW/t`,en:`≈ 48–50 kW/t`},info:{tooltip:{es:`Similar a un Suzuki Samurai (~48 kW/t)`,en:`Similar to a Suzuki Samurai (~48 kW/t)`},dialog:{title:{es:`Relación potencia/peso del F8`,en:`F8 power-to-weight ratio`},body:{es:`La relación potencia/peso del F8 es de 48–50 kW/t, determinada por el peso del Rocsta LWB (≈ 1.200-1.250 kg). Para comparación:
+• Suzuki Samurai (1.3L): ≈ 48 kW/t (similar).
 • Suzuki Jimny actual: ≈ 65 kW/t (más).
-• Jeep Wrangler YJ (2.5L): ≈ 60 kW/t (similar).
+• Jeep Wrangler YJ (2.5L): ≈ 60 kW/t (más).
 
-No es un ratio deportivo, pero es suficiente para las capacidades del vehículo: subir montañas, cargar materiales o cruzar vadeos no suponen un problema.`,en:`The F8 power-to-weight ratio is 56–58 kW/t, determined by the Rocsta LWB weight (≈ 1,200-1,250 kg). For comparison:
-• Suzuki Samurai (1.3L): ≈ 48 kW/t (less than the F8).
+No es un ratio deportivo, pero es suficiente para las capacidades del vehículo: subir montañas, cargar materiales o cruzar vadeos no suponen un problema.`,en:`The F8 power-to-weight ratio is 48–50 kW/t, determined by the Rocsta LWB weight (≈ 1,200-1,250 kg). For comparison:
+• Suzuki Samurai (1.3L): ≈ 48 kW/t (similar).
 • Current Suzuki Jimny: ≈ 65 kW/t (more).
-• Jeep Wrangler YJ (2.5L): ≈ 60 kW/t (similar).
+• Jeep Wrangler YJ (2.5L): ≈ 60 kW/t (more).
 
 It is not a sporty ratio, but sufficient for the vehicle's capabilities: climbing mountains, carrying materials or crossing fords are not an issue.`}}}},{label:{es:`Bloque / culata`,en:`Block / head`},value:{es:`Bloque hierro fundido · culata aleación`,en:`Cast-iron block · alloy head`},info:{tooltip:{es:`Bloque de hierro muy duradero, culata ligera de aleación`,en:`Very durable cast-iron block, lightweight alloy head`},dialog:{title:{es:`Bloque y culata del F8`,en:`F8 block and head`},body:{es:`El F8 usa un bloque de hierro fundido y culata de aleación de aluminio — la combinación clásica de motores de los 80-90. Esto ofrece:
 • Bloque de hierro: muy resistente al desgaste y capaz de reparaciones por sobremedida (rectificado).
@@ -350,44 +350,44 @@ Desventajas: menor eficiencia que inyección directa, más ruidoso.`,en:`The R2 
 • This allows lower injection pressure and simpler nozzles than direct injection.
 
 Advantages: easy starting even without glow plugs.
-Disadvantages: lower efficiency than direct injection, noisier.`}}}},{label:{es:`Compresión`,en:`Compression ratio`},value:{es:`22,7 : 1`,en:`22.7 : 1`},info:{tooltip:{es:`Compresión muy alta — típica de diésel atmosférico`,en:`Very high compression — typical of naturally aspirated diesel`},dialog:{title:{es:`Compresión del R2`,en:`R2 compression ratio`},body:{es:`Con 22,7:1, el R2 tiene una de las relaciones de compresión más altas de cualquier motor diésel atmosférico. Esto es necesario porque:
+Disadvantages: lower efficiency than direct injection, noisier.`}}}},{label:{es:`Compresión`,en:`Compression ratio`},value:{es:`22,9 : 1`,en:`22.9 : 1`},info:{tooltip:{es:`Compresión muy alta — típica de diésel atmosférico`,en:`Very high compression — typical of naturally aspirated diesel`},dialog:{title:{es:`Compresión del R2`,en:`R2 compression ratio`},body:{es:`Con 22,9:1, el R2 tiene una de las relaciones de compresión más altas de cualquier motor diésel atmosférico. Esto es necesario porque:
 • La inyección indirecta en precámara tiene pérdidas térmicas.
 • La compresión alta genera suficiente calor para la autoignición del gasoil.
 • Garantiza arranque en frío sin calentadores.
 
-Una compresión baja ( < 18:1 ) en un cilindro indica desgaste: segmentos gastados, válvulas quemadas o junta de culata dañada. La diferencia máxima entre cilindros no debe superar 3:1.`,en:`At 22.7:1, the R2 has one of the highest compression ratios of any naturally aspirated diesel engine. This is necessary because:
+Una compresión baja ( < 18:1 ) en un cilindro indica desgaste: segmentos gastados, válvulas quemadas o junta de culata dañada. La diferencia máxima entre cilindros no debe superar 3:1.`,en:`At 22.9:1, the R2 has one of the highest compression ratios of any naturally aspirated diesel engine. This is necessary because:
 • Indirect injection in a pre-chamber has thermal losses.
 • The high compression generates enough heat for diesel autoignition.
 • Guarantees cold starting without glow plugs.
 
-Low compression ( < 18:1 ) in a cylinder indicates wear: worn rings, burnt valves or damaged head gasket. Maximum difference between cylinders must not exceed 3:1.`}}}},{label:{es:`Potencia`,en:`Power`},value:{es:`≈ 50 kW (68 CV) a 4.000 rpm`,en:`≈ 50 kW (68 hp) @ 4,000 rpm`},info:{tooltip:{es:`68 CV — muy justo, ideal para off-road lento`,en:`68 hp — very modest, ideal for slow off-road`},dialog:{title:{es:`Potencia del R2`,en:`R2 power output`},body:{es:`Con solo 68 CV, el R2 es el menos potente de los tres motores. Sin embargo, el par a bajas rpm lo compensa en off-road. La potencia máxima se alcanza a solo 4.000 rpm (contra las 5.000 del F8).
+Low compression ( < 18:1 ) in a cylinder indicates wear: worn rings, burnt valves or damaged head gasket. Maximum difference between cylinders must not exceed 3:1.`}}}},{label:{es:`Potencia`,en:`Power`},value:{es:`≈ 51,5 kW (70 CV) a 4.050 rpm`,en:`≈ 51.5 kW (70 hp) @ 4,050 rpm`},info:{tooltip:{es:`70 CV — muy justo, ideal para off-road lento`,en:`70 hp — very modest, ideal for slow off-road`},dialog:{title:{es:`Potencia del R2`,en:`R2 power output`},body:{es:`Con solo 70 CV, el R2 es el menos potente de los tres motores. Sin embargo, el par a bajas rpm lo compensa en off-road. La potencia máxima se alcanza a solo 4.050 rpm (contra las 5.500 del F8).
 
 En carretera, el R2 acelera lentamente: ≈ 0-100 km/h en unos 20 segundos. La velocidad máxima es de ≈ 110-115 km/h, y mantener 100 km/h en autovía supone tener el motor a ≈ 3.500 rpm, con el ruido y consumo resultantes.
 
-Para mejorar la potencia, se pueden instalar turbos de la serie B2200/Bongo después de 1993, con una presión de 0,5 bar.`,en:`At only 68 hp, the R2 is the least powerful of the three engines. However, low-rpm torque compensates off-road. Peak power is reached at only 4,000 rpm (vs 5,000 rpm of the F8).
+Para mejorar la potencia, se pueden instalar turbos de la serie B2200/Bongo después de 1993, con una presión de 0,5 bar.`,en:`At only 70 hp, the R2 is the least powerful of the three engines. However, low-rpm torque compensates off-road. Peak power is reached at only 4,050 rpm (vs 5,500 rpm of the F8).
 
 On road, the R2 accelerates slowly: ≈ 0-100 km/h in about 20 seconds. Top speed is ≈ 110-115 km/h, and maintaining 100 km/h on the motorway means running at ≈ 3,500 rpm, with resulting noise and consumption.
 
-To improve power, turbos from post-1993 B2200/Bongo can be fitted, at 0.5 bar boost.`}}}},{label:{es:`Par`,en:`Torque`},value:{es:`137 Nm a 2.200 rpm`,en:`137 Nm @ 2,200 rpm`},info:{tooltip:{es:`Par modesto pero a muy bajas rpm — tracción pura`,en:`Modest torque at very low rpm — pure traction`},dialog:{title:{es:`Par motor del R2`,en:`R2 torque`},body:{es:`Con 137 Nm a solo 2.200 rpm, el R2 tiene el par más bajo de los tres motores (F8: 159 Nm, RF: 142 Nm). Su ventaja es cómo entrega el par: comienza a los 1.200 rpm y se mantiene plano hasta las 2.500 rpm.
+To improve power, turbos from post-1993 B2200/Bongo can be fitted, at 0.5 bar boost.`}}}},{label:{es:`Par`,en:`Torque`},value:{es:`142 Nm a 2.500 rpm`,en:`142 Nm @ 2,500 rpm`},info:{tooltip:{es:`142 Nm a bajas rpm — par adecuado para tracción`,en:`142 Nm at low rpm — adequate pulling power`},dialog:{title:{es:`Par motor del R2`,en:`R2 torque`},body:{es:`Con 142 Nm a 2.500 rpm, el R2 tiene el par más bajo de los tres motores (F8: 133 Nm, RF: 121 Nm). Su ventaja es cómo entrega el par: comienza a los 1.200 rpm y se mantiene plano hasta las 2.500 rpm.
 
 En off-road práctico:
 • 4L permite subir pendientes del 60% sin acelerar.
 • La respuesta a bajas rpm es ideal para trial de precisión.
 • Al no tener turbo, la entrega de potencia es predecible y sin sobresaltos.
-• No hay 'lag' de turbo que pueda sorprender en terrenos técnicos.`,en:`At 137 Nm at only 2,200 rpm, the R2 has the lowest torque of the three engines (F8: 159 Nm, RF: 142 Nm). Its advantage is how torque is delivered: it starts at 1,200 rpm and stays flat until 2,500 rpm.
+• No hay 'lag' de turbo que pueda sorprender en terrenos técnicos.`,en:`At 142 Nm at 2,500 rpm, the R2 has the lowest torque of the three engines (F8: 133 Nm, RF: 121 Nm). Its advantage is how torque is delivered: it starts at 1,200 rpm and stays flat until 2,500 rpm.
 
 In practical off-road:
 • 4L allows climbing 60% gradients without accelerating.
 • Low-rpm response is ideal for precision trial.
 • Without a turbo, power delivery is predictable and smooth.
 • No turbo lag to surprise you on technical terrain.`}}}},{label:{es:`Relación pot./peso`,en:`Power/weight`},value:{es:`≈ 40–42 kW/t`,en:`≈ 40–42 kW/t`},info:{tooltip:{es:`Baja relación — el motor menos potente de los tres`,en:`Low ratio — the least powerful of the three`},dialog:{title:{es:`Relación potencia/peso del R2`,en:`R2 power-to-weight ratio`},body:{es:`Con 40-42 kW/t, el R2 es el más lento de los tres motores. Para referencia:
-• F8: 56-58 kW/t (un 40% más de potencia específica).
-• RF: 42,4 kW/t (similar, apenas superior).
+• F8: 48-50 kW/t (más potencia específica).
+• RF: ≈ 36 kW/t (similar).
 • Un Rocsta R2 pesa ≈ 1.270 kg con el motor diésel más pesado (190 kg vs 155 kg del F8).
 
 En la práctica: el R2 acelera lo justo para incorporarse al tráfico. Las cuestas largas requieren reducir marcha. El consumo en autovía a 100 km/h es alto (≈ 8-9 L/100 km) porque el motor va muy revolucionado.`,en:`At 40-42 kW/t, the R2 is the slowest of the three engines. For reference:
-• F8: 56-58 kW/t (40% more specific power).
-• RF: 42.4 kW/t (similar, barely superior).
+• F8: 48-50 kW/t (more specific power).
+• RF: ≈ 36 kW/t (similar).
 • A Rocsta R2 weighs ≈ 1,270 kg with the heavier diesel engine (190 kg vs 155 kg of the F8).
 
 In practice: the R2 accelerates barely enough to merge into traffic. Long hills require downshifting. Motorway consumption at 100 km/h is high (≈ 8-9 L/100 km) because the engine runs at high rpm.`}}}},{label:{es:`Bloque / culata`,en:`Block / head`},value:{es:`Bloque hierro fundido · culata aluminio`,en:`Cast-iron block · aluminium head`},info:{tooltip:{es:`Bloque robusto — culata de aluminio punto débil (grietas)`,en:`Robust block — aluminium head weak point (cracking)`},dialog:{title:{es:`Bloque y culata del R2`,en:`R2 block and head`},body:{es:`El R2 comparte bloque y culata con el RF. El bloque de hierro fundido es virtualmente indestructible. La culata de aluminio, sin embargo, es un punto crítico:
@@ -480,19 +480,25 @@ Se recomienda no llevar el depósito por debajo de 1/4 para evitar que la bomba 
 
 The R2 is the most fuel-efficient of the three engines, but its lower top speed means real motorway range is similar to the F8.
 
-It is recommended not to run the tank below 1/4 to prevent the injection pump from drawing air.`}}}}],notes:{es:`Versión más antigua, presente en los primeros Rocsta (1990–1993 aprox.). Motor de empuje con árbol de levas en bloque; robusto y de fácil reparación, aunque con más vibración que el RF. Derivado de la pickup Mazda B2200 / Bongo. Comparte muchas piezas con el RF.`,en:`Older version, found in early Rocsta units (approx. 1990–1993). Pushrod engine with block-mounted camshaft; robust and easy to repair, though noisier than the RF. Derived from the Mazda B2200 / Bongo pickup. Shares many parts with the RF.`}},{code:{es:`Mazda RF — 2.2 Diésel (segunda generación)`,en:`Mazda RF — 2.2 Diesel (second generation)`},fuel:{es:`Diésel`,en:`Diesel`},specs:[{label:{es:`Cilindrada`,en:`Displacement`},value:{es:`2.184 cc · 4 cil. en línea`,en:`2,184 cc · 4-cyl inline`},info:{tooltip:{es:`2,2 litros — misma cilindrada que el R2`,en:`2.2 litres — same displacement as the R2`},dialog:{title:{es:`Cilindrada del RF`,en:`RF displacement`},body:{es:`El RF comparte la misma cilindrada que el R2 (2.184 cc) y la misma relación bore×carrera (86×94 mm). La diferencia principal es la distribución: SOHC en el RF vs OHV en el R2.
+It is recommended not to run the tank below 1/4 to prevent the injection pump from drawing air.`}}}}],notes:{es:`Versión más antigua, presente en los primeros Rocsta (1990–1993 aprox.). Motor de empuje con árbol de levas en bloque; robusto y de fácil reparación, aunque con más vibración que el RF. Derivado de la pickup Mazda B2200 / Bongo. Comparte muchas piezas con el RF.`,en:`Older version, found in early Rocsta units (approx. 1990–1993). Pushrod engine with block-mounted camshaft; robust and easy to repair, though noisier than the RF. Derived from the Mazda B2200 / Bongo pickup. Shares many parts with the RF.`}},{code:{es:`Mazda RF — 2.0 Diésel (segunda generación)`,en:`Mazda RF — 2.0 Diesel (second generation)`},fuel:{es:`Diésel`,en:`Diesel`},specs:[{label:{es:`Cilindrada`,en:`Displacement`},value:{es:`1.998 cc · 4 cil. en línea`,en:`1,998 cc · 4-cyl inline`},info:{tooltip:{es:`2,0 litros — basado en el bloque FE de Mazda`,en:`2.0 litres — based on the Mazda FE block`},dialog:{title:{es:`Cilindrada del RF`,en:`RF displacement`},body:{es:`El RF es una variante diésel del motor Mazda FE, con sus mismas dimensiones cúbicas: 1.998 cm³ y configuración cuadrada de 86 mm de diámetro por 86 mm de carrera. No comparte cilindrada con el R2 (2.184 cc), aunque ambos se usaron en el Rocsta.
 
-Aunque el RF es más refinado y silencioso, su cilindrada y cubicaje son idénticos a los del R2. Muchas piezas internas (pistones, segmentos, casquillos de biela) son intercambiables entre ambos.`,en:`The RF shares the same displacement as the R2 (2,184 cc) and the same bore×stroke (86×94 mm). The main difference is the valvetrain: SOHC in the RF vs OHV in the R2.
+Comparativa:
+• R2 (OHV): 2.184 cc — 86×94 mm.
+• RF (SOHC): 1.998 cc — 86×86 mm.
+• Ambos comparten el bloque de hierro fundido, pero la culata y la distribución son distintas.`,en:`The RF is a diesel variant of the Mazda FE engine, sharing its same cubic dimensions: 1,998 cm³ and a square configuration of 86 mm bore by 86 mm stroke. It does not share displacement with the R2 (2,184 cc), although both were used in the Rocsta.
 
-Although the RF is more refined and quieter, its displacement is identical to the R2. Many internal parts (pistons, rings, conrod bushings) are interchangeable between the two.`}}}},{label:{es:`Bore × carrera`,en:`Bore × stroke`},value:{es:`86 × 94 mm`,en:`86 × 94 mm`},info:{tooltip:{es:`Carrera larga (undersquare) — par a bajas rpm`,en:`Long stroke (undersquare) — low-end torque`},dialog:{title:{es:`Bore × carrera del RF`,en:`RF bore × stroke`},body:{es:`La configuración 86×94 mm es idéntica a la del R2. La carrera larga (undersquare) favorece el par a bajas rpm, ideal para un motor todoterreno diésel.
+Comparison:
+• R2 (OHV): 2,184 cc — 86×94 mm.
+• RF (SOHC): 1,998 cc — 86×86 mm.
+• Both share the cast-iron block, but the head and valvetrain differ.`}}}},{label:{es:`Bore × carrera`,en:`Bore × stroke`},value:{es:`86 × 86 mm`,en:`86 × 86 mm`},info:{tooltip:{es:`Configuración cuadrada — misma relación que el FE gasolina`,en:`Square configuration — same as the FE petrol`},dialog:{title:{es:`Bore × carrera del RF`,en:`RF bore × stroke`},body:{es:`El RF hereda la configuración cuadrada del FE (86×86 mm), con diámetro y carrera idénticos. Esto lo diferencia del R2, que tiene carrera más larga (94 mm).
 
-• La velocidad media del pistón a 4.000 rpm es de ≈ 12,5 m/s, dentro de los límites seguros para un motor diésel atmosférico.
-• La biela tiene una relación de 1,65 entre longitud y carrera (biela/carrera), que es normal para un diésel de esta época.
-• La configuración de carrera larga también contribuye a la alta compresión (22,9:1).`,en:`The 86×94 mm configuration is identical to the R2. The long stroke (undersquare) favours low-end torque, ideal for a diesel off-road engine.
+• La velocidad media del pistón a 4.000 rpm es de ≈ 11,5 m/s, inferior a la del R2.
+• La relación biela/carrera es más favorable que en el R2, reduciendo el desgaste lateral.
+• Al ser cuadrado (bore = stroke), ofrece un equilibrio entre par a bajas rpm y capacidad de giro.`,en:`The RF inherits the square configuration from the FE (86×86 mm), with identical bore and stroke. This differentiates it from the R2, which has a longer stroke (94 mm).
 
-• Mean piston speed at 4,000 rpm is ≈ 12.5 m/s, within safe limits for a naturally aspirated diesel.
-• The conrod length/stroke ratio is 1.65, normal for a diesel of this era.
-• The long stroke also contributes to the high compression ratio (22.9:1).`}}}},{label:{es:`Distribución`,en:`Valvetrain`},value:{es:`SOHC 8v (árbol de levas en cabeza)`,en:`SOHC 8v (overhead camshaft)`},info:{tooltip:{es:`SOHC — más refinado que el OHV del R2`,en:`SOHC — more refined than the R2's OHV`},dialog:{title:{es:`Distribución del RF`,en:`RF valvetrain`},body:{es:`El RF usa un árbol de levas en cabeza (SOHC) con 8 válvulas, accionado por correa dentada. Esta es su mejora principal sobre el R2:
+• Mean piston speed at 4,000 rpm is ≈ 11.5 m/s, lower than the R2.
+• The conrod/stroke ratio is more favourable than the R2, reducing side wear.
+• Being square (bore = stroke), it offers a balance between low-end torque and revving ability.`}}}},{label:{es:`Distribución`,en:`Valvetrain`},value:{es:`SOHC 8v (árbol de levas en cabeza)`,en:`SOHC 8v (overhead camshaft)`},info:{tooltip:{es:`SOHC — más refinado que el OHV del R2`,en:`SOHC — more refined than the R2's OHV`},dialog:{title:{es:`Distribución del RF`,en:`RF valvetrain`},body:{es:`El RF usa un árbol de levas en cabeza (SOHC) con 8 válvulas, accionado por correa dentada. Esta es su mejora principal sobre el R2:
 
 Ventajas:
 • Más silencioso (sin empujadores).
@@ -530,49 +536,47 @@ Al igual que en el R2, una diferencia entre cilindros > 3 bar indica problemas l
 
 RF compression is measured in bar (normally 28-32 bar cold). Values below 22 bar indicate severe wear.
 
-As with the R2, a difference between cylinders > 3 bar indicates localised problems (stuck rings, burnt valve).`}}}},{label:{es:`Potencia`,en:`Power`},value:{es:`≈ 53 kW (72 CV) a 4.050 rpm`,en:`≈ 53 kW (72 hp) @ 4,050 rpm`},info:{tooltip:{es:`72 CV — apenas 4 CV más que el R2`,en:`72 hp — barely 4 hp more than the R2`},dialog:{title:{es:`Potencia del RF`,en:`RF power output`},body:{es:`Con 72 CV, el RF ofrece solo 4 CV más que el R2. La potencia máxima se alcanza a 4.050 rpm (similar al R2). La mejora principal no es la potencia máxima, sino cómo se entrega: más suave y silenciosamente, gracias al SOHC.
+As with the R2, a difference between cylinders > 3 bar indicates localised problems (stuck rings, burnt valve).`}}}},{label:{es:`Potencia`,en:`Power`},value:{es:`≈ 45 kW (61 CV) a 4.000 rpm`,en:`≈ 45 kW (61 hp) @ 4,000 rpm`},info:{tooltip:{es:`61 CV — potencia modesta, típica de diésel atmosférico`,en:`61 hp — modest power, typical of NA diesel`},dialog:{title:{es:`Potencia del RF`,en:`RF power output`},body:{es:`Con 61 CV, el RF ofrece 9 CV menos que el R2. La potencia máxima se alcanza a 4.000 rpm. La ventaja del RF sobre el R2 no es la potencia, sino el refinamiento: el SOHC es más silencioso y suave que el OHV de empujadores.
 
 En carretera:
-• 0-100 km/h: ≈ 18-20 segundos (similar al R2).
-• Velocidad máxima: ≈ 115-120 km/h (ligeramente mejor).
+• 0-100 km/h: ≈ 20-22 segundos.
+• Velocidad máxima: ≈ 110-115 km/h.
 • Consumo: 7,5-9,5 L/100 km en carretera.
 
-La ventaja real del RF es que el motor va más 'desahogado' en autovía: a 100 km/h gira a ≈ 3.200 rpm (vs 3.500 rpm del R2).`,en:`At 72 hp, the RF offers only 4 hp more than the R2. Peak power is reached at 4,050 rpm (similar to the R2). The main improvement is not peak power, but how it is delivered: smoother and quieter, thanks to the SOHC.
+El RF atmosférico es el más lento de los tres motores, pero en off-road su par a bajas rpm (121 Nm a 2.750 rpm) lo hace perfectamente funcional.`,en:`At 61 hp, the RF offers 9 hp less than the R2. Peak power is reached at 4,000 rpm. The RF's advantage over the R2 is not power, but refinement: the SOHC is quieter and smoother than the OHV pushrod design.
 
 On road:
-• 0-100 km/h: ≈ 18-20 seconds (similar to the R2).
-• Top speed: ≈ 115-120 km/h (slightly better).
+• 0-100 km/h: ≈ 20-22 seconds.
+• Top speed: ≈ 110-115 km/h.
 • Consumption: 7.5-9.5 L/100 km on road.
 
-The real advantage of the RF is that the engine runs more 'relaxed' on the motorway: at 100 km/h it runs at ≈ 3,200 rpm (vs 3,500 rpm for the R2).`}}}},{label:{es:`Par`,en:`Torque`},value:{es:`142 Nm a 2.500 rpm`,en:`142 Nm @ 2,500 rpm`},info:{tooltip:{es:`142 Nm — 5 Nm más que el R2, entrega más lineal`,en:`142 Nm — 5 Nm more than R2, smoother delivery`},dialog:{title:{es:`Par motor del RF`,en:`RF torque`},body:{es:`Con 142 Nm a 2.500 rpm, el RF ofrece 5 Nm más que el R2 (137 Nm), llegando a 500 rpm más tarde (2.500 vs 2.200 rpm).
-
-El par del RF es más lineal y progresivo que el del R2. La curva es prácticamente plana entre 1.800 y 3.000 rpm, lo que da una sensación de empuje constante.
+The naturally aspirated RF is the slowest of the three engines, but off-road its low-end torque (121 Nm at 2,750 rpm) makes it perfectly functional.`}}}},{label:{es:`Par`,en:`Torque`},value:{es:`121 Nm a 2.750 rpm`,en:`121 Nm @ 2,750 rpm`},info:{tooltip:{es:`121 Nm — menos que el R2, pero entrega más progresiva`,en:`121 Nm — less than the R2, but smoother delivery`},dialog:{title:{es:`Par motor del RF`,en:`RF torque`},body:{es:`Con 121 Nm a 2.750 rpm, el RF tiene el par más bajo de los tres motores (F8: 133 Nm, R2: 142 Nm). Sin embargo, su curva de par es más lineal y progresiva.
 
 En off-road:
-• Ideal para escalada técnica y rocosa.
+• Ideal para escalada técnica donde se necesita precisión.
 • La progresividad evita pérdidas de tracción por exceso de par.
-• Baja reducción (4L) permite circular a ritmo de senderismo.`,en:`At 142 Nm @ 2,500 rpm, the RF offers 5 Nm more than the R2 (137 Nm), arriving 500 rpm later (2,500 vs 2,200 rpm).
-
-The RF torque is more linear and progressive than the R2. The curve is virtually flat between 1,800 and 3,000 rpm, providing a constant pulling sensation.
+• Baja reducción (4L) permite circular a ritmo de senderismo.
+• Al no tener turbo, la entrega de potencia es predecible y sin sobresaltos.`,en:`At 121 Nm @ 2,750 rpm, the RF has the lowest torque of the three engines (F8: 133 Nm, R2: 142 Nm). However, its torque curve is more linear and progressive.
 
 Off-road:
-• Ideal for technical and rocky climbing.
+• Ideal for technical climbing where precision is needed.
 • Progressiveness avoids traction loss from excess torque.
-• Low reduction (4L) allows hiking-pace travel.`}}}},{label:{es:`Relación pot./peso`,en:`Power/weight`},value:{es:`≈ 42,4 kW/t`,en:`≈ 42.4 kW/t`},info:{tooltip:{es:`42,4 kW/t — apenas superior al R2 (40-42 kW/t)`,en:`42.4 kW/t — barely higher than R2 (40-42 kW/t)`},dialog:{title:{es:`Relación potencia/peso del RF`,en:`RF power-to-weight ratio`},body:{es:`Con 42,4 kW/t, el RF es casi idéntico al R2 (40-42 kW/t) en relación potencia/peso. Aunque el RF tiene 4 CV más, su mayor peso (197 kg vs 190 kg) anula la ventaja.
+• Low reduction (4L) allows hiking-pace travel.
+• Without a turbo, power delivery is predictable and smooth.`}}}},{label:{es:`Relación pot./peso`,en:`Power/weight`},value:{es:`≈ 36 kW/t`,en:`≈ 36 kW/t`},info:{tooltip:{es:`36 kW/t — la más baja de los tres motores`,en:`36 kW/t — the lowest of the three engines`},dialog:{title:{es:`Relación potencia/peso del RF`,en:`RF power-to-weight ratio`},body:{es:`Con 36 kW/t, el RF es el que peor relación potencia/peso ofrece de los tres.
 
 Comparativa RF vs. competidores de época:
 • Land Rover 200Tdi: ≈ 50 kW/t (mejor, turbo).
 • Mitsubishi 4D56 T: ≈ 54 kW/t (mejor, turbo).
-• Mercedes-Benz OM616 (G-Wagen 240D): ≈ 35 kW/t (peor).
+• Mercedes-Benz OM616 (G-Wagen 240D): ≈ 35 kW/t (similar).
 
-El RF no es rápido, pero es suficiente.`,en:`At 42.4 kW/t, the RF is virtually identical to the R2 (40-42 kW/t) in power-to-weight ratio. Although the RF has 4 hp more, its greater weight (197 kg vs 190 kg) cancels the advantage.
+El RF no es rápido, pero en todoterreno es suficiente con la reductora.`,en:`At 36 kW/t, the RF has the worst power-to-weight ratio of the three.
 
 RF vs. contemporaries:
 • Land Rover 200Tdi: ≈ 50 kW/t (better, turbo).
 • Mitsubishi 4D56 T: ≈ 54 kW/t (better, turbo).
-• Mercedes-Benz OM616 (G-Wagen 240D): ≈ 35 kW/t (worse).
+• Mercedes-Benz OM616 (G-Wagen 240D): ≈ 35 kW/t (similar).
 
-The RF is not fast, but it is adequate.`}}}},{label:{es:`Bloque / culata`,en:`Block / head`},value:{es:`Bloque hierro fundido · culata aluminio`,en:`Cast-iron block · aluminium head`},info:{tooltip:{es:`Mismo bloque R2, diferente culata SOHC`,en:`Same R2 block, different SOHC head`},dialog:{title:{es:`Bloque y culata del RF`,en:`RF block and head`},body:{es:`El RF comparte el bloque de hierro fundido con el R2 (mismos cilindros, mismas cotas). La culata de aluminio es diferente: aloja el árbol de levas en cabeza en lugar de tener alojamiento para empujadores.
+The RF is not fast, but with low-range gearing it is adequate off-road.`}}}},{label:{es:`Bloque / culata`,en:`Block / head`},value:{es:`Bloque hierro fundido · culata aluminio`,en:`Cast-iron block · aluminium head`},info:{tooltip:{es:`Mismo bloque R2, diferente culata SOHC`,en:`Same R2 block, different SOHC head`},dialog:{title:{es:`Bloque y culata del RF`,en:`RF block and head`},body:{es:`El RF comparte el bloque de hierro fundido con el R2 (mismos cilindros, mismas cotas). La culata de aluminio es diferente: aloja el árbol de levas en cabeza en lugar de tener alojamiento para empujadores.
 
 Esto significa que:
 • El bloque es el mismo y muchas piezas internas son intercambiables.
@@ -646,7 +650,7 @@ Recomendación: añadir aditivo antigel al diésel en inviernos severos. El gaso
 
 Compared to the R2, the RF consumes slightly more on road (8.5 vs 8 L/100 km average) but offers better motorway behaviour.
 
-Recommendation: add anti-gel additive to diesel in severe winters. Diesel fuel can form paraffin that clogs filters at temperatures < -10°C.`}}}}],notes:{es:`La elección lógica para off-road puro: par a bajas revoluciones ideal para escalar rocas o salir del barro. Más refinado y silencioso que el R2 gracias al SOHC. Consumo notablemente más bajo que el gasolina. Correa de distribución crítica: cambio obligatorio cada 80.000 km o 5 años. Derivado de las pickups Mazda B2200 / E2200 / Bongo.`,en:`The logical choice for pure off-road: low-rpm torque ideal for crawling rocks or escaping mud. More refined and quieter than the R2 thanks to the SOHC head. Significantly lower fuel consumption than the petrol. Critical timing belt: must be replaced every 80,000 km or 5 years. Derived from the Mazda B2200 / E2200 / Bongo pickups.`}}]},{kind:`facts`,id:`chassis-spec`,title:{es:`Suspensión, frenos y dirección`,en:`Suspension, brakes & steering`},intro:{es:`No esperes confort de sedán: el Rocsta fue diseñado para trabajar. Configuración antigua, simple e indestructible, con gran capacidad de carga a costa del confort y la estabilidad en curva.`,en:`Don't expect sedan-like comfort: the Rocsta was built to work. An old-school, simple and indestructible setup with great load capacity at the expense of ride comfort and cornering stability.`},facts:[{label:{es:`Suspensión delantera`,en:`Front suspension`},value:{es:`Eje rígido con ballestas longitudinales y amortiguadores hidráulicos`,en:`Live axle with longitudinal leaf springs and hydraulic dampers`},info:{tooltip:{es:`Eje rígido Dana 35 — robusto pero incómodo`,en:`Dana 35 live axle — robust but uncomfortable`},dialog:{title:{es:`Suspensión delantera`,en:`Front suspension`},body:{es:`El Rocsta usa un eje rígido Dana 35 delantero con ballestas longitudinales (leaf springs) y amortiguadores hidráulicos telescópicos. Este diseño es heredado del KM410 militar.
+Recommendation: add anti-gel additive to diesel in severe winters. Diesel fuel can form paraffin that clogs filters at temperatures < -10°C.`}}}}],notes:{es:`La elección lógica para off-road puro: par a bajas revoluciones ideal para escalar rocas o salir del barro. Más refinado y silencioso que el R2 gracias al SOHC. Consumo notablemente más bajo que el gasolina. Correa de distribución crítica: cambio obligatorio cada 80.000 km o 5 años. Derivado del motor Mazda FE de la serie 626 / Capella.`,en:`The logical choice for pure off-road: low-rpm torque ideal for crawling rocks or escaping mud. More refined and quieter than the R2 thanks to the SOHC head. Significantly lower fuel consumption than the petrol. Critical timing belt: must be replaced every 80,000 km or 5 years. Derived from the Mazda FE engine of the 626 / Capella series.`}}]},{kind:`facts`,id:`chassis-spec`,title:{es:`Suspensión, frenos y dirección`,en:`Suspension, brakes & steering`},intro:{es:`No esperes confort de sedán: el Rocsta fue diseñado para trabajar. Configuración antigua, simple e indestructible, con gran capacidad de carga a costa del confort y la estabilidad en curva.`,en:`Don't expect sedan-like comfort: the Rocsta was built to work. An old-school, simple and indestructible setup with great load capacity at the expense of ride comfort and cornering stability.`},facts:[{label:{es:`Suspensión delantera`,en:`Front suspension`},value:{es:`Eje rígido con ballestas longitudinales y amortiguadores hidráulicos`,en:`Live axle with longitudinal leaf springs and hydraulic dampers`},info:{tooltip:{es:`Eje rígido Dana 35 — robusto pero incómodo`,en:`Dana 35 live axle — robust but uncomfortable`},dialog:{title:{es:`Suspensión delantera`,en:`Front suspension`},body:{es:`El Rocsta usa un eje rígido Dana 35 delantero con ballestas longitudinales (leaf springs) y amortiguadores hidráulicos telescópicos. Este diseño es heredado del KM410 militar.
 
 Ventajas:
 • Extremadamente robusto y sencillo.
