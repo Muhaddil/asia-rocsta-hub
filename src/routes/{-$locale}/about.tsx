@@ -99,15 +99,15 @@ function InfoIcon({ info, lang }: { info: AboutInfo; lang: "es" | "en" }) {
       </Tooltip>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="max-w-md">
+        <DialogContent className="max-w-md max-h-[85dvh] grid-rows-[auto_minmax(0,1fr)]">
           <DialogHeader>
             <DialogTitle>{dialogTitle}</DialogTitle>
-            <DialogDescription asChild>
-              <div className="text-sm text-muted-foreground leading-relaxed whitespace-pre-line mt-2">
-                {dialogBody}
-              </div>
-            </DialogDescription>
           </DialogHeader>
+          <DialogDescription asChild>
+            <div className="text-sm text-muted-foreground leading-relaxed whitespace-pre-line overflow-y-auto min-h-0">
+              {dialogBody}
+            </div>
+          </DialogDescription>
         </DialogContent>
       </Dialog>
     </>

@@ -1,4 +1,4 @@
-export const CURRENT_VERSION = "1.4.41";
+export const CURRENT_VERSION = "1.4.5";
 
 export type Localized = { es: string; en: string; fr?: string; pt?: string; de?: string };
 
@@ -9,6 +9,24 @@ export interface ChangelogEntry {
 }
 
 export const CHANGELOG: ChangelogEntry[] = [
+  {
+    version: "1.4.5",
+    date: "2026-06-24",
+    changes: [
+      {
+        es: "Se han añadido guías detalladas de RPM para Asia Rocsta 1.8 gasolina y 2.2 diésel en about.ts, incluyendo rangos de RPM óptimos, zonas de par y riesgos asociados.",
+        en: "Added detailed RPM guides for Asia Rocsta 1.8 Petrol and 2.2 Diesel in about.ts, including optimal RPM ranges, torque zones, and associated risks.",
+      },
+      {
+        es: "Se ha modificado el componente de diálogo en el apartado de Acerca de para mejorar el diseño y el manejo de desbordamientos.",
+        en: "Modified dialog component in the About section for improved layout and overflow handling.",
+      },
+      {
+        es: "Se ha actualizado la versión del proyecto a la 1.4.5",
+        en: "Bump project version to 1.4.5",
+      },
+    ],
+  },
   {
     version: "1.4.41",
     date: "2026-06-24",

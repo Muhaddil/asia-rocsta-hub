@@ -1397,7 +1397,184 @@ export const aboutSections: AboutSection[] = [
     ],
   },
 
-  // 5 — Suspensión, frenos y ruedas
+  // 5 — Guía de RPM
+  {
+    kind: "facts",
+    id: "rpm-guide-18",
+    title: {
+      es: "Guía de RPM — Asia Rocsta 1.8 Gasolina",
+      en: "RPM guide — Asia Rocsta 1.8 Petrol",
+    },
+    intro: {
+      es:
+        "Conocer el régimen de revoluciones adecuado es clave para prolongar la vida del motor y " +
+        "optimizar el consumo. Los motores 1.8 de este modelo (de origen Mazda) son atmosféricos y " +
+        'carburados (en algunas versiones), por lo que responden mejor al llevarlos ligeramente "alegres" ' +
+        "(por encima de las 2.500 RPM) que al dejarlos caer de vueltas en marchas largas.",
+      en:
+        "Knowing the correct RPM range is key to extending engine life and optimising fuel consumption. " +
+        "The 1.8 engines in this model (Mazda origin) are naturally aspirated and carburetted (in some " +
+        'versions), so they respond better when driven slightly "lively" (above 2,500 RPM) than when ' +
+        "allowed to drop in revs in high gears.",
+    },
+    facts: [
+      {
+        label: { es: "Ralentí", en: "Idle" },
+        value: { es: "800 – 950 RPM", en: "800 – 950 RPM" },
+        info: {
+          tooltip: {
+            es: "Punto muerto, motor en vacío",
+            en: "Neutral, engine idling",
+          },
+          dialog: {
+            title: { es: "Régimen de ralentí", en: "Idle speed" },
+            body: {
+              es: "En punto muerto, el motor F8 debe mantenerse entre 800 y 950 RPM. Un ralentí muy bajo (< 700 RPM) puede indicar fugas de aire, carburador desregulado o bujías sucias. Un ralentí muy alto (> 1.100 RPM) suele ser por mariposa de aire atascada o regulador de ralentí defectuoso.",
+              en: "In neutral, the F8 engine should maintain between 800 and 950 RPM. Very low idle (< 700 RPM) may indicate air leaks, misadjusted carburettor or fouled plugs. Very high idle (> 1,100 RPM) is usually due to a stuck air butterfly or faulty idle regulator.",
+            },
+          },
+        },
+      },
+      {
+        label: { es: "Crucero y ahorro", en: "Cruise & economy" },
+        value: { es: "3.000 – 3.500 RPM", en: "3,000 – 3,500 RPM" },
+        info: {
+          tooltip: {
+            es: "Zona óptima en carretera — par máximo",
+            en: "Optimal road zone — maximum torque",
+          },
+          dialog: {
+            title: { es: "Zona de crucero", en: "Cruise zone" },
+            body: {
+              es: "A estas revoluciones el motor entrega su mejor fuerza (par máximo a 3.000 RPM) y trabaja de manera desahogada. Es la zona ideal para circular por carretera: el motor no sufre, el consumo es razonable y tienes margen para acelerar sin necesidad de reducir marcha.\n\nVelocidades aproximadas con neumáticos 215/75R15 y diferencial 4,875:1:\n• 3ª marcha (1,435:1): 57 – 66 km/h\n• 4ª marcha (1,000:1): 82 – 95 km/h\n• 5ª marcha (0,894:1): 91 – 107 km/h\n\nLa 5ª marcha es overdrive (0,894:1), lo que permite mantener velocidades de crucero con el motor en esta zona sin excesivo consumo.\n\n⚠ Velocidades teóricas calculadas a partir de las relaciones de transmisión. La velocidad real puede variar por desgaste del neumático, presión de inflado, carga del vehículo y resistencia aerodinámica (la carrocería de la Rocsta, con su diseño cuadrado, genera una resistencia al aire considerable).",
+              en: "At these revs the engine delivers its best force (maximum torque at 3,000 RPM) and runs freely. This is the ideal zone for road driving: the engine is not stressed, consumption is reasonable and you have margin to accelerate without downshifting.\n\nApproximate speeds with 215/75R15 tyres and 4.875:1 final drive:\n• 3rd gear (1.435:1): 57 – 66 km/h\n• 4th gear (1.000:1): 82 – 95 km/h\n• 5th gear (0.894:1): 91 – 107 km/h\n\n5th gear is overdrive (0.894:1), allowing cruising speeds with the engine in this zone without excessive consumption.\n\n⚠ Theoretical speeds calculated from transmission ratios. Actual speed may vary due to tyre wear, inflation pressure, vehicle load and aerodynamic drag (the Rocsta's boxy body generate considerable air resistance).",
+            },
+          },
+        },
+      },
+      {
+        label: { es: "Potencia máxima", en: "Maximum power" },
+        value: { es: "4.500 – 5.500 RPM", en: "4,500 – 5,500 RPM" },
+        info: {
+          tooltip: {
+            es: "Adelantamientos y pendientes — consumo alto",
+            en: "Overtaking and hills — high consumption",
+          },
+          dialog: {
+            title: { es: "Zona de máxima potencia", en: "Maximum power zone" },
+            body: {
+              es: "El motor empujará bien en esta zona, pero el consumo de combustible aumentará considerablemente. Úsala para adelantamientos, subir cuestas pronunciadas o incorporaciones a autovía. La potencia máxima (81 CV) se alcanza a las 5.500 RPM.\n\nVelocidades aproximadas con neumáticos 215/75R15 y diferencial 4,875:1:\n• 3ª marcha (1,435:1): 85 – 104 km/h\n• 4ª marcha (1,000:1): 122 – 150 km/h\n• 5ª marcha (0,894:1): 137 – 167 km/h\n\n⚠ Las velocidades de 4ª y 5ª son puramente teóricas. En la práctica, la Rocsta no alcanza esos valores por varios factores:\n• Aerodinámica: coeficiente Cx elevado debido a la carrocería cuadrada, parabrisas casi vertical y retrovisores voluminosos.\n• Peso: ~1.360 kg en vacío con tracción total permanente.\n• Neumáticos todo terreno: mayor resistencia a la rodadura que un neumático de carretera convencional.\n• Potencia real: 81 CV a 5.500 RPM es el valor de fábrica; motores con años de uso pueden rendir algo menos.\nLa velocidad máxima real del F8 en Rocsta se sitúa en torno a los 140–150 km/h según la carga y el estado del vehículo.\n\nNo es recomendable mantener el motor en esta zona de forma prolongada en marchas cortas, ya que el desgaste y el consumo se disparan.",
+              en: "The engine will push well in this zone, but fuel consumption will increase considerably. Use it for overtaking, climbing steep hills or motorway merges. Maximum power (81 hp) is reached at 5,500 RPM.\n\nApproximate speeds with 215/75R15 tyres and 4.875:1 final drive:\n• 3rd gear (1.435:1): 85 – 104 km/h\n• 4th gear (1.000:1): 122 – 150 km/h\n• 5th gear (0.894:1): 137 – 167 km/h\n\n⚠ 4th and 5th gear speeds are purely theoretical. In practice, the Rocsta does not reach these values due to several factors:\n• Aerodynamics: high drag coefficient due to boxy bodywork, near-vertical windscreen and bulky mirrors.\n• Weight: ~1,360 kg kerb weight with permanent four-wheel drive.\n• All-terrain tyres: higher rolling resistance than conventional road tyres.\n• Actual power: 81 hp at 5,500 RPM is the factory figure; engines with years of use may deliver somewhat less.\nThe real top speed of the F8-engined Rocsta is around 140–150 km/h depending on load and vehicle condition.\n\nIt is not advisable to keep the engine sustained in this zone for extended periods in low gears, as wear and consumption increase sharply.",
+            },
+          },
+        },
+      },
+      {
+        label: { es: "Zona roja", en: "Red zone" },
+        value: { es: "6.000 – 6.500 RPM", en: "6,000 – 6,500 RPM" },
+        info: {
+          tooltip: {
+            es: "Límite absoluto — riesgo de daños mecánicos",
+            en: "Absolute limit — risk of mechanical damage",
+          },
+          dialog: {
+            title: { es: "Zona roja del F8", en: "F8 red zone" },
+            body: {
+              es: "No se aconseja mantener la aguja de las revoluciones de manera sostenida en esta zona para evitar sobrecalentamientos o daños mecánicos.\n\nRiesgos de circular en zona roja:\n• Sobrecalentamiento del motor por exceso de calor.\n• Daños en la distribución (correa de distribución sometida a esfuerzos extremos).\n• Desgaste acelerado de segmentos, válvulas y cojinetes.\n• En motores carburados, posibilidad de corte de combustible por succión excesiva.\n\nSi el motor alcanza esta zona frecuentemente, revisar la regulación del carburador o la centralita EFI.",
+              en: "It is not advisable to keep the RPM needle sustained in this zone to avoid overheating or mechanical damage.\n\nRisks of driving in the red zone:\n• Engine overheating from excess heat.\n• Timing distribution damage (timing belt under extreme stress).\n• Accelerated wear of rings, valves and bearings.\n• On carburetted engines, possible fuel cut-off from excessive suction.\n\nIf the engine frequently reaches this zone, check carburettor adjustment or EFI ECU.",
+            },
+          },
+        },
+      },
+    ],
+  },
+  {
+    kind: "facts",
+    id: "rpm-guide-22",
+    title: { es: "Guía de RPM — Asia Rocsta 2.2 Diésel", en: "RPM guide — Asia Rocsta 2.2 Diesel" },
+    intro: {
+      es:
+        "El motor diésel Mazda R2 es un motor de empujadores (OHV) con árbol de levas en bloque, diseñado " +
+        "para entregar par a bajas revoluciones. No necesita ni debe girar alto: su zona de confort es mucho " +
+        "más baja que la del gasolina.",
+      en:
+        "The Mazda R2 diesel is a pushrod (OHV) engine with block-mounted camshaft, designed to deliver " +
+        "torque at low RPM. It does not need or should not rev high: its comfort zone is much lower than " +
+        "the petrol engine.",
+    },
+    facts: [
+      {
+        label: { es: "Par máximo", en: "Maximum torque" },
+        value: { es: "~2.200 RPM", en: "~2,200 RPM" },
+        info: {
+          tooltip: {
+            es: "Zona donde el motor entrega toda su fuerza",
+            en: "Zone where the engine delivers full force",
+          },
+          dialog: {
+            title: { es: "Zona de par máximo del R2", en: "R2 maximum torque zone" },
+            body: {
+              es: "El motor rinde su fuerza máxima de manera más eficiente a unas 2.200 RPM. A partir de ahí, el par se mantiene plano hasta las 2.500 RPM y luego comienza a caer.\n\nVelocidades aproximadas a 2.200 RPM con neumáticos 215/75R15 y diferencial 4,875:1:\n• 3ª marcha (1,435:1): ~42 km/h\n• 4ª marcha (1,000:1): ~60 km/h\n• 5ª marcha (0,894:1): ~67 km/h\n\nEn off-road, circular a 2.000-2.500 RPM en 3ª o 4ª marcha aprovecha todo el par disponible sin forzar el motor. En carretera, esta zona permite subir cuestas sin reducir marcha.\n\n⚠ Velocidades teóricas calculadas a partir de las relaciones de transmisión. La velocidad real puede variar por desgaste del neumático, presión de inflado y carga del vehículo.",
+              en: "The engine delivers its maximum force most efficiently at around 2,200 RPM. From there, torque stays flat until 2,500 RPM and then begins to drop.\n\nApproximate speeds at 2,200 RPM with 215/75R15 tyres and 4.875:1 final drive:\n• 3rd gear (1.435:1): ~42 km/h\n• 4th gear (1.000:1): ~60 km/h\n• 5th gear (0.894:1): ~67 km/h\n\nOff-road, driving at 2,000-2,500 RPM in 3rd or 4th gear takes advantage of all available torque without stressing the engine. On road, this zone allows climbing hills without downshifting.\n\n⚠ Theoretical speeds calculated from transmission ratios. Actual speed may vary due to tyre wear, inflation pressure and vehicle load.",
+            },
+          },
+        },
+      },
+      {
+        label: { es: "Crucero seguro", en: "Safe cruising" },
+        value: { es: "2.500 – 3.000 RPM", en: "2,500 – 3,000 RPM" },
+        info: {
+          tooltip: {
+            es: "Motor desahogado — lubricación y temperatura óptimas",
+            en: "Engine free — optimal lubrication and temperature",
+          },
+          dialog: {
+            title: { es: "Rango crucero seguro", en: "Safe cruising range" },
+            body: {
+              es: "A este régimen, el motor trabaja de forma desahogada, garantizando la lubricación adecuada y optimizando la temperatura del bloque. La 5ª marcha es overdrive (0,894:1), lo que permite mantener cruceros con el motor en esta zona.\n\nVelocidades aproximadas con neumáticos 215/75R15 y diferencial 4,875:1:\n• 3ª marcha (1,435:1): 47 – 57 km/h\n• 4ª marcha (1,000:1): 68 – 82 km/h\n• 5ª marcha (0,894:1): 76 – 91 km/h\n\nMás de 3.000 RPM en carretera supone un consumo elevado y ruido excesivo. El R2 no está diseñado para ir rápido, sino para traccionar con eficiencia.\n\n⚠ Velocidades teóricas calculadas a partir de las relaciones de transmisión. La velocidad real puede variar por desgaste del neumático, presión de inflado, carga del vehículo y resistencia aerodinámica (la carrocería de la Rocsta, con su diseño cuadrado, genera una resistencia al aire considerable).",
+              en: "At this range, the engine works freely, ensuring adequate lubrication and optimising block temperature. 5th gear is overdrive (0.894:1), allowing cruising speeds with the engine in this zone.\n\nApproximate speeds with 215/75R15 tyres and 4.875:1 final drive:\n• 3rd gear (1.435:1): 47 – 57 km/h\n• 4th gear (1.000:1): 68 – 82 km/h\n• 5th gear (0.894:1): 76 – 91 km/h\n\nOver 3,000 RPM on road means high consumption and excessive noise. The R2 is not designed to go fast, but to pull efficiently.\n\n⚠ Theoretical speeds calculated from transmission ratios. Actual speed may vary due to tyre wear, inflation pressure, vehicle load and aerodynamic drag (the Rocsta's boxy body generate considerable air resistance).",
+            },
+          },
+        },
+      },
+      {
+        label: { es: "Potencia máxima", en: "Maximum power" },
+        value: { es: "4.050 – 4.250 RPM", en: "4,050 – 4,250 RPM" },
+        info: {
+          tooltip: {
+            es: "Límite de potencia — no mantener sostenido",
+            en: "Power limit — do not sustain",
+          },
+          dialog: {
+            title: { es: "Potencia máxima del R2", en: "R2 maximum power" },
+            body: {
+              es: "La potencia máxima se alcanza a 4.050-4.250 RPM (70 CV). Aunque el motor puede girar hasta las 4.500 RPM, no es recomendable mantenerlo en esta zona de forma prolongada.\n\nVelocidades aproximadas con neumáticos 215/75R15 y diferencial 4,875:1:\n• 3ª marcha (1,435:1): 77 – 81 km/h\n• 4ª marcha (1,000:1): 110 – 116 km/h\n• 5ª marcha (0,894:1): 123 – 129 km/h\n\n⚠ Las velocidades de 4ª y 5ª son puramente teóricas y superan la velocidad máxima real del R2 en Rocsta (~133 km/h). En la práctica, el motor diésel es incapaz de vencer la resistencia aerodinámica del vehículo a esas velocidades con su potencia de 70 CV. Los factores limitantes son:\n• Aerodinámica: carrocería cuadrada con Cx elevado, especialmente acusado en la versión con capota de lona.\n• Peso: ~1.380 kg en vacío en la versión diésel.\n• Curva de par: el R2 pierde par rápidamente por encima de las 2.500 RPM, lo que limita su capacidad de superar la resistencia aerodinámica a altas velocidades.\n\nUsa esta zona solo para adelantamientos, cuestas muy pronunciadas con carga o incorporaciones rápidas a autovía. El consumo en esta zona se dispara y el motor genera mucho ruido. Prefiere reducir marcha antes que forzar las RPM.",
+              en: "Maximum power is reached at 4,050-4,250 RPM (70 hp). Although the engine can rev to 4,500 RPM, it is not advisable to sustain it in this zone for extended periods.\n\nApproximate speeds with 215/75R15 tyres and 4.875:1 final drive:\n• 3rd gear (1.435:1): 77 – 81 km/h\n• 4th gear (1.000:1): 110 – 116 km/h\n• 5th gear (0.894:1): 123 – 129 km/h\n\n⚠ 4th and 5th gear speeds are purely theoretical and exceed the R2 Rocsta's real top speed (~133 km/h). In practice, the diesel engine is unable to overcome the vehicle's aerodynamic drag at those speeds with its 70 hp output. The limiting factors are:\n• Aerodynamics: boxy bodywork with high drag coefficient, especially pronounced in the canvas-roof version.\n• Weight: ~1,380 kg kerb weight in the diesel version.\n• Torque curve: the R2 loses torque rapidly above 2,500 RPM, limiting its ability to overcome aerodynamic resistance at high speeds.\n\nUse this zone only for overtaking, climbing very steep hills with load or quick motorway merges. Consumption in this zone spikes and the engine generates a lot of noise. Prefer downshifting over forcing the RPM.",
+            },
+          },
+        },
+      },
+      {
+        label: { es: "Zona roja", en: "Red zone" },
+        value: { es: "4.200 – 4.500 RPM", en: "4,200 – 4,500 RPM" },
+        info: {
+          tooltip: {
+            es: "Límite máximo — riesgo de averías graves",
+            en: "Maximum limit — risk of serious damage",
+          },
+          dialog: {
+            title: { es: "Zona roja del R2", en: "R2 red zone" },
+            body: {
+              es: "La zona roja comienza entre las 4.200 y 4.500 RPM. No es recomendable mantener el motor de forma prolongada en este límite para evitar sobrecalentamientos o averías graves.\n\nRiesgos de circular en zona roja:\n• Sobrecalentamiento del bloque y la culata de aluminio.\n• Daños en el tren de válvulas (empujadores, balancines, árboles de levas).\n• Golpeteo mecánico por exceso de velocidad del pistón.\n• En el R2, la culata de aluminio es especialmente vulnerable al calor excesivo.\n\nA estas RPM con neumáticos 215/75R15, el vehículo estaría teóricamente por encima de su velocidad máxima real en cualquier marcha larga, por lo que alcanzar la zona roja en carretera normal es prácticamente imposible: la resistencia aerodinámica y el peso del vehículo actuarán de limitador natural mucho antes. El riesgo real de zona roja se da en bajadas largas con freno motor insuficiente o en situaciones de off-road con tracción en vacío (rueda en el aire).\n\nSi el motor frecuenta esta zona, revisar la bomba de inyección y los inyectores.",
+              en: "The red zone begins between 4,200 and 4,500 RPM. It is not advisable to keep the engine sustained at this limit for extended periods to avoid overheating or serious damage.\n\nRisks of driving in the red zone:\n• Block and aluminium head overheating.\n• Valve train damage (pushrods, rockers, camshafts).\n• Mechanical knock from excessive piston speed.\n• On the R2, the aluminium head is especially vulnerable to excess heat.\n\nAt these RPM with 215/75R15 tyres, the vehicle would theoretically be above its real top speed in any high gear, meaning reaching the red zone on normal roads is practically impossible: aerodynamic drag and vehicle weight will act as a natural limiter well before this point. The real red zone risk occurs on long descents with insufficient engine braking or in off-road situations with unloaded traction (wheel in the air).\n\nIf the engine frequently visits this zone, check the injection pump and injectors.",
+            },
+          },
+        },
+      },
+    ],
+  },
+
+  // 6 — Suspensión, frenos y ruedas
   {
     kind: "facts",
     id: "chassis-spec",
@@ -1641,7 +1818,7 @@ export const aboutSections: AboutSection[] = [
     ],
   },
 
-  // 6 — Off-road & remolque
+  // 7 — Off-road & remolque
   {
     kind: "facts",
     id: "offroad",
@@ -1780,7 +1957,7 @@ export const aboutSections: AboutSection[] = [
     ],
   },
 
-  // 7 — Variantes
+  // 8 — Variantes
   {
     kind: "list",
     id: "variants",
@@ -1857,7 +2034,7 @@ export const aboutSections: AboutSection[] = [
     ],
   },
 
-  // 8 — Fallos comunes y mantenimiento
+  // 9 — Fallos comunes y mantenimiento
   {
     kind: "list",
     id: "common-faults",
@@ -1977,7 +2154,7 @@ export const aboutSections: AboutSection[] = [
     ],
   },
 
-  // 9 — Timeline
+  // 10 — Timeline
   {
     kind: "timeline",
     id: "history",
@@ -2056,7 +2233,7 @@ export const aboutSections: AboutSection[] = [
     ],
   },
 
-  // 10 — Legado / Legacy
+  // 11 — Legado / Legacy
   {
     kind: "prose",
     id: "legacy",
