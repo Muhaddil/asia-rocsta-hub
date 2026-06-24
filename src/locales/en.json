@@ -312,7 +312,7 @@
   "ui.viewAll": "View all",
   "ui.close": "Close",
   "ui.search": "Search:",
-  "ui.category": "Category:",
+  "ui.category": "Category",
   "ui.motor": "Engine:",
   "ui.status": "Status:",
   "ui.type": "Type:",
