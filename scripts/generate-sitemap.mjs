@@ -36,7 +36,7 @@ urlEntries.push({
 
 for (const locale of LOCALES) {
   for (const [path, meta] of Object.entries(PAGE_META)) {
-    const pathPart = path === "/" ? "" : path;
+    const pathPart = path === "/" ? "/" : path;
     const loc = `${BASE_URL}/${locale}${pathPart}`;
 
     const alternates = LOCALES.map((l) => ({
