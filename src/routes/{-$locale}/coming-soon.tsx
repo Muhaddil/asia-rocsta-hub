@@ -25,12 +25,12 @@ export const Route = createFileRoute("/{-$locale}/coming-soon")({
           property: "og:description",
           content: getMetaTranslation("meta.comingSoon.ogDescription", locale),
         },
-        { property: "og:url", content: `${SITE_URL}/${locale}/coming-soon` },
+        { property: "og:url", content: `${SITE_URL}/${locale}/coming-soon/` },
         { property: "og:image", content: ogImage },
         { name: "twitter:image", content: ogImage },
       ],
       links: [
-        { rel: "canonical", href: `${SITE_URL}/${locale}/coming-soon` },
+        { rel: "canonical", href: `${SITE_URL}/${locale}/coming-soon/` },
         ...getAlternateHrefs("/coming-soon", SITE_URL).map((a) => ({
           rel: "alternate" as const,
           hrefLang: a.hreflang,

@@ -25,11 +25,11 @@ export const Route = createFileRoute("/{-$locale}/changelog")({
           property: "og:description",
           content: getMetaTranslation("meta.changelog.ogDescription", locale),
         },
-        { property: "og:url", content: `${SITE_URL}/${locale}/changelog` },
+        { property: "og:url", content: `${SITE_URL}/${locale}/changelog/` },
         { property: "og:type", content: "website" },
       ],
       links: [
-        { rel: "canonical", href: `${SITE_URL}/${locale}/changelog` },
+        { rel: "canonical", href: `${SITE_URL}/${locale}/changelog/` },
         ...getAlternateHrefs("/changelog", SITE_URL).map((a) => ({
           rel: "alternate" as const,
           hrefLang: a.hreflang,

@@ -43,13 +43,13 @@ export const Route = createFileRoute("/{-$locale}/about")({
           property: "og:description",
           content: getMetaTranslation("meta.about.ogDescription", locale),
         },
-        { property: "og:url", content: `${SITE_URL}/${locale}/about` },
+        { property: "og:url", content: `${SITE_URL}/${locale}/about/` },
         { property: "og:type", content: "article" },
         { property: "og:image", content: ogImage },
         { name: "twitter:image", content: ogImage },
       ],
       links: [
-        { rel: "canonical", href: `${SITE_URL}/${locale}/about` },
+        { rel: "canonical", href: `${SITE_URL}/${locale}/about/` },
         ...getAlternateHrefs("/about", SITE_URL).map((a) => ({
           rel: "alternate" as const,
           hrefLang: a.hreflang,

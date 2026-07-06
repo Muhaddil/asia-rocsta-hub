@@ -36,12 +36,12 @@ export const Route = createFileRoute("/{-$locale}/gallery")({
           property: "og:description",
           content: getMetaTranslation("meta.gallery.ogDescription", locale),
         },
-        { property: "og:url", content: `${SITE_URL}/${locale}/gallery` },
+        { property: "og:url", content: `${SITE_URL}/${locale}/gallery/` },
         { property: "og:image", content: ogImage },
         { name: "twitter:image", content: ogImage },
       ],
       links: [
-        { rel: "canonical", href: `${SITE_URL}/${locale}/gallery` },
+        { rel: "canonical", href: `${SITE_URL}/${locale}/gallery/` },
         ...getAlternateHrefs("/gallery", SITE_URL).map((a) => ({
           rel: "alternate" as const,
           hrefLang: a.hreflang,

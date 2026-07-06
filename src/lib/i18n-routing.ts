@@ -17,10 +17,11 @@ export function getAlternateHrefs(
   path: string,
   siteUrl: string,
 ): { hreflang: string; href: string }[] {
+  const trailing = path === "/" ? path : `${path}/`;
   const alternates: { hreflang: string; href: string }[] = LOCALES.map((l) => ({
     hreflang: l,
-    href: `${siteUrl}/${l}${path}`,
+    href: `${siteUrl}/${l}${trailing}`,
   }));
-  alternates.push({ hreflang: "x-default", href: `${siteUrl}/${DEFAULT_LOCALE}${path}` });
+  alternates.push({ hreflang: "x-default", href: `${siteUrl}/${DEFAULT_LOCALE}${trailing}` });
   return alternates;
 }

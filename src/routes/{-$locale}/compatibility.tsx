@@ -94,12 +94,12 @@ export const Route = createFileRoute("/{-$locale}/compatibility")({
           property: "og:description",
           content: getMetaTranslation("meta.compatibility.ogDescription", locale),
         },
-        { property: "og:url", content: `${SITE_URL}/${locale}/compatibility` },
+        { property: "og:url", content: `${SITE_URL}/${locale}/compatibility/` },
         { property: "og:image", content: ogImage },
         { name: "twitter:image", content: ogImage },
       ],
       links: [
-        { rel: "canonical", href: `${SITE_URL}/${locale}/compatibility` },
+        { rel: "canonical", href: `${SITE_URL}/${locale}/compatibility/` },
         ...getAlternateHrefs("/compatibility", SITE_URL).map((a) => ({
           rel: "alternate" as const,
           hrefLang: a.hreflang,

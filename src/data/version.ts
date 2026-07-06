@@ -1,4 +1,4 @@
-export const CURRENT_VERSION = "1.4.6";
+export const CURRENT_VERSION = "1.4.61";
 
 export type Localized = { es: string; en: string; fr?: string; pt?: string; de?: string };
 
@@ -9,6 +9,20 @@ export interface ChangelogEntry {
 }
 
 export const CHANGELOG: ChangelogEntry[] = [
+  {
+    version: "1.4.61",
+    date: "2026-07-06",
+    changes: [
+      {
+        es: "Se ha arreglado un error con la indexación.",
+        en: "Fixed an error with indexing.",
+      },
+      {
+        es: "Se ha actualizado la versión del proyecto a la 1.4.61",
+        en: "Bump project version to 1.4.61",
+      },
+    ],
+  },
   {
     version: "1.4.6",
     date: "2026-07-06",
