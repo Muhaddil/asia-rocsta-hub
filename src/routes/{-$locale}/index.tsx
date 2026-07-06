@@ -38,6 +38,7 @@ export const Route = createFileRoute("/{-$locale}/")({
           name: "description",
           content: getMetaTranslation("meta.home.description", locale),
         },
+        { name: "keywords", content: getMetaTranslation("meta.home.keywords", locale) },
         { property: "og:title", content: getMetaTranslation("meta.home.ogTitle", locale) },
         {
           property: "og:description",
@@ -54,6 +55,18 @@ export const Route = createFileRoute("/{-$locale}/")({
           hrefLang: a.hreflang,
           href: a.href,
         })),
+      ],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "Inicio", item: `${SITE_URL}/${locale}/` },
+            ],
+          }),
+        },
       ],
     };
   },

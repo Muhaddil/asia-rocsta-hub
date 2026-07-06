@@ -1,4 +1,4 @@
-export const CURRENT_VERSION = "1.4.5";
+export const CURRENT_VERSION = "1.4.6";
 
 export type Localized = { es: string; en: string; fr?: string; pt?: string; de?: string };
 
@@ -9,6 +9,28 @@ export interface ChangelogEntry {
 }
 
 export const CHANGELOG: ChangelogEntry[] = [
+  {
+    version: "1.4.6",
+    date: "2026-06-24",
+    changes: [
+      {
+        es: "Se han actualizado diversas dependencias de la web",
+        en: "Update several web dependencies",
+      },
+      {
+        es: "Se mejoró la ruta raíz con datos estructurados para SEO, incluyendo el esquema de sitio web y organización.",
+        en: "Enhanced the root route with structured data for SEO, including WebSite and Organization schema.",
+      },
+      {
+        es: "Se han mejorado las rutas de página individuales (índice, acerca de, registro de cambios, próximamente, comunidad, compatibilidad).",
+        en: "Improved individual page routes (index, about, changelog, coming soon, community, compatibility).",
+      },
+      {
+        es: "Se ha actualizado la versión del proyecto a la 1.4.6",
+        en: "Bump project version to 1.4.6",
+      },
+    ],
+  },
   {
     version: "1.4.5",
     date: "2026-06-24",

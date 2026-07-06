@@ -1,12 +1,6 @@
 /** Part system categories matching the sidebar SYSTEMS navigation */
 export type PartCategory =
-  | "engine"
-  | "transmission"
-  | "suspension"
-  | "electrical"
-  | "brakes"
-  | "tires"
-  | "body";
+  "engine" | "transmission" | "suspension" | "electrical" | "brakes" | "tires" | "body";
 
 /** Verification status of a part or compatibility entry */
 export type VerificationStatus = "verified" | "mod" | "unverified";

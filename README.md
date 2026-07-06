@@ -48,3 +48,16 @@ El servidor API corre en Express 5 con SQLite. Ver `server/` para instrucciones.
 ## 🤝 Contribuir
 
 Aporta equivalencias OEM, guías, reportes de problemas o fotos desde la página [Comunidad](https://muhaddil.github.io/asia-rocsta-hub/community).
+
+## SEO — Palabras clave / Keywords
+
+**ES:** Asia Rocsta, Rocsta, KIA KM410, Asia Motors, 4x4 coreano, recambios Rocsta,
+piezas Asia Rocsta, equivalencias OEM, Mazda F8, Mazda R2, B2200, 626,
+manuales taller Rocsta, guías reparación, foro Asia Rocsta, comunidad 4x4,
+todoterreno clásico, vehículo militar KIA, descapotable 4x4, propietarios Rocsta,
+restauración, mecánica, taller, despiece.
+
+**EN:** Asia Rocsta, Rocsta, KIA KM410, Asia Motors, Korean 4x4, Rocsta parts,
+OEM equivalents, Mazda F8, Mazda R2, B2200, 626, Rocsta workshop manuals,
+repair guides, Rocsta forum, 4x4 community, classic off-road, KIA military vehicle,
+convertible 4x4, Rocsta owners, restoration, mechanics, workshop, exploded diagrams.

@@ -67,6 +67,7 @@ export const Route = createFileRoute("/{-$locale}/parts")({
           name: "description",
           content: getMetaTranslation("meta.parts.description", locale),
         },
+        { name: "keywords", content: getMetaTranslation("meta.parts.keywords", locale) },
         { property: "og:title", content: getMetaTranslation("meta.parts.ogTitle", locale) },
         {
           property: "og:description",

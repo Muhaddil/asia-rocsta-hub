@@ -26,6 +26,15 @@ export const Route = createFileRoute("/")({
       { title: getMetaTranslation("meta.root.title", "es") },
       { name: "description", content: getMetaTranslation("meta.root.description", "es") },
       { property: "og:title", content: getMetaTranslation("meta.root.ogTitle", "es") },
+      {
+        property: "og:description",
+        content: getMetaTranslation("meta.root.ogDescription", "es"),
+      },
+      { property: "og:type", content: "website" },
+      { property: "og:image", content: ogImage },
+      { property: "og:url", content: `${SITE_URL}/` },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: ogImage },
     ],
     links: [
       { rel: "canonical", href: `${SITE_URL}/` },
@@ -35,6 +44,19 @@ export const Route = createFileRoute("/")({
       { rel: "alternate", hrefLang: "pt", href: `${SITE_URL}/pt/` },
       { rel: "alternate", hrefLang: "de", href: `${SITE_URL}/de/` },
       { rel: "alternate", hrefLang: "x-default", href: `${SITE_URL}/es/` },
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          name: "Asia Rocsta Archive",
+          url: SITE_URL,
+          description: "Wiki técnica, catálogo de piezas y comunidad para el Asia Rocsta",
+          inLanguage: ["es", "en", "fr", "pt", "de"],
+        }),
+      },
     ],
   }),
   component: RootIndex,

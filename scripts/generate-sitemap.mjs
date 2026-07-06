@@ -1,12 +1,11 @@
-import { writeFileSync, readdirSync } from "node:fs";
-import { resolve, dirname, basename } from "node:path";
+import { writeFileSync } from "node:fs";
+import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const BASE_URL = "https://muhaddil.github.io/asia-rocsta-hub";
-const ROUTES_DIR = resolve(__dirname, "..", "src", "routes", "{-$locale}");
-
-const localeDir = readdirSync(ROUTES_DIR).filter((f) => f.endsWith(".tsx"));
+const LOCALES = ["es", "en", "fr", "pt", "de"];
+const DEFAULT_LOCALE = "es";
 
 const PAGE_META = {
   "/": { changefreq: "weekly", priority: "1.0" },
@@ -19,23 +18,11 @@ const PAGE_META = {
   "/forum": { changefreq: "daily", priority: "0.7" },
   "/about": { changefreq: "monthly", priority: "0.5" },
   "/coming-soon": { changefreq: "monthly", priority: "0.3" },
+  "/changelog": { changefreq: "monthly", priority: "0.4" },
+  "/gallery": { changefreq: "monthly", priority: "0.5" },
 };
 
-const DEFAULT_META = { changefreq: "monthly", priority: "0.5" };
-
-const pages = localeDir.map((file) => {
-  const name = basename(file, ".tsx");
-  const path = name === "index" ? "/" : `/${name}`;
-  return {
-    path,
-    ...(PAGE_META[path] || DEFAULT_META),
-  };
-});
-
-const LOCALES = ["es", "en", "fr", "pt", "de"];
-const DEFAULT_LOCALE = "es";
-
-const now = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
+const now = new Date().toISOString().split("T")[0];
 
 const urlEntries = [];
 
@@ -48,22 +35,23 @@ urlEntries.push({
 });
 
 for (const locale of LOCALES) {
-  for (const page of pages) {
-    const loc = `${BASE_URL}/${locale}${page.path === "/" ? "/" : page.path}`;
+  for (const [path, meta] of Object.entries(PAGE_META)) {
+    const pathPart = path === "/" ? "" : path;
+    const loc = `${BASE_URL}/${locale}${pathPart}`;
 
     const alternates = LOCALES.map((l) => ({
       lang: l,
-      href: `${BASE_URL}/${l}${page.path === "/" ? "/" : page.path}`,
+      href: `${BASE_URL}/${l}${pathPart}`,
     }));
     alternates.push({
       lang: "x-default",
-      href: `${BASE_URL}/${DEFAULT_LOCALE}${page.path === "/" ? "/" : page.path}`,
+      href: `${BASE_URL}/${DEFAULT_LOCALE}${pathPart}`,
     });
 
     urlEntries.push({
       loc,
-      changefreq: page.changefreq,
-      priority: page.priority,
+      changefreq: meta.changefreq,
+      priority: meta.priority,
       lastmod: now,
       alternates,
     });

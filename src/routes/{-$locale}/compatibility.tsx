@@ -88,6 +88,7 @@ export const Route = createFileRoute("/{-$locale}/compatibility")({
           name: "description",
           content: getMetaTranslation("meta.compatibility.description", locale),
         },
+        { name: "keywords", content: getMetaTranslation("meta.compatibility.keywords", locale) },
         { property: "og:title", content: getMetaTranslation("meta.compatibility.ogTitle", locale) },
         {
           property: "og:description",

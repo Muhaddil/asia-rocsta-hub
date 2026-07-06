@@ -37,6 +37,7 @@ export const Route = createFileRoute("/{-$locale}/about")({
           name: "description",
           content: getMetaTranslation("meta.about.description", locale),
         },
+        { name: "keywords", content: getMetaTranslation("meta.about.keywords", locale) },
         { property: "og:title", content: getMetaTranslation("meta.about.ogTitle", locale) },
         {
           property: "og:description",
@@ -66,6 +67,22 @@ export const Route = createFileRoute("/{-$locale}/about")({
             productionDate: "1990/1997",
             vehicleConfiguration: "4x4 SUV",
             fuelType: ["Gasoline", "Diesel"],
+          }),
+        },
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "Inicio", item: `${SITE_URL}/${locale}/` },
+              {
+                "@type": "ListItem",
+                position: 2,
+                name: "Acerca de",
+                item: `${SITE_URL}/${locale}/about`,
+              },
+            ],
           }),
         },
       ],

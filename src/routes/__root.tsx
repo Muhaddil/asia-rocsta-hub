@@ -16,6 +16,7 @@ import { SiteHeader } from "../components/site-header";
 import { SiteFooter } from "../components/site-footer";
 import { UpdateBanner } from "../components/update-banner";
 import { getMetaTranslation, getInitialLanguage } from "../lib/meta-translations";
+import { getAlternateHrefs } from "../lib/i18n-routing";
 import ogImage from "../assets/rocsta-hero.jpg";
 import { localePath } from "@/lib/locale-helpers";
 
@@ -126,17 +127,42 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         { name: "twitter:card", content: "summary_large_image" },
         { name: "twitter:image", content: ogImage },
       ],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            name: "Asia Rocsta Archive",
+            url: SITE_URL,
+            description: "Wiki técnica, catálogo de piezas y comunidad para el Asia Rocsta",
+            inLanguage: ["es", "en", "fr", "pt", "de"],
+          }),
+        },
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            name: "Asia Rocsta Archive",
+            url: SITE_URL,
+            description:
+              "Plataforma de referencia para el Asia Rocsta: base de datos de piezas, equivalencias OEM, guías de reparación, manuales y comunidad de restauradores.",
+          }),
+        },
+      ],
       links: [
-        { rel: "canonical", href: `${SITE_URL}/` },
         { rel: "preconnect", href: "https://fonts.googleapis.com" },
         { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
         { rel: "preconnect", href: "https://asiarocstahub.dpdns.org" },
         { rel: "manifest", href: `${BASE}manifest.json` },
         { rel: "icon", type: "image/svg+xml", href: `${BASE}favicon.svg` },
         { rel: "apple-touch-icon", href: `${BASE}favicon.svg` },
-        { rel: "alternate", hrefLang: "es", href: `${SITE_URL}/?lang=es` },
-        { rel: "alternate", hrefLang: "en", href: `${SITE_URL}/?lang=en` },
-        { rel: "alternate", hrefLang: "x-default", href: `${SITE_URL}/` },
+        ...getAlternateHrefs("/", SITE_URL).map((a) => ({
+          rel: "alternate" as const,
+          hrefLang: a.hreflang,
+          href: a.href,
+        })),
       ],
     };
   },

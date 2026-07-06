@@ -30,6 +30,7 @@ export const Route = createFileRoute("/{-$locale}/gallery")({
           name: "description",
           content: getMetaTranslation("meta.gallery.description", locale),
         },
+        { name: "keywords", content: getMetaTranslation("meta.gallery.keywords", locale) },
         { property: "og:title", content: getMetaTranslation("meta.gallery.ogTitle", locale) },
         {
           property: "og:description",
@@ -46,6 +47,24 @@ export const Route = createFileRoute("/{-$locale}/gallery")({
           hrefLang: a.hreflang,
           href: a.href,
         })),
+      ],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "Inicio", item: `${SITE_URL}/${locale}/` },
+              {
+                "@type": "ListItem",
+                position: 2,
+                name: "Galería",
+                item: `${SITE_URL}/${locale}/gallery`,
+              },
+            ],
+          }),
+        },
       ],
     };
   },
