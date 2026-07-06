@@ -10,6 +10,7 @@ export const getRouter = () => {
     context: { queryClient },
     scrollRestoration: true,
     defaultPreloadStaleTime: 60 * 1000, // 1 minute
+    trailingSlash: "always",
   });
 
   return router;

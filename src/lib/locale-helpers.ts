@@ -15,7 +15,8 @@ export function getCurrentLocale(): Language {
 
 export function localePath(path: string, locale?: Language): string {
   const lang = locale || getCurrentLocale();
-  return `/${lang}${path}`;
+  const trailing = path === "/" ? "" : "/";
+  return `/${lang}${path}${trailing}`;
 }
 
 export function stripBase(path: string): string {
