@@ -67,6 +67,12 @@ export const Route = createFileRoute("/{-$locale}/about")({
             productionDate: "1990/1997",
             vehicleConfiguration: "4x4 SUV",
             fuelType: ["Gasoline", "Diesel"],
+            offers: {
+              "@type": "Offer",
+              availability: "https://schema.org/Discontinued",
+              price: "0",
+              priceCurrency: "USD",
+            },
           }),
         },
         {
