@@ -43,7 +43,7 @@ server/              # API server (Express + SQLite)
 
 ## 🌐 API
 
-El servidor API corre en Express 5 con SQLite. Ver `server/` para instrucciones.
+El servidor API corre en Express 5 con SQLite. La API no está en este repositorio, y no es pública.
 
 ## 🤝 Contribuir
 
