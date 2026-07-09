@@ -5,13 +5,14 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useRouterState,
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
 
 import appCss from "../styles.css?url";
 import { ThemeProvider } from "../components/theme-provider";
-import { LanguageProvider, useLanguage } from "../components/language-provider";
+import { LanguageProvider, useLanguage, type Language } from "../components/language-provider";
 import { SiteHeader } from "../components/site-header";
 import { SiteFooter } from "../components/site-footer";
 import { UpdateBanner } from "../components/update-banner";
@@ -24,10 +25,25 @@ const BASE = (import.meta as { env: Record<string, string> }).env?.BASE_URL || "
 const SITE_URL = "https://muhaddil.github.io/asia-rocsta-hub";
 
 function LangSync() {
-  const { language } = useLanguage();
+  const { language, setLanguage } = useLanguage();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+
+  /* Sync <html lang> attribute */
   useEffect(() => {
     document.documentElement.lang = language;
   }, [language]);
+
+  /* Sync language context when URL locale changes (SPA navigation) */
+  useEffect(() => {
+    const m = pathname.match(/^\/(es|en|fr|pt|de)\b/);
+    if (m) {
+      const urlLang = m[1] as Language;
+      if (urlLang !== language) {
+        setLanguage(urlLang);
+      }
+    }
+  }, [pathname]);
+
   return null;
 }
 

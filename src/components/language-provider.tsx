@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useState } from "react";
 import esJson from "@/locales/es.json";
 import enJson from "@/locales/en.json";
 import frJson from "@/locales/fr.json";
@@ -26,7 +26,23 @@ for (const key of Object.keys(esJson)) {
   };
 }
 
-const detectLanguage = (): Language => {
+/** Extract locale from URL path, e.g. "/en/about/" → "en" */
+function localeFromPath(): Language | null {
+  try {
+    const path = window.location.pathname;
+    const m = path.match(/^\/(es|en|fr|pt|de)\b/);
+    if (m) return m[1] as Language;
+  } catch {
+    /* ssr */
+  }
+  return null;
+}
+
+function detectLanguage(): Language {
+  /* 1st priority: locale from URL */
+  const urlLang = localeFromPath();
+  if (urlLang) return urlLang;
+
   try {
     const saved = localStorage.getItem("rocsta-lang") as Language | null;
     if (saved === "es" || saved === "en" || saved === "fr" || saved === "pt" || saved === "de") {
@@ -39,16 +55,10 @@ const detectLanguage = (): Language => {
   } catch {
     return "en";
   }
-};
+}
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [language, setLanguageState] = useState<Language>("en");
-  const [isHydrated, setIsHydrated] = useState(false);
-
-  useEffect(() => {
-    setLanguageState(detectLanguage());
-    setIsHydrated(true);
-  }, []);
+  const [language, setLanguageState] = useState<Language>(() => detectLanguage());
 
   const setLanguage = (lang: Language) => {
     setLanguageState(lang);
@@ -71,14 +81,6 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     return text;
   };
 
-  if (!isHydrated) {
-    return (
-      <LanguageContext.Provider value={{ language: "en", setLanguage, t }}>
-        {children}
-      </LanguageContext.Provider>
-    );
-  }
-
   return (
     <LanguageContext.Provider value={{ language, setLanguage, t }}>
       {children}
@@ -93,3 +95,4 @@ export const useLanguage = () => {
   }
   return context;
 };
+
