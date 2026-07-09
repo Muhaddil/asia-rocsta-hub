@@ -63,6 +63,9 @@ export const Route = createFileRoute("/{-$locale}/about")({
             "@context": "https://schema.org",
             "@type": "Vehicle",
             name: "Asia Rocsta",
+            image: "https://raw.githubusercontent.com/Muhaddil/asia-rocsta-hub/refs/heads/main/public/image.png",
+            description:
+              "The Asia Rocsta is a compact 4x4 off-road vehicle manufactured by Asia Motors (KIA) between 1990 and 1997, with F8 1.8 petrol and R2 2.2 diesel engines.",
             manufacturer: { "@type": "Organization", name: "Asia Motors (KIA)" },
             productionDate: "1990/1997",
             vehicleConfiguration: "4x4 SUV",
