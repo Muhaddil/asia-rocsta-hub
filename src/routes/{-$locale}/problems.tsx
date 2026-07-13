@@ -13,14 +13,8 @@ import { api, ApiError, type ApiProblem } from "@/lib/api";
 import { getMetaTranslation } from "@/lib/meta-translations";
 import { resolveLocale, getAlternateHrefs } from "@/lib/i18n-routing";
 import ogImage from "@/assets/rocsta-hero.jpg";
-
-const SITE_URL = "https://muhaddil.github.io/asia-rocsta-hub";
-
-const DIFFICULTY_KEYS: Record<Difficulty, string> = {
-  Fácil: "comp.diff.easy",
-  Media: "comp.diff.medium",
-  Alta: "comp.diff.hard",
-};
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import {
   Search,
   FilterX,
@@ -46,6 +40,14 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+
+const SITE_URL = "https://muhaddil.github.io/asia-rocsta-hub";
+
+const DIFFICULTY_KEYS: Record<Difficulty, string> = {
+  Fácil: "comp.diff.easy",
+  Media: "comp.diff.medium",
+  Alta: "comp.diff.hard",
+};
 
 const problemsSearchSchema = z.object({
   search: z.string().optional(),
@@ -584,7 +586,23 @@ function ProblemsPage() {
                   {t("problems.dialog.symptomsTitle")}
                 </h4>
                 <div className="text-xs leading-relaxed text-foreground bg-muted/20 p-3 rounded-lg border border-border/40 text-pretty">
-                  {localize(selectedProblem.symptom, language)}
+                  <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
+                    components={{
+                      strong: ({ children }) => (
+                        <strong className="font-bold text-foreground">{children}</strong>
+                      ),
+                      ul: ({ children }) => (
+                        <ul className="list-disc list-inside space-y-0.5">{children}</ul>
+                      ),
+                      ol: ({ children }) => (
+                        <ol className="list-decimal list-inside space-y-0.5">{children}</ol>
+                      ),
+                      p: ({ children }) => <p className="mb-1 last:mb-0">{children}</p>,
+                    }}
+                  >
+                    {localize(selectedProblem.symptom, language)}
+                  </ReactMarkdown>
                 </div>
               </div>
 
@@ -594,7 +612,23 @@ function ProblemsPage() {
                   {t("problems.dialog.causesTitle")}
                 </h4>
                 <div className="text-xs leading-relaxed text-muted-foreground bg-muted/20 p-3 rounded-lg border border-border/40 text-pretty">
-                  {localize(selectedProblem.cause, language)}
+                  <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
+                    components={{
+                      strong: ({ children }) => (
+                        <strong className="font-bold text-foreground">{children}</strong>
+                      ),
+                      ul: ({ children }) => (
+                        <ul className="list-disc list-inside space-y-0.5">{children}</ul>
+                      ),
+                      ol: ({ children }) => (
+                        <ol className="list-decimal list-inside space-y-0.5">{children}</ol>
+                      ),
+                      p: ({ children }) => <p className="mb-1 last:mb-0">{children}</p>,
+                    }}
+                  >
+                    {localize(selectedProblem.cause, language)}
+                  </ReactMarkdown>
                 </div>
               </div>
 
@@ -603,8 +637,24 @@ function ProblemsPage() {
                   <FileText className="size-3 text-rocsta-green" />{" "}
                   {t("problems.dialog.solutionTitle")}
                 </h4>
-                <div className="text-xs leading-relaxed text-muted-foreground bg-rocsta-green/[0.01] p-3 rounded-lg border border-rocsta-green/15 whitespace-pre-line text-pretty">
-                  {localize(selectedProblem.solution, language)}
+                <div className="text-xs leading-relaxed text-muted-foreground bg-rocsta-green/[0.01] p-3 rounded-lg border border-rocsta-green/15 text-pretty">
+                  <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
+                    components={{
+                      strong: ({ children }) => (
+                        <strong className="font-bold text-foreground">{children}</strong>
+                      ),
+                      ul: ({ children }) => (
+                        <ul className="list-disc list-inside space-y-0.5">{children}</ul>
+                      ),
+                      ol: ({ children }) => (
+                        <ol className="list-decimal list-inside space-y-0.5">{children}</ol>
+                      ),
+                      p: ({ children }) => <p className="mb-1 last:mb-0">{children}</p>,
+                    }}
+                  >
+                    {localize(selectedProblem.solution, language)}
+                  </ReactMarkdown>
                 </div>
               </div>
             </div>
