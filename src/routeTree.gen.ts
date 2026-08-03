@@ -11,17 +11,18 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as Char123LocaleChar125IndexRouteImport } from './routes/{-$locale}/index'
-import { Route as Char123LocaleChar125ProblemsRouteImport } from './routes/{-$locale}/problems'
-import { Route as Char123LocaleChar125PartsRouteImport } from './routes/{-$locale}/parts'
-import { Route as Char123LocaleChar125ManualsRouteImport } from './routes/{-$locale}/manuals'
-import { Route as Char123LocaleChar125GuidesRouteImport } from './routes/{-$locale}/guides'
-import { Route as Char123LocaleChar125GalleryRouteImport } from './routes/{-$locale}/gallery'
-import { Route as Char123LocaleChar125ForumRouteImport } from './routes/{-$locale}/forum'
-import { Route as Char123LocaleChar125CompatibilityRouteImport } from './routes/{-$locale}/compatibility'
-import { Route as Char123LocaleChar125CommunityRouteImport } from './routes/{-$locale}/community'
-import { Route as Char123LocaleChar125ComingSoonRouteImport } from './routes/{-$locale}/coming-soon'
-import { Route as Char123LocaleChar125ChangelogRouteImport } from './routes/{-$locale}/changelog'
 import { Route as Char123LocaleChar125AboutRouteImport } from './routes/{-$locale}/about'
+import { Route as Char123LocaleChar125ChangelogRouteImport } from './routes/{-$locale}/changelog'
+import { Route as Char123LocaleChar125ComingSoonRouteImport } from './routes/{-$locale}/coming-soon'
+import { Route as Char123LocaleChar125CommunityRouteImport } from './routes/{-$locale}/community'
+import { Route as Char123LocaleChar125CompatibilityRouteImport } from './routes/{-$locale}/compatibility'
+import { Route as Char123LocaleChar125ForumRouteImport } from './routes/{-$locale}/forum'
+import { Route as Char123LocaleChar125GalleryRouteImport } from './routes/{-$locale}/gallery'
+import { Route as Char123LocaleChar125GuidesRouteImport } from './routes/{-$locale}/guides'
+import { Route as Char123LocaleChar125PartsRouteImport } from './routes/{-$locale}/parts'
+import { Route as Char123LocaleChar125ProblemsRouteImport } from './routes/{-$locale}/problems'
+import { Route as Char123LocaleChar125ManualsIndexRouteImport } from './routes/{-$locale}/manuals/index'
+import { Route as Char123LocaleChar125ManualsAm102RouteImport } from './routes/{-$locale}/manuals/am102'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -34,58 +35,10 @@ const Char123LocaleChar125IndexRoute =
     path: '/{-$locale}/',
     getParentRoute: () => rootRouteImport,
   } as any)
-const Char123LocaleChar125ProblemsRoute =
-  Char123LocaleChar125ProblemsRouteImport.update({
-    id: '/{-$locale}/problems',
-    path: '/{-$locale}/problems',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const Char123LocaleChar125PartsRoute =
-  Char123LocaleChar125PartsRouteImport.update({
-    id: '/{-$locale}/parts',
-    path: '/{-$locale}/parts',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const Char123LocaleChar125ManualsRoute =
-  Char123LocaleChar125ManualsRouteImport.update({
-    id: '/{-$locale}/manuals',
-    path: '/{-$locale}/manuals',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const Char123LocaleChar125GuidesRoute =
-  Char123LocaleChar125GuidesRouteImport.update({
-    id: '/{-$locale}/guides',
-    path: '/{-$locale}/guides',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const Char123LocaleChar125GalleryRoute =
-  Char123LocaleChar125GalleryRouteImport.update({
-    id: '/{-$locale}/gallery',
-    path: '/{-$locale}/gallery',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const Char123LocaleChar125ForumRoute =
-  Char123LocaleChar125ForumRouteImport.update({
-    id: '/{-$locale}/forum',
-    path: '/{-$locale}/forum',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const Char123LocaleChar125CompatibilityRoute =
-  Char123LocaleChar125CompatibilityRouteImport.update({
-    id: '/{-$locale}/compatibility',
-    path: '/{-$locale}/compatibility',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const Char123LocaleChar125CommunityRoute =
-  Char123LocaleChar125CommunityRouteImport.update({
-    id: '/{-$locale}/community',
-    path: '/{-$locale}/community',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const Char123LocaleChar125ComingSoonRoute =
-  Char123LocaleChar125ComingSoonRouteImport.update({
-    id: '/{-$locale}/coming-soon',
-    path: '/{-$locale}/coming-soon',
+const Char123LocaleChar125AboutRoute =
+  Char123LocaleChar125AboutRouteImport.update({
+    id: '/{-$locale}/about',
+    path: '/{-$locale}/about',
     getParentRoute: () => rootRouteImport,
   } as any)
 const Char123LocaleChar125ChangelogRoute =
@@ -94,10 +47,64 @@ const Char123LocaleChar125ChangelogRoute =
     path: '/{-$locale}/changelog',
     getParentRoute: () => rootRouteImport,
   } as any)
-const Char123LocaleChar125AboutRoute =
-  Char123LocaleChar125AboutRouteImport.update({
-    id: '/{-$locale}/about',
-    path: '/{-$locale}/about',
+const Char123LocaleChar125ComingSoonRoute =
+  Char123LocaleChar125ComingSoonRouteImport.update({
+    id: '/{-$locale}/coming-soon',
+    path: '/{-$locale}/coming-soon',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const Char123LocaleChar125CommunityRoute =
+  Char123LocaleChar125CommunityRouteImport.update({
+    id: '/{-$locale}/community',
+    path: '/{-$locale}/community',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const Char123LocaleChar125CompatibilityRoute =
+  Char123LocaleChar125CompatibilityRouteImport.update({
+    id: '/{-$locale}/compatibility',
+    path: '/{-$locale}/compatibility',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const Char123LocaleChar125ForumRoute =
+  Char123LocaleChar125ForumRouteImport.update({
+    id: '/{-$locale}/forum',
+    path: '/{-$locale}/forum',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const Char123LocaleChar125GalleryRoute =
+  Char123LocaleChar125GalleryRouteImport.update({
+    id: '/{-$locale}/gallery',
+    path: '/{-$locale}/gallery',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const Char123LocaleChar125GuidesRoute =
+  Char123LocaleChar125GuidesRouteImport.update({
+    id: '/{-$locale}/guides',
+    path: '/{-$locale}/guides',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const Char123LocaleChar125PartsRoute =
+  Char123LocaleChar125PartsRouteImport.update({
+    id: '/{-$locale}/parts',
+    path: '/{-$locale}/parts',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const Char123LocaleChar125ProblemsRoute =
+  Char123LocaleChar125ProblemsRouteImport.update({
+    id: '/{-$locale}/problems',
+    path: '/{-$locale}/problems',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const Char123LocaleChar125ManualsIndexRoute =
+  Char123LocaleChar125ManualsIndexRouteImport.update({
+    id: '/{-$locale}/manuals/',
+    path: '/{-$locale}/manuals/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const Char123LocaleChar125ManualsAm102Route =
+  Char123LocaleChar125ManualsAm102RouteImport.update({
+    id: '/{-$locale}/manuals/am102',
+    path: '/{-$locale}/manuals/am102',
     getParentRoute: () => rootRouteImport,
   } as any)
 
@@ -111,10 +118,11 @@ export interface FileRoutesByFullPath {
   '/{-$locale}/forum': typeof Char123LocaleChar125ForumRoute
   '/{-$locale}/gallery': typeof Char123LocaleChar125GalleryRoute
   '/{-$locale}/guides': typeof Char123LocaleChar125GuidesRoute
-  '/{-$locale}/manuals': typeof Char123LocaleChar125ManualsRoute
   '/{-$locale}/parts': typeof Char123LocaleChar125PartsRoute
   '/{-$locale}/problems': typeof Char123LocaleChar125ProblemsRoute
   '/{-$locale}/': typeof Char123LocaleChar125IndexRoute
+  '/{-$locale}/manuals/am102': typeof Char123LocaleChar125ManualsAm102Route
+  '/{-$locale}/manuals/': typeof Char123LocaleChar125ManualsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -126,10 +134,11 @@ export interface FileRoutesByTo {
   '/{-$locale}/forum': typeof Char123LocaleChar125ForumRoute
   '/{-$locale}/gallery': typeof Char123LocaleChar125GalleryRoute
   '/{-$locale}/guides': typeof Char123LocaleChar125GuidesRoute
-  '/{-$locale}/manuals': typeof Char123LocaleChar125ManualsRoute
   '/{-$locale}/parts': typeof Char123LocaleChar125PartsRoute
   '/{-$locale}/problems': typeof Char123LocaleChar125ProblemsRoute
   '/{-$locale}': typeof Char123LocaleChar125IndexRoute
+  '/{-$locale}/manuals/am102': typeof Char123LocaleChar125ManualsAm102Route
+  '/{-$locale}/manuals': typeof Char123LocaleChar125ManualsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -142,10 +151,11 @@ export interface FileRoutesById {
   '/{-$locale}/forum': typeof Char123LocaleChar125ForumRoute
   '/{-$locale}/gallery': typeof Char123LocaleChar125GalleryRoute
   '/{-$locale}/guides': typeof Char123LocaleChar125GuidesRoute
-  '/{-$locale}/manuals': typeof Char123LocaleChar125ManualsRoute
   '/{-$locale}/parts': typeof Char123LocaleChar125PartsRoute
   '/{-$locale}/problems': typeof Char123LocaleChar125ProblemsRoute
   '/{-$locale}/': typeof Char123LocaleChar125IndexRoute
+  '/{-$locale}/manuals/am102': typeof Char123LocaleChar125ManualsAm102Route
+  '/{-$locale}/manuals/': typeof Char123LocaleChar125ManualsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -159,10 +169,11 @@ export interface FileRouteTypes {
     | '/{-$locale}/forum'
     | '/{-$locale}/gallery'
     | '/{-$locale}/guides'
-    | '/{-$locale}/manuals'
     | '/{-$locale}/parts'
     | '/{-$locale}/problems'
     | '/{-$locale}/'
+    | '/{-$locale}/manuals/am102'
+    | '/{-$locale}/manuals/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -174,10 +185,11 @@ export interface FileRouteTypes {
     | '/{-$locale}/forum'
     | '/{-$locale}/gallery'
     | '/{-$locale}/guides'
-    | '/{-$locale}/manuals'
     | '/{-$locale}/parts'
     | '/{-$locale}/problems'
     | '/{-$locale}'
+    | '/{-$locale}/manuals/am102'
+    | '/{-$locale}/manuals'
   id:
     | '__root__'
     | '/'
@@ -189,10 +201,11 @@ export interface FileRouteTypes {
     | '/{-$locale}/forum'
     | '/{-$locale}/gallery'
     | '/{-$locale}/guides'
-    | '/{-$locale}/manuals'
     | '/{-$locale}/parts'
     | '/{-$locale}/problems'
     | '/{-$locale}/'
+    | '/{-$locale}/manuals/am102'
+    | '/{-$locale}/manuals/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -205,10 +218,11 @@ export interface RootRouteChildren {
   Char123LocaleChar125ForumRoute: typeof Char123LocaleChar125ForumRoute
   Char123LocaleChar125GalleryRoute: typeof Char123LocaleChar125GalleryRoute
   Char123LocaleChar125GuidesRoute: typeof Char123LocaleChar125GuidesRoute
-  Char123LocaleChar125ManualsRoute: typeof Char123LocaleChar125ManualsRoute
   Char123LocaleChar125PartsRoute: typeof Char123LocaleChar125PartsRoute
   Char123LocaleChar125ProblemsRoute: typeof Char123LocaleChar125ProblemsRoute
   Char123LocaleChar125IndexRoute: typeof Char123LocaleChar125IndexRoute
+  Char123LocaleChar125ManualsAm102Route: typeof Char123LocaleChar125ManualsAm102Route
+  Char123LocaleChar125ManualsIndexRoute: typeof Char123LocaleChar125ManualsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -227,67 +241,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Char123LocaleChar125IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/{-$locale}/problems': {
-      id: '/{-$locale}/problems'
-      path: '/{-$locale}/problems'
-      fullPath: '/{-$locale}/problems'
-      preLoaderRoute: typeof Char123LocaleChar125ProblemsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/{-$locale}/parts': {
-      id: '/{-$locale}/parts'
-      path: '/{-$locale}/parts'
-      fullPath: '/{-$locale}/parts'
-      preLoaderRoute: typeof Char123LocaleChar125PartsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/{-$locale}/manuals': {
-      id: '/{-$locale}/manuals'
-      path: '/{-$locale}/manuals'
-      fullPath: '/{-$locale}/manuals'
-      preLoaderRoute: typeof Char123LocaleChar125ManualsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/{-$locale}/guides': {
-      id: '/{-$locale}/guides'
-      path: '/{-$locale}/guides'
-      fullPath: '/{-$locale}/guides'
-      preLoaderRoute: typeof Char123LocaleChar125GuidesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/{-$locale}/gallery': {
-      id: '/{-$locale}/gallery'
-      path: '/{-$locale}/gallery'
-      fullPath: '/{-$locale}/gallery'
-      preLoaderRoute: typeof Char123LocaleChar125GalleryRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/{-$locale}/forum': {
-      id: '/{-$locale}/forum'
-      path: '/{-$locale}/forum'
-      fullPath: '/{-$locale}/forum'
-      preLoaderRoute: typeof Char123LocaleChar125ForumRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/{-$locale}/compatibility': {
-      id: '/{-$locale}/compatibility'
-      path: '/{-$locale}/compatibility'
-      fullPath: '/{-$locale}/compatibility'
-      preLoaderRoute: typeof Char123LocaleChar125CompatibilityRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/{-$locale}/community': {
-      id: '/{-$locale}/community'
-      path: '/{-$locale}/community'
-      fullPath: '/{-$locale}/community'
-      preLoaderRoute: typeof Char123LocaleChar125CommunityRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/{-$locale}/coming-soon': {
-      id: '/{-$locale}/coming-soon'
-      path: '/{-$locale}/coming-soon'
-      fullPath: '/{-$locale}/coming-soon'
-      preLoaderRoute: typeof Char123LocaleChar125ComingSoonRouteImport
+    '/{-$locale}/about': {
+      id: '/{-$locale}/about'
+      path: '/{-$locale}/about'
+      fullPath: '/{-$locale}/about'
+      preLoaderRoute: typeof Char123LocaleChar125AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/{-$locale}/changelog': {
@@ -297,11 +255,74 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Char123LocaleChar125ChangelogRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/{-$locale}/about': {
-      id: '/{-$locale}/about'
-      path: '/{-$locale}/about'
-      fullPath: '/{-$locale}/about'
-      preLoaderRoute: typeof Char123LocaleChar125AboutRouteImport
+    '/{-$locale}/coming-soon': {
+      id: '/{-$locale}/coming-soon'
+      path: '/{-$locale}/coming-soon'
+      fullPath: '/{-$locale}/coming-soon'
+      preLoaderRoute: typeof Char123LocaleChar125ComingSoonRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/{-$locale}/community': {
+      id: '/{-$locale}/community'
+      path: '/{-$locale}/community'
+      fullPath: '/{-$locale}/community'
+      preLoaderRoute: typeof Char123LocaleChar125CommunityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/{-$locale}/compatibility': {
+      id: '/{-$locale}/compatibility'
+      path: '/{-$locale}/compatibility'
+      fullPath: '/{-$locale}/compatibility'
+      preLoaderRoute: typeof Char123LocaleChar125CompatibilityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/{-$locale}/forum': {
+      id: '/{-$locale}/forum'
+      path: '/{-$locale}/forum'
+      fullPath: '/{-$locale}/forum'
+      preLoaderRoute: typeof Char123LocaleChar125ForumRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/{-$locale}/gallery': {
+      id: '/{-$locale}/gallery'
+      path: '/{-$locale}/gallery'
+      fullPath: '/{-$locale}/gallery'
+      preLoaderRoute: typeof Char123LocaleChar125GalleryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/{-$locale}/guides': {
+      id: '/{-$locale}/guides'
+      path: '/{-$locale}/guides'
+      fullPath: '/{-$locale}/guides'
+      preLoaderRoute: typeof Char123LocaleChar125GuidesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/{-$locale}/parts': {
+      id: '/{-$locale}/parts'
+      path: '/{-$locale}/parts'
+      fullPath: '/{-$locale}/parts'
+      preLoaderRoute: typeof Char123LocaleChar125PartsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/{-$locale}/problems': {
+      id: '/{-$locale}/problems'
+      path: '/{-$locale}/problems'
+      fullPath: '/{-$locale}/problems'
+      preLoaderRoute: typeof Char123LocaleChar125ProblemsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/{-$locale}/manuals/': {
+      id: '/{-$locale}/manuals/'
+      path: '/{-$locale}/manuals'
+      fullPath: '/{-$locale}/manuals/'
+      preLoaderRoute: typeof Char123LocaleChar125ManualsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/{-$locale}/manuals/am102': {
+      id: '/{-$locale}/manuals/am102'
+      path: '/{-$locale}/manuals/am102'
+      fullPath: '/{-$locale}/manuals/am102'
+      preLoaderRoute: typeof Char123LocaleChar125ManualsAm102RouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -318,10 +339,11 @@ const rootRouteChildren: RootRouteChildren = {
   Char123LocaleChar125ForumRoute: Char123LocaleChar125ForumRoute,
   Char123LocaleChar125GalleryRoute: Char123LocaleChar125GalleryRoute,
   Char123LocaleChar125GuidesRoute: Char123LocaleChar125GuidesRoute,
-  Char123LocaleChar125ManualsRoute: Char123LocaleChar125ManualsRoute,
   Char123LocaleChar125PartsRoute: Char123LocaleChar125PartsRoute,
   Char123LocaleChar125ProblemsRoute: Char123LocaleChar125ProblemsRoute,
   Char123LocaleChar125IndexRoute: Char123LocaleChar125IndexRoute,
+  Char123LocaleChar125ManualsAm102Route: Char123LocaleChar125ManualsAm102Route,
+  Char123LocaleChar125ManualsIndexRoute: Char123LocaleChar125ManualsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

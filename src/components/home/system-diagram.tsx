@@ -51,7 +51,7 @@ export function SystemDiagram() {
   const [hovered, setHovered] = useState<string | null>(null);
 
   const go = (category: PartCategory) =>
-    navigate({ to: localePath("/parts") as "/{-$locale}/parts", search: { category } });
+    navigate({ to: localePath("/parts") as "/{-$locale}/parts/", search: { category } });
 
   return (
     <section className="mb-12">

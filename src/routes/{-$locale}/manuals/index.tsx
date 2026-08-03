@@ -1,9 +1,10 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useMemo } from "react";
 import { z } from "zod";
 import { useLanguage } from "@/components/language-provider";
 import { useMetaTags } from "@/hooks/use-meta-tags";
 import { normalizeString } from "@/lib/utils";
+import { localePath } from "@/lib/locale-helpers";
 import { PageShell, Crumbs } from "@/components/page-shell";
 import { manuals } from "@/data/manuals";
 import type { ManualType, ManualLanguage } from "@/data/types";
@@ -35,7 +36,7 @@ const manualsSearchSchema = z.object({
 
 type ManualsSearch = z.infer<typeof manualsSearchSchema>;
 
-export const Route = createFileRoute("/{-$locale}/manuals")({
+export const Route = createFileRoute("/{-$locale}/manuals/")({
   validateSearch: (search) => manualsSearchSchema.parse(search),
   head: ({ params }) => {
     const locale = resolveLocale(params.locale);
@@ -337,20 +338,30 @@ function ManualsPage() {
                     </div>
                   </div>
 
-                  <div className="pt-4 border-t border-border/20 mt-4 flex items-center justify-between">
+                  <div className="pt-4 border-t border-border/20 mt-4 flex items-center justify-between gap-2">
                     <span className="text-[10px] text-muted-foreground font-bold uppercase">
                       {t("manuals.engineLabel")}:{" "}
                       {man.motor === "ambos" ? t("manuals.bothEngines") : man.motor}
                     </span>
-                    <a
-                      href={man.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex h-9 items-center justify-center gap-1.5 rounded-md bg-rocsta-green/10 hover:bg-rocsta-green px-4 text-xs font-bold text-rocsta-green hover:text-white transition-all shadow-sm"
-                    >
-                      <FileDown className="size-3.5" /> {t("manuals.card.download")}{" "}
-                      <ExternalLink className="size-3 stroke-[1.5]" />
-                    </a>
+                    <div className="flex items-center gap-2">
+                      {man.id === "m-001" && (
+                        <Link
+                          to={localePath("/manuals/am102")}
+                          className="inline-flex h-9 items-center justify-center gap-1.5 rounded-md bg-rocsta-green px-4 text-xs font-bold text-primary-foreground hover:opacity-90 transition-all shadow-sm"
+                        >
+                          <BookOpen className="size-3.5" /> {t("manuals.card.readOnline")}
+                        </Link>
+                      )}
+                      <a
+                        href={man.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex h-9 items-center justify-center gap-1.5 rounded-md bg-rocsta-green/10 hover:bg-rocsta-green px-4 text-xs font-bold text-rocsta-green hover:text-white transition-all shadow-sm"
+                      >
+                        <FileDown className="size-3.5" /> {t("manuals.card.download")}{" "}
+                        <ExternalLink className="size-3 stroke-[1.5]" />
+                      </a>
+                    </div>
                   </div>
                 </div>
               );
