@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useCallback } from "react";
 import { z } from "zod";
 import { useQuery } from "@tanstack/react-query";
 import { PageShell, Crumbs } from "@/components/page-shell";
@@ -23,6 +23,8 @@ import {
   Info,
   Sparkles,
   Loader2,
+  FileText,
+  ExternalLink,
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -44,6 +46,10 @@ import {
 import { localePath } from "@/lib/locale-helpers";
 
 const SITE_URL = "https://muhaddil.github.io/asia-rocsta-hub";
+const PARTS_TEXT_URL = `${import.meta.env.BASE_URL}manual/am102-parts-text.json`;
+const PARTS_PDF_URL = `${import.meta.env.BASE_URL}manual/am102-parts.pdf`;
+
+type OcrMatch = { page: number; snippet: string };
 
 const partsSearchSchema = z.object({
   category: z
@@ -242,6 +248,70 @@ function PartsPage() {
       return true;
     });
   }, [currentCategory, currentSearch, currentMotor, currentStatus, language, parts]);
+
+  // OCR fallback: search parts catalog PDF when no DB results found
+  const [ocrMatches, setOcrMatches] = useState<OcrMatch[]>([]);
+  const [ocrLoading, setOcrLoading] = useState(false);
+  const [ocrSearched, setOcrSearched] = useState<string | null>(null);
+
+  const searchOcrCorpus = useCallback(
+    async (query: string) => {
+      if (!query || query.length < 2) {
+        setOcrMatches([]);
+        return;
+      }
+      setOcrLoading(true);
+      try {
+        const res = await fetch(PARTS_TEXT_URL);
+        if (!res.ok) throw new Error("Failed to load parts OCR corpus");
+        const corpus: { page: number; text: string }[] = await res.json();
+        const q = normalizeString(query);
+        const qCompact = q.replace(/[\s\-_.,;:!?/\\()]/g, "");
+        const found: OcrMatch[] = [];
+        for (const doc of corpus) {
+          const normalized = normalizeString(doc.text);
+          let idx = normalized.indexOf(q);
+          if (idx === -1) {
+            const compact = normalized.replace(/[\s\-_.,;:!?/\\()]/g, "");
+            const ci = compact.indexOf(qCompact);
+            if (ci !== -1) {
+              let charCount = 0;
+              idx = 0;
+              while (idx < normalized.length && charCount < ci) {
+                if (/\S/.test(normalized[idx])) charCount++;
+                idx++;
+              }
+            }
+          }
+          if (idx === -1) continue;
+          const start = Math.max(0, idx - 60);
+          const end = Math.min(doc.text.length, idx + q.length + 110);
+          const pre = start > 0 ? "…" : "";
+          const post = end < doc.text.length ? "…" : "";
+          const snippet = pre + doc.text.slice(start, end).replace(/\s+/g, " ") + post;
+          found.push({ page: doc.page, snippet });
+          if (found.length >= 10) break;
+        }
+        setOcrMatches(found);
+      } catch {
+        setOcrMatches([]);
+      } finally {
+        setOcrLoading(false);
+        setOcrSearched(query);
+      }
+    },
+    [],
+  );
+
+  useEffect(() => {
+    if (currentSearch && filteredParts.length === 0) {
+      const timer = setTimeout(() => searchOcrCorpus(currentSearch), 400);
+      return () => clearTimeout(timer);
+    } else {
+      setOcrMatches([]);
+      setOcrSearched(null);
+    }
+  }, [currentSearch, filteredParts.length, searchOcrCorpus]);
 
   return (
     <PageShell>
@@ -484,6 +554,54 @@ function PartsPage() {
             </Table>
           </div>
         </div>
+
+        {currentSearch && filteredParts.length === 0 && (ocrLoading || ocrMatches.length > 0 || ocrSearched) && (
+          <div className="rounded-xl border border-border bg-card shadow-sm overflow-hidden">
+            <div className="px-4 py-3 bg-muted/40 border-b border-border flex items-center gap-2">
+              <FileText className="size-4 text-rocsta-accent" />
+              <span className="text-xs font-extrabold text-foreground">
+                {t("parts.ocrFallback.title")}
+              </span>
+              {ocrLoading && <Loader2 className="size-3.5 animate-spin text-muted-foreground" />}
+            </div>
+            <div className="p-4">
+              {ocrLoading ? (
+                <p className="text-xs text-muted-foreground flex items-center gap-2">
+                  <Loader2 className="size-3.5 animate-spin" /> {t("parts.ocrFallback.searching")}
+                </p>
+              ) : ocrMatches.length > 0 ? (
+                <div className="space-y-2">
+                  <p className="text-xs text-muted-foreground mb-3">
+                    {t("parts.ocrFallback.found", { count: ocrMatches.length })}
+                  </p>
+                  <ul className="space-y-2">
+                    {ocrMatches.map((m) => (
+                      <li key={m.page}>
+                        <Link
+                          to={localePath("/manuals/am102")}
+                          search={{ tab: "reader", page: m.page, pdf: "manual/am102-parts.pdf", q: currentSearch }}
+                          className="block rounded-lg border border-border bg-muted/30 p-3 text-left transition-all hover:border-rocsta-green/40 hover:shadow-sm group"
+                        >
+                          <div className="flex items-center gap-2 mb-1">
+                            <span className="font-mono text-[11px] font-extrabold text-rocsta-green">
+                              {t("manual.page")} {m.page + 1}
+                            </span>
+                            <ExternalLink className="size-3 text-muted-foreground group-hover:text-rocsta-green transition-colors" />
+                          </div>
+                          <p className="text-xs text-muted-foreground leading-relaxed line-clamp-3">
+                            {m.snippet}
+                          </p>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ) : ocrSearched ? (
+                <p className="text-xs text-muted-foreground">{t("parts.ocrFallback.noResults")}</p>
+              ) : null}
+            </div>
+          </div>
+        )}
       </div>
 
       <Dialog open={selectedPart !== null} onOpenChange={(open) => !open && setSelectedPart(null)}>

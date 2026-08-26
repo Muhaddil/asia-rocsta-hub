@@ -6,8 +6,8 @@
  * Usage:
  *   node scripts/build-manual-text.mjs <chunks-dir> [--out public/manual/am102-text.json]
  */
-import { readFileSync, readdirSync, writeFileSync, mkdirSync, dirname } from "node:fs";
-import { join, resolve } from "node:path";
+import { readFileSync, readdirSync, writeFileSync, mkdirSync } from "node:fs";
+import { join, resolve, dirname } from "node:path";
 
 const chunksDir = resolve(
   process.argv[2] ?? "C:/Users/naike/AppData/Local/Temp/opencode/manual_ocr",

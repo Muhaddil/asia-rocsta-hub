@@ -5,6 +5,7 @@ import { useLanguage } from "@/components/language-provider";
 import { useMetaTags } from "@/hooks/use-meta-tags";
 import { PageShell, Crumbs } from "@/components/page-shell";
 import { AM102_SECTIONS, sectionForPage } from "@/data/manual/am102-sections";
+import { PARTS_SECTIONS, partsSectionForPage } from "@/data/manual/am102-parts-sections";
 import { localize } from "@/data/types";
 import { getMetaTranslation } from "@/lib/meta-translations";
 import { resolveLocale, getAlternateHrefs } from "@/lib/i18n-routing";
@@ -38,8 +39,10 @@ const ES_PDF_URL = `${import.meta.env.BASE_URL}manual/am102-es.pdf`;
 
 const manualSearchSchema = z.object({
   tab: z.enum(["toc", "search", "tech", "reader"]).optional(),
-  page: z.coerce.number().int().min(0).max(426).optional(),
+  page: z.coerce.number().int().min(0).optional(),
   motor: z.enum(["all", "F8", "R2"]).optional(),
+  pdf: z.string().optional(),
+  q: z.string().optional(),
 });
 
 type ManualSearch = z.infer<typeof manualSearchSchema>;
@@ -98,6 +101,20 @@ function Am102Page() {
   const tab: Tab = search.tab ?? "toc";
   const page = search.page ?? 0;
   const motor = search.motor ?? "all";
+  const isExternalPdf = Boolean(search.pdf);
+  const [pdfPageCount, setPdfPageCount] = useState(isExternalPdf ? 466 : 427);
+
+  const activePdfUrl = search.pdf
+    ? `${import.meta.env.BASE_URL}${search.pdf}`
+    : language === "es"
+      ? ES_PDF_URL
+      : PDF_URL;
+  const activeTextUrl = search.pdf
+    ? `${import.meta.env.BASE_URL}${search.pdf.replace(/\.pdf$/, "-text.json")}`
+    : language === "es"
+      ? ES_TEXT_URL
+      : TEXT_URL;
+  const highlightQuery = search.q ?? "";
 
   useMetaTags({
     title: getMetaTranslation("meta.manualsReader.title", lang),
@@ -113,7 +130,7 @@ function Am102Page() {
   const setMotor = (m: ManualSearch["motor"]) =>
     navigate({ search: (prev) => ({ ...prev, motor: m }) });
 
-  const textUrl = language === "es" ? ES_TEXT_URL : TEXT_URL;
+  const textUrl = activeTextUrl;
   const [corpus, setCorpus] = useState<PageDoc[] | null>(null);
   const [corpusLoadedUrl, setCorpusLoadedUrl] = useState<string | null>(null);
   useEffect(() => {
@@ -138,91 +155,117 @@ function Am102Page() {
   }, [textUrl]);
   const corpusLoading = corpusLoadedUrl !== textUrl;
 
-  const currentSection = useMemo(() => sectionForPage(page), [page]);
+  const currentSection = useMemo(
+    () => (isExternalPdf ? partsSectionForPage(page) : sectionForPage(page)),
+    [page, isExternalPdf],
+  );
   const pageDoc = useMemo(() => corpus?.find((d) => d.page === page), [corpus, page]);
 
   return (
     <PageShell>
       <div className="space-y-6">
-        <Crumbs
-          items={[
-            { label: t("ui.archive") },
-            { label: t("nav.manuals"), active: false },
-            { label: "AM102 Workshop Manual", active: true },
-          ]}
-        />
+        {!isExternalPdf && (
+          <>
+            <Crumbs
+              items={[
+                { label: t("ui.archive") },
+                { label: t("nav.manuals"), active: false },
+                { label: "AM102 Workshop Manual", active: true },
+              ]}
+            />
 
-        <div className="flex flex-wrap items-start justify-between gap-4">
-          <div className="max-w-3xl">
-            <div className="flex items-center gap-2 mb-2">
-              <Badge
-                variant="secondary"
-                className="font-mono text-[10px] font-bold uppercase bg-rocsta-green/10 text-rocsta-green border border-rocsta-green/20"
-              >
-                AM102 · 1994
-              </Badge>
-              <Badge variant="secondary" className="text-[10px] font-bold uppercase">
-                Asia Motors
-              </Badge>
-            </div>
-            <h1 className="text-4xl font-extrabold tracking-tight text-foreground flex items-center gap-3">
-              <BookOpen className="size-8 text-rocsta-green" /> {t("manual.title")}
-            </h1>
-            <p className="mt-2 text-base text-muted-foreground max-w-3xl">{t("manual.subtitle")}</p>
-            <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs font-bold text-muted-foreground font-mono">
-              <span className="flex items-center gap-1">
-                <FileText className="size-3.5 text-rocsta-accent" /> {t("manual.stats.pages")}
-              </span>
-              <span className="flex items-center gap-1">
-                <LayoutList className="size-3.5 text-rocsta-accent" /> {t("manual.stats.sections")}
-              </span>
-              <span className="flex items-center gap-1">
-                <Database className="size-3.5 text-rocsta-accent" /> {t("manual.stats.ocr")}
-              </span>
-            </div>
-          </div>
+            <div className="flex flex-wrap items-start justify-between gap-4">
+              <div className="max-w-3xl">
+                <div className="flex items-center gap-2 mb-2">
+                  <Badge
+                    variant="secondary"
+                    className="font-mono text-[10px] font-bold uppercase bg-rocsta-green/10 text-rocsta-green border border-rocsta-green/20"
+                  >
+                    AM102 · 1994
+                  </Badge>
+                  <Badge variant="secondary" className="text-[10px] font-bold uppercase">
+                    Asia Motors
+                  </Badge>
+                </div>
+                <h1 className="text-4xl font-extrabold tracking-tight text-foreground flex items-center gap-3">
+                  <BookOpen className="size-8 text-rocsta-green" /> {t("manual.title")}
+                </h1>
+                <p className="mt-2 text-base text-muted-foreground max-w-3xl">{t("manual.subtitle")}</p>
+                <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs font-bold text-muted-foreground font-mono">
+                  <span className="flex items-center gap-1">
+                    <FileText className="size-3.5 text-rocsta-accent" /> {t("manual.stats.pages")}
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <LayoutList className="size-3.5 text-rocsta-accent" /> {t("manual.stats.sections")}
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <Database className="size-3.5 text-rocsta-accent" /> {t("manual.stats.ocr")}
+                  </span>
+                </div>
+              </div>
 
+              <div className="flex flex-wrap items-center gap-2">
+                <Link
+                  to={localePath("/manuals")}
+                  className="inline-flex h-9 items-center gap-1.5 rounded-md bg-card border border-border px-4 text-xs font-bold text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  <ArrowLeft className="size-3.5" /> {t("manual.backToManuals")}
+                </Link>
+                {language === "es" ? (
+                  <>
+                    <a
+                      href={ES_PDF_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex h-9 items-center gap-1.5 rounded-md bg-rocsta-green px-4 text-xs font-bold text-primary-foreground hover:opacity-90 transition-all shadow-sm"
+                    >
+                      <FileDown className="size-3.5" /> {t("manual.downloadEs")}
+                    </a>
+                    <a
+                      href={PDF_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex h-9 items-center gap-1.5 rounded-md bg-card border border-border px-4 text-xs font-bold text-muted-foreground hover:text-foreground transition-colors"
+                    >
+                      <FileText className="size-3.5" /> {t("manual.downloadOriginal")}
+                    </a>
+                  </>
+                ) : (
+                  <a
+                    href={PDF_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex h-9 items-center gap-1.5 rounded-md bg-rocsta-green px-4 text-xs font-bold text-primary-foreground hover:opacity-90 transition-all shadow-sm"
+                  >
+                    <FileDown className="size-3.5" /> {t("manual.downloadPdf")}
+                  </a>
+                )}
+              </div>
+            </div>
+          </>
+        )}
+
+        {isExternalPdf && (
           <div className="flex flex-wrap items-center gap-2">
             <Link
               to={localePath("/manuals")}
               className="inline-flex h-9 items-center gap-1.5 rounded-md bg-card border border-border px-4 text-xs font-bold text-muted-foreground hover:text-foreground transition-colors"
             >
-              <ArrowLeft className="size-3.5" /> {t("manual.backToManuals")}
+              <ArrowLeft className="size-3.5" /> {t("nav.manuals")}
             </Link>
-            {language === "es" ? (
-              <>
-                <a
-                  href={ES_PDF_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex h-9 items-center gap-1.5 rounded-md bg-rocsta-green px-4 text-xs font-bold text-primary-foreground hover:opacity-90 transition-all shadow-sm"
-                >
-                  <FileDown className="size-3.5" /> {t("manual.downloadEs")}
-                </a>
-                <a
-                  href={PDF_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex h-9 items-center gap-1.5 rounded-md bg-card border border-border px-4 text-xs font-bold text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  <FileText className="size-3.5" /> {t("manual.downloadOriginal")}
-                </a>
-              </>
-            ) : (
-              <a
-                href={PDF_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex h-9 items-center gap-1.5 rounded-md bg-rocsta-green px-4 text-xs font-bold text-primary-foreground hover:opacity-90 transition-all shadow-sm"
-              >
-                <FileDown className="size-3.5" /> {t("manual.downloadPdf")}
-              </a>
-            )}
+            <a
+              href={`${import.meta.env.BASE_URL}manual/am102-parts.pdf`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex h-9 items-center gap-1.5 rounded-md bg-rocsta-green px-4 text-xs font-bold text-primary-foreground hover:opacity-90 transition-all shadow-sm"
+            >
+              <FileDown className="size-3.5" /> {t("manual.downloadPdf")}
+            </a>
           </div>
-        </div>
+        )}
 
         <div className="inline-flex rounded-xl border border-border bg-card p-1 text-sm font-bold shadow-sm">
-          {TABS.map((tabs) => {
+          {(isExternalPdf ? TABS.filter((t) => t.id === "toc" || t.id === "search" || t.id === "reader") : TABS).map((tabs) => {
             const Icon = tabs.icon;
             const active = tab === tabs.id;
             return (
@@ -246,11 +289,37 @@ function Am102Page() {
         {tab === "toc" && (
           <section className="space-y-4">
             <div>
-              <h2 className="text-lg font-extrabold text-foreground">{t("manual.toc.title")}</h2>
-              <p className="text-sm text-muted-foreground">{t("manual.toc.desc")}</p>
+              <h2 className="text-lg font-extrabold text-foreground">
+                {isExternalPdf ? t("manual.toc.titleParts") : t("manual.toc.title")}
+              </h2>
+              <p className="text-sm text-muted-foreground">
+                {isExternalPdf ? t("manual.toc.descParts") : t("manual.toc.desc")}
+              </p>
             </div>
+            {isExternalPdf && (
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-bold text-muted-foreground">{t("manual.filter.motor")}:</span>
+                {(["all", "F8", "R2"] as const).map((m) => (
+                  <button
+                    key={m}
+                    type="button"
+                    onClick={() => setMotor(m)}
+                    className={cn(
+                      "inline-flex items-center gap-1 rounded-md px-3 py-1.5 text-xs font-bold transition-colors",
+                      motor === m
+                        ? "bg-rocsta-green text-primary-foreground"
+                        : "bg-card border border-border text-muted-foreground hover:text-foreground",
+                    )}
+                  >
+                    {m === "all" ? t("manual.motor.all") : m}
+                  </button>
+                ))}
+              </div>
+            )}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              {AM102_SECTIONS.map((s) => {
+              {(isExternalPdf ? PARTS_SECTIONS : AM102_SECTIONS)
+                .filter((s) => isExternalPdf ? (motor === "all" || s.motor === motor || s.motor === "ambos") : true)
+                .map((s) => {
                 const isCurrent = currentSection?.code === s.code;
                 const pageCount = s.end - s.start + 1;
                 return (
@@ -319,7 +388,7 @@ function Am102Page() {
                 </h2>
                 <p className="text-xs font-mono text-muted-foreground">
                   {currentSection ? `${t("manual.section")} ${currentSection.code} · ` : ""}
-                  {t("manual.reader.pageOf", { page: page + 1, total: 427 })}
+                  {t("manual.reader.pageOf", { page: page + 1, total: pdfPageCount })}
                 </p>
               </div>
               <button
@@ -340,20 +409,38 @@ function Am102Page() {
             <ManualPdfViewer
               page={page}
               onPageChange={goPage}
-              pdfUrl={language === "es" ? ES_PDF_URL : PDF_URL}
+              pdfUrl={activePdfUrl}
+              onPageCountChange={setPdfPageCount}
+              highlightQuery={highlightQuery}
             />
 
-            <OcrPanel doc={pageDoc} loading={corpusLoading} />
+            {!isExternalPdf && language !== "en" && (
+              <OcrPanel doc={pageDoc} loading={corpusLoading} highlightQuery={highlightQuery} />
+            )}
           </section>
         )}
+
+        <div className="rounded-xl border border-border bg-card p-4 text-center">
+          <p className="text-[11px] text-muted-foreground leading-relaxed">
+            {t("manual.copyright")}{" "}
+            <a
+              href="https://www.facebook.com/groups/622611641812238/permalink/1831859074220816"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline hover:text-rocsta-green transition-colors"
+            >
+              Facebook Group
+            </a>
+          </p>
+        </div>
       </div>
     </PageShell>
   );
 }
 
-function OcrPanel({ doc, loading }: { doc: PageDoc | undefined; loading: boolean }) {
+function OcrPanel({ doc, loading, highlightQuery }: { doc: PageDoc | undefined; loading: boolean; highlightQuery?: string }) {
   const { t } = useLanguage();
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(Boolean(highlightQuery));
   const text = doc?.text?.trim();
 
   return (
@@ -376,7 +463,7 @@ function OcrPanel({ doc, loading }: { doc: PageDoc | undefined; loading: boolean
             </p>
           ) : text ? (
             <p className="whitespace-pre-wrap text-[13px] leading-relaxed text-muted-foreground font-mono">
-              {text}
+              {highlightQuery ? <HighlightText text={text} query={highlightQuery} /> : text}
             </p>
           ) : (
             <p className="text-xs text-muted-foreground">{t("manual.reader.ocrEmpty")}</p>
@@ -385,6 +472,28 @@ function OcrPanel({ doc, loading }: { doc: PageDoc | undefined; loading: boolean
       )}
     </div>
   );
+}
+
+function HighlightText({ text, query }: { text: string; query: string }) {
+  if (!query) return <>{text}</>;
+  const q = normalizeString(query);
+  const parts: React.ReactNode[] = [];
+  let lastIdx = 0;
+  const lowerText = text.toLowerCase();
+  const lowerQ = q.toLowerCase();
+  let idx = lowerText.indexOf(lowerQ, lastIdx);
+  while (idx !== -1) {
+    if (idx > lastIdx) parts.push(<span key={lastIdx}>{text.slice(lastIdx, idx)}</span>);
+    parts.push(
+      <mark key={idx} className="rounded bg-rocsta-green/25 px-0.5 text-foreground font-bold">
+        {text.slice(idx, idx + q.length)}
+      </mark>,
+    );
+    lastIdx = idx + q.length;
+    idx = lowerText.indexOf(lowerQ, lastIdx);
+  }
+  if (lastIdx < text.length) parts.push(<span key={lastIdx}>{text.slice(lastIdx)}</span>);
+  return <>{parts}</>;
 }
 
 function SearchPanel({

@@ -144,7 +144,7 @@ export const AM102_SECTIONS: ManualSection[] = [
     title: { es: "Herramientas especiales", en: "Special tools" },
     motor: "ambos",
     start: 419,
-    end: 426,
+    end: 424,
   },
 ];
 

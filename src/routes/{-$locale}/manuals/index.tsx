@@ -344,9 +344,10 @@ function ManualsPage() {
                       {man.motor === "ambos" ? t("manuals.bothEngines") : man.motor}
                     </span>
                     <div className="flex items-center gap-2">
-                      {man.id === "m-001" && (
+                      {(man.id === "m-001" || man.id === "m-005") && (
                         <Link
                           to={localePath("/manuals/am102")}
+                          search={{ pdf: man.id === "m-005" ? "manual/am102-parts.pdf" : undefined }}
                           className="inline-flex h-9 items-center justify-center gap-1.5 rounded-md bg-rocsta-green px-4 text-xs font-bold text-primary-foreground hover:opacity-90 transition-all shadow-sm"
                         >
                           <BookOpen className="size-3.5" /> {t("manuals.card.readOnline")}
@@ -384,6 +385,20 @@ function ManualsPage() {
             </button>
           </div>
         )}
+
+        <div className="rounded-xl border border-border bg-card p-4 text-center">
+          <p className="text-[11px] text-muted-foreground leading-relaxed">
+            {t("manual.copyright")}{" "}
+            <a
+              href="https://www.facebook.com/groups/622611641812238/permalink/1831859074220816"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline hover:text-rocsta-green transition-colors"
+            >
+              Facebook Group
+            </a>
+          </p>
+        </div>
       </div>
     </PageShell>
   );

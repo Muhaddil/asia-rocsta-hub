@@ -6,11 +6,13 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const clientDir = resolve(__dirname, "..", "dist", "client");
 const shellPath = resolve(clientDir, "_shell.html");
 const indexPath = resolve(clientDir, "index.html");
+const notFoundPath = resolve(clientDir, "404.html");
 const nojekyllPath = resolve(clientDir, ".nojekyll");
 
 if (existsSync(shellPath)) {
   cpSync(shellPath, indexPath);
-  console.log("✓ _shell.html copied to index.html");
+  cpSync(shellPath, notFoundPath);
+  console.log("✓ _shell.html copied to index.html and 404.html");
 } else {
   console.warn("⚠ _shell.html not found, skipping copy");
 }

@@ -8,8 +8,8 @@ export const manuals: Manual[] = [
       en: "Repair Manual (Workshop Manual)",
     },
     description: {
-      es: "Manual oficial de servicio para Asia Rocsta. Incluye procedimientos detallados de reparación.",
-      en: "Official service manual for Asia Rocsta. Includes detailed repair procedures.",
+      es: "Manual oficial de servicio para Asia Rocsta con OCR integrado. Incluye procedimientos detallados de reparación y búsqueda de texto completo.",
+      en: "Official service manual for Asia Rocsta with embedded OCR. Includes detailed repair procedures and full-text search.",
     },
     type: "workshop",
     format: "pdf",
@@ -17,7 +17,7 @@ export const manuals: Manual[] = [
     motor: "ambos",
     url: "https://www.facebook.com/groups/622611641812238/permalink/1557947741611952",
     year: "1994",
-    pages: 427,
+    pages: 425,
   },
   // {
   //   id: "m-002",
@@ -80,8 +80,8 @@ export const manuals: Manual[] = [
       en: "Parts Breakdown Catalog and Part Numbers (Parts Catalog)",
     },
     description: {
-      es: "Catálogo oficial de repuestos del Asia Rocsta. Vital para buscar el código de pieza original OEM antes de realizar cualquier pedido.",
-      en: "Official spare parts catalog for Asia Rocsta. Essential for finding the original OEM part number before placing any order.",
+      es: "Catálogo oficial de repuestos del Asia Rocsta con OCR integrado. Vital para buscar el código de pieza original OEM antes de realizar cualquier pedido. Incluye búsqueda por referencias en el PDF.",
+      en: "Official spare parts catalog for Asia Rocsta with embedded OCR. Essential for finding the original OEM part number before placing any order. Includes reference search in PDF.",
     },
     type: "catalog",
     format: "pdf",
