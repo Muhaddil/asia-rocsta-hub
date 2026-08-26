@@ -1,1 +1,0 @@
-function e(e,t){return typeof e==`string`?e:e[t]||e.es||``}export{e as t};
