@@ -10,7 +10,7 @@ import { localize } from "@/data/types";
 import { getMetaTranslation } from "@/lib/meta-translations";
 import { resolveLocale, getAlternateHrefs } from "@/lib/i18n-routing";
 import { localePath } from "@/lib/locale-helpers";
-import { useDebounce, normalizeString, cn } from "@/lib/utils";
+import { useDebounce, normalizeString, compactString, cn } from "@/lib/utils";
 import { ManualPdfViewer } from "@/components/manual/manual-pdf-viewer";
 import { ManualTechData } from "@/components/manual/manual-tech-data";
 import ogImage from "@/assets/rocsta-hero.jpg";
@@ -363,7 +363,7 @@ function Am102Page() {
         )}
 
         {tab === "search" && (
-          <SearchPanel corpus={corpus} loading={corpusLoading} onGoPage={goPage} />
+          <SearchPanel corpus={corpus} loading={corpusLoading} onGoPage={goPage} isPartsCatalog={isExternalPdf} />
         )}
 
         {tab === "tech" && (
@@ -500,10 +500,12 @@ function SearchPanel({
   corpus,
   loading,
   onGoPage,
+  isPartsCatalog,
 }: {
   corpus: PageDoc[] | null;
   loading: boolean;
   onGoPage: (page: number) => void;
+  isPartsCatalog?: boolean;
 }) {
   const { t, language } = useLanguage();
   const [input, setInput] = useState("");
@@ -513,6 +515,7 @@ function SearchPanel({
   const results = useMemo(() => {
     if (query.length < 2 || !corpus) return [];
     const q = normalizeString(query);
+    const qCompact = compactString(query);
     const found: {
       page: number;
       snippet: string;
@@ -522,11 +525,23 @@ function SearchPanel({
     }[] = [];
     for (const doc of corpus) {
       const normalized = normalizeString(doc.text);
-      const idx = normalized.indexOf(q);
+      let idx = normalized.indexOf(q);
+      if (idx === -1 && qCompact.length >= 2) {
+        const compact = compactString(doc.text);
+        const ci = compact.indexOf(qCompact);
+        if (ci !== -1) {
+          let charCount = 0;
+          idx = 0;
+          while (idx < normalized.length && charCount < ci) {
+            if (/\S/.test(normalized[idx])) charCount++;
+            idx++;
+          }
+        }
+      }
       if (idx === -1) continue;
       const rawIdx = findRawIndex(doc.text, query, idx);
       const snippet = makeSnippet(doc.text, rawIdx, q.length);
-      const section = sectionForPage(doc.page);
+      const section = isPartsCatalog ? partsSectionForPage(doc.page) : sectionForPage(doc.page);
       found.push({
         page: doc.page,
         snippet,
@@ -537,7 +552,7 @@ function SearchPanel({
       if (found.length >= 60) break;
     }
     return found;
-  }, [query, corpus, language]);
+  }, [query, corpus, language, isPartsCatalog]);
 
   return (
     <section className="space-y-4">

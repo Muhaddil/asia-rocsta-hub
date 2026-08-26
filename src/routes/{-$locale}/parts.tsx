@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { PageShell, Crumbs } from "@/components/page-shell";
 import { useLanguage } from "@/components/language-provider";
 import { useMetaTags } from "@/hooks/use-meta-tags";
-import { useDebounce, normalizeString } from "@/lib/utils";
+import { useDebounce, normalizeString, compactString } from "@/lib/utils";
 import { parts as staticParts } from "@/data/parts";
 import { api } from "@/lib/api";
 import type { Part, PartCategory, Motor, VerificationStatus } from "@/data/types";
@@ -228,14 +228,16 @@ function PartsPage() {
 
       if (currentSearch) {
         const query = normalizeString(currentSearch);
+        const queryCompact = compactString(currentSearch);
         const name = normalizeString(localize(part.name, language));
         const oem = normalizeString(localize(part.oem, language));
+        const oemCompact = compactString(localize(part.oem, language));
         const desc = normalizeString(localize(part.description, language));
         const equivs = part.equiv.map((e) => normalizeString(e));
         const refs = (part.refs || []).map((r) => normalizeString(r));
 
         const matchesName = name.includes(query);
-        const matchesOem = oem.includes(query);
+        const matchesOem = oem.includes(query) || oemCompact.includes(queryCompact);
         const matchesDesc = desc.includes(query);
         const matchesEquiv = equivs.some((e) => e.includes(query));
         const matchesRefs = refs.some((r) => r.includes(query));

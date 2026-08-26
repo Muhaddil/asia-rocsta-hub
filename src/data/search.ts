@@ -5,7 +5,7 @@ import { problems } from "./problems";
 import { manuals } from "./manuals";
 import { localize, type LocalizedString, type SearchResult } from "./types";
 import type { Language } from "@/components/language-provider";
-import { normalizeString } from "@/lib/utils";
+import { normalizeString, compactString } from "@/lib/utils";
 
 /** Simple translation map for search result labels (avoids importing React context). */
 const SEARCH_LABELS: Record<string, Record<Language, string>> = {
@@ -62,6 +62,7 @@ function indexed(value: string | LocalizedString | undefined): string {
  */
 export function globalSearch(query: string, lang: Language = "es"): SearchResult[] {
   const cleanQuery = normalizeString(query.trim());
+  const cleanQueryCompact = compactString(query.trim());
   if (!cleanQuery) return [];
 
   const results: SearchResult[] = [];
@@ -77,7 +78,8 @@ export function globalSearch(query: string, lang: Language = "es"): SearchResult
         (part.refs || []).join(" "),
       ].join(" "),
     );
-    if (target.includes(cleanQuery)) {
+    const oemCompact = compactString(indexed(part.oem));
+    if (target.includes(cleanQuery) || oemCompact.includes(cleanQueryCompact)) {
       const name = localize(part.name, lang);
       results.push({
         type: "part",

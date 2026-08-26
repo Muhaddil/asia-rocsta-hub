@@ -21,3 +21,7 @@ export function normalizeString(str: string): string {
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "");
 }
+
+export function compactString(str: string): string {
+  return normalizeString(str).replace(/[\s\-_.,;:!?/\\()]/g, "");
+}
