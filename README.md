@@ -6,6 +6,8 @@
 
 Wiki técnica, catálogo de piezas y comunidad para el Asia Rocsta — el 4x4 clásico coreano fabricado por Asia Motors (KIA) entre 1990 y 1997, con motores Mazda F8 (1.8 gasolina) y R2 (2.2 diésel).
 
+El Rocsta es un todoterreno coreano fabricado por Asia Motors (filial de KIA) entre 1990 y 1997, inspirado abiertamente en la filosofía del Jeep CJ y construido sobre el chasis militar KIA KM410. Sus entrañas son japonesas.
+
 ## 🚀 Stack
 
 - **Framework**: [TanStack Start](https://tanstack.com/start) (SSR/SSG)
