@@ -190,13 +190,16 @@ function Am102Page() {
                 <h1 className="text-4xl font-extrabold tracking-tight text-foreground flex items-center gap-3">
                   <BookOpen className="size-8 text-rocsta-green" /> {t("manual.title")}
                 </h1>
-                <p className="mt-2 text-base text-muted-foreground max-w-3xl">{t("manual.subtitle")}</p>
+                <p className="mt-2 text-base text-muted-foreground max-w-3xl">
+                  {t("manual.subtitle")}
+                </p>
                 <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs font-bold text-muted-foreground font-mono">
                   <span className="flex items-center gap-1">
                     <FileText className="size-3.5 text-rocsta-accent" /> {t("manual.stats.pages")}
                   </span>
                   <span className="flex items-center gap-1">
-                    <LayoutList className="size-3.5 text-rocsta-accent" /> {t("manual.stats.sections")}
+                    <LayoutList className="size-3.5 text-rocsta-accent" />{" "}
+                    {t("manual.stats.sections")}
                   </span>
                   <span className="flex items-center gap-1">
                     <Database className="size-3.5 text-rocsta-accent" /> {t("manual.stats.ocr")}
@@ -265,7 +268,10 @@ function Am102Page() {
         )}
 
         <div className="inline-flex rounded-xl border border-border bg-card p-1 text-sm font-bold shadow-sm">
-          {(isExternalPdf ? TABS.filter((t) => t.id === "toc" || t.id === "search" || t.id === "reader") : TABS).map((tabs) => {
+          {(isExternalPdf
+            ? TABS.filter((t) => t.id === "toc" || t.id === "search" || t.id === "reader")
+            : TABS
+          ).map((tabs) => {
             const Icon = tabs.icon;
             const active = tab === tabs.id;
             return (
@@ -298,7 +304,9 @@ function Am102Page() {
             </div>
             {isExternalPdf && (
               <div className="flex items-center gap-2">
-                <span className="text-xs font-bold text-muted-foreground">{t("manual.filter.motor")}:</span>
+                <span className="text-xs font-bold text-muted-foreground">
+                  {t("manual.filter.motor")}:
+                </span>
                 {(["all", "F8", "R2"] as const).map((m) => (
                   <button
                     key={m}
@@ -318,52 +326,61 @@ function Am102Page() {
             )}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {(isExternalPdf ? PARTS_SECTIONS : AM102_SECTIONS)
-                .filter((s) => isExternalPdf ? (motor === "all" || s.motor === motor || s.motor === "ambos") : true)
+                .filter((s) =>
+                  isExternalPdf
+                    ? motor === "all" || s.motor === motor || s.motor === "ambos"
+                    : true,
+                )
                 .map((s) => {
-                const isCurrent = currentSection?.code === s.code;
-                const pageCount = s.end - s.start + 1;
-                return (
-                  <button
-                    key={s.code}
-                    type="button"
-                    onClick={() => goPage(s.start)}
-                    className={cn(
-                      "group flex items-center gap-3 rounded-xl border border-border bg-card p-4 text-left shadow-sm transition-all hover:border-rocsta-green/40 hover:shadow-md",
-                      isCurrent && "border-rocsta-green/40 bg-rocsta-green/5",
-                    )}
-                  >
-                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-rocsta-green/10 text-rocsta-green font-mono text-xs font-extrabold">
-                      {s.code}
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <span className="font-extrabold text-sm text-foreground group-hover:text-rocsta-green transition-colors">
-                          {localize(s.title, language)}
-                        </span>
-                        {s.motor !== "ambos" && (
-                          <Badge
-                            variant="secondary"
-                            className="text-[9px] font-bold font-mono uppercase py-0.5 px-1.5"
-                          >
-                            {s.motor}
-                          </Badge>
-                        )}
+                  const isCurrent = currentSection?.code === s.code;
+                  const pageCount = s.end - s.start + 1;
+                  return (
+                    <button
+                      key={s.code}
+                      type="button"
+                      onClick={() => goPage(s.start)}
+                      className={cn(
+                        "group flex items-center gap-3 rounded-xl border border-border bg-card p-4 text-left shadow-sm transition-all hover:border-rocsta-green/40 hover:shadow-md",
+                        isCurrent && "border-rocsta-green/40 bg-rocsta-green/5",
+                      )}
+                    >
+                      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-rocsta-green/10 text-rocsta-green font-mono text-xs font-extrabold">
+                        {s.code}
                       </div>
-                      <p className="mt-0.5 font-mono text-[11px] text-muted-foreground">
-                        {t("manual.section")} {s.code} · {t("manual.page")} {s.start + 1}–
-                        {s.end + 1} · {pageCount} {t("manual.pages")}
-                      </p>
-                    </div>
-                    <ChevronRight className="size-4 text-muted-foreground group-hover:text-rocsta-green shrink-0 transition-colors" />
-                  </button>
-                );
-              })}
+                      <div className="min-w-0 flex-1">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span className="font-extrabold text-sm text-foreground group-hover:text-rocsta-green transition-colors">
+                            {localize(s.title, language)}
+                          </span>
+                          {s.motor !== "ambos" && (
+                            <Badge
+                              variant="secondary"
+                              className="text-[9px] font-bold font-mono uppercase py-0.5 px-1.5"
+                            >
+                              {s.motor}
+                            </Badge>
+                          )}
+                        </div>
+                        <p className="mt-0.5 font-mono text-[11px] text-muted-foreground">
+                          {t("manual.section")} {s.code} · {t("manual.page")} {s.start + 1}–
+                          {s.end + 1} · {pageCount} {t("manual.pages")}
+                        </p>
+                      </div>
+                      <ChevronRight className="size-4 text-muted-foreground group-hover:text-rocsta-green shrink-0 transition-colors" />
+                    </button>
+                  );
+                })}
             </div>
           </section>
         )}
 
         {tab === "search" && (
-          <SearchPanel corpus={corpus} loading={corpusLoading} onGoPage={goPage} isPartsCatalog={isExternalPdf} />
+          <SearchPanel
+            corpus={corpus}
+            loading={corpusLoading}
+            onGoPage={goPage}
+            isPartsCatalog={isExternalPdf}
+          />
         )}
 
         {tab === "tech" && (
@@ -400,11 +417,11 @@ function Am102Page() {
               </button>
             </div>
 
-            {language === "es" && (
+            {/* {language === "es" && (
               <p className="rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-xs text-muted-foreground">
                 {t("manual.reader.esNote")}
               </p>
-            )}
+            )} */}
 
             <ManualPdfViewer
               page={page}
@@ -414,9 +431,9 @@ function Am102Page() {
               highlightQuery={highlightQuery}
             />
 
-            {!isExternalPdf && language !== "en" && (
+            {/* {!isExternalPdf && language !== "en" && (
               <OcrPanel doc={pageDoc} loading={corpusLoading} highlightQuery={highlightQuery} />
-            )}
+            )} */}
           </section>
         )}
 
@@ -438,7 +455,15 @@ function Am102Page() {
   );
 }
 
-function OcrPanel({ doc, loading, highlightQuery }: { doc: PageDoc | undefined; loading: boolean; highlightQuery?: string }) {
+function OcrPanel({
+  doc,
+  loading,
+  highlightQuery,
+}: {
+  doc: PageDoc | undefined;
+  loading: boolean;
+  highlightQuery?: string;
+}) {
   const { t } = useLanguage();
   const [open, setOpen] = useState(Boolean(highlightQuery));
   const text = doc?.text?.trim();

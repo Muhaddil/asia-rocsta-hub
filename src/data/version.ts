@@ -1,4 +1,4 @@
-export const CURRENT_VERSION = "1.5.2";
+export const CURRENT_VERSION = "1.5.3";
 
 export type Localized = { es: string; en: string; fr?: string; pt?: string; de?: string };
 
@@ -9,6 +9,24 @@ export interface ChangelogEntry {
 }
 
 export const CHANGELOG: ChangelogEntry[] = [
+  {
+    version: "1.5.3",
+    date: "2026-10-02",
+    changes: [
+      {
+        es: "Se ha añadido un manual en español mejorado.",
+        en: "Added an improved Spanish manual.",
+      },
+      {
+        es: "Se han actualizado diversas dependencias de la web",
+        en: "Updated several web dependencies",
+      },
+      {
+        es: "Se ha actualizado la versión del proyecto a la 1.5.3",
+        en: "Bump project version to 1.5.3",
+      },
+    ],
+  },
   {
     version: "1.5.2",
     date: "2026-08-26",

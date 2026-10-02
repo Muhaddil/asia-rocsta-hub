@@ -347,7 +347,9 @@ function ManualsPage() {
                       {(man.id === "m-001" || man.id === "m-005") && (
                         <Link
                           to={localePath("/manuals/am102")}
-                          search={{ pdf: man.id === "m-005" ? "manual/am102-parts.pdf" : undefined }}
+                          search={{
+                            pdf: man.id === "m-005" ? "manual/am102-parts.pdf" : undefined,
+                          }}
                           className="inline-flex h-9 items-center justify-center gap-1.5 rounded-md bg-rocsta-green px-4 text-xs font-bold text-primary-foreground hover:opacity-90 transition-all shadow-sm"
                         >
                           <BookOpen className="size-3.5" /> {t("manuals.card.readOnline")}

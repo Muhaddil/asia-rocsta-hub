@@ -2,14 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
-import {
-  ChevronLeft,
-  ChevronRight,
-  ZoomIn,
-  ZoomOut,
-  Loader2,
-  Maximize2,
-} from "lucide-react";
+import { ChevronLeft, ChevronRight, ZoomIn, ZoomOut, Loader2, Maximize2 } from "lucide-react";
 import { useLanguage } from "@/components/language-provider";
 import { cn } from "@/lib/utils";
 
@@ -25,7 +18,13 @@ interface ManualPdfViewerProps {
   highlightQuery?: string;
 }
 
-export function ManualPdfViewer({ page, onPageChange, pdfUrl = PDF_URL, onPageCountChange, highlightQuery }: ManualPdfViewerProps) {
+export function ManualPdfViewer({
+  page,
+  onPageChange,
+  pdfUrl = PDF_URL,
+  onPageCountChange,
+  highlightQuery,
+}: ManualPdfViewerProps) {
   const { t } = useLanguage();
   const containerRef = useRef<HTMLDivElement>(null);
   const [numPages, setNumPages] = useState(0);
@@ -130,10 +129,7 @@ export function ManualPdfViewer({ page, onPageChange, pdfUrl = PDF_URL, onPageCo
       </div>
 
       <div
-        className={cn(
-          "flex justify-center overflow-auto bg-muted/60 p-4",
-          fullscreen && "flex-1",
-        )}
+        className={cn("flex justify-center overflow-auto bg-muted/60 p-4", fullscreen && "flex-1")}
       >
         <Document
           file={pdfUrl}
@@ -150,7 +146,9 @@ export function ManualPdfViewer({ page, onPageChange, pdfUrl = PDF_URL, onPageCo
           }
           error={
             <div className="flex min-h-[420px] items-center justify-center">
-              <p className="text-xs font-bold text-foreground">{label("manual.reader.loadError")}</p>
+              <p className="text-xs font-bold text-foreground">
+                {label("manual.reader.loadError")}
+              </p>
             </div>
           }
         >
@@ -159,22 +157,28 @@ export function ManualPdfViewer({ page, onPageChange, pdfUrl = PDF_URL, onPageCo
             width={pageWidth}
             renderTextLayer={true}
             renderAnnotationLayer={true}
-            customTextRenderer={highlightQuery ? ({ str }) => {
-              const q = highlightQuery.toLowerCase();
-              const lower = str.toLowerCase();
-              if (!lower.includes(q)) return str;
-              const parts: string[] = [];
-              let last = 0;
-              let idx = lower.indexOf(q);
-              while (idx !== -1) {
-                if (idx > last) parts.push(str.slice(last, idx));
-                parts.push(`<mark style="background:rgba(34,139,34,0.25);border-radius:2px">${str.slice(idx, idx + q.length)}</mark>`);
-                last = idx + q.length;
-                idx = lower.indexOf(q, last);
-              }
-              if (last < str.length) parts.push(str.slice(last));
-              return parts.join("");
-            } : undefined}
+            customTextRenderer={
+              highlightQuery
+                ? ({ str }) => {
+                    const q = highlightQuery.toLowerCase();
+                    const lower = str.toLowerCase();
+                    if (!lower.includes(q)) return str;
+                    const parts: string[] = [];
+                    let last = 0;
+                    let idx = lower.indexOf(q);
+                    while (idx !== -1) {
+                      if (idx > last) parts.push(str.slice(last, idx));
+                      parts.push(
+                        `<mark style="background:rgba(34,139,34,0.25);border-radius:2px">${str.slice(idx, idx + q.length)}</mark>`,
+                      );
+                      last = idx + q.length;
+                      idx = lower.indexOf(q, last);
+                    }
+                    if (last < str.length) parts.push(str.slice(last));
+                    return parts.join("");
+                  }
+                : undefined
+            }
             loading={
               <div className="flex min-h-[420px] items-center justify-center">
                 <Loader2 className="size-6 animate-spin text-rocsta-green" />
