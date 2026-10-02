@@ -1826,10 +1826,12 @@ export const aboutSections: AboutSection[] = [
     intro: {
       es:
         "Los ángulos y datos de paso son aproximados y varían según variante, neumáticos y altura de " +
-        "suspensión. Los valores indicados corresponden a la batalla corta con neumáticos de serie.",
+        "suspensión. Los valores indicados corresponden a la batalla corta con neumáticos de serie. " +
+        "El gradeability (capacidad de ascenso) se indica por motorización.",
       en:
         "Angles and departure figures are approximate and vary by variant, tyre and suspension height. " +
-        "Values shown correspond to the short-wheelbase version with standard tyres.",
+        "Values shown correspond to the short-wheelbase version with standard tyres. Gradeability " +
+        "(climbing ability) is given per engine.",
     },
     facts: [
       {
@@ -1879,6 +1881,46 @@ export const aboutSections: AboutSection[] = [
             body: {
               es: "El ángulo de rampa de ≈ 25° es uno de los puntos fuertes del SWB. Es el ángulo entre la rueda delantera y trasera que determina si el vehículo se 'empacha' en una cresta.\n\nComparativa:\n• Suzuki Jimny: ≈ 28° (batalla más corta).\n• Jeep Wrangler JL SWB: ≈ 23°.\n• LWB Country: ≈ 18° (significativamente peor).\n\nPara mejorar ángulo de rampa:\n• Levantar la suspensión (2-3 cm).\n• Montar neumáticos más grandes.\n• Retirar los bajos de protección si son metálicos.\n\nEl SWB es claramente superior al LWB para trial técnico y rocas.",
               en: "The ≈ 25° ramp-over angle is a strong point of the SWB. It is the angle between front and rear wheels that determines whether the vehicle 'bottom out' on a crest.\n\nComparison:\n• Suzuki Jimny: ≈ 28° (shorter wheelbase).\n• Jeep Wrangler JL SWB: ≈ 23°.\n• LWB Country: ≈ 18° (significantly worse).\n\nTo improve ramp-over angle:\n• Lift suspension (2-3 cm).\n• Fit larger tyres.\n• Remove metal underbody protection.\n\nThe SWB is clearly superior to LWB for technical trial and rock crawling.",
+            },
+          },
+        },
+      },
+      {
+        label: {
+          es: "Gradeability (tan) — 1.8 gasolina (F8)",
+          en: "Gradeability (tan) — 1.8 petrol (F8)",
+        },
+        value: { es: "1,29 (129 % · ≈ 52°)", en: "1.29 (129% · ≈ 52°)" },
+        info: {
+          tooltip: {
+            es: "Pendiente máxima: tan = 1,29 → 129 % ≈ 52,2°",
+            en: "Max gradient: tan = 1.29 → 129% ≈ 52.2°",
+          },
+          dialog: {
+            title: { es: "Gradeability del 1.8 (F8)", en: "Gradeability of the 1.8 (F8)" },
+            body: {
+              es: "¿Qué es el gradeability? Es la capacidad de ascenso: la pendiente máxima que el vehículo puede subir por sus propios medios (sin deslizar las ruedas), en 1ª con reducción (4L) y sobre superficie firme y seca.\n\n¿Qué significa la «T» (tan)? Es la tangente del ángulo de la pendiente: la altura que se sube por cada metro de avance horizontal (altura / base). Cuanto mayor es el tan, más empinada es la cuesta.\n\nLectura del valor del 1.8:\n• tan = 1,29 → sube 1,29 m por cada 1 m de avance → pendiente del 129 %.\n• 129 % equivale a ≈ 52,2° de inclinación real.\n• Referencias: rampa de garaje ≈ 15 % (≈ 8,5°); pista forestal fuerte ≈ 30-40 %; superar el 100 % es casi un 45°.\n\nCon este valor, el F8 escala lo que la mayoría de SUV modernos no escala: a partir de ≈ 50° el límite ya no es el motor, sino la tracción y el agarre de los neumáticos.",
+              en: 'What is gradeability? It is climbing ability: the steepest gradient the vehicle can climb unaided (without wheel spin), in 1st with low range (4L) and on a firm, dry surface.\n\nWhat does the "T" (tan) mean? It is the tangent of the slope angle: the height climbed per metre of horizontal advance (rise / run). The higher the tan, the steeper the climb.\n\nReading the 1.8 figure:\n• tan = 1.29 → rises 1.29 m per 1 m of advance → 129% gradient.\n• 129% equals ≈ 52.2° of real inclination.\n• References: car park ramp ≈ 15% (≈ 8.5°); hard forest track ≈ 30-40%; exceeding 100% is almost 45°.\n\nWith this figure, the F8 climbs what most modern SUVs cannot: from ≈ 50° onwards the limit is no longer the engine, but traction and tyre grip.',
+            },
+          },
+        },
+      },
+      {
+        label: {
+          es: "Gradeability (tan) — 2.2 diésel (R2)",
+          en: "Gradeability (tan) — 2.2 diesel (R2)",
+        },
+        value: { es: "0,97 (97 % · ≈ 44°)", en: "0.97 (97% · ≈ 44°)" },
+        info: {
+          tooltip: {
+            es: "Pendiente máxima: tan = 0,97 → 97 % ≈ 44,1°",
+            en: "Max gradient: tan = 0.97 → 97% ≈ 44.1°",
+          },
+          dialog: {
+            title: { es: "Gradeability del 2.2 (R2)", en: "Gradeability of the 2.2 (R2)" },
+            body: {
+              es: "El gradeability del 2.2 diésel se expresa igual que el del 1.8: como «tan», la tangente del ángulo de la pendiente (altura que se sube por cada metro de avance horizontal).\n\nLectura del valor del 2.2:\n• tan = 0,97 → sube 0,97 m por cada 1 m de avance → pendiente del 97 %.\n• 97 % equivale a ≈ 44,1° de inclinación real (casi un 45°, un muro).\n• Comparativa entre motorizaciones: 1,29 (F8 1.8) frente a 0,97 (R2 2.2), es decir, el 1.8 supera pendientes un 33 % más exigentes en términos de tan.\n\n¿Por qué el diésel, con más par (142 Nm frente a 133 Nm), rinde menos aquí? Porque la capacidad de ascenso no depende solo del par: influyen la relación total de transmisión, el peso (el R2 pesa ≈ 35 kg más que el F8), la resistencia a la rodadura y la tracción disponible. En la práctica, ambos valores son sobresalientes; el R2 sigue subiendo casi un 45° en 4L.\n\nNota: valores medidos en 1ª con reducción, superficie firme y seca y vehículo sin carga. En barro, arena o hielo el límite real será siempre la tracción, no el motor.",
+              en: 'The 2.2 diesel gradeability is expressed the same way as the 1.8: as "tan", the tangent of the slope angle (height climbed per metre of horizontal advance).\n\nReading the 2.2 figure:\n• tan = 0.97 → rises 0.97 m per 1 m of advance → 97% gradient.\n• 97% equals ≈ 44.1° of real inclination (almost 45°, a wall).\n• Comparison between engines: 1.29 (F8 1.8) versus 0.97 (R2 2.2), i.e. the 1.8 handles gradients 33% more demanding in tan terms.\n\nWhy does the diesel, with more torque (142 Nm versus 133 Nm), perform worse here? Because climbing ability does not depend on torque alone: overall gear ratio, weight (the R2 is ≈ 35 kg heavier than the F8), rolling resistance and available traction all come into play. In practice both figures are outstanding; the R2 still climbs close to 45° in 4L.\n\nNote: measured in 1st with low range, on firm dry ground and with an unladen vehicle. In mud, sand or ice the real limit will always be traction, not the engine.',
             },
           },
         },
