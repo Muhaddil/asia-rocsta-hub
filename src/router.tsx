@@ -11,6 +11,7 @@ export const getRouter = () => {
     scrollRestoration: true,
     defaultPreloadStaleTime: 60 * 1000, // 1 minute
     trailingSlash: "always",
+    defaultViewTransition: true,
   });
 
   return router;
