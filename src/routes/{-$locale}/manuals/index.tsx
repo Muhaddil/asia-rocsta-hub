@@ -159,7 +159,8 @@ function ManualsPage() {
       if (currentType && manual.type !== currentType) return false;
 
       // 2. Language Filter
-      if (currentLanguage && manual.language !== currentLanguage) return false;
+      if (currentLanguage && !(manual.languages ?? [manual.language]).includes(currentLanguage))
+        return false;
 
       // 3. Motor Filter
       if (currentMotor) {
@@ -283,7 +284,10 @@ function ManualsPage() {
         {filteredList.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {filteredList.map((man) => {
-              const lang = LANG_LABELS[man.language];
+              const langCode = (man.languages ?? [man.language]).includes(language)
+                ? language
+                : man.language;
+              const lang = LANG_LABELS[langCode];
               return (
                 <div
                   key={man.id}

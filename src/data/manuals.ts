@@ -14,6 +14,7 @@ export const manuals: Manual[] = [
     type: "workshop",
     format: "pdf",
     language: "en",
+    languages: ["es", "en"],
     motor: "ambos",
     url: "https://www.facebook.com/groups/622611641812238/permalink/1557947741611952",
     year: "1994",
@@ -88,7 +89,7 @@ export const manuals: Manual[] = [
     language: "en",
     motor: "ambos",
     url: "https://www.facebook.com/groups/622611641812238/permalink/1831859074220816",
-    year: "UNK",
+    // year: "UNK",
     pages: 466,
   },
   // {

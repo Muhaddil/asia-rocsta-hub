@@ -122,6 +122,8 @@ export interface Manual {
   type: ManualType;
   format: ManualFormat;
   language: ManualLanguage;
+  /** All languages the document is available in (defaults to `language`) */
+  languages?: ManualLanguage[];
   motor: Motor;
   /** External URL to the document */
   url?: string;
