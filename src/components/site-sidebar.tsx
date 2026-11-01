@@ -4,26 +4,27 @@ import { useLanguage } from "@/components/language-provider";
 import { localePath } from "@/lib/locale-helpers";
 
 export function SiteSidebar() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
+  const lp = (path: string) => localePath(path, language);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const searchStr = useRouterState({ select: (s) => s.location.searchStr });
 
   const SYSTEMS = [
-    { label: t("cat.engine"), to: localePath("/parts"), tag: "engine" as const },
-    { label: t("cat.transmission"), to: localePath("/parts"), tag: "transmission" as const },
-    { label: t("cat.suspension"), to: localePath("/parts"), tag: "suspension" as const },
-    { label: t("cat.electrical"), to: localePath("/parts"), tag: "electrical" as const },
-    { label: t("cat.brakes"), to: localePath("/parts"), tag: "brakes" as const },
-    { label: t("cat.tires"), to: localePath("/parts"), tag: "tires" as const },
+    { label: t("cat.engine"), to: lp("/parts"), tag: "engine" as const },
+    { label: t("cat.transmission"), to: lp("/parts"), tag: "transmission" as const },
+    { label: t("cat.suspension"), to: lp("/parts"), tag: "suspension" as const },
+    { label: t("cat.electrical"), to: lp("/parts"), tag: "electrical" as const },
+    { label: t("cat.brakes"), to: lp("/parts"), tag: "brakes" as const },
+    { label: t("cat.tires"), to: lp("/parts"), tag: "tires" as const },
   ];
 
   const COMMUNITY = [
-    { label: t("comm.contrib"), to: localePath("/community"), tab: "comp" as const },
-    { label: t("comm.part"), to: localePath("/community"), tab: "part" as const },
-    { label: t("comm.guide"), to: localePath("/community"), tab: "guide" as const },
-    { label: t("comm.problem"), to: localePath("/community"), tab: "problem" as const },
-    { label: t("comm.bug"), to: localePath("/community"), tab: "bug" as const },
-    { label: t("comm.partwrong"), to: localePath("/community"), tab: "partwrong" as const },
+    { label: t("comm.contrib"), to: lp("/community"), tab: "comp" as const },
+    { label: t("comm.part"), to: lp("/community"), tab: "part" as const },
+    { label: t("comm.guide"), to: lp("/community"), tab: "guide" as const },
+    { label: t("comm.problem"), to: lp("/community"), tab: "problem" as const },
+    { label: t("comm.bug"), to: lp("/community"), tab: "bug" as const },
+    { label: t("comm.partwrong"), to: lp("/community"), tab: "partwrong" as const },
   ];
 
   const currentCategory = useMemo(() => {
@@ -99,7 +100,7 @@ export function SiteSidebar() {
             {t("sidebar.missingPartDesc")}
           </p>
           <Link
-            to={localePath("/community")}
+            to={lp("/community")}
             className="inline-flex text-xs font-bold text-rocsta-green hover:underline"
           >
             {t("sidebar.contribute")}

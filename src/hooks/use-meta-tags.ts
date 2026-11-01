@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useLanguage } from "@/components/language-provider";
+import { absoluteUrl } from "@/lib/site";
 
 interface MetaTags {
   title?: string;
@@ -48,8 +49,9 @@ export function useMetaTags(meta: MetaTags) {
     }
 
     if (meta.ogImage) {
-      updateMeta("og:image", meta.ogImage, "property");
-      updateMeta("twitter:image", meta.ogImage);
+      const image = absoluteUrl(meta.ogImage);
+      updateMeta("og:image", image, "property");
+      updateMeta("twitter:image", image);
     }
   }, [language, meta.title, meta.description, meta.ogTitle, meta.ogDescription, meta.ogImage]);
 }

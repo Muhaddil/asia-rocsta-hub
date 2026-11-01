@@ -9,6 +9,16 @@ import path from "node:path";
 const isGitHubPages = process.env.GITHUB_PAGES === "true";
 const basePath = isGitHubPages ? "/asia-rocsta-hub" : "";
 const basePathWithSlash = isGitHubPages ? "/asia-rocsta-hub/" : "/";
+const apiUrl = (process.env.VITE_API_URL || "").trim();
+
+if (isGitHubPages && apiUrl && !apiUrl.startsWith("https://")) {
+  throw new Error("VITE_API_URL debe usar HTTPS en producción.");
+}
+if (isGitHubPages && !apiUrl) {
+  console.warn(
+    "[config] VITE_API_URL no está definido; el sitio se compilará sin API y las funciones dinámicas fallarán.",
+  );
+}
 
 export default defineConfig({
   base: basePathWithSlash,
@@ -25,71 +35,23 @@ export default defineConfig({
       },
       pages: [
         { path: "/" },
-        { path: "/es/" },
-        { path: "/en/" },
-        { path: "/fr/" },
-        { path: "/pt/" },
-        { path: "/de/" },
-        { path: "/es/about/" },
-        { path: "/en/about/" },
-        { path: "/fr/about/" },
-        { path: "/pt/about/" },
-        { path: "/de/about/" },
-        { path: "/es/parts/" },
-        { path: "/en/parts/" },
-        { path: "/fr/parts/" },
-        { path: "/pt/parts/" },
-        { path: "/de/parts/" },
-        { path: "/es/guides/" },
-        { path: "/en/guides/" },
-        { path: "/fr/guides/" },
-        { path: "/pt/guides/" },
-        { path: "/de/guides/" },
-        { path: "/es/problems/" },
-        { path: "/en/problems/" },
-        { path: "/fr/problems/" },
-        { path: "/pt/problems/" },
-        { path: "/de/problems/" },
-        { path: "/es/manuals/" },
-        { path: "/en/manuals/" },
-        { path: "/fr/manuals/" },
-        { path: "/pt/manuals/" },
-        { path: "/de/manuals/" },
-        { path: "/es/manuals/am102/" },
-        { path: "/en/manuals/am102/" },
-        { path: "/fr/manuals/am102/" },
-        { path: "/pt/manuals/am102/" },
-        { path: "/de/manuals/am102/" },
-        { path: "/es/compatibility/" },
-        { path: "/en/compatibility/" },
-        { path: "/fr/compatibility/" },
-        { path: "/pt/compatibility/" },
-        { path: "/de/compatibility/" },
-        { path: "/es/community/" },
-        { path: "/en/community/" },
-        { path: "/fr/community/" },
-        { path: "/pt/community/" },
-        { path: "/de/community/" },
-        { path: "/es/coming-soon/" },
-        { path: "/en/coming-soon/" },
-        { path: "/fr/coming-soon/" },
-        { path: "/pt/coming-soon/" },
-        { path: "/de/coming-soon/" },
-        { path: "/es/forum/" },
-        { path: "/en/forum/" },
-        { path: "/fr/forum/" },
-        { path: "/pt/forum/" },
-        { path: "/de/forum/" },
-        { path: "/es/changelog/" },
-        { path: "/en/changelog/" },
-        { path: "/fr/changelog/" },
-        { path: "/pt/changelog/" },
-        { path: "/de/changelog/" },
-        { path: "/es/gallery/" },
-        { path: "/en/gallery/" },
-        { path: "/fr/gallery/" },
-        { path: "/pt/gallery/" },
-        { path: "/de/gallery/" },
+        ...["es", "en"].flatMap((locale) =>
+          [
+            "",
+            "about",
+            "parts",
+            "guides",
+            "problems",
+            "manuals",
+            "manuals/am102",
+            "compatibility",
+            "community",
+            "coming-soon",
+            "forum",
+            "changelog",
+            "gallery",
+          ].map((page) => ({ path: `/${locale}/${page}${page ? "/" : ""}` })),
+        ),
       ],
       router: {
         basepath: basePath,
@@ -101,6 +63,7 @@ export default defineConfig({
     react(),
     tailwindcss(),
     ViteImageOptimizer({
+      exclude: ["favicon.svg"],
       jpeg: { quality: 75, progressive: true },
       jpg: { quality: 75, progressive: true },
       png: { quality: 75 },
@@ -112,7 +75,7 @@ export default defineConfig({
     tsconfigPaths: true,
 
     alias: {
-      "@": path.resolve(__dirname, "./src"),
+      "@": path.resolve(import.meta.dirname, "./src"),
     },
 
     dedupe: ["react", "react-dom", "@tanstack/react-router"],

@@ -5,12 +5,13 @@ import { useQuery } from "@tanstack/react-query";
 import { useLanguage } from "@/components/language-provider";
 import { useMetaTags } from "@/hooks/use-meta-tags";
 import { PageShell, Crumbs } from "@/components/page-shell";
-import { api } from "@/lib/api";
+import { api, getApiBase } from "@/lib/api";
 import { getMetaTranslation } from "@/lib/meta-translations";
 import { resolveLocale, getAlternateHrefs } from "@/lib/i18n-routing";
 import { Loader2, ChevronLeft, ChevronRight, Camera } from "lucide-react";
 import { GalleryLightbox } from "@/components/gallery-lightbox";
 import ogImage from "@/assets/rocsta-hero.jpg";
+import { absoluteUrl } from "@/lib/site";
 
 const SITE_URL = "https://muhaddil.github.io/asia-rocsta-hub";
 const ITEMS_PER_PAGE = 12;
@@ -37,8 +38,8 @@ export const Route = createFileRoute("/{-$locale}/gallery")({
           content: getMetaTranslation("meta.gallery.ogDescription", locale),
         },
         { property: "og:url", content: `${SITE_URL}/${locale}/gallery/` },
-        { property: "og:image", content: ogImage },
-        { name: "twitter:image", content: ogImage },
+        { property: "og:image", content: absoluteUrl(ogImage) },
+        { name: "twitter:image", content: absoluteUrl(ogImage) },
       ],
       links: [
         { rel: "canonical", href: `${SITE_URL}/${locale}/gallery/` },
@@ -55,7 +56,12 @@ export const Route = createFileRoute("/{-$locale}/gallery")({
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
             itemListElement: [
-              { "@type": "ListItem", position: 1, name: "Inicio", item: `${SITE_URL}/${locale}/` },
+              {
+                "@type": "ListItem",
+                position: 1,
+                name: locale === "en" ? "Home" : "Inicio",
+                item: `${SITE_URL}/${locale}/`,
+              },
               {
                 "@type": "ListItem",
                 position: 2,
@@ -71,11 +77,7 @@ export const Route = createFileRoute("/{-$locale}/gallery")({
   component: GalleryPage,
 });
 
-const API_BASE =
-  typeof import.meta !== "undefined" &&
-  (import.meta as { env?: Record<string, string> }).env?.VITE_API_URL
-    ? (import.meta as { env: Record<string, string> }).env.VITE_API_URL
-    : "http://localhost:3001";
+const API_BASE = getApiBase();
 
 function imageUrl(path: string): string {
   if (path.startsWith("http")) return path;
@@ -99,7 +101,12 @@ function GalleryPage() {
     ogImage: ogImage,
   });
 
-  const { data: allEntries = [], isLoading: loading } = useQuery({
+  const {
+    data: allEntries = [],
+    isLoading: loading,
+    isError: galleryError,
+    refetch: refetchGallery,
+  } = useQuery({
     queryKey: ["gallery"],
     queryFn: () => api.getGallery(),
     refetchInterval: 60000,
@@ -148,7 +155,19 @@ function GalleryPage() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {loading ? (
+          {galleryError ? (
+            <div className="col-span-full rounded-xl border border-dashed border-destructive/40 bg-card py-16 text-center">
+              <h3 className="text-sm font-bold text-foreground">{t("error.title")}</h3>
+              <p className="mt-1 text-xs text-muted-foreground">{t("error.desc")}</p>
+              <button
+                type="button"
+                onClick={() => refetchGallery()}
+                className="mt-4 rounded-md bg-rocsta-green px-4 py-2 text-xs font-bold text-primary-foreground hover:opacity-90"
+              >
+                {t("error.retry")}
+              </button>
+            </div>
+          ) : loading ? (
             <div className="col-span-full flex justify-center py-12">
               <Loader2 className="size-6 animate-spin text-muted-foreground" />
             </div>
@@ -170,6 +189,10 @@ function GalleryPage() {
                 }}
                 tabIndex={0}
                 role="button"
+                aria-label={t("gallery.viewPhoto", {
+                  year: String(e.year),
+                  owner: e.owner || e.country || "Rocsta",
+                })}
               >
                 <div className="aspect-[4/3] overflow-hidden bg-muted">
                   <img
@@ -185,7 +208,7 @@ function GalleryPage() {
                       Rocsta {e.year} · {e.motor}
                     </div>
                     <div className="text-xs text-muted-foreground mt-0.5">
-                      {e.country && `${e.country} — `}
+                      {e.country && `${e.country} ? `}
                       {e.owner}
                     </div>
                   </div>
@@ -198,6 +221,8 @@ function GalleryPage() {
         {totalPages > 1 && (
           <nav className="flex items-center justify-center gap-1.5 pt-4">
             <button
+              type="button"
+              aria-label={t("gallery.prevPage")}
               onClick={() => goToPage(currentPage - 1)}
               disabled={currentPage === 1}
               className="h-9 w-9 rounded-md border border-border bg-card flex items-center justify-center text-muted-foreground hover:bg-muted transition-colors disabled:opacity-30 disabled:pointer-events-none"
@@ -213,6 +238,9 @@ function GalleryPage() {
               ) : (
                 <button
                   key={p}
+                  type="button"
+                  aria-label={t("gallery.page", { page: p })}
+                  aria-current={p === currentPage ? "page" : undefined}
                   onClick={() => goToPage(p)}
                   className={[
                     "h-9 min-w-[2.25rem] rounded-md border text-sm font-bold transition-all",
@@ -227,6 +255,8 @@ function GalleryPage() {
             )}
 
             <button
+              type="button"
+              aria-label={t("gallery.nextPage")}
               onClick={() => goToPage(currentPage + 1)}
               disabled={currentPage === totalPages}
               className="h-9 w-9 rounded-md border border-border bg-card flex items-center justify-center text-muted-foreground hover:bg-muted transition-colors disabled:opacity-30 disabled:pointer-events-none"

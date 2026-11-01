@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/dialog";
 import heroImg from "@/assets/rocsta-hero.jpg";
 import ogImage from "@/assets/rocsta-hero.jpg";
+import { absoluteUrl } from "@/lib/site";
 import { localePath } from "@/lib/locale-helpers";
 
 const SITE_URL = "https://muhaddil.github.io/asia-rocsta-hub";
@@ -45,8 +46,8 @@ export const Route = createFileRoute("/{-$locale}/about")({
         },
         { property: "og:url", content: `${SITE_URL}/${locale}/about/` },
         { property: "og:type", content: "article" },
-        { property: "og:image", content: ogImage },
-        { name: "twitter:image", content: ogImage },
+        { property: "og:image", content: absoluteUrl(ogImage) },
+        { name: "twitter:image", content: absoluteUrl(ogImage) },
       ],
       links: [
         { rel: "canonical", href: `${SITE_URL}/${locale}/about/` },
@@ -85,7 +86,12 @@ export const Route = createFileRoute("/{-$locale}/about")({
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
             itemListElement: [
-              { "@type": "ListItem", position: 1, name: "Inicio", item: `${SITE_URL}/${locale}/` },
+              {
+                "@type": "ListItem",
+                position: 1,
+                name: locale === "en" ? "Home" : "Inicio",
+                item: `${SITE_URL}/${locale}/`,
+              },
               {
                 "@type": "ListItem",
                 position: 2,
@@ -143,6 +149,7 @@ function InfoIcon({ info, lang }: { info: AboutInfo; lang: "es" | "en" }) {
 
 function AboutPage() {
   const { language, t } = useLanguage();
+  const lp = (path: string) => localePath(path, language);
   const L = (v: Localized) => v[language as "es" | "en"] ?? v.es;
   const { locale } = Route.useParams();
   const lang = resolveLocale(locale);
@@ -334,13 +341,13 @@ function AboutPage() {
           <p className="text-sm text-slate-300 leading-relaxed max-w-3xl">{L(aboutMission.desc)}</p>
           <div className="mt-6 flex flex-wrap gap-3">
             <Link
-              to={localePath("/community")}
+              to={lp("/community")}
               className="rounded-md bg-rocsta-green px-4 py-2 text-sm font-bold text-primary-foreground hover:opacity-90"
             >
               {L(aboutMission.cta)}
             </Link>
             <Link
-              to={localePath("/parts")}
+              to={lp("/parts")}
               className="rounded-md bg-white/10 px-4 py-2 text-sm font-bold border border-white/10 hover:bg-white/20"
             >
               {L(aboutMission.cta2)}

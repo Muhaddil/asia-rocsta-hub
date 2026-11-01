@@ -1,22 +1,16 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { z } from "zod";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useLanguage } from "@/components/language-provider";
 import { useMetaTags } from "@/hooks/use-meta-tags";
+import { useDebouncedSearchParam } from "@/hooks/use-debounced-search-param";
 import { PageShell, Crumbs } from "@/components/page-shell";
-import {
-  api,
-  getForumToken,
-  setForumToken,
-  translateError,
-  type ApiForumThread,
-  type ApiForumPost,
-  type ForumUser,
-} from "@/lib/api";
+import { api, getForumToken, setForumToken, translateError, type ForumUser } from "@/lib/api";
 import { getMetaTranslation } from "@/lib/meta-translations";
 import { resolveLocale, getAlternateHrefs } from "@/lib/i18n-routing";
 import ogImage from "@/assets/rocsta-hero.jpg";
+import { absoluteUrl } from "@/lib/site";
 import {
   MessageSquare,
   Search,
@@ -28,15 +22,12 @@ import {
   Clock,
   User,
   Loader2,
-  AlertCircle,
-  Tag,
   LogIn,
   LogOut,
   Shield,
   Trash2,
   Check,
   X,
-  Users,
   Heart,
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -83,8 +74,8 @@ export const Route = createFileRoute("/{-$locale}/forum")({
           content: getMetaTranslation("meta.forum.ogDescription", locale),
         },
         { property: "og:url", content: `${SITE_URL}/${locale}/forum/` },
-        { property: "og:image", content: ogImage },
-        { name: "twitter:image", content: ogImage },
+        { property: "og:image", content: absoluteUrl(ogImage) },
+        { name: "twitter:image", content: absoluteUrl(ogImage) },
       ],
       links: [
         { rel: "canonical", href: `${SITE_URL}/${locale}/forum/` },
@@ -101,7 +92,12 @@ export const Route = createFileRoute("/{-$locale}/forum")({
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
             itemListElement: [
-              { "@type": "ListItem", position: 1, name: "Inicio", item: `${SITE_URL}/${locale}/` },
+              {
+                "@type": "ListItem",
+                position: 1,
+                name: locale === "en" ? "Home" : "Inicio",
+                item: `${SITE_URL}/${locale}/`,
+              },
               {
                 "@type": "ListItem",
                 position: 2,
@@ -151,7 +147,7 @@ function formatDate(dateStr: string) {
 }
 
 function ForumPage() {
-  const { t, language } = useLanguage();
+  const { t } = useLanguage();
   const { locale } = Route.useParams();
   const lang = resolveLocale(locale);
   const searchParams = Route.useSearch();
@@ -162,6 +158,11 @@ function ForumPage() {
   const activeThreadId = searchParams.threadId;
   const searchQuery = searchParams.search || "";
   const activeTab = searchParams.tab || "threads";
+  const [searchInput, setSearchInput] = useDebouncedSearchParam(searchQuery, (value) =>
+    navigate({
+      search: (prev) => ({ ...prev, search: value || undefined }),
+    }),
+  );
 
   useMetaTags({
     title: getMetaTranslation("meta.forum.title", lang),
@@ -229,7 +230,9 @@ function ForumPage() {
   const handleLogout = async () => {
     try {
       await api.forumLogout();
-    } catch {}
+    } catch {
+      /* La sesión local se limpia igualmente */
+    }
     setForumToken(null);
     setForumUser(null);
     queryClient.invalidateQueries({ queryKey: ["forum-threads"] });
@@ -247,6 +250,7 @@ function ForumPage() {
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [confirmMessage, setConfirmMessage] = useState("");
   const [confirmAction, setConfirmAction] = useState<(() => void) | null>(null);
+  const [threadLimit, setThreadLimit] = useState(30);
 
   const showConfirm = (message: string, action: () => void) => {
     setConfirmMessage(message);
@@ -262,16 +266,22 @@ function ForumPage() {
 
   const includePending = isAdminOrMod && activeTab === "pending";
 
-  const { data: threads = [], isLoading: loadingThreads } = useQuery({
-    queryKey: ["forum-threads", selectedCategory, includePending],
-    queryFn: () => api.getForumThreads(selectedCategory, includePending),
-    refetchInterval: 10000,
+  const {
+    data: threads = [],
+    isLoading: loadingThreads,
+    isError: threadsError,
+    refetch: refetchThreads,
+  } = useQuery({
+    queryKey: ["forum-threads", selectedCategory, includePending, threadLimit],
+    queryFn: () => api.getForumThreads(selectedCategory, includePending, threadLimit),
+    refetchInterval: 30000,
     refetchOnWindowFocus: true,
   });
 
   const {
     data: threadDetails = null,
     isLoading: loadingDetails,
+    isError: detailsError,
     refetch: refetchDetails,
   } = useQuery({
     queryKey: ["forum-thread", activeThreadId],
@@ -279,7 +289,12 @@ function ForumPage() {
     enabled: !!activeThreadId,
   });
 
-  const { data: pendingData = null, isLoading: loadingPending } = useQuery({
+  const {
+    data: pendingData = null,
+    isLoading: loadingPending,
+    isError: pendingError,
+    refetch: refetchPending,
+  } = useQuery({
     queryKey: ["forum-pending"],
     queryFn: () => api.getForumPending(),
     enabled: isAdminOrMod && activeTab === "pending",
@@ -431,15 +446,6 @@ function ForumPage() {
     });
   };
 
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    navigate({
-      search: (prev) => ({
-        ...prev,
-        search: e.target.value || undefined,
-      }),
-    });
-  };
-
   const handleTabChange = (tab: "threads" | "pending") => {
     navigate({
       search: (prev) => ({
@@ -505,10 +511,14 @@ function ForumPage() {
               </DialogHeader>
               <form onSubmit={handleAuth} className="space-y-3 pt-2">
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-muted-foreground uppercase">
+                  <label
+                    htmlFor="forum-auth-username"
+                    className="text-[10px] font-bold text-muted-foreground uppercase"
+                  >
                     {t("forum.auth.username")}
                   </label>
                   <Input
+                    id="forum-auth-username"
                     required
                     value={authUsername}
                     onChange={(e) => setAuthUsername(e.target.value)}
@@ -519,10 +529,14 @@ function ForumPage() {
                 </div>
                 {authMode === "register" && (
                   <div className="space-y-1">
-                    <label className="text-[10px] font-bold text-muted-foreground uppercase">
+                    <label
+                      htmlFor="forum-auth-display-name"
+                      className="text-[10px] font-bold text-muted-foreground uppercase"
+                    >
                       {t("forum.auth.displayName")}
                     </label>
                     <Input
+                      id="forum-auth-display-name"
                       value={authDisplayName}
                       onChange={(e) => setAuthDisplayName(e.target.value)}
                       placeholder={t("forum.auth.displayNamePlaceholder")}
@@ -531,16 +545,20 @@ function ForumPage() {
                   </div>
                 )}
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-muted-foreground uppercase">
+                  <label
+                    htmlFor="forum-auth-password"
+                    className="text-[10px] font-bold text-muted-foreground uppercase"
+                  >
                     {t("forum.auth.password")}
                   </label>
                   <Input
+                    id="forum-auth-password"
                     required
                     type="password"
                     value={authPassword}
                     onChange={(e) => setAuthPassword(e.target.value)}
                     className="bg-muted/30 text-xs"
-                    minLength={6}
+                    minLength={8}
                   />
                 </div>
                 {authError && (
@@ -578,7 +596,24 @@ function ForumPage() {
         )}
       </div>
 
-      {activeThreadId && threadDetails ? (
+      {activeThreadId && loadingDetails ? (
+        <div className="py-20 text-center text-xs text-muted-foreground flex flex-col items-center justify-center gap-2">
+          <Loader2 className="size-6 animate-spin text-rocsta-green" />
+          <span>{t("ui.loading")}</span>
+        </div>
+      ) : activeThreadId && detailsError ? (
+        <div className="rounded-xl border border-dashed border-destructive/40 bg-card py-16 text-center">
+          <h3 className="text-sm font-bold text-foreground">{t("error.title")}</h3>
+          <p className="mt-1 text-xs text-muted-foreground">{t("error.desc")}</p>
+          <button
+            type="button"
+            onClick={() => refetchDetails()}
+            className="mt-4 rounded-md bg-rocsta-green px-4 py-2 text-xs font-bold text-primary-foreground hover:opacity-90"
+          >
+            {t("error.retry")}
+          </button>
+        </div>
+      ) : activeThreadId && threadDetails ? (
         <div className="space-y-6">
           <button
             onClick={() =>
@@ -853,10 +888,14 @@ function ForumPage() {
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-muted-foreground uppercase">
+                  <label
+                    htmlFor="forum-reply-content"
+                    className="text-[10px] font-bold text-muted-foreground uppercase"
+                  >
                     {t("forum.reply.content")}
                   </label>
                   <textarea
+                    id="forum-reply-content"
                     required
                     rows={4}
                     value={replyContent}
@@ -942,11 +981,14 @@ function ForumPage() {
 
                   <form onSubmit={handleCreateThread} className="space-y-4 pt-2">
                     <div className="space-y-1">
-                      <label className="text-[10px] font-bold text-muted-foreground uppercase">
+                      <label
+                        htmlFor="forum-create-category"
+                        className="text-[10px] font-bold text-muted-foreground uppercase"
+                      >
                         {t("forum.create.category")}
                       </label>
                       <Select value={newThreadCategory} onValueChange={setNewThreadCategory}>
-                        <SelectTrigger className="bg-muted/30 text-xs">
+                        <SelectTrigger id="forum-create-category" className="bg-muted/30 text-xs">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
@@ -960,10 +1002,14 @@ function ForumPage() {
                     </div>
 
                     <div className="space-y-1">
-                      <label className="text-[10px] font-bold text-muted-foreground uppercase">
+                      <label
+                        htmlFor="forum-create-title"
+                        className="text-[10px] font-bold text-muted-foreground uppercase"
+                      >
                         {t("forum.create.titleLabel")}
                       </label>
                       <Input
+                        id="forum-create-title"
                         required
                         value={newThreadTitle}
                         onChange={(e) => setNewThreadTitle(e.target.value)}
@@ -973,10 +1019,14 @@ function ForumPage() {
                     </div>
 
                     <div className="space-y-1">
-                      <label className="text-[10px] font-bold text-muted-foreground uppercase">
+                      <label
+                        htmlFor="forum-create-content"
+                        className="text-[10px] font-bold text-muted-foreground uppercase"
+                      >
                         {t("forum.create.content")}
                       </label>
                       <textarea
+                        id="forum-create-content"
                         required
                         rows={5}
                         value={newThreadContent}
@@ -1086,11 +1136,24 @@ function ForumPage() {
             </div>
 
             <div className="lg:col-span-3 space-y-4">
-              {activeTab === "pending" && isAdminOrMod ? (
-                loadingPending ? (
+              {activeTab === "pending" &&
+                isAdminOrMod &&
+                (loadingPending ? (
                   <div className="py-20 text-center text-xs text-muted-foreground flex flex-col items-center justify-center gap-2">
                     <Loader2 className="size-6 animate-spin text-rocsta-green" />
                     <span>{t("ui.loading")}</span>
+                  </div>
+                ) : pendingError ? (
+                  <div className="rounded-xl border border-dashed border-destructive/40 bg-card py-16 text-center">
+                    <h3 className="text-sm font-bold text-foreground">{t("error.title")}</h3>
+                    <p className="mt-1 text-xs text-muted-foreground">{t("error.desc")}</p>
+                    <button
+                      type="button"
+                      onClick={() => refetchPending()}
+                      className="mt-4 rounded-md bg-rocsta-green px-4 py-2 text-xs font-bold text-primary-foreground hover:opacity-90"
+                    >
+                      {t("error.retry")}
+                    </button>
                   </div>
                 ) : pendingData && pendingData.threads.length + pendingData.posts.length === 0 ? (
                   <div className="rounded-xl border border-dashed border-border bg-card py-16 text-center">
@@ -1104,7 +1167,7 @@ function ForumPage() {
                       {t("forum.pending.emptyDesc")}
                     </p>
                   </div>
-                ) : (
+                ) : pendingData ? (
                   <div className="space-y-4">
                     {pendingData!.threads.length > 0 && (
                       <div>
@@ -1243,134 +1306,169 @@ function ForumPage() {
                       </div>
                     )}
                   </div>
-                )
-              ) : (
-                <>
-                  <div className="relative">
-                    <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
-                    <Input
-                      type="text"
-                      placeholder={t("forum.searchPlaceholder")}
-                      value={searchQuery}
-                      onChange={handleSearchChange}
-                      className="pl-10 bg-muted/20 focus-visible:ring-rocsta-green text-xs h-10 rounded-xl"
-                    />
-                  </div>
+                ) : (
+                  <>
+                    <div className="relative">
+                      <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+                      <Input
+                        type="text"
+                        aria-label={t("forum.searchPlaceholder")}
+                        placeholder={t("forum.searchPlaceholder")}
+                        value={searchInput}
+                        onChange={(e) => setSearchInput(e.target.value)}
+                        className="pl-10 bg-muted/20 focus-visible:ring-rocsta-green text-xs h-10 rounded-xl"
+                      />
+                    </div>
 
-                  {loadingThreads ? (
-                    <div className="py-20 text-center text-xs text-muted-foreground flex flex-col items-center justify-center gap-2">
-                      <Loader2 className="size-6 animate-spin text-rocsta-green" />
-                      <span>{t("ui.loading")}</span>
-                    </div>
-                  ) : filteredThreads.length === 0 ? (
-                    <div className="rounded-xl border border-dashed border-border bg-card py-16 text-center">
-                      <div className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-muted text-muted-foreground mb-3">
-                        <MessageSquare className="size-5" />
-                      </div>
-                      <h3 className="text-sm font-bold text-foreground">{t("forum.noThreads")}</h3>
-                      <p className="mt-1 text-xs text-muted-foreground max-w-xs mx-auto">
-                        {t("forum.noThreadsDesc")}
-                      </p>
-                    </div>
-                  ) : (
-                    <div className="divide-y divide-border/60 rounded-xl border border-border bg-card overflow-hidden shadow-sm">
-                      {filteredThreads.map((thread) => (
-                        <div
-                          key={thread.id}
-                          onClick={() =>
-                            navigate({
-                              search: (prev) => ({ ...prev, threadId: thread.id }),
-                            })
-                          }
-                          className="p-4 hover:bg-muted/40 transition-colors cursor-pointer space-y-2 group"
+                    {threadsError ? (
+                      <div className="rounded-xl border border-dashed border-destructive/40 bg-card py-16 text-center">
+                        <h3 className="text-sm font-bold text-foreground">{t("error.title")}</h3>
+                        <p className="mt-1 text-xs text-muted-foreground">{t("error.desc")}</p>
+                        <button
+                          type="button"
+                          onClick={() => refetchThreads()}
+                          className="mt-4 rounded-md bg-rocsta-green px-4 py-2 text-xs font-bold text-primary-foreground hover:opacity-90"
                         >
-                          <div className="flex flex-wrap items-center gap-2 justify-between">
-                            <div className="flex items-center gap-2">
-                              <Badge
-                                variant="outline"
-                                className={[
-                                  getCategoryColor(thread.category),
-                                  "text-[9px] py-0 px-1.5",
-                                ].join(" ")}
-                              >
-                                {t(`forum.cat.${thread.category}`)}
-                              </Badge>
-                              {thread.status === "pending" && (
-                                <Badge
-                                  variant="outline"
-                                  className="bg-amber-500/10 text-amber-500 border-amber-500/20 text-[8px] py-0 px-1"
-                                >
-                                  {t("forum.status.pending")}
-                                </Badge>
-                              )}
-                              {thread.status === "rejected" && (
-                                <Badge
-                                  variant="outline"
-                                  className="bg-red-500/10 text-red-500 border-red-500/20 text-[8px] py-0 px-1"
-                                >
-                                  {t("forum.status.rejected")}
-                                </Badge>
-                              )}
-                            </div>
-                            <div className="flex items-center gap-1.5 text-[9px] text-muted-foreground font-semibold">
-                              <Clock className="size-3" />
-                              <span>
-                                {t("forum.lastActivity")}: {formatDate(thread.last_activity)}
-                              </span>
-                            </div>
-                          </div>
-
-                          <h3 className="text-sm font-extrabold text-foreground group-hover:text-rocsta-green transition-colors leading-tight">
-                            {thread.title}
-                          </h3>
-
-                          <p className="text-xs text-muted-foreground line-clamp-2 leading-relaxed">
-                            {thread.content}
-                          </p>
-
-                          <div className="flex flex-wrap items-center justify-between gap-4 pt-1 text-[10px] text-muted-foreground font-semibold">
-                            <div className="flex items-center gap-1">
-                              <User className="size-3 text-rocsta-accent" />
-                              <span>{thread.author_name}</span>
-                              <span className="text-slate-400 font-normal">
-                                · {formatDate(thread.created_at)}
-                              </span>
-                            </div>
-
-                            <div className="flex items-center gap-3">
-                              <button
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  if (forumUser) likeThreadMutation.mutate(thread.id);
-                                }}
-                                className={`flex items-center gap-1 transition-colors ${thread.liked ? "text-red-500" : "text-slate-400 hover:text-red-400"}`}
-                                disabled={!forumUser}
-                                title={
-                                  forumUser
-                                    ? thread.liked
-                                      ? "Quitar me gusta"
-                                      : "Me gusta"
-                                    : "Inicia sesión"
-                                }
-                              >
-                                <Heart className={`size-3 ${thread.liked ? "fill-current" : ""}`} />{" "}
-                                {thread.likes_count}
-                              </button>
-                              <span className="flex items-center gap-1">
-                                <Eye className="size-3 text-slate-400" /> {thread.views}
-                              </span>
-                              <span className="flex items-center gap-1">
-                                <MessageCircle className="size-3 text-slate-400" />{" "}
-                                {thread.replies_count}
-                              </span>
-                            </div>
-                          </div>
+                          {t("error.retry")}
+                        </button>
+                      </div>
+                    ) : loadingThreads ? (
+                      <div className="py-20 text-center text-xs text-muted-foreground flex flex-col items-center justify-center gap-2">
+                        <Loader2 className="size-6 animate-spin text-rocsta-green" />
+                        <span>{t("ui.loading")}</span>
+                      </div>
+                    ) : filteredThreads.length === 0 ? (
+                      <div className="rounded-xl border border-dashed border-border bg-card py-16 text-center">
+                        <div className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-muted text-muted-foreground mb-3">
+                          <MessageSquare className="size-5" />
                         </div>
-                      ))}
-                    </div>
-                  )}
-                </>
-              )}
+                        <h3 className="text-sm font-bold text-foreground">
+                          {t("forum.noThreads")}
+                        </h3>
+                        <p className="mt-1 text-xs text-muted-foreground max-w-xs mx-auto">
+                          {t("forum.noThreadsDesc")}
+                        </p>
+                      </div>
+                    ) : (
+                      <div className="divide-y divide-border/60 rounded-xl border border-border bg-card overflow-hidden shadow-sm">
+                        {filteredThreads.map((thread) => (
+                          <div
+                            key={thread.id}
+                            role="button"
+                            tabIndex={0}
+                            aria-label={thread.title}
+                            onClick={() =>
+                              navigate({
+                                search: (prev) => ({ ...prev, threadId: thread.id }),
+                              })
+                            }
+                            onKeyDown={(event) => {
+                              if (event.target !== event.currentTarget) return;
+                              if (event.key === "Enter" || event.key === " ") {
+                                event.preventDefault();
+                                navigate({
+                                  search: (prev) => ({ ...prev, threadId: thread.id }),
+                                });
+                              }
+                            }}
+                            className="p-4 hover:bg-muted/40 transition-colors cursor-pointer space-y-2 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-rocsta-green"
+                          >
+                            <div className="flex flex-wrap items-center gap-2 justify-between">
+                              <div className="flex items-center gap-2">
+                                <Badge
+                                  variant="outline"
+                                  className={[
+                                    getCategoryColor(thread.category),
+                                    "text-[9px] py-0 px-1.5",
+                                  ].join(" ")}
+                                >
+                                  {t(`forum.cat.${thread.category}`)}
+                                </Badge>
+                                {thread.status === "pending" && (
+                                  <Badge
+                                    variant="outline"
+                                    className="bg-amber-500/10 text-amber-500 border-amber-500/20 text-[8px] py-0 px-1"
+                                  >
+                                    {t("forum.status.pending")}
+                                  </Badge>
+                                )}
+                                {thread.status === "rejected" && (
+                                  <Badge
+                                    variant="outline"
+                                    className="bg-red-500/10 text-red-500 border-red-500/20 text-[8px] py-0 px-1"
+                                  >
+                                    {t("forum.status.rejected")}
+                                  </Badge>
+                                )}
+                              </div>
+                              <div className="flex items-center gap-1.5 text-[9px] text-muted-foreground font-semibold">
+                                <Clock className="size-3" />
+                                <span>
+                                  {t("forum.lastActivity")}: {formatDate(thread.last_activity)}
+                                </span>
+                              </div>
+                            </div>
+
+                            <h3 className="text-sm font-extrabold text-foreground group-hover:text-rocsta-green transition-colors leading-tight">
+                              {thread.title}
+                            </h3>
+
+                            <p className="text-xs text-muted-foreground line-clamp-2 leading-relaxed">
+                              {thread.content}
+                            </p>
+
+                            <div className="flex flex-wrap items-center justify-between gap-4 pt-1 text-[10px] text-muted-foreground font-semibold">
+                              <div className="flex items-center gap-1">
+                                <User className="size-3 text-rocsta-accent" />
+                                <span>{thread.author_name}</span>
+                                <span className="text-slate-400 font-normal">
+                                  · {formatDate(thread.created_at)}
+                                </span>
+                              </div>
+
+                              <div className="flex items-center gap-3">
+                                <button
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    if (forumUser) likeThreadMutation.mutate(thread.id);
+                                  }}
+                                  className={`flex items-center gap-1 transition-colors ${thread.liked ? "text-red-500" : "text-slate-400 hover:text-red-400"}`}
+                                  disabled={!forumUser}
+                                  aria-pressed={thread.liked}
+                                  aria-label={t("forum.likes")}
+                                  title={t("forum.likes")}
+                                >
+                                  <Heart
+                                    className={`size-3 ${thread.liked ? "fill-current" : ""}`}
+                                  />{" "}
+                                  {thread.likes_count}
+                                </button>
+                                <span className="flex items-center gap-1">
+                                  <Eye className="size-3 text-slate-400" /> {thread.views}
+                                </span>
+                                <span className="flex items-center gap-1">
+                                  <MessageCircle className="size-3 text-slate-400" />{" "}
+                                  {thread.replies_count}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                    {!loadingThreads && !threadsError && threads.length >= threadLimit && (
+                      <div className="pt-2 text-center">
+                        <button
+                          type="button"
+                          onClick={() => setThreadLimit((value) => value + 30)}
+                          className="inline-flex h-9 items-center justify-center rounded-md border border-border bg-card px-4 text-xs font-bold text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
+                        >
+                          {t("forum.loadMore")}
+                        </button>
+                      </div>
+                    )}
+                  </>
+                ))}
             </div>
           </div>
         </div>

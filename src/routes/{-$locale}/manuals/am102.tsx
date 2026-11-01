@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useEffect, useMemo, useState } from "react";
+import { lazy, Suspense, useEffect, useMemo, useState } from "react";
 import { z } from "zod";
 import { useLanguage } from "@/components/language-provider";
 import { useMetaTags } from "@/hooks/use-meta-tags";
@@ -11,9 +11,9 @@ import { getMetaTranslation } from "@/lib/meta-translations";
 import { resolveLocale, getAlternateHrefs } from "@/lib/i18n-routing";
 import { localePath } from "@/lib/locale-helpers";
 import { useDebounce, normalizeString, compactString, cn } from "@/lib/utils";
-import { ManualPdfViewer } from "@/components/manual/manual-pdf-viewer";
 import { ManualTechData } from "@/components/manual/manual-tech-data";
 import ogImage from "@/assets/rocsta-hero.jpg";
+import { absoluteUrl } from "@/lib/site";
 import {
   BookOpen,
   Search,
@@ -31,6 +31,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 
+const ManualPdfViewer = lazy(() =>
+  import("@/components/manual/manual-pdf-viewer").then((module) => ({
+    default: module.ManualPdfViewer,
+  })),
+);
+
 const SITE_URL = "https://muhaddil.github.io/asia-rocsta-hub";
 const TEXT_URL = `${import.meta.env.BASE_URL}manual/am102-text.json`;
 const ES_TEXT_URL = `${import.meta.env.BASE_URL}manual/am102-text.es.json`;
@@ -39,9 +45,12 @@ const ES_PDF_URL = `${import.meta.env.BASE_URL}manual/am102-es.pdf`;
 
 const manualSearchSchema = z.object({
   tab: z.enum(["toc", "search", "tech", "reader"]).optional(),
-  page: z.coerce.number().int().min(0).optional(),
+  page: z.coerce.number().int().min(0).max(1000).optional(),
   motor: z.enum(["all", "F8", "R2"]).optional(),
-  pdf: z.string().optional(),
+  pdf: z
+    .string()
+    .regex(/^manual\/[a-z0-9-]+\.pdf$/)
+    .optional(),
   q: z.string().optional(),
 });
 
@@ -73,8 +82,8 @@ export const Route = createFileRoute("/{-$locale}/manuals/am102")({
           content: getMetaTranslation("meta.manualsReader.ogDescription", locale),
         },
         { property: "og:url", content: `${SITE_URL}/${locale}/manuals/am102` },
-        { property: "og:image", content: ogImage },
-        { name: "twitter:image", content: ogImage },
+        { property: "og:image", content: absoluteUrl(ogImage) },
+        { name: "twitter:image", content: absoluteUrl(ogImage) },
       ],
       links: [
         { rel: "canonical", href: `${SITE_URL}/${locale}/manuals/am102` },
@@ -90,25 +99,34 @@ export const Route = createFileRoute("/{-$locale}/manuals/am102")({
 });
 
 type PageDoc = { page: number; text: string };
+const corpusCache = new Map<string, PageDoc[]>();
 
 function Am102Page() {
   const { t, language } = useLanguage();
+  const lp = (path: string) => localePath(path, language);
   const { locale } = Route.useParams();
   const lang = resolveLocale(locale);
   const search = Route.useSearch();
   const navigate = useNavigate({ from: Route.fullPath });
 
   const tab: Tab = search.tab ?? "toc";
-  const page = search.page ?? 0;
   const motor = search.motor ?? "all";
   const isExternalPdf = Boolean(search.pdf);
-  const [pdfPageCount, setPdfPageCount] = useState(isExternalPdf ? 466 : 427);
+  const visibleTabs = isExternalPdf
+    ? TABS.filter((item) => item.id === "toc" || item.id === "search" || item.id === "reader")
+    : TABS;
+  const maxPage = (isExternalPdf ? 466 : 427) - 1;
+  const page = Math.min(Math.max(search.page ?? 0, 0), maxPage);
+  const [pdfCountState, setPdfCountState] = useState<{ url: string; count: number } | null>(null);
 
   const activePdfUrl = search.pdf
     ? `${import.meta.env.BASE_URL}${search.pdf}`
     : language === "es"
       ? ES_PDF_URL
       : PDF_URL;
+  const pdfPageCount =
+    pdfCountState?.url === activePdfUrl ? pdfCountState.count : isExternalPdf ? 466 : 427;
+  const handlePageCountChange = (count: number) => setPdfCountState({ url: activePdfUrl, count });
   const activeTextUrl = search.pdf
     ? `${import.meta.env.BASE_URL}${search.pdf.replace(/\.pdf$/, "-text.json")}`
     : language === "es"
@@ -126,41 +144,64 @@ function Am102Page() {
 
   const setTab = (t: Tab) => navigate({ search: (prev) => ({ ...prev, tab: t }) });
   const goPage = (p: number) =>
-    navigate({ search: (prev) => ({ ...prev, tab: "reader", page: p }) });
+    navigate({
+      search: (prev) => ({
+        ...prev,
+        tab: "reader",
+        page: Math.min(Math.max(p, 0), maxPage),
+      }),
+    });
   const setMotor = (m: ManualSearch["motor"]) =>
     navigate({ search: (prev) => ({ ...prev, motor: m }) });
 
   const textUrl = activeTextUrl;
   const [corpus, setCorpus] = useState<PageDoc[] | null>(null);
   const [corpusLoadedUrl, setCorpusLoadedUrl] = useState<string | null>(null);
+  const [corpusError, setCorpusError] = useState(false);
+  const [corpusRetry, setCorpusRetry] = useState(0);
+
   useEffect(() => {
+    if (tab !== "search" || corpusLoadedUrl === textUrl) return;
+
+    const cached = corpusCache.get(textUrl);
+    if (cached) {
+      setCorpus(cached);
+      setCorpusLoadedUrl(textUrl);
+      setCorpusError(false);
+      return;
+    }
+
     let alive = true;
+    setCorpusError(false);
     fetch(textUrl)
-      .then((r) => r.json())
+      .then((r) => {
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        return r.json();
+      })
       .then((d) => {
         if (alive) {
+          corpusCache.set(textUrl, d as PageDoc[]);
           setCorpus(d as PageDoc[]);
           setCorpusLoadedUrl(textUrl);
         }
       })
       .catch(() => {
         if (alive) {
-          setCorpus([]);
-          setCorpusLoadedUrl(textUrl);
+          setCorpus(null);
+          setCorpusError(true);
         }
       });
     return () => {
       alive = false;
     };
-  }, [textUrl]);
-  const corpusLoading = corpusLoadedUrl !== textUrl;
+  }, [textUrl, tab, corpusLoadedUrl, corpusRetry]);
+
+  const corpusLoading = tab === "search" && !corpusError && corpusLoadedUrl !== textUrl;
 
   const currentSection = useMemo(
     () => (isExternalPdf ? partsSectionForPage(page) : sectionForPage(page)),
     [page, isExternalPdf],
   );
-  const pageDoc = useMemo(() => corpus?.find((d) => d.page === page), [corpus, page]);
-
   return (
     <PageShell>
       <div className="space-y-6">
@@ -209,7 +250,7 @@ function Am102Page() {
 
               <div className="flex flex-wrap items-center gap-2">
                 <Link
-                  to={localePath("/manuals")}
+                  to={lp("/manuals")}
                   className="inline-flex h-9 items-center gap-1.5 rounded-md bg-card border border-border px-4 text-xs font-bold text-muted-foreground hover:text-foreground transition-colors"
                 >
                   <ArrowLeft className="size-3.5" /> {t("manual.backToManuals")}
@@ -251,7 +292,7 @@ function Am102Page() {
         {isExternalPdf && (
           <div className="flex flex-wrap items-center gap-2">
             <Link
-              to={localePath("/manuals")}
+              to={lp("/manuals")}
               className="inline-flex h-9 items-center gap-1.5 rounded-md bg-card border border-border px-4 text-xs font-bold text-muted-foreground hover:text-foreground transition-colors"
             >
               <ArrowLeft className="size-3.5" /> {t("nav.manuals")}
@@ -267,18 +308,34 @@ function Am102Page() {
           </div>
         )}
 
-        <div className="inline-flex rounded-xl border border-border bg-card p-1 text-sm font-bold shadow-sm">
-          {(isExternalPdf
-            ? TABS.filter((t) => t.id === "toc" || t.id === "search" || t.id === "reader")
-            : TABS
-          ).map((tabs) => {
+        <div
+          role="tablist"
+          aria-label={t("manual.tabs.label")}
+          className="inline-flex rounded-xl border border-border bg-card p-1 text-sm font-bold shadow-sm"
+        >
+          {visibleTabs.map((tabs) => {
             const Icon = tabs.icon;
             const active = tab === tabs.id;
             return (
               <button
                 key={tabs.id}
                 type="button"
+                role="tab"
+                id={`manual-tab-${tabs.id}`}
+                aria-selected={active}
+                aria-controls={`manual-panel-${tabs.id}`}
+                tabIndex={active ? 0 : -1}
                 onClick={() => setTab(tabs.id)}
+                onKeyDown={(event) => {
+                  if (event.key !== "ArrowRight" && event.key !== "ArrowLeft") return;
+                  event.preventDefault();
+                  const index = visibleTabs.findIndex((item) => item.id === tabs.id);
+                  const delta = event.key === "ArrowRight" ? 1 : -1;
+                  const next =
+                    visibleTabs[(index + delta + visibleTabs.length) % visibleTabs.length];
+                  setTab(next.id);
+                  document.getElementById(`manual-tab-${next.id}`)?.focus();
+                }}
                 className={cn(
                   "inline-flex items-center gap-1.5 rounded-lg px-4 py-2 transition-colors",
                   active
@@ -293,7 +350,13 @@ function Am102Page() {
         </div>
 
         {tab === "toc" && (
-          <section className="space-y-4">
+          <section
+            role="tabpanel"
+            id="manual-panel-toc"
+            aria-labelledby="manual-tab-toc"
+            tabIndex={0}
+            className="space-y-4"
+          >
             <div>
               <h2 className="text-lg font-extrabold text-foreground">
                 {isExternalPdf ? t("manual.toc.titleParts") : t("manual.toc.title")}
@@ -362,7 +425,7 @@ function Am102Page() {
                           )}
                         </div>
                         <p className="mt-0.5 font-mono text-[11px] text-muted-foreground">
-                          {t("manual.section")} {s.code} · {t("manual.page")} {s.start + 1}–
+                          {t("manual.section")} {s.code} · {t("manual.page")} {s.start + 1}?
                           {s.end + 1} · {pageCount} {t("manual.pages")}
                         </p>
                       </div>
@@ -375,16 +438,31 @@ function Am102Page() {
         )}
 
         {tab === "search" && (
-          <SearchPanel
-            corpus={corpus}
-            loading={corpusLoading}
-            onGoPage={goPage}
-            isPartsCatalog={isExternalPdf}
-          />
+          <section
+            role="tabpanel"
+            id="manual-panel-search"
+            aria-labelledby="manual-tab-search"
+            tabIndex={0}
+          >
+            <SearchPanel
+              corpus={corpus}
+              loading={corpusLoading}
+              error={corpusError}
+              onRetry={() => setCorpusRetry((value) => value + 1)}
+              onGoPage={goPage}
+              isPartsCatalog={isExternalPdf}
+            />
+          </section>
         )}
 
         {tab === "tech" && (
-          <section className="space-y-4">
+          <section
+            role="tabpanel"
+            id="manual-panel-tech"
+            aria-labelledby="manual-tab-tech"
+            tabIndex={0}
+            className="space-y-4"
+          >
             <div>
               <h2 className="text-lg font-extrabold text-foreground">{t("manual.tech.title")}</h2>
               <p className="text-sm text-muted-foreground">{t("manual.tech.desc")}</p>
@@ -394,7 +472,13 @@ function Am102Page() {
         )}
 
         {tab === "reader" && (
-          <section className="space-y-4">
+          <section
+            role="tabpanel"
+            id="manual-panel-reader"
+            aria-labelledby="manual-tab-reader"
+            tabIndex={0}
+            className="space-y-4"
+          >
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
                 <h2 className="text-lg font-extrabold text-foreground flex items-center gap-2">
@@ -423,17 +507,21 @@ function Am102Page() {
               </p>
             )} */}
 
-            <ManualPdfViewer
-              page={page}
-              onPageChange={goPage}
-              pdfUrl={activePdfUrl}
-              onPageCountChange={setPdfPageCount}
-              highlightQuery={highlightQuery}
-            />
-
-            {/* {!isExternalPdf && language !== "en" && (
-              <OcrPanel doc={pageDoc} loading={corpusLoading} highlightQuery={highlightQuery} />
-            )} */}
+            <Suspense
+              fallback={
+                <div className="flex min-h-[40vh] items-center justify-center">
+                  <Loader2 className="size-6 animate-spin text-rocsta-green" />
+                </div>
+              }
+            >
+              <ManualPdfViewer
+                page={page}
+                onPageChange={goPage}
+                pdfUrl={activePdfUrl}
+                onPageCountChange={handlePageCountChange}
+                highlightQuery={highlightQuery}
+              />
+            </Suspense>
           </section>
         )}
 
@@ -455,80 +543,18 @@ function Am102Page() {
   );
 }
 
-function OcrPanel({
-  doc,
-  loading,
-  highlightQuery,
-}: {
-  doc: PageDoc | undefined;
-  loading: boolean;
-  highlightQuery?: string;
-}) {
-  const { t } = useLanguage();
-  const [open, setOpen] = useState(Boolean(highlightQuery));
-  const text = doc?.text?.trim();
-
-  return (
-    <div className="rounded-xl border border-border bg-card shadow-sm overflow-hidden">
-      <button
-        type="button"
-        onClick={() => setOpen((o) => !o)}
-        className="flex w-full items-center justify-between gap-2 bg-muted/40 px-4 py-3 text-xs font-extrabold text-foreground"
-      >
-        <span className="flex items-center gap-2">
-          <Search className="size-4 text-rocsta-accent" /> {t("manual.reader.ocrToggle")}
-        </span>
-        <span className="text-muted-foreground font-mono text-[11px]">{open ? "▲" : "▼"}</span>
-      </button>
-      {open && (
-        <div className="p-4">
-          {loading ? (
-            <p className="flex items-center gap-2 text-xs text-muted-foreground">
-              <Loader2 className="size-3.5 animate-spin" /> {t("manual.reader.loading")}
-            </p>
-          ) : text ? (
-            <p className="whitespace-pre-wrap text-[13px] leading-relaxed text-muted-foreground font-mono">
-              {highlightQuery ? <HighlightText text={text} query={highlightQuery} /> : text}
-            </p>
-          ) : (
-            <p className="text-xs text-muted-foreground">{t("manual.reader.ocrEmpty")}</p>
-          )}
-        </div>
-      )}
-    </div>
-  );
-}
-
-function HighlightText({ text, query }: { text: string; query: string }) {
-  if (!query) return <>{text}</>;
-  const q = normalizeString(query);
-  const parts: React.ReactNode[] = [];
-  let lastIdx = 0;
-  const lowerText = text.toLowerCase();
-  const lowerQ = q.toLowerCase();
-  let idx = lowerText.indexOf(lowerQ, lastIdx);
-  while (idx !== -1) {
-    if (idx > lastIdx) parts.push(<span key={lastIdx}>{text.slice(lastIdx, idx)}</span>);
-    parts.push(
-      <mark key={idx} className="rounded bg-rocsta-green/25 px-0.5 text-foreground font-bold">
-        {text.slice(idx, idx + q.length)}
-      </mark>,
-    );
-    lastIdx = idx + q.length;
-    idx = lowerText.indexOf(lowerQ, lastIdx);
-  }
-  if (lastIdx < text.length) parts.push(<span key={lastIdx}>{text.slice(lastIdx)}</span>);
-  return <>{parts}</>;
-}
-
 function SearchPanel({
   corpus,
   loading,
+  error,
+  onRetry,
   onGoPage,
   isPartsCatalog,
 }: {
   corpus: PageDoc[] | null;
   loading: boolean;
+  error: boolean;
+  onRetry: () => void;
   onGoPage: (page: number) => void;
   isPartsCatalog?: boolean;
 }) {
@@ -590,6 +616,7 @@ function SearchPanel({
         <Search className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
         <Input
           type="text"
+          aria-label={t("manual.search.placeholder")}
           placeholder={t("manual.search.placeholder")}
           value={input}
           onChange={(e) => setInput(e.target.value)}
@@ -601,7 +628,28 @@ function SearchPanel({
         <p className="text-xs text-muted-foreground">{t("manual.search.hint")}</p>
       )}
 
-      {query.length >= 2 && (
+      {query.length >= 2 && loading && (
+        <div className="py-12 text-center text-xs text-muted-foreground flex flex-col items-center gap-2">
+          <Loader2 className="size-5 animate-spin text-rocsta-green" />
+          <span>{t("ui.loading")}</span>
+        </div>
+      )}
+
+      {query.length >= 2 && error && (
+        <div className="rounded-xl border border-destructive/40 bg-card p-8 text-center shadow-sm">
+          <h3 className="text-base font-bold text-foreground">{t("error.title")}</h3>
+          <p className="mt-1 text-sm text-muted-foreground">{t("error.desc")}</p>
+          <button
+            type="button"
+            onClick={onRetry}
+            className="mt-4 rounded-md bg-rocsta-green px-4 py-2 text-xs font-bold text-primary-foreground hover:opacity-90"
+          >
+            {t("error.retry")}
+          </button>
+        </div>
+      )}
+
+      {query.length >= 2 && !loading && !error && (
         <>
           <div className="text-xs text-muted-foreground font-bold">
             {t("manual.search.results", { count: results.length })}
@@ -670,8 +718,8 @@ function findRawIndex(raw: string, query: string, normalizedIdx: number): number
 function makeSnippet(raw: string, rawIdx: number, qLen: number): string {
   const start = Math.max(0, rawIdx - 60);
   const end = Math.min(raw.length, rawIdx + qLen + 110);
-  const pre = start > 0 ? "…" : "";
-  const post = end < raw.length ? "…" : "";
+  const pre = start > 0 ? "⬦" : "";
+  const post = end < raw.length ? "⬦" : "";
   return pre + raw.slice(start, end).replace(/\s+/g, " ") + post;
 }
 

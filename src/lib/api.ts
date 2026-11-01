@@ -1,10 +1,22 @@
 let API_BASE = "";
 try {
-  API_BASE = import.meta.env.VITE_API_URL || "http://localhost:3001";
-} catch {} /* import.meta.env only available in Vite */
+  const configured = (import.meta.env.VITE_API_URL || "").trim();
+  API_BASE = configured || (import.meta.env.DEV ? "http://localhost:3001" : "");
+  if (!import.meta.env.DEV && !API_BASE) {
+    console.warn(
+      "[api] VITE_API_URL no está configurado; las funciones dinámicas no estarán disponibles.",
+    );
+  }
+} catch {
+  /* import.meta.env only available in Vite */
+}
 
 export function getApiBase() {
   return API_BASE;
+}
+
+export function isApiConfigured() {
+  return Boolean(API_BASE);
 }
 
 export interface ApiMember {
@@ -179,10 +191,15 @@ export function setForumToken(token: string | null) {
     } else {
       localStorage.removeItem(FORUM_TOKEN_KEY);
     }
-  } catch {}
+  } catch {
+    return;
+  }
 }
 
 async function request<T>(path: string, options?: RequestInit): Promise<T> {
+  if (!API_BASE && !import.meta.env.DEV) {
+    throw new ApiError("La API no está configurada en este despliegue", 503);
+  }
   const token = getForumToken();
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
@@ -284,13 +301,18 @@ export const api = {
     });
   },
 
-  getForumThreads(category?: string, includePending?: boolean): Promise<ApiForumThread[]> {
+  getForumThreads(
+    category?: string,
+    includePending?: boolean,
+    limit = 30,
+    offset = 0,
+  ): Promise<ApiForumThread[]> {
     const params = new URLSearchParams();
     if (category) params.set("category", category);
     if (includePending) params.set("includePending", "true");
-    const qs = params.toString();
-    const path = qs ? `/api/forum/threads?${qs}` : "/api/forum/threads";
-    return request(path);
+    params.set("limit", String(limit));
+    params.set("offset", String(offset));
+    return request(`/api/forum/threads?${params.toString()}`);
   },
 
   getForumThread(id: number): Promise<{ thread: ApiForumThread; posts: ApiForumPost[] }> {

@@ -10,7 +10,8 @@ export function useVersionCheck() {
   useEffect(() => {
     async function check() {
       try {
-        const res = await fetch("/version.json", { cache: "no-store" });
+        const base = import.meta.env.BASE_URL || "/";
+        const res = await fetch(`${base}version.json`, { cache: "no-store" });
         if (!res.ok) return;
         const data = await res.json();
         const remote: string = data.version;

@@ -24,6 +24,7 @@ import { localize, type GuideLevel } from "@/data/types";
 import { getMetaTranslation } from "@/lib/meta-translations";
 import { resolveLocale, getAlternateHrefs } from "@/lib/i18n-routing";
 import ogImage from "@/assets/rocsta-hero.jpg";
+import { absoluteUrl } from "@/lib/site";
 import { localePath } from "@/lib/locale-helpers";
 
 const SITE_URL = "https://muhaddil.github.io/asia-rocsta-hub";
@@ -45,8 +46,8 @@ export const Route = createFileRoute("/{-$locale}/")({
           content: getMetaTranslation("meta.home.ogDescription", locale),
         },
         { property: "og:url", content: `${SITE_URL}/${locale}/` },
-        { property: "og:image", content: ogImage },
-        { name: "twitter:image", content: ogImage },
+        { property: "og:image", content: absoluteUrl(ogImage) },
+        { name: "twitter:image", content: absoluteUrl(ogImage) },
       ],
       links: [
         { rel: "canonical", href: `${SITE_URL}/${locale}/` },
@@ -63,7 +64,12 @@ export const Route = createFileRoute("/{-$locale}/")({
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
             itemListElement: [
-              { "@type": "ListItem", position: 1, name: "Inicio", item: `${SITE_URL}/${locale}/` },
+              {
+                "@type": "ListItem",
+                position: 1,
+                name: locale === "en" ? "Home" : "Inicio",
+                item: `${SITE_URL}/${locale}/`,
+              },
             ],
           }),
         },
@@ -75,6 +81,7 @@ export const Route = createFileRoute("/{-$locale}/")({
 
 function LocaleIndex() {
   const { t, language } = useLanguage();
+  const lp = (path: string) => localePath(path, language);
   const { locale } = Route.useParams();
   const navigate = useNavigate();
 
@@ -108,7 +115,7 @@ function LocaleIndex() {
   }, []);
 
   const STATS = [
-    { label: t("home.stats.years"), value: "1990–99" },
+    { label: t("home.stats.years"), value: "1990?99" },
     { label: t("home.stats.engines"), value: "2" },
     { label: t("home.stats.markets"), value: "30+" },
     { label: t("home.stats.units"), value: "~77k" },
@@ -184,11 +191,19 @@ function LocaleIndex() {
           <input
             type="text"
             readOnly
+            role="button"
+            aria-label={t("search.heroPlaceholder")}
             placeholder={t("search.heroPlaceholder")}
+            onKeyDown={(event) => {
+              if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                document.dispatchEvent(new KeyboardEvent("keydown", { key: "k", ctrlKey: true }));
+              }
+            }}
             className="w-full h-14 rounded-xl border border-border bg-card pl-12 pr-24 text-sm shadow-sm focus:border-rocsta-green focus:outline-none focus:ring-2 focus:ring-rocsta-green/20 transition-all cursor-pointer select-none"
           />
           <kbd className="absolute right-4 top-1/2 -translate-y-1/2 hidden sm:inline-flex items-center rounded border border-border bg-background px-2 py-1 text-[10px] font-mono text-muted-foreground">
-            ⌘K
+            ?K
           </kbd>
         </div>
       </div>
@@ -214,7 +229,7 @@ function LocaleIndex() {
           {QUICK_ACCESS.map((q) => (
             <Link
               key={q.to + q.label}
-              to={localePath(q.to)}
+              to={lp(q.to)}
               className="group rounded-xl border border-border bg-card p-5 transition-all hover:border-rocsta-green/40 hover:shadow-md"
             >
               <div className="flex items-start justify-between mb-3">
@@ -233,10 +248,7 @@ function LocaleIndex() {
       <section className="mb-12">
         <div className="mb-6 flex items-center justify-between">
           <h2 className="text-2xl font-bold tracking-tight text-foreground">{t("home.popular")}</h2>
-          <Link
-            to={localePath("/parts")}
-            className="text-sm font-bold text-rocsta-green hover:underline"
-          >
+          <Link to={lp("/parts")} className="text-sm font-bold text-rocsta-green hover:underline">
             {t("home.popular.viewAll")}
           </Link>
         </div>
@@ -278,13 +290,11 @@ function LocaleIndex() {
                       <tr
                         key={p.id}
                         className="hover:bg-muted/40 transition-colors cursor-pointer"
-                        onClick={() =>
-                          navigate({ to: localePath("/parts"), search: { search: name } })
-                        }
+                        onClick={() => navigate({ to: lp("/parts"), search: { search: name } })}
                         onKeyDown={(e) => {
                           if (e.key === "Enter" || e.key === " ") {
                             e.preventDefault();
-                            navigate({ to: localePath("/parts"), search: { search: name } });
+                            navigate({ to: lp("/parts"), search: { search: name } });
                           }
                         }}
                         tabIndex={0}
@@ -330,7 +340,7 @@ function LocaleIndex() {
               {t("home.guides.recent")}
             </h2>
             <Link
-              to={localePath("/guides")}
+              to={lp("/guides")}
               className="text-sm font-bold text-rocsta-green hover:underline"
             >
               {t("home.guides.all")}
@@ -340,7 +350,6 @@ function LocaleIndex() {
             {recentGuides.map((guide) => (
               <GuideCard
                 key={guide.id}
-                locale={locale || "en"}
                 img={guide.image || ""}
                 level={guide.level}
                 time={guide.time}
@@ -363,7 +372,7 @@ function LocaleIndex() {
             <p className="text-slate-400 text-sm mt-0.5">{t("home.issues.desc")}</p>
           </div>
           <Link
-            to={localePath("/problems")}
+            to={lp("/problems")}
             className="rounded-md bg-white/10 px-4 py-2 text-sm font-bold hover:bg-white/20 transition-all shadow-sm border border-white/5"
           >
             {t("home.issues.viewAll")}
@@ -378,7 +387,7 @@ function LocaleIndex() {
                 key={i.id}
                 onClick={() =>
                   navigate({
-                    to: localePath("/problems"),
+                    to: lp("/problems"),
                     search: { search: title.substring(0, 15) },
                   })
                 }
@@ -386,7 +395,7 @@ function LocaleIndex() {
                   if (e.key === "Enter" || e.key === " ") {
                     e.preventDefault();
                     navigate({
-                      to: localePath("/problems"),
+                      to: lp("/problems"),
                       search: { search: title.substring(0, 15) },
                     });
                   }
@@ -429,7 +438,6 @@ const LEVEL_KEYS = {
 } as const;
 
 function GuideCard({
-  locale,
   img,
   level,
   time,
@@ -438,7 +446,6 @@ function GuideCard({
   contributions,
   advanced,
 }: {
-  locale: string;
   img: string;
   level: GuideLevel;
   time: string;
@@ -447,10 +454,10 @@ function GuideCard({
   contributions: number;
   advanced?: boolean;
 }) {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   return (
     <Link
-      to={localePath("/guides")}
+      to={localePath("/guides", language)}
       search={{ search: title }}
       className="group overflow-hidden rounded-xl border border-border bg-card transition-all hover:shadow-lg block cursor-pointer"
     >

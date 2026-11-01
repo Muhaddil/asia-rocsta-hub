@@ -5,6 +5,7 @@ import { useLanguage } from "@/components/language-provider";
 import { useMetaTags } from "@/hooks/use-meta-tags";
 import { normalizeString } from "@/lib/utils";
 import { localePath } from "@/lib/locale-helpers";
+import { useDebouncedSearchParam } from "@/hooks/use-debounced-search-param";
 import { PageShell, Crumbs } from "@/components/page-shell";
 import { manuals } from "@/data/manuals";
 import type { ManualType, ManualLanguage } from "@/data/types";
@@ -12,6 +13,7 @@ import { localize } from "@/data/types";
 import { getMetaTranslation } from "@/lib/meta-translations";
 import { resolveLocale, getAlternateHrefs } from "@/lib/i18n-routing";
 import ogImage from "@/assets/rocsta-hero.jpg";
+import { absoluteUrl } from "@/lib/site";
 import {
   Search,
   FilterX,
@@ -54,8 +56,8 @@ export const Route = createFileRoute("/{-$locale}/manuals/")({
           content: getMetaTranslation("meta.manuals.ogDescription", locale),
         },
         { property: "og:url", content: `${SITE_URL}/${locale}/manuals/` },
-        { property: "og:image", content: ogImage },
-        { name: "twitter:image", content: ogImage },
+        { property: "og:image", content: absoluteUrl(ogImage) },
+        { name: "twitter:image", content: absoluteUrl(ogImage) },
       ],
       links: [
         { rel: "canonical", href: `${SITE_URL}/${locale}/manuals/` },
@@ -95,6 +97,7 @@ export const Route = createFileRoute("/{-$locale}/manuals/")({
 
 function ManualsPage() {
   const { t, language } = useLanguage();
+  const lp = (path: string) => localePath(path, language);
   const { locale } = Route.useParams();
   const lang = resolveLocale(locale);
   const searchParams = Route.useSearch();
@@ -117,12 +120,12 @@ function ManualsPage() {
   };
 
   const LANG_LABELS: Record<ManualLanguage, { label: string; flag: string }> = {
-    es: { label: t("manuals.lang.es"), flag: "🇪🇸" },
-    en: { label: t("manuals.lang.en"), flag: "🇬🇧" },
-    ko: { label: t("manuals.lang.ko"), flag: "🇰🇷" },
-    fr: { label: t("manuals.lang.fr"), flag: "🇫🇷" },
-    de: { label: t("manuals.lang.de"), flag: "🇩🇪" },
-    pt: { label: t("manuals.lang.pt"), flag: "🇵🇹" },
+    es: { label: t("manuals.lang.es"), flag: "????" },
+    en: { label: t("manuals.lang.en"), flag: "????" },
+    ko: { label: t("manuals.lang.ko"), flag: "????" },
+    fr: { label: t("manuals.lang.fr"), flag: "????" },
+    de: { label: t("manuals.lang.de"), flag: "????" },
+    pt: { label: t("manuals.lang.pt"), flag: "????" },
   };
 
   const updateSearch = (newParams: Partial<ManualsSearch>) => {
@@ -144,6 +147,10 @@ function ManualsPage() {
   const currentType = searchParams.type;
   const currentLanguage = searchParams.language;
   const currentMotor = searchParams.motor;
+
+  const [searchInput, setSearchInput] = useDebouncedSearchParam(currentSearch, (value) =>
+    updateSearch({ search: value || undefined }),
+  );
 
   const hasActiveFilters = Boolean(currentSearch || currentType || currentLanguage || currentMotor);
 
@@ -201,9 +208,10 @@ function ManualsPage() {
               <Search className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
               <Input
                 type="text"
+                aria-label={t("manuals.searchManualsPlaceholder")}
                 placeholder={t("manuals.searchManualsPlaceholder")}
-                value={currentSearch}
-                onChange={(e) => updateSearch({ search: e.target.value })}
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
                 className="pl-9 bg-muted/40 focus-visible:ring-rocsta-green"
               />
             </div>
@@ -211,6 +219,7 @@ function ManualsPage() {
             {/* Type Filter */}
             <div>
               <select
+                aria-label={t("manuals.filter.allTypes")}
                 value={currentType || ""}
                 onChange={(e) =>
                   updateSearch({
@@ -229,6 +238,7 @@ function ManualsPage() {
 
             <div>
               <select
+                aria-label={t("manuals.filter.allLanguages")}
                 value={currentLanguage || ""}
                 onChange={(e) =>
                   updateSearch({
@@ -238,11 +248,11 @@ function ManualsPage() {
                 className="w-full h-9 rounded-md border border-input bg-card px-3 text-xs focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-rocsta-green"
               >
                 <option value="">{t("manuals.filter.allLangs")}</option>
-                <option value="es">{t("manuals.lang.es")} 🇪🇸</option>
-                <option value="en">{t("manuals.lang.en")} 🇬🇧</option>
-                <option value="ko">{t("manuals.lang.ko")} 🇰🇷</option>
-                <option value="fr">{t("manuals.lang.fr")} 🇫🇷</option>
-                <option value="de">{t("manuals.lang.de")} 🇩🇪</option>
+                <option value="es">{t("manuals.lang.es")} ????</option>
+                <option value="en">{t("manuals.lang.en")} ????</option>
+                <option value="ko">{t("manuals.lang.ko")} ????</option>
+                <option value="fr">{t("manuals.lang.fr")} ????</option>
+                <option value="de">{t("manuals.lang.de")} ????</option>
               </select>
             </div>
           </div>
@@ -350,7 +360,7 @@ function ManualsPage() {
                     <div className="flex items-center gap-2">
                       {(man.id === "m-001" || man.id === "m-005") && (
                         <Link
-                          to={localePath("/manuals/am102")}
+                          to={lp("/manuals/am102")}
                           search={{
                             pdf: man.id === "m-005" ? "manual/am102-parts.pdf" : undefined,
                           }}

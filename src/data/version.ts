@@ -1,4 +1,4 @@
-export const CURRENT_VERSION = "1.5.4";
+export const CURRENT_VERSION = "1.6.0";
 
 export type Localized = { es: string; en: string; fr?: string; pt?: string; de?: string };
 
@@ -9,6 +9,36 @@ export interface ChangelogEntry {
 }
 
 export const CHANGELOG: ChangelogEntry[] = [
+  {
+    version: "1.6.0",
+    date: "2026-11-01",
+    changes: [
+      {
+        es: "El sitio pasa a estar disponible únicamente en español e inglés, con redirecciones desde las rutas antiguas.",
+        en: "The site is now available in Spanish and English only, with redirects from the old routes.",
+      },
+      {
+        es: "Mejoras de accesibilidad en manuales, foro, galería, formularios y navegación.",
+        en: "Accessibility improvements across manuals, forum, gallery, forms and navigation.",
+      },
+      {
+        es: "El foro carga los hilos por páginas y permite cargar más resultados.",
+        en: "The forum now paginates threads and lets you load more results.",
+      },
+      {
+        es: "Refuerzo de seguridad del panel de administración, las confirmaciones y la subida de imágenes.",
+        en: "Hardened security for the admin panel, confirmations and image uploads.",
+      },
+      {
+        es: "Nuevas comprobaciones automáticas de tipos, tests y build antes de publicar.",
+        en: "Added automated typecheck, test and build checks before publishing.",
+      },
+      {
+        es: "Se ha actualizado la versión del proyecto a la 1.6.0",
+        en: "Bump project version to 1.6.0",
+      },
+    ],
+  },
   {
     version: "1.5.4",
     date: "2026-10-16",

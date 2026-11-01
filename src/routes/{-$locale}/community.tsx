@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
+import { isValidElement, useState } from "react";
 import { z } from "zod";
 import { useQuery } from "@tanstack/react-query";
 import { useLanguage } from "@/components/language-provider";
@@ -9,6 +9,7 @@ import { api, type FormType } from "@/lib/api";
 import { getMetaTranslation } from "@/lib/meta-translations";
 import { resolveLocale, getAlternateHrefs } from "@/lib/i18n-routing";
 import ogImage from "@/assets/rocsta-hero.jpg";
+import { absoluteUrl } from "@/lib/site";
 import {
   Users,
   Award,
@@ -57,8 +58,8 @@ export const Route = createFileRoute("/{-$locale}/community")({
           content: getMetaTranslation("meta.community.ogDescription", locale),
         },
         { property: "og:url", content: `${SITE_URL}/${locale}/community/` },
-        { property: "og:image", content: ogImage },
-        { name: "twitter:image", content: ogImage },
+        { property: "og:image", content: absoluteUrl(ogImage) },
+        { name: "twitter:image", content: absoluteUrl(ogImage) },
       ],
       links: [
         { rel: "canonical", href: `${SITE_URL}/${locale}/community/` },
@@ -107,9 +108,15 @@ const TABS: { key: FormType; icon: typeof GitCompare; labelKey: string }[] = [
 ];
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
+  const childId =
+    isValidElement<{ id?: string }>(children) && typeof children.props.id === "string"
+      ? children.props.id
+      : undefined;
   return (
     <div className="space-y-1.5">
-      <label className="text-xs font-bold text-muted-foreground uppercase">{label}</label>
+      <label htmlFor={childId} className="text-xs font-bold text-muted-foreground uppercase">
+        {label}
+      </label>
       {children}
     </div>
   );
@@ -646,6 +653,7 @@ function CommunityPage() {
               <div className="flex items-center gap-2">
                 <input
                   type="text"
+                  aria-label={isEn ? "Tool name" : "Nombre de la herramienta"}
                   value={tool.name}
                   onChange={(e) => updateGuideTool(index, "name", e.target.value)}
                   placeholder={isEn ? "Tool name" : "Nombre de la herramienta"}
@@ -653,6 +661,7 @@ function CommunityPage() {
                 />
                 <input
                   type="number"
+                  aria-label={isEn ? "Quantity" : "Cantidad"}
                   value={tool.quantity}
                   onChange={(e) =>
                     updateGuideTool(index, "quantity", parseInt(e.target.value) || 1)
@@ -699,6 +708,7 @@ function CommunityPage() {
 
               <input
                 type="text"
+                aria-label={isEn ? "Step title" : "Título del paso"}
                 value={step.title}
                 onChange={(e) => updateGuideStep(index, "title", e.target.value)}
                 placeholder={isEn ? "Step title" : "Título del paso"}
@@ -706,6 +716,7 @@ function CommunityPage() {
               />
 
               <textarea
+                aria-label={isEn ? "Step content" : "Contenido del paso"}
                 value={step.content}
                 onChange={(e) => updateGuideStep(index, "content", e.target.value)}
                 placeholder={isEn ? "Step content..." : "Contenido del paso..."}
@@ -714,10 +725,14 @@ function CommunityPage() {
               />
 
               <div>
-                <label className="text-[10px] font-bold text-muted-foreground uppercase mb-1 block">
+                <label
+                  htmlFor={`guide-step-images-${index}`}
+                  className="text-[10px] font-bold text-muted-foreground uppercase mb-1 block"
+                >
                   {t("comm.form.guide.stepImages")}
                 </label>
                 <input
+                  id={`guide-step-images-${index}`}
                   type="text"
                   value={step.images}
                   onChange={(e) => updateGuideStep(index, "images", e.target.value)}
@@ -906,6 +921,7 @@ function CommunityPage() {
         </div>
         <Field label={t("comm.form.photo.photo")}>
           <input
+            id="photo_file"
             type="file"
             accept="image/jpeg,image/png,image/webp,image/gif"
             onChange={(e) => setPhotoFile(e.target.files?.[0] || null)}

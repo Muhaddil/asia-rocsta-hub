@@ -7,7 +7,7 @@ import { localePath } from "@/lib/locale-helpers";
 
 export function UpdateBanner() {
   const { hasNewVersion, latestVersion, dismiss } = useVersionCheck();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -19,7 +19,7 @@ export function UpdateBanner() {
       action: {
         label: t("version.viewChangelog"),
         onClick: () => {
-          navigate({ to: localePath("/changelog") });
+          navigate({ to: localePath("/changelog", language) });
           dismiss();
         },
       },
@@ -32,7 +32,7 @@ export function UpdateBanner() {
     return () => {
       toast.dismiss(id);
     };
-  }, [hasNewVersion, latestVersion, dismiss, navigate, t]);
+  }, [hasNewVersion, latestVersion, dismiss, navigate, t, language]);
 
   return null;
 }

@@ -16,7 +16,8 @@ function imageUrl(path: string): string {
 }
 
 export function CommunityGallery() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
+  const lp = (path: string) => localePath(path, language);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
   const { data: allEntries = [], isLoading: loading } = useQuery({
@@ -38,7 +39,7 @@ export function CommunityGallery() {
           <p className="text-sm text-muted-foreground mt-1">{t("home.gallery.desc")}</p>
         </div>
         <Link
-          to={localePath("/community")}
+          to={lp("/community")}
           search={{ tab: "photo" }}
           className="text-sm font-bold text-rocsta-green hover:underline"
         >
@@ -100,7 +101,7 @@ export function CommunityGallery() {
       {hasMore && !loading && (
         <div className="mt-6 text-center">
           <Link
-            to={localePath("/gallery")}
+            to={lp("/gallery")}
             className="inline-flex items-center gap-1.5 text-sm font-bold text-rocsta-green hover:underline"
           >
             {t("home.gallery.viewAll")}

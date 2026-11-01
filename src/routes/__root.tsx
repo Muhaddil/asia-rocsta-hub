@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   Outlet,
   Link,
   createRootRouteWithContext,
+  redirect,
   useRouter,
   useRouterState,
   HeadContent,
@@ -20,6 +21,7 @@ import { UpdateBanner } from "../components/update-banner";
 import { getMetaTranslation, getInitialLanguage } from "../lib/meta-translations";
 import { getAlternateHrefs } from "../lib/i18n-routing";
 import ogImage from "../assets/rocsta-hero.jpg";
+import { absoluteUrl } from "../lib/site";
 import { localePath } from "@/lib/locale-helpers";
 
 const BASE = (import.meta as { env: Record<string, string> }).env?.BASE_URL || "/";
@@ -29,27 +31,22 @@ function LangSync() {
   const { language, setLanguage } = useLanguage();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
-  /* Sync <html lang> attribute */
-  useEffect(() => {
-    document.documentElement.lang = language;
-  }, [language]);
-
   /* Sync language context when URL locale changes (SPA navigation) */
   useEffect(() => {
-    const m = pathname.match(/^\/(es|en|fr|pt|de)\b/);
+    const m = pathname.match(/^\/(es|en)\b/);
     if (m) {
       const urlLang = m[1] as Language;
       if (urlLang !== language) {
         setLanguage(urlLang);
       }
     }
-  }, [pathname]);
+  }, [pathname, language, setLanguage]);
 
   return null;
 }
 
 function NotFoundComponent() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   return (
     <div className="mx-auto max-w-[1800px] flex gap-8 px-6 py-10">
       <main id="main-content" className="min-w-0 flex-1 overflow-x-hidden">
@@ -68,13 +65,13 @@ function NotFoundComponent() {
           <p className="mt-3 text-base text-muted-foreground max-w-md">{t("notFound.desc")}</p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
             <Link
-              to={localePath("/")}
+              to={localePath("/", language)}
               className="inline-flex items-center justify-center rounded-xl bg-rocsta-green px-6 py-3 text-sm font-bold text-primary-foreground hover:opacity-90 transition-all shadow-sm"
             >
               {t("notFound.back")}
             </Link>
             <Link
-              to={localePath("/parts")}
+              to={localePath("/parts", language)}
               className="inline-flex items-center justify-center rounded-xl border border-border bg-card px-6 py-3 text-sm font-bold text-foreground hover:bg-muted transition-all"
             >
               {t("home.quick.parts")}
@@ -87,7 +84,7 @@ function NotFoundComponent() {
 }
 
 function ErrorComponent({ error, reset }: ErrorComponentProps) {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   console.error(error);
   const router = useRouter();
   return (
@@ -106,7 +103,7 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
             {t("error.retry")}
           </button>
           <a
-            href={localePath("/")}
+            href={localePath("/", language)}
             className="inline-flex items-center justify-center rounded-md border border-border bg-background px-4 py-2 text-sm font-medium hover:bg-muted"
           >
             {t("nav.home")}
@@ -118,8 +115,14 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
 }
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
-  head: () => {
-    const lang = getInitialLanguage();
+  beforeLoad: ({ location }) => {
+    const legacy = location.pathname.match(/^\/(?:fr|pt|de)(\/.*)?$/);
+    if (legacy) {
+      throw redirect({ to: `/en${legacy[1] || "/"}` as "/{-$locale}/", replace: true });
+    }
+  },
+  head: ({ matches }) => {
+    const lang = getInitialLanguage(matches[matches.length - 1]?.pathname);
     return {
       meta: [
         { charSet: "utf-8" },
@@ -134,15 +137,23 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           content: getMetaTranslation("meta.root.description", lang),
         },
         { name: "author", content: "Asia Rocsta Archive" },
+        { name: "theme-color", content: "#3e7a4e" },
+        { name: "robots", content: "index, follow" },
         { property: "og:title", content: getMetaTranslation("meta.root.ogTitle", lang) },
         {
           property: "og:description",
           content: getMetaTranslation("meta.root.ogDescription", lang),
         },
         { property: "og:type", content: "website" },
-        { property: "og:image", content: ogImage },
+        { property: "og:site_name", content: "Asia Rocsta Archive" },
+        { property: "og:locale", content: lang === "en" ? "en_US" : "es_ES" },
+        {
+          property: "og:locale:alternate",
+          content: lang === "en" ? "es_ES" : "en_US",
+        },
+        { property: "og:image", content: absoluteUrl(ogImage) },
         { name: "twitter:card", content: "summary_large_image" },
-        { name: "twitter:image", content: ogImage },
+        { name: "twitter:image", content: absoluteUrl(ogImage) },
       ],
       scripts: [
         {
@@ -152,8 +163,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
             "@type": "WebSite",
             name: "Asia Rocsta Archive",
             url: SITE_URL,
-            description: "Wiki técnica, catálogo de piezas y comunidad para el Asia Rocsta",
-            inLanguage: ["es", "en", "fr", "pt", "de"],
+            description: getMetaTranslation("meta.root.description", lang),
+            inLanguage: lang,
           }),
         },
         {
@@ -163,8 +174,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
             "@type": "Organization",
             name: "Asia Rocsta Archive",
             url: SITE_URL,
-            description:
-              "Plataforma de referencia para el Asia Rocsta: base de datos de piezas, equivalencias OEM, guías de reparación, manuales y comunidad de restauradores.",
+            description: getMetaTranslation("meta.root.ogDescription", lang),
           }),
         },
       ],
@@ -174,7 +184,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         { rel: "preconnect", href: "https://asiarocstahub.dpdns.org" },
         { rel: "manifest", href: `${BASE}manifest.json` },
         { rel: "icon", type: "image/svg+xml", href: `${BASE}favicon.svg` },
-        { rel: "apple-touch-icon", href: `${BASE}favicon.svg` },
+        { rel: "icon", type: "image/png", sizes: "192x192", href: `${BASE}icons/icon-192.png` },
+        { rel: "apple-touch-icon", sizes: "180x180", href: `${BASE}icons/apple-touch-icon.png` },
         ...getAlternateHrefs("/", SITE_URL).map((a) => ({
           rel: "alternate" as const,
           hrefLang: a.hreflang,
@@ -203,25 +214,16 @@ function SkipToContent() {
 }
 
 function RootShell({ children }: { children: React.ReactNode }) {
-  const initialLang = getInitialLanguage();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const initialLang = getInitialLanguage(pathname);
   return (
     <html lang={initialLang} suppressHydrationWarning>
       <head>
         <HeadContent />
-        <link rel="preload" href={appCss} as="style" />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                var fl = document.createElement("link");
-                fl.rel = "stylesheet";
-                fl.href = "${appCss}";
-                fl.media = "print";
-                fl.onload = function() { fl.media = "all"; };
-                document.head.appendChild(fl);
-              })();
-            `,
-          }}
+        <link rel="stylesheet" href={appCss} />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
         />
         <script
           dangerouslySetInnerHTML={{
@@ -232,16 +234,10 @@ function RootShell({ children }: { children: React.ReactNode }) {
                   const getSystem = function() {
                     return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
                   };
-                  
                   let theme = "system";
-                  if (
-                    stored === "light" ||
-                    stored === "dark" ||
-                    stored === "system"
-                  ) {
+                  if (stored === "light" || stored === "dark" || stored === "system") {
                     theme = stored;
                   }
-                  
                   const resolved = theme === "system" ? getSystem() : theme;
                   document.documentElement.classList.toggle("dark", resolved === "dark");
                 } catch (e) {}
@@ -249,95 +245,11 @@ function RootShell({ children }: { children: React.ReactNode }) {
             `,
           }}
         />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                var fl = document.createElement("link");
-                fl.rel = "stylesheet";
-                fl.href = "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap";
-                fl.media = "print";
-                fl.onload = function() { fl.media = "all"; };
-                document.head.appendChild(fl);
-              })();
-            `,
-          }}
-        />
-        <noscript>
-          <link
-            rel="stylesheet"
-            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
-          />
-        </noscript>
-        <style
-          dangerouslySetInnerHTML={{
-            __html: `
-#loading-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 99999;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: var(--background, #f7f8fa);
-  color: var(--foreground, #1a1c2e);
-  transition: opacity 0.35s ease;
-}
-.dark #loading-overlay {
-  background: var(--background, #12131c);
-  color: var(--foreground, #eceded);
-}
-#loading-overlay .logo-box {
-  width: 56px;
-  height: 56px;
-  border-radius: 12px;
-  background: var(--rocsta-green, #3e7a4e);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 20px;
-}
-#loading-overlay .logo-box span {
-  color: var(--primary-foreground, #f7f8fa);
-  font-weight: 800;
-  font-size: 1.25rem;
-  letter-spacing: -0.02em;
-}
-#loading-overlay .spinner {
-  width: 28px;
-  height: 28px;
-  border: 3px solid var(--border, #d6d8e0);
-  border-top-color: var(--rocsta-green, #3e7a4e);
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-  margin-bottom: 16px;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
-#loading-overlay .loading-text {
-  font-family: 'Inter', system-ui, sans-serif;
-  font-size: 0.8125rem;
-  font-weight: 600;
-  color: var(--muted-foreground, #6b6f82);
-  letter-spacing: 0.02em;
-}
-            `,
-          }}
-        />
       </head>
       <body>
-        <div id="loading-overlay">
-          <div className="logo-box">
-            <span>AR</span>
-          </div>
-          <div className="spinner" />
-          {/* <div className="loading-text">Cargando...</div> */}
-        </div>
-        <LanguageProvider>
+        <LanguageProvider initialLanguage={initialLang}>
           <LangSync />
-
           <SkipToContent />
-
           {children}
         </LanguageProvider>
         <script
@@ -359,68 +271,19 @@ function RootShell({ children }: { children: React.ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
-  const [ready, setReady] = useState(false);
-
-  const TRANSITION_DELAY = 1000;
-  const MIN_EXTRA_DELAY = 500;
-  const FONTS_TIMEOUT = 3000;
-
-  useEffect(() => {
-    let cancelled = false;
-    const start = performance.now();
-
-    const finishLoading = async () => {
-      const fontTimeout = new Promise<void>((resolve) => setTimeout(resolve, FONTS_TIMEOUT));
-      await Promise.race([document.fonts.ready, fontTimeout]);
-      if (cancelled) return;
-
-      await new Promise<void>((resolve) => {
-        if ("requestIdleCallback" in window) {
-          requestIdleCallback(() => resolve());
-        } else {
-          setTimeout(resolve, 0);
-        }
-      });
-      if (cancelled) return;
-
-      const elapsed = performance.now() - start;
-      const remaining = Math.max(MIN_EXTRA_DELAY - elapsed, 0);
-
-      setTimeout(() => {
-        const el = document.getElementById("loading-overlay");
-        if (el) {
-          el.style.opacity = "0";
-          el.style.pointerEvents = "none";
-          setReady(true);
-          setTimeout(() => el.remove(), TRANSITION_DELAY);
-        } else {
-          setReady(true);
-        }
-      }, remaining);
-    };
-
-    finishLoading();
-    return () => {
-      cancelled = true;
-    };
-  }, []);
 
   return (
-    <div
-      style={{ opacity: ready ? 1 : 0, transition: `opacity ${TRANSITION_DELAY}ms ease-in-out` }}
-    >
-      <QueryClientProvider client={queryClient}>
-        <ThemeProvider>
-          <div className="min-h-screen flex flex-col bg-background text-foreground">
-            <UpdateBanner />
-            <SiteHeader />
-            <div className="flex-1">
-              <Outlet />
-            </div>
-            <SiteFooter />
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider>
+        <div className="min-h-screen flex flex-col bg-background text-foreground">
+          <UpdateBanner />
+          <SiteHeader />
+          <div className="flex-1">
+            <Outlet />
           </div>
-        </ThemeProvider>
-      </QueryClientProvider>
-    </div>
+          <SiteFooter />
+        </div>
+      </ThemeProvider>
+    </QueryClientProvider>
   );
 }

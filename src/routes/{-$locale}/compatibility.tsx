@@ -13,6 +13,7 @@ import { useDebounce, normalizeString } from "@/lib/utils";
 import { getMetaTranslation } from "@/lib/meta-translations";
 import { resolveLocale, getAlternateHrefs } from "@/lib/i18n-routing";
 import ogImage from "@/assets/rocsta-hero.jpg";
+import { absoluteUrl } from "@/lib/site";
 
 const SITE_URL = "https://muhaddil.github.io/asia-rocsta-hub";
 
@@ -95,8 +96,8 @@ export const Route = createFileRoute("/{-$locale}/compatibility")({
           content: getMetaTranslation("meta.compatibility.ogDescription", locale),
         },
         { property: "og:url", content: `${SITE_URL}/${locale}/compatibility/` },
-        { property: "og:image", content: ogImage },
-        { name: "twitter:image", content: ogImage },
+        { property: "og:image", content: absoluteUrl(ogImage) },
+        { name: "twitter:image", content: absoluteUrl(ogImage) },
       ],
       links: [
         { rel: "canonical", href: `${SITE_URL}/${locale}/compatibility/` },
@@ -187,7 +188,9 @@ function CompatibilityPage() {
       next.add(id);
       try {
         localStorage.setItem("rocsta_confirmed", JSON.stringify([...next]));
-      } catch {}
+      } catch {
+        /* Almacenamiento no disponible */
+      }
       return next;
     });
   };
@@ -312,6 +315,7 @@ function CompatibilityPage() {
               <Search className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
               <Input
                 type="text"
+                aria-label={t("comp.searchCompatPlaceholder")}
                 placeholder={t("comp.searchCompatPlaceholder")}
                 value={searchInput}
                 onChange={(e) => setSearchInput(e.target.value)}
@@ -320,6 +324,7 @@ function CompatibilityPage() {
             </div>
             <div>
               <select
+                aria-label={t("comp.filter.allFitTypes")}
                 value={currentType || ""}
                 onChange={(e) =>
                   updateSearch({
@@ -335,6 +340,7 @@ function CompatibilityPage() {
             </div>
             <div>
               <select
+                aria-label={t("comp.filter.allDifficulty")}
                 value={currentDifficulty || ""}
                 onChange={(e) =>
                   updateSearch({
@@ -430,6 +436,7 @@ function CompatibilityPage() {
                       key={item.id}
                       onClick={() => setSelectedComp(item)}
                       onKeyDown={(e) => {
+                        if (e.target !== e.currentTarget) return;
                         if (e.key === "Enter" || e.key === " ") {
                           e.preventDefault();
                           setSelectedComp(item);
@@ -482,7 +489,11 @@ function CompatibilityPage() {
                             {t("comp.table.confirmedCount")}
                           </span>
                           <button
-                            onClick={(e) => requestConfirm(item.id, e)}
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              requestConfirm(item.id, e);
+                            }}
                             disabled={confirmed.has(item.id)}
                             className={[
                               "inline-flex items-center gap-1 rounded-md px-2 py-1 text-[10px] font-bold transition-all",
@@ -525,7 +536,7 @@ function CompatibilityPage() {
                 <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider font-mono">
                   ID: {selectedComp.id}
                 </span>
-                <span className="text-muted-foreground/60">•</span>
+                <span className="text-muted-foreground/60">⬢</span>
                 <Badge variant="outline" className="text-[10px] font-bold uppercase bg-muted/40">
                   {CATEGORY_LABELS[selectedComp.category]}
                 </Badge>
@@ -619,7 +630,7 @@ function CompatibilityPage() {
                 >
                   <ThumbsUp className="size-4" />
                   {confirmed.has(selectedComp.id)
-                    ? `✓ ${t("comp.confirmed")}`
+                    ? `? ${t("comp.confirmed")}`
                     : `${t("comp.confirm")} (${selectedComp.confirmations})`}
                 </button>
               </div>

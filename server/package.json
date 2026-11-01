@@ -1,0 +1,24 @@
+{
+  "name": "rocsta-api",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch src/index.js",
+    "start": "node src/index.js",
+    "backup": "node scripts/backup.js",
+    "tunnel": "npx localtunnel --port 3001",
+    "tunnel:custom": "powershell -File tunnel.ps1"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "better-sqlite3": "^12.11.1",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.3.0",
+    "express-rate-limit": "^8.7.1",
+    "helmet": "^8.3.0",
+    "multer": "^2.5.0",
+    "sharp": "^0.34.5",
+    "uuid": "^14.0.3"
+  }
+}

@@ -6,6 +6,7 @@ import { getMetaTranslation } from "@/lib/meta-translations";
 import { resolveLocale, getAlternateHrefs } from "@/lib/i18n-routing";
 import { Construction } from "lucide-react";
 import ogImage from "@/assets/rocsta-hero.jpg";
+import { absoluteUrl } from "@/lib/site";
 
 const SITE_URL = "https://muhaddil.github.io/asia-rocsta-hub";
 
@@ -26,8 +27,8 @@ export const Route = createFileRoute("/{-$locale}/coming-soon")({
           content: getMetaTranslation("meta.comingSoon.ogDescription", locale),
         },
         { property: "og:url", content: `${SITE_URL}/${locale}/coming-soon/` },
-        { property: "og:image", content: ogImage },
-        { name: "twitter:image", content: ogImage },
+        { property: "og:image", content: absoluteUrl(ogImage) },
+        { name: "twitter:image", content: absoluteUrl(ogImage) },
       ],
       links: [
         { rel: "canonical", href: `${SITE_URL}/${locale}/coming-soon/` },
@@ -44,7 +45,12 @@ export const Route = createFileRoute("/{-$locale}/coming-soon")({
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
             itemListElement: [
-              { "@type": "ListItem", position: 1, name: "Inicio", item: `${SITE_URL}/${locale}/` },
+              {
+                "@type": "ListItem",
+                position: 1,
+                name: locale === "en" ? "Home" : "Inicio",
+                item: `${SITE_URL}/${locale}/`,
+              },
               {
                 "@type": "ListItem",
                 position: 2,
@@ -61,7 +67,7 @@ export const Route = createFileRoute("/{-$locale}/coming-soon")({
 });
 
 function ComingSoonPage() {
-  const { t, language } = useLanguage();
+  const { t } = useLanguage();
   const { locale } = Route.useParams();
   const lang = resolveLocale(locale);
 

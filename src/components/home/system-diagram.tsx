@@ -47,11 +47,14 @@ const HOTSPOTS: Hotspot[] = [
 
 export function SystemDiagram() {
   const navigate = useNavigate();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [hovered, setHovered] = useState<string | null>(null);
 
   const go = (category: PartCategory) =>
-    navigate({ to: localePath("/parts") as "/{-$locale}/parts/", search: { category } });
+    navigate({
+      to: localePath("/parts", language) as "/{-$locale}/parts/",
+      search: { category },
+    });
 
   return (
     <section className="mb-12">

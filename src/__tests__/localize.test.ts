@@ -20,12 +20,11 @@ describe("localize", () => {
 
   it("falls back to es when lang key is missing", () => {
     const partial = { es: "Fallback español" } as Record<string, string>;
-    expect(localize(partial, "fr")).toBe("Fallback español");
-    expect(localize(partial, "de")).toBe("Fallback español");
+    expect(localize(partial, "en")).toBe("Fallback español");
   });
 
   it("returns empty string when value is empty object and lang is missing", () => {
-    expect(localize({} as Record<string, string>, "fr")).toBe("");
+    expect(localize({} as Record<string, string>, "en")).toBe("");
   });
 
   it("throws TypeError for undefined value", () => {
@@ -36,18 +35,6 @@ describe("localize", () => {
   it("throws TypeError for null value", () => {
     // @ts-expect-error — testing runtime edge case
     expect(() => localize(null, "en")).toThrow(TypeError);
-  });
-
-  it("handles objects with extra keys", () => {
-    const enriched = {
-      es: "Español",
-      en: "English",
-      fr: "Français",
-      de: "Deutsch",
-      pt: "Português",
-    };
-    expect(localize(enriched, "fr")).toBe("Français");
-    expect(localize(enriched, "pt")).toBe("Português");
   });
 
   it("prefers exact lang match over es fallback", () => {

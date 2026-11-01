@@ -48,11 +48,7 @@ function applyZoom(
 ): View {
   const zoom = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, nextZoom));
   const ratio = zoom / v.zoom;
-  return clampView(
-    { zoom, x: cx - (cx - v.x) * ratio, y: cy - (cy - v.y) * ratio },
-    width,
-    height,
-  );
+  return clampView({ zoom, x: cx - (cx - v.x) * ratio, y: cy - (cy - v.y) * ratio }, width, height);
 }
 
 interface GalleryLightboxProps {
@@ -165,33 +161,30 @@ export function GalleryLightbox({ entries, open, initialIndex, onClose }: Galler
     }
   }, []);
 
-  const handlePointerMove = useCallback(
-    (e: React.PointerEvent<HTMLDivElement>) => {
-      if (!pointers.current.has(e.pointerId)) return;
-      pointers.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
+  const handlePointerMove = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
+    if (!pointers.current.has(e.pointerId)) return;
+    pointers.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
 
-      const rect = e.currentTarget.getBoundingClientRect();
+    const rect = e.currentTarget.getBoundingClientRect();
 
-      if (pointers.current.size >= 2 && pinchDist.current) {
-        const [a, b] = Array.from(pointers.current.values());
-        const dist = Math.hypot(a.x - b.x, a.y - b.y);
-        const scale = dist / pinchDist.current;
-        pinchDist.current = dist;
-        const cx = (a.x + b.x) / 2 - (rect.left + rect.width / 2);
-        const cy = (a.y + b.y) / 2 - (rect.top + rect.height / 2);
-        setView((v) => applyZoom(v, v.zoom * scale, cx, cy, rect.width, rect.height));
-        return;
-      }
+    if (pointers.current.size >= 2 && pinchDist.current) {
+      const [a, b] = Array.from(pointers.current.values());
+      const dist = Math.hypot(a.x - b.x, a.y - b.y);
+      const scale = dist / pinchDist.current;
+      pinchDist.current = dist;
+      const cx = (a.x + b.x) / 2 - (rect.left + rect.width / 2);
+      const cy = (a.y + b.y) / 2 - (rect.top + rect.height / 2);
+      setView((v) => applyZoom(v, v.zoom * scale, cx, cy, rect.width, rect.height));
+      return;
+    }
 
-      if (pan.current) {
-        const { sx, sy, vx, vy } = pan.current;
-        const nextX = vx + (e.clientX - sx);
-        const nextY = vy + (e.clientY - sy);
-        setView((v) => clampView({ zoom: v.zoom, x: nextX, y: nextY }, rect.width, rect.height));
-      }
-    },
-    [],
-  );
+    if (pan.current) {
+      const { sx, sy, vx, vy } = pan.current;
+      const nextX = vx + (e.clientX - sx);
+      const nextY = vy + (e.clientY - sy);
+      setView((v) => clampView({ zoom: v.zoom, x: nextX, y: nextY }, rect.width, rect.height));
+    }
+  }, []);
 
   const handlePointerEnd = useCallback(
     (e: React.PointerEvent<HTMLDivElement>) => {
@@ -282,9 +275,7 @@ export function GalleryLightbox({ entries, open, initialIndex, onClose }: Galler
 
   return (
     <Dialog open={open} onOpenChange={(v) => !v && onClose()}>
-      <DialogContent
-        className="!fixed !inset-0 !top-0 !left-0 !translate-x-0 !translate-y-0 !w-screen !max-w-none sm:!max-w-none !h-[100dvh] !rounded-none !p-0 !gap-0 !border-0 bg-black/95 [&>button]:hidden"
-      >
+      <DialogContent className="!fixed !inset-0 !top-0 !left-0 !translate-x-0 !translate-y-0 !w-screen !max-w-none sm:!max-w-none !h-[100dvh] !rounded-none !p-0 !gap-0 !border-0 bg-black/95 [&>button]:hidden">
         <DialogTitle className="sr-only">
           {t("gallery.lightbox.title")} {currentIndex + 1}/{entries.length}
         </DialogTitle>

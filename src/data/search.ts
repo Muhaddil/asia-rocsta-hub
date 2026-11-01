@@ -9,40 +9,16 @@ import { normalizeString, compactString } from "@/lib/utils";
 
 /** Simple translation map for search result labels (avoids importing React context). */
 const SEARCH_LABELS: Record<string, Record<Language, string>> = {
-  "search.prefix.oem": { es: "OEM", en: "OEM", fr: "OEM", pt: "OEM", de: "OEM" },
-  "search.prefix.cat": { es: "Cat", en: "Cat", fr: "Cat", pt: "Cat", de: "Kat" },
-  "search.prefix.motor": { es: "Motor", en: "Engine", fr: "Moteur", pt: "Motor", de: "Motor" },
-  "search.prefix.swap": {
-    es: "Equivalencia",
-    en: "Equivalent",
-    fr: "Équivalent",
-    pt: "Equivalente",
-    de: "Äquivalent",
-  },
-  "search.prefix.donor": {
-    es: "Donante",
-    en: "Donor",
-    fr: "Donateur",
-    pt: "Doador",
-    de: "Spender",
-  },
-  "search.prefix.guide": { es: "Guía", en: "Guide", fr: "Guide", pt: "Guia", de: "Anleitung" },
-  "search.prefix.issue": { es: "Fallo", en: "Issue", fr: "Problème", pt: "Falha", de: "Fehler" },
-  "search.prefix.severity": {
-    es: "Severidad",
-    en: "Severity",
-    fr: "Sévérité",
-    pt: "Gravidade",
-    de: "Schweregrad",
-  },
-  "search.prefix.doc": {
-    es: "Documento",
-    en: "Document",
-    fr: "Document",
-    pt: "Documento",
-    de: "Dokument",
-  },
-  "search.prefix.lang": { es: "Idioma", en: "Language", fr: "Langue", pt: "Idioma", de: "Sprache" },
+  "search.prefix.oem": { es: "OEM", en: "OEM" },
+  "search.prefix.cat": { es: "Cat", en: "Cat" },
+  "search.prefix.motor": { es: "Motor", en: "Engine" },
+  "search.prefix.swap": { es: "Equivalencia", en: "Equivalent" },
+  "search.prefix.donor": { es: "Donante", en: "Donor" },
+  "search.prefix.guide": { es: "Guía", en: "Guide" },
+  "search.prefix.issue": { es: "Fallo", en: "Issue" },
+  "search.prefix.severity": { es: "Severidad", en: "Severity" },
+  "search.prefix.doc": { es: "Documento", en: "Document" },
+  "search.prefix.lang": { es: "Idioma", en: "Language" },
 };
 
 function searchLabel(key: string, lang: Language): string {

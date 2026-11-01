@@ -5,8 +5,9 @@ import "react-pdf/dist/Page/TextLayer.css";
 import { ChevronLeft, ChevronRight, ZoomIn, ZoomOut, Loader2, Maximize2 } from "lucide-react";
 import { useLanguage } from "@/components/language-provider";
 import { cn } from "@/lib/utils";
+import pdfWorker from "pdfjs-dist/build/pdf.worker.min.mjs?url";
 
-pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
+pdfjs.GlobalWorkerOptions.workerSrc = pdfWorker;
 
 const PDF_URL = `${import.meta.env.BASE_URL}manual/am102.pdf`;
 
@@ -97,7 +98,7 @@ export function ManualPdfViewer({
             type="button"
             onClick={() => setZoomLevel((z) => Math.max(25, z - 25))}
             className="inline-flex h-8 w-8 items-center justify-center rounded-md bg-card border border-border text-foreground hover:bg-muted transition-colors"
-            aria-label="Zoom out"
+            aria-label={label("manual.reader.zoomOut")}
           >
             <ZoomOut className="size-3.5" />
           </button>
@@ -108,7 +109,7 @@ export function ManualPdfViewer({
             type="button"
             onClick={() => setZoomLevel((z) => Math.min(300, z + 25))}
             className="inline-flex h-8 w-8 items-center justify-center rounded-md bg-card border border-border text-foreground hover:bg-muted transition-colors"
-            aria-label="Zoom in"
+            aria-label={label("manual.reader.zoomIn")}
           >
             <ZoomIn className="size-3.5" />
           </button>
@@ -121,7 +122,7 @@ export function ManualPdfViewer({
                 ? "bg-rocsta-green text-primary-foreground border-rocsta-green"
                 : "bg-card border-border hover:bg-muted",
             )}
-            aria-label="Fullscreen"
+            aria-label={label("manual.reader.fullscreen")}
           >
             <Maximize2 className="size-3.5" />
           </button>

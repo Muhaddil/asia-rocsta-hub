@@ -37,14 +37,37 @@ jobs:
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Test
+        run: pnpm test
+
+      - name: Validate API URL
+        run: |
+          if [ -z "$VITE_API_URL" ]; then
+            echo "::error::VITE_API_URL no está configurado."
+            exit 1
+          fi
+          case "$VITE_API_URL" in
+            https://*) ;;
+            *)
+              echo "::error::VITE_API_URL debe usar HTTPS."
+              exit 1
+              ;;
+          esac
+        env:
+          VITE_API_URL: ${{ secrets.VITE_API_URL }}
+
       - name: Build App
         run: |
-          echo "VITE_API_URL=${{ secrets.VITE_API_URL }}" > .env
           pnpm build
+          node scripts/verify-build.mjs
           VERSION=$(node -p "require('./package.json').version")
           echo "{\"version\": \"$VERSION\"}" > dist/client/version.json
         env:
           GITHUB_PAGES: "true"
+          VITE_API_URL: ${{ secrets.VITE_API_URL }}
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4

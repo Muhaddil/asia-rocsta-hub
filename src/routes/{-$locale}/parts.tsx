@@ -13,11 +13,11 @@ import { localize } from "@/data/types";
 import { getMetaTranslation } from "@/lib/meta-translations";
 import { resolveLocale, getAlternateHrefs } from "@/lib/i18n-routing";
 import ogImage from "@/assets/rocsta-hero.jpg";
+import { absoluteUrl } from "@/lib/site";
 import {
   Search,
   FilterX,
   CheckCircle2,
-  AlertTriangle,
   HelpCircle,
   Wrench,
   Info,
@@ -47,7 +47,6 @@ import { localePath } from "@/lib/locale-helpers";
 
 const SITE_URL = "https://muhaddil.github.io/asia-rocsta-hub";
 const PARTS_TEXT_URL = `${import.meta.env.BASE_URL}manual/am102-parts-text.json`;
-const PARTS_PDF_URL = `${import.meta.env.BASE_URL}manual/am102-parts.pdf`;
 
 type OcrMatch = { page: number; snippet: string };
 
@@ -80,8 +79,8 @@ export const Route = createFileRoute("/{-$locale}/parts")({
           content: getMetaTranslation("meta.parts.ogDescription", locale),
         },
         { property: "og:url", content: `${SITE_URL}/${locale}/parts/` },
-        { property: "og:image", content: ogImage },
-        { name: "twitter:image", content: ogImage },
+        { property: "og:image", content: absoluteUrl(ogImage) },
+        { name: "twitter:image", content: absoluteUrl(ogImage) },
       ],
       links: [
         { rel: "canonical", href: `${SITE_URL}/${locale}/parts/` },
@@ -121,6 +120,7 @@ export const Route = createFileRoute("/{-$locale}/parts")({
 
 function PartsPage() {
   const { t, language } = useLanguage();
+  const lp = (path: string) => localePath(path, language);
   const { locale } = Route.useParams();
   const lang = resolveLocale(locale);
   const CATEGORY_LABELS: Record<PartCategory, string> = {
@@ -287,8 +287,8 @@ function PartsPage() {
         if (idx === -1) continue;
         const start = Math.max(0, idx - 60);
         const end = Math.min(doc.text.length, idx + q.length + 110);
-        const pre = start > 0 ? "…" : "";
-        const post = end < doc.text.length ? "…" : "";
+        const pre = start > 0 ? "⬦" : "";
+        const post = end < doc.text.length ? "⬦" : "";
         const snippet = pre + doc.text.slice(start, end).replace(/\s+/g, " ") + post;
         found.push({ page: doc.page, snippet });
         if (found.length >= 10) break;
@@ -330,6 +330,7 @@ function PartsPage() {
               <Search className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
               <Input
                 type="text"
+                aria-label={t("parts.searchPartsPlaceholder")}
                 placeholder={t("parts.searchPartsPlaceholder")}
                 value={searchInput}
                 onChange={(e) => setSearchInput(e.target.value)}
@@ -339,6 +340,7 @@ function PartsPage() {
 
             <div>
               <select
+                aria-label={t("parts.filter.allCategories")}
                 value={currentCategory || ""}
                 onChange={(e) =>
                   updateSearch({
@@ -360,6 +362,7 @@ function PartsPage() {
 
             <div>
               <select
+                aria-label={t("parts.filter.allEnginesLabel")}
                 value={currentMotor || ""}
                 onChange={(e) =>
                   updateSearch({ motor: (e.target.value || undefined) as Motor | undefined })
@@ -375,6 +378,7 @@ function PartsPage() {
 
             <div>
               <select
+                aria-label={t("parts.filter.allStatusLabel")}
                 value={currentStatus || ""}
                 onChange={(e) =>
                   updateSearch({
@@ -447,7 +451,7 @@ function PartsPage() {
             {t("ui.partsDocumented")}.
           </span>
           {currentCategory && (
-            <Link to={localePath("/parts")} className="font-bold text-rocsta-green hover:underline">
+            <Link to={lp("/parts")} className="font-bold text-rocsta-green hover:underline">
               {t("parts.viewAllCats")}
             </Link>
           )}
@@ -505,7 +509,7 @@ function PartsPage() {
                         </span>
                       </TableCell>
                       <TableCell className="px-4 py-4 text-xs text-muted-foreground font-medium max-w-xs truncate">
-                        {part.equiv.length > 0 ? part.equiv.join(", ") : "—"}
+                        {part.equiv.length > 0 ? part.equiv.join(", ") : "?"}
                       </TableCell>
                       <TableCell className="px-4 py-4">
                         <Badge
@@ -579,7 +583,7 @@ function PartsPage() {
                       {ocrMatches.map((m) => (
                         <li key={m.page}>
                           <Link
-                            to={localePath("/manuals/am102")}
+                            to={lp("/manuals/am102")}
                             search={{
                               tab: "reader",
                               page: m.page,
@@ -620,7 +624,7 @@ function PartsPage() {
                 <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider font-mono">
                   ID: {selectedPart.id}
                 </span>
-                <span className="text-muted-foreground/60">•</span>
+                <span className="text-muted-foreground/60">⬢</span>
                 <Badge variant="outline" className="text-[10px] font-bold uppercase bg-muted/40">
                   {CATEGORY_LABELS[selectedPart.category]}
                 </Badge>

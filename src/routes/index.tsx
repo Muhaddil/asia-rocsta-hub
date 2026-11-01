@@ -3,6 +3,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { getMetaTranslation } from "@/lib/meta-translations";
 import type { Language } from "@/lib/i18n-routing";
 import ogImage from "@/assets/rocsta-hero.jpg";
+import { absoluteUrl } from "@/lib/site";
 
 const SITE_URL = "https://muhaddil.github.io/asia-rocsta-hub";
 const BASE = (import.meta as { env: Record<string, string> }).env?.BASE_URL || "/";
@@ -10,11 +11,9 @@ const BASE = (import.meta as { env: Record<string, string> }).env?.BASE_URL || "
 function detectLocale(): Language {
   try {
     const saved = localStorage.getItem("rocsta-lang");
-    if (saved === "en" || saved === "es" || saved === "fr" || saved === "pt" || saved === "de")
-      return saved;
+    if (saved === "en" || saved === "es") return saved;
     const browserLang = navigator.language.split("-")[0];
-    const validLanguages: Language[] = ["es", "en", "fr", "pt", "de"];
-    return validLanguages.includes(browserLang as Language) ? (browserLang as Language) : "es";
+    return browserLang === "en" ? "en" : "es";
   } catch {
     return "es";
   }
@@ -31,18 +30,15 @@ export const Route = createFileRoute("/")({
         content: getMetaTranslation("meta.root.ogDescription", "es"),
       },
       { property: "og:type", content: "website" },
-      { property: "og:image", content: ogImage },
+      { property: "og:image", content: absoluteUrl(ogImage) },
       { property: "og:url", content: `${SITE_URL}/` },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:image", content: ogImage },
+      { name: "twitter:image", content: absoluteUrl(ogImage) },
     ],
     links: [
       { rel: "canonical", href: `${SITE_URL}/` },
       { rel: "alternate", hrefLang: "es", href: `${SITE_URL}/es/` },
       { rel: "alternate", hrefLang: "en", href: `${SITE_URL}/en/` },
-      { rel: "alternate", hrefLang: "fr", href: `${SITE_URL}/fr/` },
-      { rel: "alternate", hrefLang: "pt", href: `${SITE_URL}/pt/` },
-      { rel: "alternate", hrefLang: "de", href: `${SITE_URL}/de/` },
       { rel: "alternate", hrefLang: "x-default", href: `${SITE_URL}/es/` },
     ],
     scripts: [
@@ -54,7 +50,7 @@ export const Route = createFileRoute("/")({
           name: "Asia Rocsta Archive",
           url: SITE_URL,
           description: "Wiki técnica, catálogo de piezas y comunidad para el Asia Rocsta",
-          inLanguage: ["es", "en", "fr", "pt", "de"],
+          inLanguage: ["es", "en"],
         }),
       },
     ],
@@ -73,9 +69,6 @@ function RootIndex() {
     <nav>
       <a href={`${BASE}es/`}>Español</a>
       <a href={`${BASE}en/`}>English</a>
-      <a href={`${BASE}fr/`}>Français</a>
-      <a href={`${BASE}pt/`}>Português</a>
-      <a href={`${BASE}de/`}>Deutsch</a>
     </nav>
   );
 }

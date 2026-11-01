@@ -5,7 +5,8 @@ import { localePath } from "@/lib/locale-helpers";
 import { CURRENT_VERSION } from "@/data/version";
 
 export function SiteFooter() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
+  const lp = (path: string) => localePath(path, language);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -19,32 +20,32 @@ export function SiteFooter() {
         </div>
         <div className="flex items-center gap-6">
           <Link
-            to={localePath("/about")}
+            to={lp("/about")}
             className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors"
           >
             {t("nav.about")}
           </Link>
           <Link
-            to={localePath("/coming-soon")}
+            to={lp("/coming-soon")}
             className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors"
           >
             {t("footer.docs")}
           </Link>
           <Link
-            to={localePath("/coming-soon")}
+            to={lp("/coming-soon")}
             className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors"
           >
             {t("footer.api")}
           </Link>
           <Link
-            to={localePath("/community")}
+            to={lp("/community")}
             className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors"
           >
             {t("footer.contribute")}
           </Link>
         </div>
         <Link
-          to={localePath("/changelog")}
+          to={lp("/changelog")}
           className="rounded border border-border/60 bg-muted/40 px-2 py-0.5 text-[11px] font-mono text-muted-foreground/70 hover:bg-muted/60"
         >
           v{CURRENT_VERSION}

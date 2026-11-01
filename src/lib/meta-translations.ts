@@ -1,6 +1,8 @@
 import esJson from "@/locales/es.json";
 import enJson from "@/locales/en.json";
 import type { Language } from "@/components/language-provider";
+import { DEFAULT_LOCALE, resolveLocale } from "@/lib/i18n-routing";
+import { stripBase } from "@/lib/locale-helpers";
 
 type MetaKey = keyof typeof esJson;
 
@@ -13,7 +15,13 @@ export function getMetaTranslation(key: MetaKey, lang: Language): string {
   return translations[key] || esJson[key] || "";
 }
 
-export function getInitialLanguage(): Language {
+/** Locale detected from the URL. Falls back to stored/browser preference only on the client. */
+export function getInitialLanguage(pathname?: string): Language {
+  if (pathname !== undefined) {
+    const match = stripBase(pathname).match(/^\/(es|en)\b/);
+    return match ? resolveLocale(match[1]) : DEFAULT_LOCALE;
+  }
+
   try {
     const saved = localStorage.getItem("rocsta-lang") as Language | null;
     if (saved === "es" || saved === "en") {

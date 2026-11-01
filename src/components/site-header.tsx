@@ -64,6 +64,7 @@ export function SiteHeader() {
   const { resolved, setTheme } = useTheme();
   const navigate = useNavigate();
   const { t, language, setLanguage } = useLanguage();
+  const lp = (path: string) => localePath(path, language);
 
   const [mounted, setMounted] = useState(false);
 
@@ -148,7 +149,7 @@ export function SiteHeader() {
       <nav className="sticky top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur-md">
         <div className="mx-auto flex h-16 max-w-7xl items-center px-4 sm:px-6">
           <div className="flex min-w-0 items-center gap-6 xl:gap-8">
-            <Link to={localePath("/")} className="flex items-center gap-2">
+            <Link to={lp("/")} className="flex items-center gap-2">
               <div className="h-8 w-8 rounded bg-rocsta-green flex items-center justify-center">
                 <span className="text-primary-foreground font-bold text-xs">AR</span>
               </div>
@@ -160,7 +161,8 @@ export function SiteHeader() {
               {PRIMARY_NAV(t).map((link) => (
                 <Link
                   key={link.to}
-                  to={localePath(link.to)}
+                  to={lp(link.to)}
+                  activeProps={{ "aria-current": "page", className: "text-rocsta-green" }}
                   className="hover:text-foreground transition-colors whitespace-nowrap"
                 >
                   {link.label}
@@ -179,7 +181,7 @@ export function SiteHeader() {
                     {SECONDARY_NAV(t).map((link) => (
                       <Link
                         key={link.to}
-                        to={localePath(link.to)}
+                        to={lp(link.to)}
                         onClick={() => setMoreOpen(false)}
                         className="block px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors"
                       >
@@ -233,17 +235,14 @@ export function SiteHeader() {
                 const newLang = e.target.value as Language;
                 setLanguage(newLang);
                 const withoutBase = stripBase(window.location.pathname);
-                const pathWithoutLocale = withoutBase.replace(/^\/(es|en|fr|pt|de)/, "") || "/";
+                const pathWithoutLocale = withoutBase.replace(/^\/(es|en)/, "") || "/";
                 navigate({ to: `/${newLang}${pathWithoutLocale}`, search: true, replace: true });
               }}
-              aria-label="Seleccionar idioma"
+              aria-label={t("ui.language")}
               className="h-9 px-2 rounded-md border border-border bg-background text-xs font-bold uppercase cursor-pointer hover:bg-muted transition-colors"
             >
               <option value="es">ES</option>
               <option value="en">EN</option>
-              {/* <option value="fr">FR</option>
-              <option value="pt">PT</option>
-              <option value="de">DE</option> */}
             </select>
 
             <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
@@ -277,21 +276,21 @@ export function SiteHeader() {
                     </h3>
                     <div className="grid grid-cols-1 gap-2 text-sm font-semibold text-foreground pl-1">
                       <Link
-                        to={localePath("/")}
+                        to={lp("/")}
                         onClick={() => setMobileMenuOpen(false)}
                         className="flex items-center gap-2 py-1.5 hover:text-rocsta-green transition-colors"
                       >
                         <Home className="size-4 text-rocsta-accent" /> {t("header.mobileHome")}
                       </Link>
                       <Link
-                        to={localePath("/parts")}
+                        to={lp("/parts")}
                         onClick={() => setMobileMenuOpen(false)}
                         className="flex items-center gap-2 py-1.5 hover:text-rocsta-green transition-colors"
                       >
                         <Wrench className="size-4 text-rocsta-accent" /> {t("header.mobileParts")}
                       </Link>
                       <Link
-                        to={localePath("/compatibility")}
+                        to={lp("/compatibility")}
                         onClick={() => setMobileMenuOpen(false)}
                         className="flex items-center gap-2 py-1.5 hover:text-rocsta-green transition-colors"
                       >
@@ -299,7 +298,7 @@ export function SiteHeader() {
                         {t("header.mobileCompat")}
                       </Link>
                       <Link
-                        to={localePath("/guides")}
+                        to={lp("/guides")}
                         onClick={() => setMobileMenuOpen(false)}
                         className="flex items-center gap-2 py-1.5 hover:text-rocsta-green transition-colors"
                       >
@@ -307,7 +306,7 @@ export function SiteHeader() {
                         {t("header.mobileGuides")}
                       </Link>
                       <Link
-                        to={localePath("/problems")}
+                        to={lp("/problems")}
                         onClick={() => setMobileMenuOpen(false)}
                         className="flex items-center gap-2 py-1.5 hover:text-rocsta-green transition-colors"
                       >
@@ -315,7 +314,7 @@ export function SiteHeader() {
                         {t("header.mobileProblems")}
                       </Link>
                       <Link
-                        to={localePath("/manuals")}
+                        to={lp("/manuals")}
                         onClick={() => setMobileMenuOpen(false)}
                         className="flex items-center gap-2 py-1.5 hover:text-rocsta-green transition-colors"
                       >
@@ -323,7 +322,7 @@ export function SiteHeader() {
                         {t("header.mobileManuals")}
                       </Link>
                       <Link
-                        to={localePath("/community")}
+                        to={lp("/community")}
                         onClick={() => setMobileMenuOpen(false)}
                         className="flex items-center gap-2 py-1.5 hover:text-rocsta-green transition-colors"
                       >
@@ -331,7 +330,7 @@ export function SiteHeader() {
                         {t("header.mobileCommunity")}
                       </Link>
                       <Link
-                        to={localePath("/forum")}
+                        to={lp("/forum")}
                         onClick={() => setMobileMenuOpen(false)}
                         className="flex items-center gap-2 py-1.5 hover:text-rocsta-green transition-colors"
                       >
@@ -339,14 +338,14 @@ export function SiteHeader() {
                         {t("header.mobileForum")}
                       </Link>
                       <Link
-                        to={localePath("/about")}
+                        to={lp("/about")}
                         onClick={() => setMobileMenuOpen(false)}
                         className="flex items-center gap-2 py-1.5 hover:text-rocsta-green transition-colors"
                       >
                         <FileText className="size-4 text-rocsta-accent" /> {t("header.mobileAbout")}
                       </Link>
                       <Link
-                        to={localePath("/gallery")}
+                        to={lp("/gallery")}
                         onClick={() => setMobileMenuOpen(false)}
                         className="flex items-center gap-2 py-1.5 hover:text-rocsta-green transition-colors"
                       >
@@ -363,7 +362,7 @@ export function SiteHeader() {
                       {MOBILE_CATEGORIES(t).map((cat, i) => (
                         <Link
                           key={i}
-                          to={localePath(cat.to)}
+                          to={lp(cat.to)}
                           search={{ category: cat.tag as any }}
                           onClick={() => setMobileMenuOpen(false)}
                           className="py-1 hover:text-rocsta-green transition-colors"

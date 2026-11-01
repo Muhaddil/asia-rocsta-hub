@@ -8,11 +8,13 @@ import { useDebounce, normalizeString } from "@/lib/utils";
 import { PageShell, Crumbs } from "@/components/page-shell";
 
 import { api, type ApiGuide } from "@/lib/api";
+import { guides as staticGuides } from "@/data/guides";
 import type { Guide, Motor, GuideLevel, PartCategory } from "@/data/types";
 import { localize } from "@/data/types";
 import { getMetaTranslation } from "@/lib/meta-translations";
 import { resolveLocale, getAlternateHrefs } from "@/lib/i18n-routing";
 import ogImage from "@/assets/rocsta-hero.jpg";
+import { absoluteUrl } from "@/lib/site";
 import {
   Search,
   FilterX,
@@ -68,8 +70,8 @@ export const Route = createFileRoute("/{-$locale}/guides")({
           content: getMetaTranslation("meta.guides.ogDescription", locale),
         },
         { property: "og:url", content: `${SITE_URL}/${locale}/guides/` },
-        { property: "og:image", content: ogImage },
-        { name: "twitter:image", content: ogImage },
+        { property: "og:image", content: absoluteUrl(ogImage) },
+        { name: "twitter:image", content: absoluteUrl(ogImage) },
       ],
       links: [
         { rel: "canonical", href: `${SITE_URL}/${locale}/guides/` },
@@ -165,12 +167,18 @@ function GuidesPage() {
 
   const [selectedGuide, setSelectedGuide] = useState<Guide | null>(null);
 
-  const { data: guides = [], isLoading: loading } = useQuery({
+  const {
+    data: guides = staticGuides,
+    isLoading: loading,
+    isError: guidesError,
+    refetch: refetchGuides,
+  } = useQuery({
     queryKey: ["guides"],
     queryFn: async () => {
       const list = await api.getGuides();
       return list.map(toGuide);
     },
+    initialData: staticGuides,
     refetchInterval: 60000,
     refetchOnWindowFocus: true,
   });
@@ -253,12 +261,26 @@ function GuidesPage() {
           <p className="mt-2 text-base text-muted-foreground max-w-3xl">{t("guides.desc")}</p>
         </div>
 
+        {guidesError && (
+          <div className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-xs text-muted-foreground">
+            <span>{t("error.staticFallback")}</span>
+            <button
+              type="button"
+              onClick={() => refetchGuides()}
+              className="font-bold text-rocsta-green hover:underline"
+            >
+              {t("error.retry")}
+            </button>
+          </div>
+        )}
+
         <div className="rounded-xl border border-border bg-card p-4 shadow-sm space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="relative">
               <Search className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
               <Input
                 type="text"
+                aria-label={t("guides.searchGuidesPlaceholder")}
                 placeholder={t("guides.searchGuidesPlaceholder")}
                 value={searchInput}
                 onChange={(e) => setSearchInput(e.target.value)}
@@ -268,6 +290,7 @@ function GuidesPage() {
 
             <div>
               <select
+                aria-label={t("guides.filter.allMotorsLabel")}
                 value={currentMotor || ""}
                 onChange={(e) =>
                   updateSearch({ motor: (e.target.value || undefined) as Motor | undefined })
@@ -283,6 +306,7 @@ function GuidesPage() {
 
             <div>
               <select
+                aria-label={t("guides.filter.allLevelsLabel")}
                 value={currentLevel || ""}
                 onChange={(e) =>
                   updateSearch({
@@ -453,7 +477,7 @@ function GuidesPage() {
                 >
                   {CATEGORY_LABELS[selectedGuide.category]}
                 </Badge>
-                <span className="text-muted-foreground/60">•</span>
+                <span className="text-muted-foreground/60">⬢</span>
                 <Badge
                   variant="outline"
                   className={[
@@ -468,7 +492,7 @@ function GuidesPage() {
                 >
                   {t(LEVEL_KEYS[selectedGuide.level])}
                 </Badge>
-                <span className="text-muted-foreground/60">•</span>
+                <span className="text-muted-foreground/60">⬢</span>
                 <span className="text-[10px] font-bold text-muted-foreground uppercase font-mono flex items-center gap-0.5">
                   <Clock className="size-3" /> {t("guides.dialog.time")}: {selectedGuide.time}
                 </span>

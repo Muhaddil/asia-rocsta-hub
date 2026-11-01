@@ -4,7 +4,7 @@ import { fileURLToPath } from "node:url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const BASE_URL = "https://muhaddil.github.io/asia-rocsta-hub";
-const LOCALES = ["es", "en", "fr", "pt", "de"];
+const LOCALES = ["es", "en"];
 const DEFAULT_LOCALE = "es";
 
 const PAGE_META = {
@@ -14,6 +14,7 @@ const PAGE_META = {
   "/guides": { changefreq: "weekly", priority: "0.8" },
   "/problems": { changefreq: "weekly", priority: "0.8" },
   "/manuals": { changefreq: "monthly", priority: "0.7" },
+  "/manuals/am102": { changefreq: "monthly", priority: "0.6" },
   "/community": { changefreq: "daily", priority: "0.6" },
   "/forum": { changefreq: "daily", priority: "0.7" },
   "/about": { changefreq: "monthly", priority: "0.5" },

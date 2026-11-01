@@ -1,10 +1,11 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useState, useMemo } from "react";
+import { useState, useMemo, lazy, Suspense } from "react";
 import { z } from "zod";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { PageShell, Crumbs } from "@/components/page-shell";
 import { useLanguage } from "@/components/language-provider";
 import { useMetaTags } from "@/hooks/use-meta-tags";
+import { useDebouncedSearchParam } from "@/hooks/use-debounced-search-param";
 import { normalizeString } from "@/lib/utils";
 import { problems as staticProblems } from "@/data/problems";
 import type { Problem, Motor, Severity, Difficulty } from "@/data/types";
@@ -13,7 +14,8 @@ import { api, ApiError, type ApiProblem } from "@/lib/api";
 import { getMetaTranslation } from "@/lib/meta-translations";
 import { resolveLocale, getAlternateHrefs } from "@/lib/i18n-routing";
 import ogImage from "@/assets/rocsta-hero.jpg";
-import ReactMarkdown from "react-markdown";
+import { absoluteUrl } from "@/lib/site";
+const ReactMarkdown = lazy(() => import("react-markdown"));
 import remarkGfm from "remark-gfm";
 import {
   Search,
@@ -75,8 +77,8 @@ export const Route = createFileRoute("/{-$locale}/problems")({
           content: getMetaTranslation("meta.problems.ogDescription", locale),
         },
         { property: "og:url", content: `${SITE_URL}/${locale}/problems/` },
-        { property: "og:image", content: ogImage },
-        { name: "twitter:image", content: ogImage },
+        { property: "og:image", content: absoluteUrl(ogImage) },
+        { name: "twitter:image", content: absoluteUrl(ogImage) },
       ],
       links: [
         { rel: "canonical", href: `${SITE_URL}/${locale}/problems/` },
@@ -186,7 +188,9 @@ function ProblemsPage() {
       next.add(id);
       try {
         localStorage.setItem("rocsta_problems_confirmed", JSON.stringify([...next]));
-      } catch {}
+      } catch {
+        /* Almacenamiento no disponible */
+      }
       return next;
     });
   };
@@ -209,6 +213,10 @@ function ProblemsPage() {
   const currentSearch = searchParams.search || "";
   const currentSeverity = searchParams.severity;
   const currentMotor = searchParams.motor;
+
+  const [searchInput, setSearchInput] = useDebouncedSearchParam(currentSearch, (value) =>
+    updateSearch({ search: value || undefined }),
+  );
 
   const hasActiveFilters = Boolean(currentSearch || currentSeverity || currentMotor);
 
@@ -302,15 +310,17 @@ function ProblemsPage() {
               <Search className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
               <Input
                 type="text"
+                aria-label={t("problems.searchProblemsPlaceholder")}
                 placeholder={t("problems.searchProblemsPlaceholder")}
-                value={currentSearch}
-                onChange={(e) => updateSearch({ search: e.target.value })}
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
                 className="pl-9 bg-muted/40 focus-visible:ring-rocsta-green"
               />
             </div>
 
             <div>
               <select
+                aria-label={t("problems.filter.allSeverityLabel")}
                 value={currentSeverity || ""}
                 onChange={(e) =>
                   updateSearch({ severity: (e.target.value || undefined) as Severity | undefined })
@@ -326,6 +336,7 @@ function ProblemsPage() {
 
             <div>
               <select
+                aria-label={t("problems.filter.allMotorsLabel")}
                 value={currentMotor || ""}
                 onChange={(e) =>
                   updateSearch({ motor: (e.target.value || undefined) as Motor | undefined })
@@ -395,6 +406,7 @@ function ProblemsPage() {
                 key={prob.id}
                 onClick={() => setSelectedProblem(prob)}
                 onKeyDown={(e) => {
+                  if (e.target !== e.currentTarget) return;
                   if (e.key === "Enter" || e.key === " ") {
                     e.preventDefault();
                     setSelectedProblem(prob);
@@ -428,7 +440,7 @@ function ProblemsPage() {
                     >
                       {CATEGORY_LABELS[prob.category]}
                     </Badge>
-                    <span className="text-muted-foreground/60 text-xs">•</span>
+                    <span className="text-muted-foreground/60 text-xs">⬢</span>
                     <span className="text-xs text-muted-foreground font-semibold">
                       {t("problems.typicalMileage")}: {prob.km}
                     </span>
@@ -450,7 +462,11 @@ function ProblemsPage() {
                     <Users className="size-3" /> {prob.reports} {t("problems.reportsCount")}
                   </span>
                   <button
-                    onClick={(e) => requestConfirm(prob.id, e)}
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      requestConfirm(prob.id, e);
+                    }}
                     disabled={confirmed.has(prob.id)}
                     className={[
                       "inline-flex items-center gap-1 rounded-md px-2 py-1 text-[10px] font-bold transition-all",
@@ -512,14 +528,14 @@ function ProblemsPage() {
                       ? t("problems.severity.warn")
                       : t("problems.severity.info")}
                 </Badge>
-                <span className="text-muted-foreground/60">•</span>
+                <span className="text-muted-foreground/60">⬢</span>
                 <Badge
                   variant="outline"
                   className="text-[10px] font-bold uppercase bg-muted/40 font-mono"
                 >
                   {CATEGORY_LABELS[selectedProblem.category]}
                 </Badge>
-                <span className="text-muted-foreground/60">•</span>
+                <span className="text-muted-foreground/60">⬢</span>
                 <span className="text-[10px] font-bold text-muted-foreground uppercase font-mono flex items-center gap-0.5">
                   <Activity className="size-3" /> {selectedProblem.reports}{" "}
                   {t("problems.card.reports")}
@@ -575,7 +591,7 @@ function ProblemsPage() {
                 >
                   <ThumbsUp className="size-4" />
                   {confirmed.has(selectedProblem.id)
-                    ? `✓ ${t("problems.confirmed")}`
+                    ? `? ${t("problems.confirmed")}`
                     : `${t("problems.confirm")} (${selectedProblem.reports})`}
                 </button>
               </div>
@@ -586,23 +602,25 @@ function ProblemsPage() {
                   {t("problems.dialog.symptomsTitle")}
                 </h4>
                 <div className="text-xs leading-relaxed text-foreground bg-muted/20 p-3 rounded-lg border border-border/40 text-pretty">
-                  <ReactMarkdown
-                    remarkPlugins={[remarkGfm]}
-                    components={{
-                      strong: ({ children }) => (
-                        <strong className="font-bold text-foreground">{children}</strong>
-                      ),
-                      ul: ({ children }) => (
-                        <ul className="list-disc list-inside space-y-0.5">{children}</ul>
-                      ),
-                      ol: ({ children }) => (
-                        <ol className="list-decimal list-inside space-y-0.5">{children}</ol>
-                      ),
-                      p: ({ children }) => <p className="mb-1 last:mb-0">{children}</p>,
-                    }}
-                  >
-                    {localize(selectedProblem.symptom, language)}
-                  </ReactMarkdown>
+                  <Suspense fallback={<span>{t("ui.loading")}</span>}>
+                    <ReactMarkdown
+                      remarkPlugins={[remarkGfm]}
+                      components={{
+                        strong: ({ children }) => (
+                          <strong className="font-bold text-foreground">{children}</strong>
+                        ),
+                        ul: ({ children }) => (
+                          <ul className="list-disc list-inside space-y-0.5">{children}</ul>
+                        ),
+                        ol: ({ children }) => (
+                          <ol className="list-decimal list-inside space-y-0.5">{children}</ol>
+                        ),
+                        p: ({ children }) => <p className="mb-1 last:mb-0">{children}</p>,
+                      }}
+                    >
+                      {localize(selectedProblem.symptom, language)}
+                    </ReactMarkdown>
+                  </Suspense>
                 </div>
               </div>
 
@@ -612,23 +630,25 @@ function ProblemsPage() {
                   {t("problems.dialog.causesTitle")}
                 </h4>
                 <div className="text-xs leading-relaxed text-muted-foreground bg-muted/20 p-3 rounded-lg border border-border/40 text-pretty">
-                  <ReactMarkdown
-                    remarkPlugins={[remarkGfm]}
-                    components={{
-                      strong: ({ children }) => (
-                        <strong className="font-bold text-foreground">{children}</strong>
-                      ),
-                      ul: ({ children }) => (
-                        <ul className="list-disc list-inside space-y-0.5">{children}</ul>
-                      ),
-                      ol: ({ children }) => (
-                        <ol className="list-decimal list-inside space-y-0.5">{children}</ol>
-                      ),
-                      p: ({ children }) => <p className="mb-1 last:mb-0">{children}</p>,
-                    }}
-                  >
-                    {localize(selectedProblem.cause, language)}
-                  </ReactMarkdown>
+                  <Suspense fallback={<span>{t("ui.loading")}</span>}>
+                    <ReactMarkdown
+                      remarkPlugins={[remarkGfm]}
+                      components={{
+                        strong: ({ children }) => (
+                          <strong className="font-bold text-foreground">{children}</strong>
+                        ),
+                        ul: ({ children }) => (
+                          <ul className="list-disc list-inside space-y-0.5">{children}</ul>
+                        ),
+                        ol: ({ children }) => (
+                          <ol className="list-decimal list-inside space-y-0.5">{children}</ol>
+                        ),
+                        p: ({ children }) => <p className="mb-1 last:mb-0">{children}</p>,
+                      }}
+                    >
+                      {localize(selectedProblem.cause, language)}
+                    </ReactMarkdown>
+                  </Suspense>
                 </div>
               </div>
 
@@ -638,23 +658,25 @@ function ProblemsPage() {
                   {t("problems.dialog.solutionTitle")}
                 </h4>
                 <div className="text-xs leading-relaxed text-muted-foreground bg-rocsta-green/[0.01] p-3 rounded-lg border border-rocsta-green/15 text-pretty">
-                  <ReactMarkdown
-                    remarkPlugins={[remarkGfm]}
-                    components={{
-                      strong: ({ children }) => (
-                        <strong className="font-bold text-foreground">{children}</strong>
-                      ),
-                      ul: ({ children }) => (
-                        <ul className="list-disc list-inside space-y-0.5">{children}</ul>
-                      ),
-                      ol: ({ children }) => (
-                        <ol className="list-decimal list-inside space-y-0.5">{children}</ol>
-                      ),
-                      p: ({ children }) => <p className="mb-1 last:mb-0">{children}</p>,
-                    }}
-                  >
-                    {localize(selectedProblem.solution, language)}
-                  </ReactMarkdown>
+                  <Suspense fallback={<span>{t("ui.loading")}</span>}>
+                    <ReactMarkdown
+                      remarkPlugins={[remarkGfm]}
+                      components={{
+                        strong: ({ children }) => (
+                          <strong className="font-bold text-foreground">{children}</strong>
+                        ),
+                        ul: ({ children }) => (
+                          <ul className="list-disc list-inside space-y-0.5">{children}</ul>
+                        ),
+                        ol: ({ children }) => (
+                          <ol className="list-decimal list-inside space-y-0.5">{children}</ol>
+                        ),
+                        p: ({ children }) => <p className="mb-1 last:mb-0">{children}</p>,
+                      }}
+                    >
+                      {localize(selectedProblem.solution, language)}
+                    </ReactMarkdown>
+                  </Suspense>
                 </div>
               </div>
             </div>

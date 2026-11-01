@@ -1,11 +1,9 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import esJson from "@/locales/es.json";
 import enJson from "@/locales/en.json";
-import frJson from "@/locales/fr.json";
-import ptJson from "@/locales/pt.json";
-import deJson from "@/locales/de.json";
+import { stripBase } from "@/lib/locale-helpers";
 
-export type Language = "es" | "en" | "fr" | "pt" | "de";
+export type Language = "es" | "en";
 
 interface LanguageContextType {
   language: Language;
@@ -20,17 +18,14 @@ for (const key of Object.keys(esJson)) {
   UI_TRANSLATIONS[key] = {
     es: esJson[key as keyof typeof esJson],
     en: enJson[key as keyof typeof enJson] as string,
-    fr: frJson[key as keyof typeof frJson] as string,
-    pt: ptJson[key as keyof typeof ptJson] as string,
-    de: deJson[key as keyof typeof deJson] as string,
   };
 }
 
 /** Extract locale from URL path, e.g. "/en/about/" → "en" */
 function localeFromPath(): Language | null {
   try {
-    const path = window.location.pathname;
-    const m = path.match(/^\/(es|en|fr|pt|de)\b/);
+    const path = stripBase(window.location.pathname);
+    const m = path.match(/^\/(es|en)\b/);
     if (m) return m[1] as Language;
   } catch {
     /* ssr */
@@ -45,20 +40,28 @@ function detectLanguage(): Language {
 
   try {
     const saved = localStorage.getItem("rocsta-lang") as Language | null;
-    if (saved === "es" || saved === "en" || saved === "fr" || saved === "pt" || saved === "de") {
+    if (saved === "es" || saved === "en") {
       return saved;
     }
 
     const browserLang = navigator.language.split("-")[0];
-    const validLanguages: Language[] = ["es", "en", "fr", "pt", "de"];
-    return validLanguages.includes(browserLang as Language) ? (browserLang as Language) : "en";
+    return browserLang === "en" ? "en" : "es";
   } catch {
-    return "en";
+    return "es";
   }
 }
 
-export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [language, setLanguageState] = useState<Language>(() => detectLanguage());
+export const LanguageProvider: React.FC<{
+  children: React.ReactNode;
+  initialLanguage?: Language;
+}> = ({ children, initialLanguage }) => {
+  const [language, setLanguageState] = useState<Language>(
+    () => initialLanguage ?? detectLanguage(),
+  );
+
+  useEffect(() => {
+    document.documentElement.lang = language;
+  }, [language]);
 
   const setLanguage = (lang: Language) => {
     setLanguageState(lang);
