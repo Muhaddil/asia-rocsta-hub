@@ -1,9 +1,10 @@
-const CACHE = "rocsta-archive-v2";
+const BASE = new URL("./", self.location).pathname;
+const CACHE = "rocsta-archive-v3";
 const STATIC_ASSETS = [
-  "/asia-rocsta-hub/",
-  "/asia-rocsta-hub/robots.txt",
-  "/asia-rocsta-hub/favicon.svg",
-  "/asia-rocsta-hub/manifest.json",
+  `${BASE}`,
+  `${BASE}robots.txt`,
+  `${BASE}favicon.svg`,
+  `${BASE}manifest.json`,
 ];
 
 self.addEventListener("install", (event) => {
@@ -27,7 +28,6 @@ self.addEventListener("fetch", (event) => {
   const url = new URL(request.url);
 
   if (url.origin !== self.location.origin) return;
-
   if (request.method !== "GET") return;
 
   const isHashedAsset = /assets\/.*\.[a-f0-9]{8,}\.(js|css|jpg|jpeg|png|webp|svg|woff2)$/.test(
@@ -52,14 +52,24 @@ self.addEventListener("fetch", (event) => {
   }
 
   if (request.mode === "navigate") {
-    event.respondWith(fetch(request).catch(() => caches.match("/asia-rocsta-hub/")));
+    event.respondWith(
+      fetch(request)
+        .then((response) => {
+          if (response.ok) {
+            const copy = response.clone();
+            caches.open(CACHE).then((cache) => cache.put(request, copy));
+          }
+          return response;
+        })
+        .catch(() => caches.match(request).then((cached) => cached || caches.match(BASE))),
+    );
     return;
   }
 
   event.respondWith(
     caches.match(request).then((cached) => {
       const fetched = fetch(request).then((response) => {
-        if (response.ok && url.pathname.startsWith("/asia-rocsta-hub/assets/")) {
+        if (response.ok && url.pathname.startsWith(`${BASE}assets/`)) {
           const copy = response.clone();
           caches.open(CACHE).then((cache) => cache.put(request, copy));
         }
