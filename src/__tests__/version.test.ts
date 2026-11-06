@@ -1,10 +1,17 @@
 import { describe, expect, it } from "vitest";
 import pkg from "../../package.json";
+import reactPdfPkg from "react-pdf/package.json";
 import { CURRENT_VERSION, CHANGELOG } from "@/data/version";
 
 describe("version metadata", () => {
   it("keeps package.json and CURRENT_VERSION in sync", () => {
     expect(CURRENT_VERSION).toBe(pkg.version);
+  });
+
+  it("keeps pdfjs-dist aligned with react-pdf dependency version", () => {
+    expect(pkg.dependencies["pdfjs-dist"]).toBe(
+      (reactPdfPkg as { dependencies?: Record<string, string> }).dependencies?.["pdfjs-dist"],
+    );
   });
 
   it("lists the current version as the newest changelog entry", () => {
