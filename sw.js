@@ -1,5 +1,5 @@
 const BASE = new URL("./", self.location).pathname;
-const CACHE = "rocsta-archive-v3";
+const CACHE = "rocsta-archive-v4";
 const STATIC_ASSETS = [
   `${BASE}`,
   `${BASE}robots.txt`,
