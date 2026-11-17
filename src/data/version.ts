@@ -1,4 +1,4 @@
-export const CURRENT_VERSION = "1.6.0";
+export const CURRENT_VERSION = "1.7.0";
 
 export type Localized = { es: string; en: string; fr?: string; pt?: string; de?: string };
 
@@ -9,6 +9,28 @@ export interface ChangelogEntry {
 }
 
 export const CHANGELOG: ChangelogEntry[] = [
+  {
+    version: "1.7.0",
+    date: "2026-11-17",
+    changes: [
+      {
+        es: "Rediseñada la pestaña de datos técnicos del manual AM102: secciones agrupadas, tablas plegables, buscador con resaltado y filtro por motor (R2/F8).",
+        en: "Redesigned the AM102 manual technical data tab: grouped sections, collapsible tables, search with highlighting and an engine filter (R2/F8).",
+      },
+      {
+        es: "Corregidos los datos del tren motriz: el grupo final es 4,333:1 (39/9) en el diésel R2 y 4,875:1 (39/8) en el gasolina F8, según el catálogo de piezas.",
+        en: "Corrected drivetrain data: the final drive is 4.333:1 (39/9) on the R2 diesel and 4.875:1 (39/8) on the F8 gasoline, per the parts catalog.",
+      },
+      {
+        es: "Actualizadas las velocidades teóricas del R2 en la guía de RPM para usar su grupo final real (4,333:1).",
+        en: "Updated the R2 theoretical speeds in the RPM guide to use its actual final drive (4.333:1).",
+      },
+      {
+        es: "Se ha actualizado la versión del proyecto a la 1.7.0",
+        en: "Bump project version to 1.7.0",
+      },
+    ],
+  },
   {
     version: "1.6.0",
     date: "2026-11-01",

@@ -463,10 +463,6 @@ function Am102Page() {
             tabIndex={0}
             className="space-y-4"
           >
-            <div>
-              <h2 className="text-lg font-extrabold text-foreground">{t("manual.tech.title")}</h2>
-              <p className="text-sm text-muted-foreground">{t("manual.tech.desc")}</p>
-            </div>
             <ManualTechData motor={motor} onMotorChange={setMotor} onViewPage={goPage} />
           </section>
         )}

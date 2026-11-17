@@ -254,10 +254,23 @@ function RootShell({ children }: { children: React.ReactNode }) {
         </LanguageProvider>
         <script
           dangerouslySetInnerHTML={{
-            __html: `
+            __html: import.meta.env.PROD
+              ? `
               if ("serviceWorker" in navigator) {
                 window.addEventListener("load", () => {
                   navigator.serviceWorker.register("${BASE}sw.js").catch(() => {});
+                });
+              }
+            `
+              : `
+              if ("serviceWorker" in navigator) {
+                navigator.serviceWorker.getRegistrations().then(function(regs) {
+                  for (var r of regs) r.unregister();
+                });
+              }
+              if ("caches" in window) {
+                caches.keys().then(function(keys) {
+                  for (var k of keys) caches.delete(k);
                 });
               }
             `,

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
@@ -32,6 +32,13 @@ export function ManualPdfViewer({
   const [baseWidth, setBaseWidth] = useState(0);
   const [zoomLevel, setZoomLevel] = useState(100);
   const [fullscreen, setFullscreen] = useState(false);
+
+  const pdfOptions = useMemo(
+    () => ({
+      wasmUrl: `${import.meta.env.BASE_URL}pdfjs-wasm/`,
+    }),
+    [],
+  );
 
   const label = (key: string) => t(key);
 
@@ -134,7 +141,14 @@ export function ManualPdfViewer({
       >
         <Document
           file={pdfUrl}
-          onLoadSuccess={onDocumentLoadSuccess}
+          options={pdfOptions}
+          suspense={false}
+          onLoadSuccess={(pdf) => {
+            console.log("[Document onLoadSuccess] numPages:", pdf.numPages);
+            onDocumentLoadSuccess(pdf);
+          }}
+          onLoadError={(err) => console.error("[Document onLoadError]:", err)}
+          onSourceError={(err) => console.error("[Document onSourceError]:", err)}
           loading={
             <div className="flex min-h-[420px] items-center justify-center">
               <div className="text-center space-y-3">
@@ -156,11 +170,15 @@ export function ManualPdfViewer({
           <Page
             pageNumber={page + 1}
             width={pageWidth}
+            suspense={false}
             renderTextLayer={true}
             renderAnnotationLayer={true}
+            onRenderSuccess={() => console.log("[Page onRenderSuccess]")}
+            onRenderError={(err) => console.error("[Page onRenderError]:", err)}
+            onLoadError={(err) => console.error("[Page onLoadError]:", err)}
             customTextRenderer={
               highlightQuery
-                ? ({ str }) => {
+                ? ({ str }: { str: string }) => {
                     const q = highlightQuery.toLowerCase();
                     const lower = str.toLowerCase();
                     if (!lower.includes(q)) return str;
