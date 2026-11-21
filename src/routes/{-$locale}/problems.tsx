@@ -166,6 +166,7 @@ function ProblemsPage() {
       return list.map(toProblem);
     },
     initialData: staticProblems,
+    initialDataUpdatedAt: 0,
     refetchInterval: 60000,
     refetchOnWindowFocus: true,
   });

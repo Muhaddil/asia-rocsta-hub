@@ -170,6 +170,7 @@ function PartsPage() {
       })) as Part[];
     },
     initialData: staticParts,
+    initialDataUpdatedAt: 0,
     refetchInterval: 60000,
     refetchOnWindowFocus: true,
   });

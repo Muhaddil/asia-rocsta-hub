@@ -167,6 +167,7 @@ function CompatibilityPage() {
       return list.map(toCompat);
     },
     initialData: staticCompatibilities,
+    initialDataUpdatedAt: 0,
     refetchInterval: 60000,
     refetchOnWindowFocus: true,
   });

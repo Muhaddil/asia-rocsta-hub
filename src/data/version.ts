@@ -10,6 +10,24 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "1.7.1",
+    date: "2026-11-21",
+    changes: [
+      {
+        es: "Se ha corregido un problema con la carga de datos de la DB, ahora cargan a su debido tiempo.",
+        en: "Fixed an issue with loading data from the DB, it now loads in a timely manner.",
+      },
+      {
+        es: "Se han actualizado diversas dependencias de la web",
+        en: "Updated several web dependencies",
+      },
+      {
+        es: "Se ha actualizado la versión del proyecto a la 1.7.1",
+        en: "Bump project version to 1.7.1",
+      },
+    ],
+  },
+  {
     version: "1.7.0",
     date: "2026-11-17",
     changes: [
